@@ -10,10 +10,21 @@ var tree = (function () {
         root;
 
     var tree, diagonal, vis, numOfTumorTypes = 0, numOfTissues = 0;
-    var nodesName = [];
+
+    //Hierarchical nodes.
+    var treeNode = {};
+
+    //Regardless column, each node name should be unique. Store global attributes here.
+    var uniqueTreeNode = {};
+
     var searchResult = [];
 
-    //d3.json("flare.json", build);
+    function UniqueTreeNodeDatum() {
+        this.name = '';
+        this.acronym = '';
+        this.mainType = '';
+        this.color = '';
+    }
 
     function initDataAndTree() {
         tree = d3.layout.tree()
@@ -31,51 +42,53 @@ var tree = (function () {
             .attr("transform", "translate(" + m[3] + "," + 300 + ")");
 
         d3.tsv("tumorType", function (csv) {
-            var rootName = "Tissue";
-            var tree = {};
-            tree[rootName] = {};
+            var rootDatum = new UniqueTreeNodeDatum();
+            rootDatum.name = 'Tissue';
+
+            treeNode[rootDatum.name] = {};
             csv.forEach(function (row) {
-                var node = tree[rootName];
+                var node = treeNode[rootDatum.name];
                 for (var col in row) {
                     var type = row[col];
+                    var acronymMatches;
+                    var acronymRegex = /\((\w+)\)/g;
+
+                    //Ignore specific columns
+                    if (['metamaintype', 'metacolor'].indexOf(col) !== -1) break;
+
                     if (!type) break;
+
                     if (!(type in node)) {
                         node[type] = {};
+                    }
+
+                    if (!(type in uniqueTreeNode)) {
+                        uniqueTreeNode[type] = new UniqueTreeNodeDatum();
+                        uniqueTreeNode[type].name = type;
+
+                        acronymMatches = acronymRegex.exec(type);
+                        if (acronymMatches instanceof Array && acronymMatches[1]) {
+                            uniqueTreeNode[type].acronym = acronymMatches[1];
+                        }
+
+                        if(row.hasOwnProperty('metamaintype')) {
+                            uniqueTreeNode[type].mainType = row.metamaintype;
+                        }
+
+                        if(row.hasOwnProperty('metacolor')) {
+                            uniqueTreeNode[type].color = row.metacolor;
+                        }
                     }
                     node = node[type];
                 }
             });
 
-            function formatTree(name, tree) {
-                var myRegexp = /\((\w+)\)/g;
-                var match = myRegexp.exec(name);
-                var acronym = undefined;
-                if (match instanceof Array && match[1]) {
-                    acronym = match[1];
-                }
-                var ret = {name: name, acronym: acronym};
-                var root = tree[name];
-                var children = [];
-
-                nodesName.push({name: name, acronym: acronym});
-
-                for (var child in root) {
-                    children.push(formatTree(child, root));
-                }
-                if (children.length === 0) {
-                    ret["size"] = 4000;
-                } else {
-                    ret["children"] = children;
-                }
-                return ret;
-            }
-
-            var json = formatTree(rootName, tree);
+            var json = formatTree(rootDatum, treeNode);
             build(json);
             var dups = searchDupAcronym();
 
             if (Object.keys(dups).length > 0) {
-                var htmlStr = '<table class="table">'
+                var htmlStr = '<table class="table">';
                 for (var key in dups) {
                     htmlStr += "<tr><td>" + key + "</td><td>" + dups[key].join('<br/>') + '</td><tr>';
                 }
@@ -87,26 +100,41 @@ var tree = (function () {
             $("#summary-info").text(function () {
                 return "( " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + " )";
             });
-            $('[data-toggle="tooltip"]').tooltip({
-                'container': 'body',
-                'placement': 'top'
-            });
         });
+    }
+
+    function formatTree(treeDatum, treeNode) {
+        var root = treeNode[treeDatum.name];
+        var children = [];
+
+        for (var child in root) {
+            children.push(formatTree(uniqueTreeNode[child], root));
+        }
+        if (children.length === 0) {
+            treeDatum.size = 4000;
+        } else {
+            treeDatum.children = children;
+        }
+        return treeDatum;
     }
 
     function searchDupAcronym() {
         var dups = {};
 
-        nodesName.forEach(function (e, i) {
-            nodesName.forEach(function (e1, i1) {
-                if (e.acronym && e.acronym === e1.acronym && i !== i1) {
-                    if (!dups.hasOwnProperty(e.acronym)) {
-                        dups[e.acronym] = [];
+        for(var tumor in uniqueTreeNode) {
+            var tumorDatum = uniqueTreeNode[tumor];
+            for(var tumor1 in uniqueTreeNode) {
+                if(tumor1 !== tumor1) {
+                    var tumor1Datum = uniqueTreeNode[tumor1];
+                    if (tumorDatum.acronym && tumorDatum.acronym === tumor1Datum.acronym) {
+                        if (!dups.hasOwnProperty(tumorDatum.acronym)) {
+                            dups[tumorDatum.acronym] = [];
+                        }
+                        dups[tumorDatum.acronym].push(tumor1Datum.name);
                     }
-                    dups[e.acronym].push(e1.name);
                 }
-            });
-        });
+            }
+        }
         return dups;
     }
 
@@ -132,7 +160,7 @@ var tree = (function () {
         var duration = d3.event && d3.event.altKey ? 5000 : 500;
         var translateY = Number(vis.attr('transform').split(',')[1].split(')')[0]);
         var nodes = tree.nodes(root).reverse();
-
+        var afterTranslateY;
         var overStep = false;
         var minX = 0;
         nodes.forEach(function (d) {
@@ -144,16 +172,16 @@ var tree = (function () {
         minX = Math.abs(minX);
 
         if (minX > (translateY - 50)) {
-            var aftetTranslateY = minX + 50;
+            afterTranslateY = minX + 50;
             vis.transition()
                 .duration(duration)
-                .attr('transform', 'translate(' + m[3] + ',' + aftetTranslateY + ')');
+                .attr('transform', 'translate(' + m[3] + ',' + afterTranslateY + ')');
             nodes = tree.nodes(root).reverse();
         } else if (minX + 50 < translateY) {
-            var aftetTranslateY = minX + 50;
+            afterTranslateY = minX + 50;
             vis.transition()
                 .duration(duration)
-                .attr('transform', 'translate(' + m[3] + ',' + aftetTranslateY + ')');
+                .attr('transform', 'translate(' + m[3] + ',' + afterTranslateY + ')');
             nodes = tree.nodes(root).reverse();
         }
 
@@ -174,7 +202,6 @@ var tree = (function () {
                     leftDepth[d.depth] = 0;
                     rightDepth[d.depth] = 0;
                 }
-                ;
 
                 //Only calculate the point without child and without showed child
                 if (!d.children && !d._children && rightDepth[d.depth] < _nameLength) {
@@ -198,17 +225,25 @@ var tree = (function () {
 
                 for (var i = 1; i <= _length; i++) {
                     if (leftDepth[i] === 0) {
-                        rightDepth[i - 1] !== 0 ? _y += rightDepth[i - 1] : _y += 50; //Give constant depth if no point has child or has showed child
+                        //Give constant depth if no point has child or has showed child
+                        if(rightDepth[i - 1]) {
+                            _y += rightDepth[i - 1];
+                        }else{
+                            _y += 50;
+                        }
                     } else {
                         if (i > 1) {
                             _y += leftDepth[i] + rightDepth[i - 1];
-                            (leftDepth[i] > 0 && rightDepth[i - 1] > 0) ? _y -= 50 : _y -= 0;
+                            if(leftDepth[i] > 0 && rightDepth[i - 1] > 0) {
+                                _y -= 50;
+                            } else {
+                                _y -= 0;
+                            }
                         } else {
                             _y += leftDepth[i];
                         }
                     }
                 }
-                ;
                 d.y = _y;
             }
         });
@@ -232,8 +267,11 @@ var tree = (function () {
 
         nodeEnter.append("svg:circle")
             .attr("r", 1e-6)
+            .style("stroke", function (d) {
+                return d.color;
+            })
             .style("fill", function (d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                return (d._children ? d.color : "#fff");
             });
 
 
@@ -249,16 +287,21 @@ var tree = (function () {
             })
             .text(function (d) {
                 var _position = '';
+                var _qtipContent = '';
                 if((d.children || d._children) && d.depth > 1){
                     _position = {my:'bottom right',at:'top left', viewport: $(window)};
                 }else {
                     _position = {my:'bottom left',at:'top right', viewport: $(window)};
                 }
 
-                nodeContent = d.acronym;;
+                _qtipContent += '<b>Code:</b> ' + d.acronym + '<br/>';
+                _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
+                _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
+                _qtipContent += '<b>Color:</b> ' + d.color||'LightBlue'  + '<br/>';
+
                 $(this).qtip({
-                    content:{text: nodeContent},
-                    style: { classes: 'qtip-light qtip-rounded qtip-shadow qtip-grey'},
+                    content:{text: _qtipContent},
+                    style: { classes: 'qtip-light qtip-rounded qtip-shadow qtip-grey qtip-wide'},
                     hide: {fixed:true, delay: 100},
                     position: _position
                 });
@@ -281,7 +324,7 @@ var tree = (function () {
         nodeUpdate.select("circle")
             .attr("r", radius)
             .style("fill", function (d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                return d._children ? d.color : "#fff";
             });
 
         nodeUpdate.select("text")
@@ -340,10 +383,6 @@ var tree = (function () {
         });
 
         resizeSVG(rightDepth);
-        $('[data-toggle="tooltip"]').tooltip({
-            'container': 'body',
-            'placement': 'top'
-        });
     }
 
     // Toggle children.
@@ -375,7 +414,6 @@ var tree = (function () {
         for (var i = 0, nodesLength = nodesArray.length; i < nodesLength; i++) {
             toggle(root.children[nodesArray[i]]);
         }
-        ;
         update(root);
     }
 
@@ -403,7 +441,7 @@ var tree = (function () {
             if (d.y0 > maxWidth) {
                 maxWidth = d.y0;
             }
-        })
+        });
 
         maxHeight *= 2;
         maxHeight += 150;
@@ -447,7 +485,7 @@ var tree = (function () {
                     }
                     _node = _node.children[_indexes[i]];
                 }
-            })
+            });
             update(root);
         }
 
@@ -467,7 +505,7 @@ var tree = (function () {
                     d3.select(this).style('fill', 'black');
                 }
             }
-        })
+        });
     }
 
     function findChildContain(parentId, searchKey, node) {
@@ -487,14 +525,17 @@ var tree = (function () {
     }
 
     function searchLeaf(node) {
+        var i, length;
         if (node._children || node.children) {
             if (node.children) {
-                for (var i = 0, _length = node.children.length; i < _length; i++) {
+                length =  node.children.length;
+                for (i = 0; i < length; i++) {
                     searchLeaf(node.children[i]);
                 }
             }
             if (node._children) {
-                for (var i = 0, _length = node._children.length; i < _length; i++) {
+                length =  node._children.length;
+                for (i = 0; i < length; i++) {
                     searchLeaf(node._children[i]);
                 }
             }
@@ -515,5 +556,5 @@ var tree = (function () {
         getNumOfTumorTypes: function () {
             return numOfTumorTypes;
         }
-    }
+    };
 })();
