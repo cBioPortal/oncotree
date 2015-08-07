@@ -110,5 +110,5 @@ var OutJS = (function() {
 	return {
 		search: search,
 		backToTop: backToTop
-	}
+	};
 })();
