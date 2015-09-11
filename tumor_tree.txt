@@ -1,0 +1,517 @@
+primary	secondary	tertiary	quaternary	quinternary	metamaintype	metacolor
+Adrenal Gland (ADRENAL_GLAND)	Adrenocortical Adenoma (ACA)				Adrenocortical Carcinoma	Purple
+Adrenal Gland (ADRENAL_GLAND)	Adrenocortical Carcinoma (ACC)				Adrenocortical Carcinoma	Purple
+Adrenal Gland (ADRENAL_GLAND)	Pheochromocytoma (PHC)				Pheochromocytoma	Purple
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)				Ampullary Carcinoma	Purple
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Intestinal Ampullary Carcinoma (IAMPCA)			Ampullary Carcinoma	Purple
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Mixed Ampullary Carcinoma (MAMPCA)			Ampullary Carcinoma	Purple
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Pancreatobiliary Ampullary Carcinoma (PAMPCA)			Ampullary Carcinoma	Purple
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)				Biliary Cancer	Green
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Extrahepatic Cholangiocarcinoma (EHCH)			Biliary Cancer	Green
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Intrahepatic Cholangiocarcinoma (IHCH)			Biliary Cancer	Green
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Perihilar Cholangiocarcinoma (PHCH)			Biliary Cancer	Green
+Biliary Tract (BILIARY_TRACT)	Gallbladder Cancer (GBC)				Biliary Cancer	Green
+Bladder/Urinary Tract (BLADDER)	Bladder Squamous Cell Carcinoma (BLSC)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Bladder Adenocarcinoma (BLAD)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Bladder Urothelial Carcinoma (BLCA)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Inflammatory Myofibroblastic Bladder Tumor (IMTB)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Plasmacytoid/Signet Ring Cell Bladder Carcinoma (SRCBC)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Small Cell Bladder Cancer (SCBC)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Upper Tract Urothelial Carcinoma (UTUC)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urachal Carcinoma (URCA)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Adenocarcinoma (UAD)			Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Squamous Cell Carcinoma (USCC)			Bladder Cancer	Yellow
+Blood (BLOOD)	Blastic Plasmacytoid Dendritic Cell Neoplasm (BPDCN)				Blastic Plasmacytoid Dendritic Cell Neoplasm	LightSalmon
+Blood (BLOOD)	Histiocytosis (HIST)				Histiocytosis	LightSalmon
+Blood (BLOOD)	Histiocytosis (HIST)	Langerhans Cell Histiocytosis (LCH)			Histiocytosis	LightSalmon
+Blood (BLOOD)	Histiocytosis (HIST)	Non-Langerhans Cell Histiocytosis/Erdheim-Chester Disease (ECD)			Histiocytosis	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)	B-Cell Acute Lymphoid Leukemia (BALL)		Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)	T-Cell Acute Lymphoid Leukemia (TALL)		Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Acute Monocytic Leukemia (AMOL)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Acute Myeloid Leukemia (AML)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Chronic Lymphocytic Leukemia (CLL)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelogenous Leukemia (CML)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Hairy Cell Leukemia (HCL)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Large Granular Lymphocytic Leukemia (LGLL)			Leukemia	LightSalmon
+Blood (BLOOD)	Multiple Myeloma (MM)				Multiple Myeloma	LightSalmon
+Blood (BLOOD)	Myelodysplasia (MDS)				Myelodysplasia	LightSalmon
+Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)				Myeloproliferative Neoplasm	LightSalmon
+Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Essential Thrombocythaemia (ETC)			Myeloproliferative Neoplasm	LightSalmon
+Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Myelofibrosis/Osteomyelofibrosis (MYF)			Myeloproliferative Neoplasm	LightSalmon
+Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Polycythemia Vera  (PCV)			Myeloproliferative Neoplasm	LightSalmon
+Blood (BLOOD)	Systemic Mastocytosis (SM)				Mastocytosis	LightSalmon
+Bone (BONE)	Chondroblastoma (CHBL)				Chondroblastoma	White
+Bone (BONE)	Chondrosarcoma (CHS)				Chondrosarcoma	White
+Bone (BONE)	Chondrosarcoma (CHS)	Dedifferentiated Chondrosarcoma (DDCHS)			Chondrosarcoma	White
+Bone (BONE)	Chondrosarcoma (CHS)	Extraskeletal Myxoid Chondrosarcoma (EMCHS)			Chondrosarcoma	White
+Bone (BONE)	Chondrosarcoma (CHS)	Mesenchymal Chondrosarcoma (MCHS)			Chondrosarcoma	White
+Bone (BONE)	Chondrosarcoma (CHS)	Myxoid Chondrosarcoma (MYCHS)			Chondrosarcoma	White
+Bone (BONE)	Chordoma (CHDM)				Chordoma	White
+Bone (BONE)	Chordoma (CHDM)	Conventional Type Chordoma (CCHDM)			Chordoma	White
+Bone (BONE)	Chordoma (CHDM)	Dedifferentiated Chordoma  (DDCHDM)			Chordoma	White
+Bone (BONE)	Ewing Sarcoma (ES)				Ewing Sarcoma	White
+Bone (BONE)	Giant Cell Tumor of Bone (GCTB)				Giant Cell Tumor	White
+Bone (BONE)	Osteosarcoma (OS)				Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Chondroblastic Osteosarcoma (CHOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Fibroblastic Osteosarcoma (FIOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	High-Grade Surface Osteosarcoma (HGSOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Low-Grade Central Osteosarcoma (LGCOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Osteoblastic Osteosarcoma (OSOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Parosteal Osteosarcoma (PAOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Periosteal Osteosarcoma (PEOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Secondary Osteosarcoma (SECOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Small Cell Osteosarcoma (SCOS)			Osteosarcoma	White
+Bone (BONE)	Osteosarcoma (OS)	Telangiectatic Osteosarcoma (TEOS)			Osteosarcoma	White
+Bowel (BOWEL)	Anal Squamous Cell Carcinoma (ANSC)				Anal Cancer	SaddleBrown
+Bowel (BOWEL)	Anorectal Mucosal Melanoma (ARMM)				Melanoma	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)				Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Colonic Type Adenocarcinoma of the Appendix (CTAAP)			Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Goblet Cell Carcinoid of the Appendix (GCCAP)			Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Malignant Carcinoid of the Appendix (MCAP)			Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Mucinous Adenocarcinoma of the Appendix (MAAP)			Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Signet Ring Cell Type of the Appendix (SRAP)			Appendiceal Cancer	SaddleBrown
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)				Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Colon Adenocarcinoma (COAD)			Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Rectal Adenocarcinoma (READ)			Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)				Gastrointestinal Neuroendocrine Tumor	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	High-Grade Neuroendocrine Carcinoma of the Colon and Rectum (HGNEC)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
+Bowel (BOWEL)	Mucinous Colorectal Carcinoma (MCCA)				Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Scirrhous Carcinoma of the Colon and Rectum (SCCR)				Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Small Bowel Cancer (SBC)				Small Bowel Cancer	SaddleBrown
+CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Carcinoma (CPC)			Choroid Plexus Tumor	Gray
+CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Papilloma (CPP)			Choroid Plexus Tumor	Gray
+CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Atypical Choroid Plexus Papilloma (ACPP)			Choroid Plexus Tumor	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Astrocytoma (ASTR)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Anaplastic Astrocytoma (AASTR)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Oligodendroglioma (ODG)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Anaplastic Oligodendroglioma (AODG)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Oligoastrocytoma (OAST)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Anaplastic Oligoastrocytoma (AOAST)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Diffuse Intrinsic Pontine Glioma (DIPG)			Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Glioblastoma Multiforme (GBM)		Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Gliosarcoma (GSARC)		Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Small Cell Glioblastoma (SCGBM)		Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	High-Grade Glioma, NOS (HGGNOS)			Glioma	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Atypical Teratoid/Rhabdoid Tumor (ATRT)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Desmoplastic/Nodular Medulloblastoma (DMBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Embryonal Tumor with Abundant Neuropil and True Rosettes (ETANTR)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Ganglioneuroblastoma (GNBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Large Cell/Anaplastic Medulloblastoma (AMBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Medulloblastoma (MBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Medulloblastoma with Extensive Nodularity (MBEN)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Medulloepithelioma (MDEP)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Medullomyoblastoma (MMB)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Melanotic Medulloblastoma (MMBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Neuroblastoma (NBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Olfactory Neuroblastoma (ONBL)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Primitive Neuroectodermal Tumor (PNET)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilocytic Astrocytoma (PAST)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilomyxoid Astrocytoma (PMA)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pleomorphic Xanthoastrocytoma (PXA)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Dysembryoplastic Neuroepithelial Tumor (DNT)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Gangliocytoma (GNC)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Ganglioglioma (GNG)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Ganglioglioma (AGNG)			Glioma	Gray
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Low-Grade Glioma, NOS (LGGNOS)			Glioma	Gray
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Ependymoma (EPM)			Ependymomal Tumor	Gray
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Anaplastic Ependymoma (APE)			Ependymomal Tumor	Gray
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Clear Cell Ependymoma (CCE)			Ependymomal Tumor	Gray
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Myxopapillary Ependymoma (MPE)			Ependymomal Tumor	Gray
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Subependymoma (SUBE)			Ependymomal Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Choriocarcinoma (BCCA)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Embryonal Carcinoma (BEC)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Germinoma (GMN)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Immature Teratoma (BIMT)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Malignant Teratoma (BMGT)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mature Teratoma (BMT)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mixed Germ Cell Tumor (BMGCT)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Yolk Sac Tumor (BYST)			Germ Cell Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Meningioma (MNG)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Anaplastic Meningioma (ANM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Atypical Meningioma (ATM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Chordoid Meningioma (CHOM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Clear cell Meningioma (CCM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Hemangiopericytoma of the Central Nervous System (HPCCNS)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Papillary Meningioma (PPM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Rhabdoid Meningioma (RHM)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Solitary Fibrous Tumor of the Central Nervous System (SFTCNS)			Meningothelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Hemangioblastoma (HMBL)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Lymphoma (MLYM)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Tumor (MT)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Mesenchymal Chondrosarcoma of the CNS (MCHSCNS)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Primary Brain Tumor (PBT)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Primary Neuroepithelial Tumor (PRNET)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	High-Grade Neuroepithelial Tumor (HGNET)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Low-Grade Neuroepithelial Tumor (LGNET)			Miscellaneous Brain Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Angiocentric Glioma (ANGL)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Astroblastoma (ASTB)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Cerebellar Liponeurocytoma (CLNC)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Chordoid Glioma of the Third Ventricle (CHGL)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Central Neurocytoma (CNC)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Desmoplastic Infantile Astrocytoma (DIA)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Desmoplastic Infantile Ganglioglioma (DIG)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Dysplastic Gangliocytoma of the Cerebellum/Lhermitte-Duclos Disease (LDD)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Extraventricular Neurocytoma (EVN)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Papillary Glioneuronal Tumor (PGNT)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Paraganglioma (PGNG)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Rosette-forming Glioneuronal Tumor of the Fourth Ventricle (RGNT)			Miscellaneous Neuroepithelial Tumor	Gray
+CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Papillary Tumor of the Pineal Region (PTPR)			Pineal Tumor	Gray
+CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineal Parenchymal Tumor of Intermediate Differentiation (PPTID)			Pineal Tumor	Gray
+CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineocytoma (PINC)			Pineal Tumor	Gray
+CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineoblastoma (PBL)			Pineal Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Adamantinomatous Type (ACPG)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Papillary Type (PCGP)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Granular Cell Tumor (GCT)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituicytoma (PTCY)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Adenoma (PTAD)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Atypical Pituitary Adenoma (APTAD)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Carcinoma (PTCA)			Sellar Tumor	Gray
+CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Spindle Cell Oncocytoma of the Adenohypophysis (SCOAH)			Sellar Tumor	Gray
+Breast (BREAST)	Adenomyoepithelioma of the Breast (BRAME)				Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)				Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)	Paget Disease of the Nipple (PD)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)				Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (ACBC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous Carcinoma (IMMC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenosquamous Carcinoma (MASC)		Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Squamous Cell Carcinoma (MSCC)		Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)			Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Carcinoma	HotPink
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Sarcoma (PBS)				Breast Sarcoma	HotPink
+Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)			Breast Sarcoma	HotPink
+Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Sarcoma	HotPink
+Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Sarcoma	HotPink
+Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Sarcoma	HotPink
+Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Malignant Peripheral Nerve Sheath Tumor (MPNST)			Nerve Sheath Tumor	Gray
+Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Neurofibroma (NFIB)			Nerve Sheath Tumor	Gray
+Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)			Nerve Sheath Tumor	Gray
+Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Cellular Schwannoma (CSCHW)		Nerve Sheath Tumor	Gray
+Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Melanotic Schwannoma (MSCHW)		Nerve Sheath Tumor	Gray
+Cervix (CERVIX)	Cervival Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervival Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Clear Cell Carcinoma (CECC)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Serous Carcinoma (CESE)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endometrioid Carcinoma (CEEN)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endocervical Adenocarcinoma (ECAD)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mesonephric Carcinoma (CEMN)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Gastric Type Mucinous Carcinoma (GCEMU)		Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Intestinal Type Mucinous Carcinoma (ICEMU)		Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Signet Ring Mucinous Carcinoma (SCEMU)		Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Villoglandular Carcinoma (CEVG)			Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenosquamous Carcinoma (CEAS)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Leiomyosarcoma (CELI)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Neuroendocrine Tumor (CENE)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Rhabdomyosarcoma (CERMS)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Squamous Cell Carcinoma (CESC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Glassy Cell Carcinoma of the Cervix (CEGCC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Small Cell Carcinoma of the Cervix (SCCE)				Cervical Cancer	Teal
+Cervix (CERVIX)	Villoglandular Adenocarcinoma of the Cervix (VGCE)				Cervical Cancer	Teal
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenocarcinoma of the Gastroesophageal Junction (GEJ)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenosquamous Carcinoma of the Stomach (STAS)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Esophageal Adenocarcinoma (ESCA)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Gastric Remnant Adenocarcinoma (GRC)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Small Cell Carcinoma of the Stomach (STSC)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Diffuse Type Stomach Adenocarcinoma (DSTAD)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Intestinal Type Stomach Adenocarcinoma (ISTAD)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Mucinous Stomach Adenocarcinoma (MSTAD)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Papillary Stomach Adenocarcinoma (PSTAD)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Tubular Stomach Adenocarcinoma (TSTAD)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)			Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Poorly Differentiated Carcinoma of the Stomach (SPDAC)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Carcinoma	LightSkyBlue
+Eye (EYE)	Retinoblastoma (RBL)				Retinoblastoma	Green
+Eye (EYE)	Ocular Melanoma (OM)				Melanoma	Green
+Eye (EYE)	Ocular Melanoma (OM)	Uveal Melanoma (UM)			Melanoma	Green
+Eye (EYE)	Ocular Melanoma (OM)	Conjunctival Melanoma (CM)			Melanoma	Green
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oral Cavity Squamous Cell Carcinoma (OCSC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharynx Squamous Cell Carcinoma (OPHSC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Head and Neck Carcinoma	DarkRed
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Chromophobe Renal Cell Carcinoma (CHRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Clear Cell Papillary Renal Cell Carcinoma (CCPRC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Collecting Duct Renal Cell Carcinoma (CDRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Papillary Renal Cell Carcinoma (PRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Angiomyolipoma (RAML)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Medullary Carcinoma (MRC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Mucinous Tubular Spindle Cell Carcinoma (MTSCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Oncocytoma (ROCY)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Sarcomatoid Renal Cell Carcinoma (SRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Unclassified Renal Cell Carcinoma (URCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Translocation-Associated Renal Cell Carcinoma (TRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Wilms' Tumor (WT)				Wilms Tumor	Orange
+Kidney (KIDNEY)	Wilms' Tumor (WT)	Rhabdoid Cancer (MRT)			Wilms Tumor	Orange
+Liver (LIVER)	Fibrolamellar Carcinoma (FLC)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Hepatoblastoma (LIHB)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Hepatocellular Adenoma (LIAD)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Hepatocellular Carcinoma (HCC)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma (HCCIHCH)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Liver Angiosarcoma (LIAS)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Malignant Nonepithelial Tumor of the Liver (LIMNET)				Hepatocellular Carcinoma	MediumSeaGreen
+Lymph (LYMPH)	Hodgkin Lymphoma (HL)				Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)				Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)			Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Burkitt Lymphoma (BL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Diffuse Large B-Cell Lymphoma (DLBCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Follicular Lymphoma (FL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Mantle Cell Lymphoma (MCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Marginal Zone Lymphoma (MZL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Mediastinal Large B-Cell Lymphoma (MBCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Primary CNS Lymphoma (PCNSL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Small Lymphocytic Lymphoma (SLL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Waldenstrom Macroglobulinemia (WM)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)			Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Anaplastic Large Cell Lymphoma (ALCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Mycosis Fungoides (MF)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Sezary Syndrome (SEZS)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lung (LUNG)	Atypical Lung Carcinoid (ALUCA)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Inflammatory Myofibroblastic Lung Tumor (IMTL)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Basaloid Large Cell Carcinoma of the Lung (BLCLC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Clear Cell Carcinoma of the Lung (CCLC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Giant Cell Carcinoma of the Lung (GCLC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Large Cell Lung Carcinoma With Rhabdoid Phenotype (RLCLC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Large Cell Neuroendocrine Carcinoma (LUNE)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Lymphoepithelioma-like Carcinoma of the Lung (LECLC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenocarcinoma (LUAD)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenosquamous Carcinoma (LUAS)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Carcinoid (LUCA)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Squamous Cell Carcinoma (LUSC)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Poorly Differentiated Non-Small Cell Lung Cancer (NSCLCPD)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Adenoid Cystic Carcinoma of the Lung (LUACC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Mucoepidermoid Carcinoma of the Lung (LUMEC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Small Cell Lung Cancer (SCLC)				Small Cell Lung Cancer	Gainsboro
+Ovary (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Borderline (BTBOV)		Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Benign (BTBEOV)		Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Ovarian Cancer (CCOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Borderline Ovarian Tumor (CCBOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Ovarian Cancer (EOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Borderlin Ovarian Tumor (EBOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Mixed Ovarian Carcinoma (MXOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	High-Grade Serous Ovarian Cancer (HGSOC)		Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	Low-Grade Serous Ovarian Cancer (LGSOC)		Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Ovarian Cancer (MOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Borderline Ovarian Tumor (MBOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Carcinosarcoma/Malignant Mixed Mesodermal Tumor (OCS)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Adenoma (OSMAD)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Borderline Tumor (OSMBT)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Carcinoma (OSMCA)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Small Cell Carcinoma of the Ovary (SCCO)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor (SBOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor, Micropapillary (SBMOV)			Ovarian Cancer	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Dysgerminoma (ODYS)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryona (OPE)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	LightBlue
+Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	LightBlue
+Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Malignant Fibrothecoma (MFT)			Sex Cord Stromal Tumor	LightBlue
+Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	LightBlue
+Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	LightBlue
+Pancreas (PANCREAS)	Acinar Cell Carcinoma of the Pancreas (PAAC)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Adenosquamous Carcinoma of the Pancreas (PAASC)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Intraductal Papillary Mucinous Neoplasm (IPMN)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Pancreatic Adenocarcinoma (PAAD)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Pancreatic Neuroendocrine Tumor (PANET)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Solid Pseudopapillary Neoplasm of the Pancreas (SPN)				Pancreatic Cancer	Purple
+Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)				Penile Cancer	Blue
+Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)	Basaloid Penile Squamous Cell Carcinoma (BPSCC)			Penile Cancer	Blue
+Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)	Verrucous Penile Squamous Cell Carcinoma (VPSCC)			Penile Cancer	Blue
+Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)	Warty Penile Squamous Cell Carcinoma (WPSCC)			Penile Cancer	Blue
+Peritoneum (PERITONEUM)	Peritoneal Mesothelioma (PEMESO)				Mesothelioma	Green
+Pleura (PLEURA)	Pleural Mesothelioma (PLMESO)				Mesothelioma	Blue
+Pleura (PLEURA)	Pleural Mesothelioma (PLMESO)	Pleural Mesothelioma, Biphasic Type (PLBMESO)			Mesothelioma	Blue
+Pleura (PLEURA)	Pleural Mesothelioma (PLMESO)	Pleural Mesothelioma, Epithelioid Type (PLEMESO)			Mesothelioma	Blue
+Pleura (PLEURA)	Pleural Mesothelioma (PLMESO)	Pleural Mesothelioma, Sarcomatoid Type (PLSMESO)			Mesothelioma	Blue
+Prostate (PROSTATE)	Prostate Adenocarcinoma (PRAD)				Prostate Cancer	Cyan
+Prostate (PROSTATE)	Prostate Neuroendocrine Carcinoma (PRNE)				Prostate Cancer	Cyan
+Prostate (PROSTATE)	Prostate Small Cell Carcinoma (PRSCC)				Prostate Cancer	Cyan
+Skin (SKIN)	Aggressive Digital Papillary Adenocarcinoma (ADPA)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Atypical Fibroxanthoma (AFX)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Basal Cell Carcinoma (BCC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Cutaneous Squamous Cell Carcinoma (CSCC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Dermatofibroma (DF)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Dermatofibrosarcoma Protuberans (DFSP)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Desmoplastic Trichoepithelioma (DTE)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Endocrine Mucin Producing Sweat Gland Carcinoma (EMPSGC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)				Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Acral Melanoma (ACRM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Cutaneous Melanoma (SKCM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Desmoplastic Melanoma (DESM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Genitourinary Mucosal Melanoma (GMUCM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Head and Neck Mucosal Melanoma (HNMUCM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Lentigo Maligna Melanoma (SKLMM)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Melanoma of Unknown Primary (MUP)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Congenital Nevus (SKCN)			Melanoma	Black
+Skin (SKIN)	Merkel Cell Carcinoma (MCC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Microcystic Adnexal Carcinoma (MAC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Poroma/Acrospiroma (PORO)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Porocarcinoma/Spiroadenocarcinoma (POCA)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Porphyria Cutania Tarda (PCT)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Proliferating Pilar Cystic Tumor (PPCT)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Sebaceous Carcinoma (SEBA)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Skin Adnexal Carcinoma (SKAC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Spiroma/Spiradenoma (SPIR)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Sweat Gland Adenocarcinoma (SGAD)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Sweat Gland Carcinoma/Apocrine Eccrine Carcinoma (AECA)				Skin Cancer, Non-Melanoma	Black
+Soft Tissue (SOFT_TISSUE)	Alveolar Soft Part Sarcoma (ASPS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Angiosarcoma (ANGS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Clear Cell Sarcoma (CCS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)	Follicular Dendritic Cell Sarcoma (FDCS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)	Histiocytic Dendritic Cell Sarcoma (HDCS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)	Interdigitating Dendritic Cell Sarcoma (IDCS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Desmoid/Aggressive Fibromatosis (DES)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Desmoplastic Small-Round-Cell Tumor (DSRCT)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Epithelioid Hemangioendothelioma (EHAE)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Epitheloid Sarcoma (EPIS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Gastrointestinal Stromal Tumor (GIST)				Gastrointestinal Stromal Tumor	LightYellow
+Soft Tissue (SOFT_TISSUE)	Hemangioma (HEMA)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Inflammatory Myofibroblastic Tumor (IMT)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Intimal Sarcoma (INTS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Leiomyosarcoma (LMS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Dedifferentiated Liposarcoma (DDLS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Myxoid/Round-Cell Liposarcoma (MRLS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Pleomorphic Liposarcoma (PLLS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Well-Differentiated Liposarcoma (WDLS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Low-Grade Fibromyxoid Sarcoma (LGFMS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma (MFH)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Myopericytoma (MPC)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Myxofibrosarcoma (MFS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)	Ossifying Fibromyxoid Tumor (OFMT)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Perivascular Epithelioid Cell Tumor (PECOMA)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Radiation-Associated Sarcoma (RAS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Alveolar Rhabdomyosarcoma (ARMS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Embryonal Rhabdomyosarcoma (ERMS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Pleomorphic Rhabdomyosarcoma (PLRMS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell Rhabdomyosarcoma (SCRMS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell/Sclerosing Rhabdomyosarcoma (SCSRMS)			Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Sarcoma, NOS (SARCNOS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Solitary Fibrous Tumor/Hemangiopericytoma (SFT)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Soft Tissue Myoepithelial Carcinoma (STMYEC)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Synovial Sarcoma (SYNS)				Soft Tissue Sarcoma	LightYellow
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)				Germ Cell Tumor	Red
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Choriocarcinoma (TCCA)			Germ Cell Tumor	Red
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Embryonal Carcinoma (EMBCA)			Germ Cell Tumor	Red
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Mixed Germ Cell Tumor (MGCT)			Germ Cell Tumor	Red
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma (TT)			Germ Cell Tumor	Red
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Yolk Sac Tumor (TYST)			Germ Cell Tumor	Red
+Testis (TESTIS)	Seminoma (SEM)				Germ Cell Tumor	Red
+Testis (TESTIS)	Testicular Lymphoma (TLYM)				Non-Hodgkin’s Lymphoma	Red
+Testis (TESTIS)	Testicular Mesothelioma (TMESO)				Mesothelioma	Red
+Thymus (THYMUS)	Thymic Epithelial Tumor (TET)				Thymic Tumor	Purple
+Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymic Carcinoma (THYC)			Thymic Tumor	Purple
+Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymoma (THYM)			Thymic Tumor	Purple
+Thyroid (THYROID)	Anaplastic Thyroid Cancer (THAP)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Follicular Thyroid Cancer (THFO)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Hurthle Cell Thyroid Cancer (THHC)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Medullary Thyroid Cancer (THME)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Papillary Thyroid Cancer (THPA)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Poorly Differentiated Thyroid Cancer (THPD)				Thyroid Cancer	Teal
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)				Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)			Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)	Complete Hydatidiform Mole (CHM)		Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)	Invasive Hydatidiform Mole (IHM)		Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)	Partial Hydatidiform Mole (PHM)		Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Choriocarcinoma (UCCA)			Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Epithelioid Trophoblastic Tumor (ETT)			Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Placental Site Trophoblastic Tumor (PSTT)			Gestational Trophoblastic Disease	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)				Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Adenosquamous Carcinoma (UASC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Carcinosarcoma/Uterine Malignant Mixed Mullerian Tumor (UCS)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Clear Cell Carcinoma (UCCC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Dedifferentiated Carcinoma (UDDC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Endometrioid Carcinoma (UEC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Mixed Endometrial Carcinoma (UMEC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Mucinous Carcinoma (UMC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Neuroendocrine Carcinoma (UNEC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Serous Carcinoma/Uterine Papillary Serous Carcinoma (USC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Undifferentiated Carcinoma (UUC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Other Uterine Tumor (OUTT)				Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Undifferentiated Uterine Sarcoma (UUS)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Adenosarcoma (UAS)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)	High-Grade Endometrial Stromal Sarcoma (HGESS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)	Low-Grade Endometrial Stromal Sarcoma (LGESS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Perivascular Epithelioid Cell Tumor (UPECOMA)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Sarcoma, Other (OUSARC)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)			Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Leiomyoma (ULM)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Leiomyosarcoma (ULMS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Epithelioid Leiomyosarcoma (UELMS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Myxoid Leiomyosarcoma (UMLMS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Smooth Muscle Tumor of Uncertain Malignant Potential (USTUMP)		Uterine Sarcoma	PeachPuff
+Vagina (VAGINA)	Squamous Cell Carcinoma of the Vagina (SCCV)				Vaginal Cancer	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)				Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Dysgerminoma (VDYS)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VOEC)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Immature Teratoma (VIMT)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mature Teratoma (VMT)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryona (VPE)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Yolk Sac Tumor (VYST)			Germ Cell Tumor	Purple
+Vulva (VULVA)	Mucinous Adenocarcinoma of the Vulva (VMA)				Vulvar Carcinoma	Purple
+Vulva (VULVA)	Squamous Cell Carcinoma of the Vulva (VSC)				Vulvar Carcinoma	Purple
+Other (OTHER)	Cancer of Unknown Primary (CUP)				Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Cancer of Unknown Primary, NOS (CUPNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Mixed Cancer Types (MIXED)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Squamous Cell Carcinoma, NOS (SCCNOS)			Cancer of Unknown Primary	Black
