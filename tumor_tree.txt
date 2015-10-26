@@ -15,7 +15,9 @@ Bladder/Urinary Tract (BLADDER)	Bladder Squamous Cell Carcinoma (BLSC)				Bladde
 Bladder/Urinary Tract (BLADDER)	Bladder Adenocarcinoma (BLAD)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Bladder Urothelial Carcinoma (BLCA)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Inflammatory Myofibroblastic Bladder Tumor (IMTB)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Mucosal Melanoma of the Urethra (URMM)				Melanoma	Yellow
 Bladder/Urinary Tract (BLADDER)	Plasmacytoid/Signet Ring Cell Bladder Carcinoma (SRCBC)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Sarcomatoid Carcinoma of the Urinary Bladder (SCB)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Small Cell Bladder Cancer (SCBC)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Upper Tract Urothelial Carcinoma (UTUC)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Urachal Carcinoma (URCA)				Bladder Cancer	Yellow
@@ -241,6 +243,7 @@ Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiate
 Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Carcinoma	LightSkyBlue
 Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Carcinoma	LightSkyBlue
 Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Carcinoma	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Mucosal Melanoma of the Esophagus (ESMM)				Melanoma	LightSkyBlue
 Eye (EYE)	Retinoblastoma (RBL)				Retinoblastoma	Green
 Eye (EYE)	Ocular Melanoma (OM)				Melanoma	Green
 Eye (EYE)	Ocular Melanoma (OM)	Uveal Melanoma (UM)			Melanoma	Green
@@ -249,6 +252,7 @@ Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Nec
 Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Mucosal Melanoma (HNMUCM)				Melanoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Carcinoma	DarkRed
@@ -257,14 +261,15 @@ Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharyn
 Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (MASC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Carcinoma	DarkRed
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Chromophobe Renal Cell Carcinoma (CHRCC)		Renal Cell Carcinoma	Orange
@@ -292,12 +297,15 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)				Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)			Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Burkitt Lymphoma (BL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Diffuse Large B-Cell Lymphoma (DLBCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Extranodal Marginal Zone Lymphoma (MALTL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Follicular Lymphoma (FL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Mantle Cell Lymphoma (MCL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Marginal Zone Lymphoma (MZL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Mediastinal Large B-Cell Lymphoma (MBCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Nodal Marginal Zone Lymphoma (NMZL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Primary CNS Lymphoma (PCNSL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Small Lymphocytic Lymphoma (SLL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Splenic Marginal Zone Lymphoma (SMZL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Waldenstrom Macroglobulinemia (WM)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)			Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Anaplastic Large Cell Lymphoma (ALCL)		Non-Hodgkin Lymphoma	LimeGreen
@@ -305,6 +313,9 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNK
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Mycosis Fungoides (MF)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Sezary Syndrome (SEZS)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Anaplastic Large-Cell Lymphoma (ALCL)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Angioimmunoblastic T-Cell Lymphoma (AITL)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Peripheral T-Cell Lymphoma, NOS (PTCLNOS)	Non-Hodgkin Lymphoma	LimeGreen
 Lung (LUNG)	Atypical Lung Carcinoid (ALUCA)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Inflammatory Myofibroblastic Lung Tumor (IMTL)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)				Non-Small Cell Lung Cancer	Gainsboro
@@ -392,7 +403,6 @@ Skin (SKIN)	Melanoma (MEL)	Acral Melanoma (ACRM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Cutaneous Melanoma (SKCM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Desmoplastic Melanoma (DESM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Genitourinary Mucosal Melanoma (GMUCM)			Melanoma	Black
-Skin (SKIN)	Melanoma (MEL)	Head and Neck Mucosal Melanoma (HNMUCM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Lentigo Maligna Melanoma (SKLMM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Melanoma of Unknown Primary (MUP)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Congenital Nevus (SKCN)			Melanoma	Black
@@ -431,6 +441,7 @@ Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Pleomorphic Liposarcoma (PLLS)			So
 Soft Tissue (SOFT_TISSUE)	Liposarcoma (LIPO)	Well-Differentiated Liposarcoma (WDLS)			Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Low-Grade Fibromyxoid Sarcoma (LGFMS)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma (MFH)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Myofibroma (MF)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Myopericytoma (MPC)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Myxofibrosarcoma (MFS)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)				Soft Tissue Sarcoma	LightYellow
@@ -498,20 +509,21 @@ Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor 
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Epithelioid Leiomyosarcoma (UELMS)		Uterine Sarcoma	PeachPuff
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Myxoid Leiomyosarcoma (UMLMS)		Uterine Sarcoma	PeachPuff
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Smooth Muscle Tumor of Uncertain Malignant Potential (USTUMP)		Uterine Sarcoma	PeachPuff
-Vagina (VAGINA)	Squamous Cell Carcinoma of the Vagina (SCCV)				Vaginal Cancer	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)				Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Dysgerminoma (VDYS)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VOEC)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Immature Teratoma (VIMT)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mature Teratoma (VMT)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryona (VPE)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Yolk Sac Tumor (VYST)			Germ Cell Tumor	Purple
-Vulva (VULVA)	Mucinous Adenocarcinoma of the Vulva (VMA)				Vulvar Carcinoma	Purple
-Vulva (VULVA)	Squamous Cell Carcinoma of the Vulva (VSC)				Vulvar Carcinoma	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)				Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Dysgerminoma (VDYS)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VOEC)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Immature Teratoma (VIMT)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mature Teratoma (VMT)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryona (VPE)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Yolk Sac Tumor (VYST)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Mucinous Adenocarcinoma of the Vulva/Vagina (VMA)				Vulvar Carcinoma	Purple
+Vulva/Vagina (VULVA)	Mucosal Melanoma of the Vulva/Vagina (VMM)				Melanoma	Purple
+Vulva/Vagina (VULVA)	Squamous Cell Carcinoma of the Vulva/Vagina (VSC)				Vaginal Cancer	Purple
 Other (OTHER)	Cancer of Unknown Primary (CUP)				Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Cancer of Unknown Primary, NOS (CUPNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Mixed Cancer Types (MIXED)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Small Cell Carcinoma of Unknown Primary (SCUP)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Squamous Cell Carcinoma, NOS (SCCNOS)			Cancer of Unknown Primary	Black
