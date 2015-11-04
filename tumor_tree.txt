@@ -293,6 +293,8 @@ Liver (LIVER)	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma (HCC
 Liver (LIVER)	Liver Angiosarcoma (LIAS)				Hepatocellular Carcinoma	MediumSeaGreen
 Liver (LIVER)	Malignant Nonepithelial Tumor of the Liver (LIMNET)				Hepatocellular Carcinoma	MediumSeaGreen
 Lymph (LYMPH)	Hodgkin Lymphoma (HL)				Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Hodgkin Lymphoma (HL)	Classical Hodgkin Lymphoma (CHL)			Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Hodgkin Lymphoma (HL)	Nodular Lymphocyte-Predominant Hodgkin Lymphoma (NLPHL)			Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)				Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)			Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Burkitt Lymphoma (BL)		Non-Hodgkin Lymphoma	LimeGreen
@@ -374,10 +376,13 @@ Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex 
 Pancreas (PANCREAS)	Acinar Cell Carcinoma of the Pancreas (PAAC)				Pancreatic Cancer	Purple
 Pancreas (PANCREAS)	Adenosquamous Carcinoma of the Pancreas (PAASC)				Pancreatic Cancer	Purple
 Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)				Pancreatic Cancer	Purple
-Pancreas (PANCREAS)	Intraductal Papillary Mucinous Neoplasm (IPMN)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)	Intraductal Papillary Mucinous Neoplasm (IPMN)			Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)	Mucinous Cystic Neoplasm (MCN)			Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)	Serous Cystadenoma of the Pancreas (PSC)			Pancreatic Cancer	Purple
 Pancreas (PANCREAS)	Pancreatic Adenocarcinoma (PAAD)				Pancreatic Cancer	Purple
 Pancreas (PANCREAS)	Pancreatic Neuroendocrine Tumor (PANET)				Pancreatic Cancer	Purple
 Pancreas (PANCREAS)	Solid Pseudopapillary Neoplasm of the Pancreas (SPN)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Undifferentiated Carcinoma of the Pancreas (UCP)				Pancreatic Cancer	Purple
 Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)				Penile Cancer	Blue
 Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)	Basaloid Penile Squamous Cell Carcinoma (BPSCC)			Penile Cancer	Blue
 Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)	Verrucous Penile Squamous Cell Carcinoma (VPSCC)			Penile Cancer	Blue
