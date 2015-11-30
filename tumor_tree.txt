@@ -21,9 +21,11 @@ Bladder/Urinary Tract (BLADDER)	Sarcomatoid Carcinoma of the Urinary Bladder (SC
 Bladder/Urinary Tract (BLADDER)	Small Cell Bladder Cancer (SCBC)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Upper Tract Urothelial Carcinoma (UTUC)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Urachal Carcinoma (URCA)				Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urachal Carcinoma (URCA)	Urachal Adenocarcinoma (UA)			Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)				Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Adenocarcinoma (UAD)			Bladder Cancer	Yellow
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Squamous Cell Carcinoma (USCC)			Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Urothelial Carcinoma (UCU)			Bladder Cancer	Yellow
 Blood (BLOOD)	Blastic Plasmacytoid Dendritic Cell Neoplasm (BPDCN)				Blastic Plasmacytoid Dendritic Cell Neoplasm	LightSalmon
 Blood (BLOOD)	Histiocytosis (HIST)				Histiocytosis	LightSalmon
 Blood (BLOOD)	Histiocytosis (HIST)	Langerhans Cell Histiocytosis (LCH)			Histiocytosis	LightSalmon
@@ -264,13 +266,14 @@ Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Carcin
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (MASC)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (HNMASC)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Carcinoma	DarkRed
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Carcinoma	DarkRed
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)	Renal Clear Cell Carcinoma with Sarcomatoid Features (SCCRCC)		Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Chromophobe Renal Cell Carcinoma (CHRCC)		Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Clear Cell Papillary Renal Cell Carcinoma (CCPRC)		Renal Cell Carcinoma	Orange
@@ -336,6 +339,7 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Poorly Differentiated Non-Small C
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Adenoid Cystic Carcinoma of the Lung (LUACC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Mucoepidermoid Carcinoma of the Lung (LUMEC)		Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Spindle Cell Carcinoma of the Lung (SpCC)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Small Cell Lung Cancer (SCLC)				Small Cell Lung Cancer	Gainsboro
 Ovary (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	LightBlue
