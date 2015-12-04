@@ -207,8 +207,8 @@ Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Neurofibroma (NFIB)			N
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)			Nerve Sheath Tumor	Gray
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Cellular Schwannoma (CSCHW)		Nerve Sheath Tumor	Gray
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Melanotic Schwannoma (MSCHW)		Nerve Sheath Tumor	Gray
-Cervix (CERVIX)	Cervival Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal
-Cervix (CERVIX)	Cervival Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)				Cervical Cancer	Teal
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Clear Cell Carcinoma (CECC)			Cervical Cancer	Teal
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Serous Carcinoma (CESE)			Cervical Cancer	Teal
@@ -313,27 +313,29 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Small Lymphocytic
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Splenic Marginal Zone Lymphoma (SMZL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Waldenstrom Macroglobulinemia (WM)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)			Non-Hodgkin Lymphoma	LimeGreen
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Anaplastic Large Cell Lymphoma (ALCL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)		Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Mycosis Fungoides (MF)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Sezary Syndrome (SEZS)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Anaplastic Large-Cell Lymphoma (ALCL)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	ALK-Negative Anaplastic Large Cell Lymphoma (ANALCL)	Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Anaplastic Large Cell Lymphoma (ALCL)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Angioimmunoblastic T-Cell Lymphoma (AITL)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Peripheral T-Cell Lymphoma, NOS (PTCLNOS)	Non-Hodgkin Lymphoma	LimeGreen
-Lung (LUNG)	Atypical Lung Carcinoid (ALUCA)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Inflammatory Myofibroblastic Lung Tumor (IMTL)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Atypical Lung Carcinoid (ALUCA)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Large Cell Neuroendocrine Carcinoma (LUNE)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Lung Carcinoid (LUCA)			Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Small Cell Lung Cancer (SCLC)			Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Basaloid Large Cell Carcinoma of the Lung (BLCLC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Clear Cell Carcinoma of the Lung (CCLC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Giant Cell Carcinoma of the Lung (GCLC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Large Cell Lung Carcinoma With Rhabdoid Phenotype (RLCLC)		Non-Small Cell Lung Cancer	Gainsboro
-Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Large Cell Neuroendocrine Carcinoma (LUNE)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Lymphoepithelioma-like Carcinoma of the Lung (LECLC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenocarcinoma (LUAD)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenosquamous Carcinoma (LUAS)			Non-Small Cell Lung Cancer	Gainsboro
-Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Carcinoid (LUCA)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Squamous Cell Carcinoma (LUSC)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Poorly Differentiated Non-Small Cell Lung Cancer (NSCLCPD)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)			Non-Small Cell Lung Cancer	Gainsboro
@@ -341,7 +343,6 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of th
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Mucoepidermoid Carcinoma of the Lung (LUMEC)		Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Spindle Cell Carcinoma of the Lung (SpCC)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro
-Lung (LUNG)	Small Cell Lung Cancer (SCLC)				Small Cell Lung Cancer	Gainsboro
 Ovary (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	LightBlue
 Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	LightBlue
 Ovary (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	LightBlue
@@ -370,7 +371,7 @@ Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Ce
 Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	LightBlue
 Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	LightBlue
 Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	LightBlue
-Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryona (OPE)			Germ Cell Tumor	LightBlue
+Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)			Germ Cell Tumor	LightBlue
 Ovary (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	LightBlue
 Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	LightBlue
 Ovary (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	LightBlue
@@ -436,8 +437,10 @@ Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)	Interdigitating Dendritic
 Soft Tissue (SOFT_TISSUE)	Desmoid/Aggressive Fibromatosis (DES)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Desmoplastic Small-Round-Cell Tumor (DSRCT)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Epithelioid Hemangioendothelioma (EHAE)				Soft Tissue Sarcoma	LightYellow
-Soft Tissue (SOFT_TISSUE)	Epitheloid Sarcoma (EPIS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Epithelioid Sarcoma (EPIS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Epithelioid Sarcoma (EPIS)	Proximal-Type Epithelioid Sarcoma (PTES)			Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)	Sclerosing Epithelioid Fibrosarcoma (SEF)			Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Gastrointestinal Stromal Tumor (GIST)				Gastrointestinal Stromal Tumor	LightYellow
 Soft Tissue (SOFT_TISSUE)	Hemangioma (HEMA)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Inflammatory Myofibroblastic Tumor (IMT)				Soft Tissue Sarcoma	LightYellow
@@ -494,6 +497,7 @@ Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Choriocarcinoma (UCCA)		
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Epithelioid Trophoblastic Tumor (ETT)			Gestational Trophoblastic Disease	PeachPuff
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Placental Site Trophoblastic Tumor (PSTT)			Gestational Trophoblastic Disease	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)				Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Poorly Differentiated Carcinoma of the Uterus (UPDC)			Endometrial Cancer	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Adenosquamous Carcinoma (UASC)			Endometrial Cancer	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Carcinosarcoma/Uterine Malignant Mixed Mullerian Tumor (UCS)			Endometrial Cancer	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Clear Cell Carcinoma (UCCC)			Endometrial Cancer	PeachPuff
@@ -524,15 +528,17 @@ Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VO
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Immature Teratoma (VIMT)			Germ Cell Tumor	Purple
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mature Teratoma (VMT)			Germ Cell Tumor	Purple
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryona (VPE)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryoma (VPE)			Germ Cell Tumor	Purple
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Yolk Sac Tumor (VYST)			Germ Cell Tumor	Purple
 Vulva/Vagina (VULVA)	Mucinous Adenocarcinoma of the Vulva/Vagina (VMA)				Vulvar Carcinoma	Purple
 Vulva/Vagina (VULVA)	Mucosal Melanoma of the Vulva/Vagina (VMM)				Melanoma	Purple
 Vulva/Vagina (VULVA)	Squamous Cell Carcinoma of the Vulva/Vagina (VSC)				Vaginal Cancer	Purple
 Other (OTHER)	Cancer of Unknown Primary (CUP)				Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Acinar Cell Carcinoma, NOS (ACN)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Cancer of Unknown Primary, NOS (CUPNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Mixed Cancer Types (MIXED)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Poorly Differentiated Carcinoma, NOS (PDC)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Small Cell Carcinoma of Unknown Primary (SCUP)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Squamous Cell Carcinoma, NOS (SCCNOS)			Cancer of Unknown Primary	Black
