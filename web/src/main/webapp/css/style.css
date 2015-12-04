@@ -146,3 +146,10 @@ a:hover {
     max-width: 600px;
     white-space: nowrap;
 }
+
+
+a.qtip-link:link {
+    color: #0A5CC0;
+    background-color: transparent;
+    text-decoration: none;
+}
