@@ -85,12 +85,12 @@ var tree = (function () {
                             uniqueTreeNode[type].color = row.metacolor;
                         }
                         
-                        if(row.hasOwnProperty('nci')){
-                        	uniqueTreeNode[type].nci = row.nci;
+                        if(row.hasOwnProperty('metanci')){
+                        	uniqueTreeNode[type].nci = row.metanci;
                         }
                         
-                        if(row.hasOwnProperty('umls')){
-                        	uniqueTreeNode[type].umls = row.umls;
+                        if(row.hasOwnProperty('metaumls')){
+                        	uniqueTreeNode[type].umls = row.metaumls;
                         }
                         
                     }
