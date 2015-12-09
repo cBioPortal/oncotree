@@ -317,7 +317,6 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNK
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Mycosis Fungoides (MF)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Sezary Syndrome (SEZS)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	ALK-Negative Anaplastic Large Cell Lymphoma (ANALCL)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Anaplastic Large Cell Lymphoma (ALCL)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Angioimmunoblastic T-Cell Lymphoma (AITL)	Non-Hodgkin Lymphoma	LimeGreen
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Peripheral T-Cell Lymphoma, NOS (PTCLNOS)	Non-Hodgkin Lymphoma	LimeGreen
