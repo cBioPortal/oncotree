@@ -441,6 +441,7 @@ Soft Tissue (SOFT_TISSUE)	Epithelioid Sarcoma (EPIS)	Proximal-Type Epithelioid S
 Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)				Soft Tissue Sarcoma	LightYellow	C3043	C0016057
 Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)	Sclerosing Epithelioid Fibrosarcoma (SEF)			Soft Tissue Sarcoma	LightYellow	C49027	C1710026
 Soft Tissue (SOFT_TISSUE)	Gastrointestinal Stromal Tumor (GIST)				Gastrointestinal Stromal Tumor	LightYellow	C3868	C0238198
+Soft Tissue (SOFT_TISSUE)	Glomangiosarcoma (GS)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Hemangioma (HEMA)				Soft Tissue Sarcoma	LightYellow	C3085	C0018916
 Soft Tissue (SOFT_TISSUE)	Inflammatory Myofibroblastic Tumor (IMT)				Soft Tissue Sarcoma	LightYellow	C6481	C0334121
 Soft Tissue (SOFT_TISSUE)	Intimal Sarcoma (INTS)				Soft Tissue Sarcoma	LightYellow	C53677	C1708550
@@ -474,6 +475,7 @@ Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Choriocarcinoma (TCCA)	
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Embryonal Carcinoma (EMBCA)			Germ Cell Tumor	Red
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Mixed Germ Cell Tumor (MGCT)			Germ Cell Tumor	Red	C8881	C0855160
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma (TT)			Germ Cell Tumor	Red	C3877	C0238451
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma with Malignant Transformation (TMT)			Germ Cell Tumor	Red
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Yolk Sac Tumor (TYST)			Germ Cell Tumor	Red	C6379	C1336945
 Testis (TESTIS)	Seminoma (SEM)				Germ Cell Tumor	Red	C9309	C0036631
 Testis (TESTIS)	Testicular Lymphoma (TLYM)				Non-Hodgkin’s Lymphoma	Red	C6810	C0349644
@@ -482,11 +484,12 @@ Thymus (THYMUS)	Thymic Epithelial Tumor (TET)				Thymic Tumor	Purple	C6450	C1266
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymic Carcinoma (THYC)			Thymic Tumor	Purple	C7569	C0205969
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymoma (THYM)			Thymic Tumor	Purple	C3411	C0040100
 Thyroid (THYROID)	Anaplastic Thyroid Cancer (THAP)				Thyroid Cancer	Teal	C3878	C0238461
-Thyroid (THYROID)	Follicular Thyroid Cancer (THFO)				Thyroid Cancer	Teal	C8054	C0206682
 Thyroid (THYROID)	Hurthle Cell Thyroid Cancer (THHC)				Thyroid Cancer	Teal	C4946	C0749424
 Thyroid (THYROID)	Medullary Thyroid Cancer (THME)				Thyroid Cancer	Teal	C3879	C0238462
-Thyroid (THYROID)	Papillary Thyroid Cancer (THPA)				Thyroid Cancer	Teal	C4035	C0238463
 Thyroid (THYROID)	Poorly Differentiated Thyroid Cancer (THPD)				Thyroid Cancer	Teal	C6040	C1266050
+Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)	Follicular Thyroid Cancer (THFO)			Thyroid Cancer	Teal	C8054	C0206682
+Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)	Papillary Thyroid Cancer (THPA)			Thyroid Cancer	Teal	C4035	C0238463
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)				Gestational Trophoblastic Disease	PeachPuff	C4699	C1135868
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)			Gestational Trophoblastic Disease	PeachPuff	C3110	C0020217
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)	Molar Pregnancy (MP)	Complete Hydatidiform Mole (CHM)		Gestational Trophoblastic Disease	PeachPuff	C4871	C0678213
@@ -538,6 +541,7 @@ Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Canc
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Cancer of Unknown Primary, NOS (CUPNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Mixed Cancer Types (MIXED)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Tumor, NOS (NETNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Poorly Differentiated Carcinoma, NOS (PDC)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Small Cell Carcinoma of Unknown Primary (SCUP)			Cancer of Unknown Primary	Black	C8099	C0280097
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Squamous Cell Carcinoma, NOS (SCCNOS)			Cancer of Unknown Primary	Black	C8099	C0280097
