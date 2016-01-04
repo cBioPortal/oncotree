@@ -37,6 +37,7 @@ Blood (BLOOD)	Leukemia (LEUK)	Acute Monocytic Leukemia (AMOL)			Leukemia	LightSa
 Blood (BLOOD)	Leukemia (LEUK)	Acute Myeloid Leukemia (AML)			Leukemia	LightSalmon	C3171	C0023467
 Blood (BLOOD)	Leukemia (LEUK)	Chronic Lymphocytic Leukemia (CLL)			Leukemia	LightSalmon	C3163	C0023434
 Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelogenous Leukemia (CML)			Leukemia	LightSalmon	C3172	C0023470
+Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelomonocytic Leukemia (CMML)			Leukemia	LightSalmon
 Blood (BLOOD)	Leukemia (LEUK)	Hairy Cell Leukemia (HCL)			Leukemia	LightSalmon	C7402	C0023443
 Blood (BLOOD)	Leukemia (LEUK)	Large Granular Lymphocytic Leukemia (LGLL)			Leukemia	LightSalmon	C4664	C1955861
 Blood (BLOOD)	Multiple Myeloma (MM)				Multiple Myeloma	LightSalmon	C3242	C0026764
