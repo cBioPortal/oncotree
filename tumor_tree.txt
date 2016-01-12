@@ -408,6 +408,7 @@ Skin (SKIN)	Dermatofibroma (DF)				Skin Cancer, Non-Melanoma	Black	C6801	C000299
 Skin (SKIN)	Dermatofibrosarcoma Protuberans (DFSP)				Skin Cancer, Non-Melanoma	Black	C4683	C0392784
 Skin (SKIN)	Desmoplastic Trichoepithelioma (DTE)				Skin Cancer, Non-Melanoma	Black	C27524	C0432526
 Skin (SKIN)	Endocrine Mucin Producing Sweat Gland Carcinoma (EMPSGC)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Extramammary Paget Disease (EMPD)				Skin Cancer, Non-Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)				Melanoma	Black	C3224	C0025202
 Skin (SKIN)	Melanoma (MEL)	Acral Melanoma (ACRM)			Melanoma	Black	C4022	C0346037
 Skin (SKIN)	Melanoma (MEL)	Cutaneous Melanoma (SKCM)			Melanoma	Black	C3510	C0151779
@@ -468,7 +469,7 @@ Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Pleomorphic Rhabdomyosarcoma (P
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell Rhabdomyosarcoma (SCRMS)			Soft Tissue Sarcoma	LightYellow	C6519	C1266134
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell/Sclerosing Rhabdomyosarcoma (SCSRMS)			Soft Tissue Sarcoma	LightYellow	C121654
 Soft Tissue (SOFT_TISSUE)	Sarcoma, NOS (SARCNOS)				Soft Tissue Sarcoma	LightYellow	C121804
-Soft Tissue (SOFT_TISSUE)	Solitary Fibrous Tumor/Hemangiopericytoma (SFT)				Soft Tissue Sarcoma	LightYellow	C7634	C1266119
+Soft Tissue (SOFT_TISSUE)	Solitary Fibrous Tumor/Hemangiopericytoma (SFT)				                                                                      	LightYellow	C7634	C1266119
 Soft Tissue (SOFT_TISSUE)	Soft Tissue Myoepithelial Carcinoma (STMYEC)				Soft Tissue Sarcoma	LightYellow	C7596	C0334699
 Soft Tissue (SOFT_TISSUE)	Synovial Sarcoma (SYNS)				Soft Tissue Sarcoma	LightYellow	C3400	C0039101
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)				Germ Cell Tumor	Red	C9313
