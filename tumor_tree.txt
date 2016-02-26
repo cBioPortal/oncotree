@@ -87,6 +87,7 @@ Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	High-Grade Neuroend
 Bowel (BOWEL)	Mucinous Colorectal Carcinoma (MCCA)				Colorectal Cancer	SaddleBrown	C43585	C1707439
 Bowel (BOWEL)	Scirrhous Carcinoma of the Colon and Rectum (SCCR)				Colorectal Cancer	SaddleBrown	C43586	C1707440
 Bowel (BOWEL)	Small Bowel Cancer (SBC)				Small Bowel Cancer	SaddleBrown	C7724	C0238196
+Bowel (BOWEL)	Small Bowel Cancer (SBC)	Duodenal Adenocarcinoma (DA)			Small Bowel Cancer	SaddleBrown
 Bowel (BOWEL)	Small Intestinal Carcinoma (SIC)				Small Bowel Cancer	SaddleBrown
 CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Carcinoma (CPC)			Choroid Plexus Tumor	Gray	C4715	C0431109
 CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Papilloma (CPP)			Choroid Plexus Tumor	Gray	C3698	C0205770
@@ -185,7 +186,6 @@ Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (A
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Carcinoma	HotPink	C5175	C1335964
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Carcinoma	HotPink	C9245	C0853879
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink	C4194	C1134719
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink	C4194	C1134719
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Carcinoma	HotPink	C7950	C0279565
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Carcinoma	HotPink	C5160
@@ -355,7 +355,8 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of th
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Adenoid Cystic Carcinoma of the Lung (LUACC)		Non-Small Cell Lung Cancer	Gainsboro	C5666	C1334439
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Mucoepidermoid Carcinoma of the Lung (LUMEC)		Non-Small Cell Lung Cancer	Gainsboro	C45544	C1708778
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Spindle Cell Carcinoma of the Lung (SpCC)			Non-Small Cell Lung Cancer	Gainsboro	C45541	C1708784
-Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer
+Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Pulmonary Lymphangiomyomatosis (LAM)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro	C45540	C1708781
 Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	#N/A	C4908	C0677886
 Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	#N/A	C4381	C0341823
