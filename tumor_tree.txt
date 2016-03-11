@@ -74,7 +74,6 @@ Bowel (BOWEL)	Anorectal Mucosal Melanoma (ARMM)				Melanoma	SaddleBrown	C4639	C0
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)				Appendiceal Cancer	SaddleBrown	C7718	C0238003
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Colonic Type Adenocarcinoma of the Appendix (CTAAP)			Appendiceal Cancer	SaddleBrown
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Goblet Cell Carcinoid of the Appendix (GCCAP)			Appendiceal Cancer	SaddleBrown	C3689	C0205695
-Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Malignant Carcinoid of the Appendix (MCAP)			Appendiceal Cancer	SaddleBrown	C9333	C0496779
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Mucinous Adenocarcinoma of the Appendix (MAAP)			Appendiceal Cancer	SaddleBrown	C43558	C1706832
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Signet Ring Cell Type of the Appendix (SRAP)			Appendiceal Cancer	SaddleBrown	C43554	C1711320
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)				Colorectal Cancer	SaddleBrown	C5105	C1319315
@@ -84,8 +83,9 @@ Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Rectal Adenocarcinoma (READ)	
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Signet Ring Cell Adenocarcinoma of the Colon and Rectum (SRCCR)			Colorectal Cancer	SaddleBrown	C9383	C0149978
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)				Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C95404	C2987127
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	High-Grade Neuroendocrine Carcinoma of the Colon and Rectum (HGNEC)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C96156	C3272607
-Bowel (BOWEL)	Mucinous Colorectal Carcinoma (MCCA)				Colorectal Cancer	SaddleBrown	C43585	C1707439
-Bowel (BOWEL)	Scirrhous Carcinoma of the Colon and Rectum (SCCR)				Colorectal Cancer	SaddleBrown	C43586	C1707440
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Small Bowel Well-Differentiated Neuroendocrine Tumor (SBWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Appendix (AWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Rectum (RWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
 Bowel (BOWEL)	Small Bowel Cancer (SBC)				Small Bowel Cancer	SaddleBrown	C7724	C0238196
 Bowel (BOWEL)	Small Bowel Cancer (SBC)	Duodenal Adenocarcinoma (DA)			Small Bowel Cancer	SaddleBrown
 Bowel (BOWEL)	Small Intestinal Carcinoma (SIC)				Small Bowel Cancer	SaddleBrown
@@ -359,6 +359,7 @@ Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer	Gainsbo
 Lung (LUNG)	Pulmonary Lymphangiomyomatosis (LAM)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro	C45540	C1708781
 Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	#N/A	C4908	C0677886
+Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)	High-Grade Neuroendocrine Carcinoma of the Ovary (HGONEC)			Ovarian Cancer
 Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	#N/A	C4381	C0341823
 Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	#N/A	C39954
 Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	#N/A	C4270	C0334495
