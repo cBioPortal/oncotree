@@ -362,42 +362,42 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Spindle Cell Carcinoma of the Lun
 Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Pulmonary Lymphangiomyomatosis (LAM)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro	C45540	C1708781
-Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	#N/A	C4908	C0677886
-Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)	High-Grade Neuroendocrine Carcinoma of the Ovary (HGONEC)			Ovarian Cancer
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	#N/A	C4381	C0341823
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	#N/A	C39954
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	#N/A	C4270	C0334495
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Borderline (BTBOV)		Ovarian Cancer	#N/A	C9459	C0334494
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Benign (BTBEOV)		Ovarian Cancer	#N/A	C4746	C0474834
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Ovarian Cancer (CCOV)			Ovarian Cancer	#N/A	C40076	C0346164
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Borderline Ovarian Tumor (CCBOV)			Ovarian Cancer	#N/A	C40080	C0279676
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Ovarian Cancer (EOV)			Ovarian Cancer	#N/A	C7979	C0346163
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Borderlin Ovarian Tumor (EBOV)			Ovarian Cancer	#N/A	C7983	C0334338
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mixed Ovarian Carcinoma (MXOV)			Ovarian Cancer	#N/A	C40090	C0279392
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)			Ovarian Cancer	#N/A	C7550	C1335177
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	High-Grade Serous Ovarian Cancer (HGSOC)		Ovarian Cancer	#N/A	C105555
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	Low-Grade Serous Ovarian Cancer (LGSOC)		Ovarian Cancer	#N/A	C105556
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Ovarian Cancer (MOV)			Ovarian Cancer	#N/A	C5242	C1335168
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Borderline Ovarian Tumor (MBOV)			Ovarian Cancer	#N/A	C40036	C0279664
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Carcinosarcoma/Malignant Mixed Mesodermal Tumor (OCS)			Ovarian Cancer	#N/A	C9192	C0392998
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Adenoma (OSMAD)			Ovarian Cancer	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Borderline Tumor (OSMBT)			Ovarian Cancer	#N/A	C40038	C1511264
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Carcinoma (OSMCA)			Ovarian Cancer	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Small Cell Carcinoma of the Ovary (SCCO)			Ovarian Cancer	#N/A	C27390	C2212006
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor (SBOV)			Ovarian Cancer	#N/A	C5226	C0279662
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor, Micropapillary (SBMOV)			Ovarian Cancer	#N/A	C122585
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Dysgerminoma (ODYS)			Germ Cell Tumor	#N/A	C8106	C0346185
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Cell Tumor	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	#N/A	C8884	C0855163
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	#N/A	C9015	C1368910
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	#N/A	C8881	C0855160
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)			Germ Cell Tumor	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	#N/A	C6379	C1336945
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	#N/A	C39985	C1518716
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	#N/A	C3070	C0018206
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Malignant Fibrothecoma (MFT)			Sex Cord Stromal Tumor	#N/A	C3498	C0149951
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	#N/A	C2880	C0003810
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	#N/A	C39979	C1518740
+Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	LightBlue	C4908	C0677886
+Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)	High-Grade Neuroendocrine Carcinoma of the Ovary (HGONEC)			Ovarian Cancer	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	LightBlue	C4381	C0341823
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	LightBlue	C39954
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	LightBlue	C4270	C0334495
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Borderline (BTBOV)		Ovarian Cancer	LightBlue	C9459	C0334494
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Benign (BTBEOV)		Ovarian Cancer	LightBlue	C4746	C0474834
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Ovarian Cancer (CCOV)			Ovarian Cancer	LightBlue	C40076	C0346164
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Borderline Ovarian Tumor (CCBOV)			Ovarian Cancer	LightBlue	C40080	C0279676
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Ovarian Cancer (EOV)			Ovarian Cancer	LightBlue	C7979	C0346163
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Borderlin Ovarian Tumor (EBOV)			Ovarian Cancer	LightBlue	C7983	C0334338
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mixed Ovarian Carcinoma (MXOV)			Ovarian Cancer	LightBlue	C40090	C0279392
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)			Ovarian Cancer	LightBlue	C7550	C1335177
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	High-Grade Serous Ovarian Cancer (HGSOC)		Ovarian Cancer	LightBlue	C105555
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	Low-Grade Serous Ovarian Cancer (LGSOC)		Ovarian Cancer	LightBlue	C105556
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Ovarian Cancer (MOV)			Ovarian Cancer	LightBlue	C5242	C1335168
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Borderline Ovarian Tumor (MBOV)			Ovarian Cancer	LightBlue	C40036	C0279664
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Carcinosarcoma/Malignant Mixed Mesodermal Tumor (OCS)			Ovarian Cancer	LightBlue	C9192	C0392998
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Adenoma (OSMAD)			Ovarian Cancer	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Borderline Tumor (OSMBT)			Ovarian Cancer	LightBlue	C40038	C1511264
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Carcinoma (OSMCA)			Ovarian Cancer	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Small Cell Carcinoma of the Ovary (SCCO)			Ovarian Cancer	LightBlue	C27390	C2212006
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor (SBOV)			Ovarian Cancer	LightBlue	C5226	C0279662
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor, Micropapillary (SBMOV)			Ovarian Cancer	LightBlue	C122585
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Dysgerminoma (ODYS)			Germ Cell Tumor	LightBlue	C8106	C0346185
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Cell Tumor	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	LightBlue	C8884	C0855163
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	LightBlue	C9015	C1368910
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	LightBlue	C8881	C0855160
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)			Germ Cell Tumor	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	LightBlue	C6379	C1336945
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	LightBlue	C39985	C1518716
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	LightBlue	C3070	C0018206
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Malignant Fibrothecoma (MFT)			Sex Cord Stromal Tumor	LightBlue	C3498	C0149951
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	LightBlue	C2880	C0003810
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	LightBlue	C39979	C1518740
 Pancreas (PANCREAS)	Acinar Cell Carcinoma of the Pancreas (PAAC)				Pancreatic Cancer	Purple	C7977	C0279661
 Pancreas (PANCREAS)	Adenosquamous Carcinoma of the Pancreas (PAASC)				Pancreatic Cancer	Purple	C5721	C1335299
 Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)				Pancreatic Cancer	Purple	C41247	C1518872
