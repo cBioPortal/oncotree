@@ -86,6 +86,7 @@ Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	High-Grade Neuroend
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Small Bowel Well-Differentiated Neuroendocrine Tumor (SBWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Appendix (AWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Rectum (RWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumors of the Stomach (SWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
 Bowel (BOWEL)	Medullary Carcinoma of the Colon (CMC)				Colorectal Cancer	SaddleBrown
 Bowel (BOWEL)	Small Bowel Cancer (SBC)				Small Bowel Cancer	SaddleBrown	C7724	C0238196
 Bowel (BOWEL)	Small Bowel Cancer (SBC)	Duodenal Adenocarcinoma (DA)			Small Bowel Cancer	SaddleBrown
