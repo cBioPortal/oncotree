@@ -4,3 +4,4 @@ target
 mvnw
 mvnw.cmd
 oncotree.iml
+src/main/resources/application.properties

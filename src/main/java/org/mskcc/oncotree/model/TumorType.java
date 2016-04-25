@@ -24,6 +24,7 @@ public class TumorType {
     private Boolean deprecated = false;
     private List<History> history = new ArrayList<History>();
     private Links links = null;
+    private String level = null;
 
 
     /**
@@ -204,6 +205,17 @@ public class TumorType {
         this.links = links;
     }
 
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("level")
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
     @Override
     public boolean equals(Object o) {
