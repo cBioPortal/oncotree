@@ -3,6 +3,7 @@ package org.mskcc.oncotree.utils;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
+import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.TumorTypeQuery;
@@ -10,10 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,8 +20,8 @@ import java.util.regex.Pattern;
  * Created by Hongxin on 2/25/16.
  */
 public class TumorTypesUtil {
-    private static String TUMOR_TREE_FILE = "classpath:tumor_tree.txt";
-    private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "umls", "maintype", "color");
+    private static final String PROPERTY_FILE = "classpath:application.properties";
+    private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
     public static Map<String, TumorType> getTumorTypes() {
         Map<String, TumorType> tumorTypes = new HashMap<>();
@@ -36,21 +34,43 @@ public class TumorTypesUtil {
         // creates a TSV parser
         TsvParser parser = new TsvParser(settings);
 
+        Properties properties = getProperties();
+
         // parses all rows in one go.
-        List<String[]> allRows = parser.parseAll(getReader(TUMOR_TREE_FILE));
+        try {
+            List<String[]> allRows = parser.parseAll(new InputStreamReader(new FileInputStream(properties.getProperty("tumor_type_file_path"))));
 
-        TumorType tumorType = new TumorType();
-        tumorType.setCode("TISSUE");
-        tumorType.setName("Tissue");
+            TumorType tumorType = new TumorType();
+            tumorType.setCode("TISSUE");
+            tumorType.setName("Tissue");
 
-        //Iterate each row and assign tumor type to parent following the order of appearing
-        for (String[] row : allRows.subList(1, allRows.size())) {
-            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0));
+            //Iterate each row and assign tumor type to parent following the order of appearing
+            for (String[] row : allRows.subList(1, allRows.size())) {
+                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0));
+            }
+
+            //Attach a root node in the JSON file
+            tumorTypes.put("TISSUE", tumorType);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return tumorTypes;
+    }
+
+    public static Properties getProperties() {
+        Properties properties = new Properties();
+        InputStream inputStream = getInputStream(PROPERTY_FILE);
+
+        try {
+            if (inputStream != null) {
+                properties.load(inputStream);
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        //Attach a root node in the JSON file
-        tumorTypes.put("TISSUE", tumorType);
-        return tumorTypes;
+        return properties;
     }
 
     public static List<TumorType> findTumorTypes(String key, String keyword, Boolean exactMatch) {
@@ -73,7 +93,14 @@ public class TumorTypesUtil {
     }
 
     public static InputStream getTumorTypeInputStream() {
-        return getInputStream(TUMOR_TREE_FILE);
+        Properties properties = getProperties();
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(properties.getProperty("tumor_type_file_path"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
     }
 
     private static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
@@ -131,6 +158,18 @@ public class TumorTypesUtil {
                         StringUtils.containsIgnoreCase(allTumorTypes.getUMLS(), keyword);
                 }
                 break;
+            case "maintype":
+                match = allTumorTypes == null ? false :
+                    (allTumorTypes.getMainType() == null ? false :
+                        (allTumorTypes.getMainType().getName() == null ? false :
+                            allTumorTypes.getMainType().getName().equals(keyword)));
+                break;
+            case "level":
+                match = allTumorTypes == null ? false :
+                    (allTumorTypes.getLevel() == null ? false :
+                        (allTumorTypes.getLevel() == null ? false :
+                            allTumorTypes.getLevel().equals(keyword)));
+                break;
             default:
                 if (exactMatch) {
                     match = allTumorTypes.getCode() == null ? false : allTumorTypes.getCode().equalsIgnoreCase(keyword);
@@ -149,6 +188,7 @@ public class TumorTypesUtil {
             tumorType.setNCI(allTumorTypes.getNCI());
             tumorType.setMainType(allTumorTypes.getMainType());
             tumorType.setColor(allTumorTypes.getColor());
+            tumorType.setLevel(allTumorTypes.getLevel());
 
             matchedTumorTypes.add(tumorType);
         }
@@ -184,9 +224,11 @@ public class TumorTypesUtil {
                 String code = result.get("code");
                 TumorType tumorType = new TumorType();
                 if (!tumorTypes.containsKey(code)) {
-                    MainType mainType = new MainType();
-                    mainType.setName(row.length > 5 ? row[5] : "");
-
+                    MainType mainType = null;
+                    if (row.length > 5 && !row[5].isEmpty()) {
+                        mainType = MainTypesUtil.getOrCreateMainType(row[5]);
+                    }
+                    tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)).getLevel());
                     tumorType.setCode(code);
                     tumorType.setName(result.get("name"));
                     tumorType.setMainType(mainType);

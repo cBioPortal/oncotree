@@ -145,7 +145,7 @@ public class TumorTypesApi {
     @ApiOperation(value = "Tumor Types", notes = "", response = SearchTumorTypesResp.class)
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "An array of tumor types")})
-    @RequestMapping(value = "/search/{type}/query/{query}",
+    @RequestMapping(value = "/search/{type}/{query}",
         produces = {"application/json"},
         method = RequestMethod.GET)
     public ResponseEntity<SearchTumorTypesResp> tumorTypesSearchTypeQueryQueryGet(
