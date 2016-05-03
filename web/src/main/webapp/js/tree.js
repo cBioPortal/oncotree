@@ -23,6 +23,9 @@ var tree = (function () {
 
     var searchResult = [];
 
+    var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+    var is_safari = navigator.userAgent.indexOf("Safari") > -1;
+
     function UniqueTreeNodeDatum() {
         this.name = '';
         this.acronym = '';
@@ -312,8 +315,17 @@ var tree = (function () {
                 var nci_link = (typeof d.nci !== 'undefined' && d.nci != '') ? '<a class="qtip-link" href="' + nci_base_uri + d.nci + '" target="_blank">' + d.nci + '</a>' : 'Not Available';
                 
                 var umls_link = (typeof d.umls !== 'undefined' && d.umls != '') ? '<a class="qtip-link" href="' + umls_base_uri + d.umls + '" target="_blank">' + d.umls + '</a>' : 'Not Available';
-                
-                _qtipContent += '<b>Code:</b> ' + d.acronym + '<br/>';
+
+
+                _qtipContent += '<b>Code:</b> ' + d.acronym +
+                    ((is_safari && !is_chrome) ?
+                        '<button style="margin-left: 5px;" class="btn btn-default btn-xs" ' +
+                        ' disabled>Copy Code is not available in Safari</button>' :
+                        '<button style="margin-left: 5px;" class="clipboard-copy btn btn-default btn-xs" ' +
+                        'data-clipboard-text="' + d.acronym + '"  ' +
+                        '>Copy Code</button>'
+                    ) +
+                    '<br/>';
                 _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
                 _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
                 _qtipContent += '<b>NCI:</b> ' + nci_link  + '<br/>';
@@ -323,8 +335,31 @@ var tree = (function () {
                 $(this).qtip({
                     content:{text: _qtipContent},
                     style: { classes: 'qtip-light qtip-rounded qtip-shadow qtip-grey qtip-wide'},
-                    hide: {fixed:true, delay: 100},
-                    position: _position
+                    hide: {fixed: true, delay: 100},
+                    position: _position,
+                    events: {
+                        render: function(element, api) {
+                            $(api.elements.content).find('.clipboard-copy').click(function() {
+                                $(this).qtip({
+                                    content: 'Copied',
+                                    style: {classes: 'qtip-light qtip-rounded qtip-shadow qtip-grey qtip-wide'},
+                                    show: {ready: true},
+                                    position: {
+                                        my: 'bottom center',
+                                        at: 'top center',
+                                        viewport: $(window)
+                                    },
+                                    events: {
+                                        show: function(event, api) {
+                                            setTimeout(function() {
+                                                api.destroy();
+                                            }, 1000);
+                                        }
+                                    }
+                                })
+                            });
+                        }
+                    }
                 });
 
                 if (d.depth === 1) {
@@ -334,6 +369,8 @@ var tree = (function () {
                 }
             })
             .style("fill-opacity", 1e-6);
+
+        var clipboard = new Clipboard('.clipboard-copy.btn');
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
