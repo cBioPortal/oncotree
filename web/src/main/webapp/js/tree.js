@@ -176,7 +176,8 @@ var tree = (function () {
 
     function update(source) {
         var duration = d3.event && d3.event.altKey ? 5000 : 500;
-        var translateY = Number(vis.attr('transform').split(',')[1].split(')')[0]);
+        //IE translate doesnot have comma to seperate the x, y. Instead, it uses space.
+        var translateY = Number(vis.attr('transform').split(/[,\s]/)[1].split(')')[0]);
         var nodes = tree.nodes(root).reverse();
         var afterTranslateY;
         var overStep = false;
@@ -318,12 +319,14 @@ var tree = (function () {
 
 
                 _qtipContent += '<b>Code:</b> ' + d.acronym +
+
+                     //clipboard JS is not supported in Safari.
                     ((is_safari && !is_chrome) ?
                         '<button style="margin-left: 5px;" class="btn btn-default btn-xs" ' +
-                        ' disabled>Copy Code is not available in Safari</button>' :
+                        ' disabled>"Copy" is not available in Safari</button>' :
                         '<button style="margin-left: 5px;" class="clipboard-copy btn btn-default btn-xs" ' +
                         'data-clipboard-text="' + d.acronym + '"  ' +
-                        '>Copy Code</button>'
+                        '>Copy</button>'
                     ) +
                     '<br/>';
                 _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
