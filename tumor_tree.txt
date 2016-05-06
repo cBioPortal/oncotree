@@ -205,12 +205,14 @@ Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Ca
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Carcinoma	HotPink	C47847	C1707042
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Carcinoma	HotPink	C47848	C1711312
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)				Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Fibroadenoma (FA)			Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)			Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Carcinoma	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Carcinoma	HotPink
 Breast (BREAST)	Breast Sarcoma (PBS)				Breast Sarcoma	HotPink	C4670	C0349667
 Breast (BREAST)	Breast Sarcoma (PBS)	Breast Angiosarcoma (BA)			Breast Sarcoma	HotPink	C7575	C0238031
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)			Breast Sarcoma	HotPink	C7575	C0238031
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Sarcoma	HotPink	C5196	C1332533
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Sarcoma	HotPink	C5316	C1332592
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Sarcoma	HotPink	C4504	C0346154
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Malignant Peripheral Nerve Sheath Tumor (MPNST)			Nerve Sheath Tumor	Gray	C3798	C0751690
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Neurofibroma (NFIB)			Nerve Sheath Tumor	Gray	C3272	C0027830
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)			Nerve Sheath Tumor	Gray	C3269	C0027809
@@ -285,7 +287,7 @@ Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYE
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Carcinoma	DarkRed	C8021	C0279746
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Carcinoma	DarkRed	C62191	C1882971
 Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Carcinoma	DarkRed	C5904	C1301194
-Head and Neck (HEAD_NECK)	O	Salivary Gland Oncocytoma (SGO)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Gland Oncocytoma (SGO)			Salivary Carcinoma	DarkRed
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange	C4033	C0279702
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)	Renal Clear Cell Carcinoma with Sarcomatoid Features (SCCRCC)		Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
