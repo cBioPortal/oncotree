@@ -357,6 +357,7 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenocarcinoma (LUAD)			Non-Small Cell Lung Cancer	Gainsboro	C3512	C0152013
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenosquamous Carcinoma (LUAS)			Non-Small Cell Lung Cancer	Gainsboro	C9133	C0279557
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Squamous Cell Carcinoma (LUSC)			Non-Small Cell Lung Cancer	Gainsboro	C3493	C0149782
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Pleomorphic Carcinoma of the Lung (LUPC)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Poorly Differentiated Non-Small Cell Lung Cancer (NSCLCPD)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Adenoid Cystic Carcinoma of the Lung (LUACC)		Non-Small Cell Lung Cancer	Gainsboro	C5666	C1334439
