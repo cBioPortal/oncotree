@@ -180,37 +180,37 @@ CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Adenoma (PTAD)			Sellar Tumor	Gr
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Atypical Pituitary Adenoma (APTAD)			Sellar Tumor	Gray
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Carcinoma (PTCA)			Sellar Tumor	Gray	C4536	C0346300
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Spindle Cell Oncocytoma of the Adenohypophysis (SCOAH)			Sellar Tumor	Gray	C94537	C2986561
-Breast (BREAST)	Adenomyoepithelioma of the Breast (BRAME)				Breast Carcinoma	HotPink	C6899	C1510795
-Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)				Breast Carcinoma	HotPink	C2924	C0007124
-Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)	Paget Disease of the Nipple (PD)			Breast Carcinoma	HotPink	C3301	C1704323
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)				Breast Carcinoma	HotPink	C9245	C0853879
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (ACBC)			Breast Carcinoma	HotPink	C5130	C1332167
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Carcinoma	HotPink	C5175	C1335964
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Carcinoma	HotPink	C9245	C0853879
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinoma, NOS (BRCNOS)			Breast Carcinoma	HotPink
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink	C4194	C1134719
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Carcinoma	HotPink	C7950	C0279565
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Carcinoma	HotPink	C5160
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous Carcinoma (IMMC)			Breast Carcinoma	HotPink	C9131	C1334807
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Solid Papillary Carcinoma of the Breast (SPC)			Breast Carcinoma	HotPink
-Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Carcinoma	HotPink	C4001	C0278601
-Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Carcinoma	HotPink	C4018	C0279563
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Carcinoma	HotPink	C5164	C1334708
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Carcinoma	HotPink	C40358	C1519487
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenosquamous Carcinoma (MASC)		Breast Carcinoma	HotPink	C40361	C1510796
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Squamous Cell Carcinoma (MSCC)		Breast Carcinoma	HotPink	C5177	C1336079
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Carcinoma	HotPink	C47847	C1707042
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Carcinoma	HotPink	C47848	C1711312
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)				Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Fibroadenoma (FA)			Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)			Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Carcinoma	HotPink
-Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Carcinoma	HotPink
+Breast (BREAST)	Adenomyoepithelioma of the Breast (BRAME)				Breast Cancer	HotPink	C6899	C1510795
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)				Breast Cancer	HotPink	C2924	C0007124
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)	Paget Disease of the Nipple (PD)			Breast Cancer	HotPink	C3301	C1704323
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)				Breast Cancer	HotPink	C9245	C0853879
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (ACBC)			Breast Cancer	HotPink	C5130	C1332167
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Cancer	HotPink	C5175	C1335964
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Cancer	HotPink	C9245	C0853879
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinoma, NOS (BRCNOS)			Breast Cancer	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Cancer	HotPink	C4194	C1134719
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Cancer	HotPink	C7950	C0279565
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Cancer	HotPink	C5160
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous Carcinoma (IMMC)			Breast Cancer	HotPink	C9131	C1334807
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Solid Papillary Carcinoma of the Breast (SPC)			Breast Cancer	HotPink
+Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Cancer	HotPink	C4001	C0278601
+Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Cancer	HotPink	C4018	C0279563
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Cancer	HotPink	C5164	C1334708
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Cancer	HotPink	C40358	C1519487
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenosquamous Carcinoma (MASC)		Breast Cancer	HotPink	C40361	C1510796
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Squamous Cell Carcinoma (MSCC)		Breast Cancer	HotPink	C5177	C1336079
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Cancer	HotPink	C47847	C1707042
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Cancer	HotPink	C47848	C1711312
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)				Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Fibroadenoma (FA)			Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)			Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Cancer	HotPink
 Breast (BREAST)	Breast Sarcoma (PBS)				Breast Sarcoma	HotPink	C4670	C0349667
 Breast (BREAST)	Breast Sarcoma (PBS)	Breast Angiosarcoma (BA)			Breast Sarcoma	HotPink	C7575	C0238031
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Malignant Peripheral Nerve Sheath Tumor (MPNST)			Nerve Sheath Tumor	Gray	C3798	C0751690
@@ -239,55 +239,55 @@ Cervix (CERVIX)	Cervical Squamous Cell Carcinoma (CESC)				Cervical Cancer	Teal	
 Cervix (CERVIX)	Glassy Cell Carcinoma of the Cervix (CEGCC)				Cervical Cancer	Teal	C40212	C1516407
 Cervix (CERVIX)	Small Cell Carcinoma of the Cervix (SCCE)				Cervical Cancer	Teal	C7982	C0279674
 Cervix (CERVIX)	Villoglandular Adenocarcinoma of the Cervix (VGCE)				Cervical Cancer	Teal	C40208	C1516425
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Carcinoma	LightSkyBlue	C9296	C1332166
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenocarcinoma of the Gastroesophageal Junction (GEJ)			Esophagogastric Carcinoma	LightSkyBlue	C9296	C1332166
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenosquamous Carcinoma of the Stomach (STAS)			Esophagogastric Carcinoma	LightSkyBlue	C5474	C1333761
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Esophageal Adenocarcinoma (ESCA)			Esophagogastric Carcinoma	LightSkyBlue	C4025	C0279628
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Gastric Remnant Adenocarcinoma (GRC)			Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Small Cell Carcinoma of the Stomach (STSC)			Esophagogastric Carcinoma	LightSkyBlue	C6764	C1333788
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)			Esophagogastric Carcinoma	LightSkyBlue	C4004	C0278701
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Diffuse Type Stomach Adenocarcinoma (DSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C9159	C0279635
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Intestinal Type Stomach Adenocarcinoma (ISTAD)		Esophagogastric Carcinoma	LightSkyBlue	C9157	C0279633
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Mucinous Stomach Adenocarcinoma (MSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5248	C1334809
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Papillary Stomach Adenocarcinoma (PSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5472	C1333785
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Tubular Stomach Adenocarcinoma (TSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5473	C1333791
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)			Esophagogastric Carcinoma	LightSkyBlue	C5476	C1336858
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Poorly Differentiated Carcinoma of the Stomach (SPDAC)		Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Carcinoma	LightSkyBlue	C5250	C1335965
-Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Carcinoma	LightSkyBlue	C4024	C0279626
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Cancer	LightSkyBlue	C9296	C1332166
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenocarcinoma of the Gastroesophageal Junction (GEJ)			Esophagogastric Cancer	LightSkyBlue	C9296	C1332166
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenosquamous Carcinoma of the Stomach (STAS)			Esophagogastric Cancer	LightSkyBlue	C5474	C1333761
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Esophageal Adenocarcinoma (ESCA)			Esophagogastric Cancer	LightSkyBlue	C4025	C0279628
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Gastric Remnant Adenocarcinoma (GRC)			Esophagogastric Cancer	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Small Cell Carcinoma of the Stomach (STSC)			Esophagogastric Cancer	LightSkyBlue	C6764	C1333788
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)			Esophagogastric Cancer	LightSkyBlue	C4004	C0278701
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Diffuse Type Stomach Adenocarcinoma (DSTAD)		Esophagogastric Cancer	LightSkyBlue	C9159	C0279635
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Intestinal Type Stomach Adenocarcinoma (ISTAD)		Esophagogastric Cancer	LightSkyBlue	C9157	C0279633
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Mucinous Stomach Adenocarcinoma (MSTAD)		Esophagogastric Cancer	LightSkyBlue	C5248	C1334809
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Papillary Stomach Adenocarcinoma (PSTAD)		Esophagogastric Cancer	LightSkyBlue	C5472	C1333785
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Tubular Stomach Adenocarcinoma (TSTAD)		Esophagogastric Cancer	LightSkyBlue	C5473	C1333791
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)			Esophagogastric Cancer	LightSkyBlue	C5476	C1336858
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Poorly Differentiated Carcinoma of the Stomach (SPDAC)		Esophagogastric Cancer	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Cancer	LightSkyBlue	C5250	C1335965
+Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Cancer	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Cancer	LightSkyBlue	C4024	C0279626
 Esophagus/Stomach (STOMACH)	Mucosal Melanoma of the Esophagus (ESMM)				Melanoma	LightSkyBlue	C5707	C1333460
 Eye (EYE)	Retinoblastoma (RBL)				Retinoblastoma	Green	C7541	C0035335
 Eye (EYE)	Ocular Melanoma (OM)				Melanoma	Green	C8562	C0558356
 Eye (EYE)	Ocular Melanoma (OM)	Uveal Melanoma (UM)			Melanoma	Green	C7712	C0220633
 Eye (EYE)	Ocular Melanoma (OM)	Conjunctival Melanoma (CM)			Melanoma	Green	C4550	C0346360
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Neck Carcinoma	DarkRed	C35850
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Epithelial-Myoepithelial Carcinoma (EMYOCA)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	NUT Midline Carcinoma of the Head and Neck (NMCHN)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Carcinoma	DarkRed	C4812	C0334558
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Carcinoma	DarkRed	C54300	C0475829
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Adenocarcinoma (SNA)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Undifferentiated Carcinoma (SNUC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Neck Cancer	DarkRed	C35850
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Epithelial-Myoepithelial Carcinoma (EMYOCA)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	NUT Midline Carcinoma of the Head and Neck (NMCHN)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Cancer	DarkRed	C4812	C0334558
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Cancer	DarkRed	C54300	C0475829
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Adenocarcinoma (SNA)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Undifferentiated Carcinoma (SNUC)			Head and Neck Cancer	DarkRed
 Head and Neck (HEAD_NECK)	Head and Neck Mucosal Melanoma (HNMUCM)				Melanoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Carcinoma	DarkRed	C34447	C1168401
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Carcinoma	DarkRed	C4043	C0280321
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oral Cavity Squamous Cell Carcinoma (OCSC)			Head and Neck Carcinoma	DarkRed	C4833	C0585362
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharynx Squamous Cell Carcinoma (OPHSC)			Head and Neck Carcinoma	DarkRed	C8181	C0280313
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Carcinoma	DarkRed	C4044	C0280324
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Carcinoma	DarkRed	C68611	C0280332
-Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Carcinoma	DarkRed	C3871	C2931822
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Carcinoma	DarkRed	C9272	C0948750
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Carcinoma	DarkRed	C3768	C0206685
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Carcinoma	DarkRed	C2970	C0010606
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (HNMASC)			Salivary Carcinoma	DarkRed	C123384
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Carcinoma	DarkRed	C3772	C0206694
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Carcinoma	DarkRed	C7596	C0334699
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Carcinoma	DarkRed	C8021	C0279746
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Carcinoma	DarkRed	C62191	C1882971
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Carcinoma	DarkRed	C5904	C1301194
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Gland Oncocytoma (SGO)			Salivary Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Cancer	DarkRed	C34447	C1168401
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Cancer	DarkRed	C4043	C0280321
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oral Cavity Squamous Cell Carcinoma (OCSC)			Head and Neck Cancer	DarkRed	C4833	C0585362
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharynx Squamous Cell Carcinoma (OPHSC)			Head and Neck Cancer	DarkRed	C8181	C0280313
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Cancer	DarkRed	C4044	C0280324
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Cancer	DarkRed	C68611	C0280332
+Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Cancer	DarkRed	C3871	C2931822
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Gland Cancer	DarkRed	C9272	C0948750
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Gland Cancer	DarkRed	C3768	C0206685
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Gland Cancer	DarkRed	C2970	C0010606
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (HNMASC)			Salivary Gland Cancer	DarkRed	C123384
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Gland Cancer	DarkRed	C3772	C0206694
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Gland Cancer	DarkRed	C7596	C0334699
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Gland Cancer	DarkRed	C8021	C0279746
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Gland Cancer	DarkRed	C62191	C1882971
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Gland Cancer	DarkRed	C5904	C1301194
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Gland Oncocytoma (SGO)			Salivary Gland Cancer	DarkRed
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange	C4033	C0279702
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)	Renal Clear Cell Carcinoma with Sarcomatoid Features (SCCRCC)		Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
