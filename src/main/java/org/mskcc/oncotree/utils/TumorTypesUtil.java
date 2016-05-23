@@ -82,6 +82,18 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
+    public static List<TumorType> filterTumorTypesByLevel(List<TumorType> tumorTypes, List<Level> levels) {
+        List<TumorType> filtered = new ArrayList<>();
+        if (tumorTypes != null && levels != null) {
+            for (TumorType tumorType : tumorTypes) {
+                if (levels.contains(tumorType.getLevel())) {
+                    filtered.add(tumorType);
+                }
+            }
+        }
+        return filtered;
+    }
+
     public static List<TumorType> findTumorTypes(TumorTypeQuery query) {
         List<TumorType> tumorTypes = new ArrayList<>();
         String key = normalizeTumorTypeKey(query.getType());
@@ -228,7 +240,7 @@ public class TumorTypesUtil {
                     if (row.length > 5 && !row[5].isEmpty()) {
                         mainType = MainTypesUtil.getOrCreateMainType(row[5]);
                     }
-                    tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)).getLevel());
+                    tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)));
                     tumorType.setCode(code);
                     tumorType.setName(result.get("name"));
                     tumorType.setMainType(mainType);

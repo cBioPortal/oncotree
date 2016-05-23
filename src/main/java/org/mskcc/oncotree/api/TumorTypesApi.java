@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -76,7 +78,6 @@ public class TumorTypesApi {
         @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
         @RequestParam(value = "callback", required = false) String callback)
         throws NotFoundException {
-        // do some magic!
         InlineResponse200 response200 = new InlineResponse200();
         Meta meta = new Meta();
         meta.setCode(200);
@@ -149,12 +150,14 @@ public class TumorTypesApi {
         produces = {"application/json"},
         method = RequestMethod.GET)
     public ResponseEntity<SearchTumorTypesResp> tumorTypesSearchTypeQueryQueryGet(
-        @ApiParam(value = "Query type. It could be 'id', 'code', 'name', 'mainType', 'nci', 'umls' or 'color'. You can also use 'all' to search all content.", required = true)
+        @ApiParam(value = "Query type. It could be 'id', 'code', 'name', 'mainType', 'level', 'nci', 'umls' or 'color'. You can also use 'all' to search all content.", required = true)
         @PathVariable("type") String type,
         @ApiParam(value = "The query content", required = true)
         @PathVariable("query") String query,
         @ApiParam(value = "If it sets to true, it will only return one element array.", defaultValue = "true")
         @RequestParam(value = "exactMatch", required = false, defaultValue = "true") Boolean exactMatch,
+        @ApiParam(value = "Tumor type levels. 1-5. By default, it includes all.", defaultValue = "1,2,3,4,5")
+        @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels,
         @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
         @RequestParam(value = "callback", required = false) String callback
     )
@@ -162,6 +165,17 @@ public class TumorTypesApi {
         List<TumorType> matchedTumorTypes = TumorTypesUtil.findTumorTypes(type, query, exactMatch);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
         
+        if(type.toLowerCase() != "level" && levels != null) {
+            List<String> ls = Arrays.asList(levels.split(","));
+            List<Level> levelList = new ArrayList<>();
+            for(String l : ls) {
+                Level level = Level.getByLevel(l.trim());
+                if(level != null) {
+                    levelList.add(level);   
+                }
+            }
+            matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
+        }
         Meta meta = new Meta();
         meta.setCode(200);
         resp.setMeta(meta);
