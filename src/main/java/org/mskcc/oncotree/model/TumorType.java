@@ -24,7 +24,7 @@ public class TumorType {
     private Boolean deprecated = false;
     private List<History> history = new ArrayList<History>();
     private Links links = null;
-    private String level = null;
+    private Level level = null;
 
 
     /**
@@ -209,11 +209,11 @@ public class TumorType {
      **/
     @ApiModelProperty(value = "")
     @JsonProperty("level")
-    public String getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 
