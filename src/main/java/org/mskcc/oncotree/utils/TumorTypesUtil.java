@@ -3,15 +3,14 @@ package org.mskcc.oncotree.utils;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
-import org.mskcc.oncotree.model.Level;
-import org.mskcc.oncotree.model.MainType;
-import org.mskcc.oncotree.model.TumorType;
-import org.mskcc.oncotree.model.TumorTypeQuery;
+import org.mskcc.oncotree.model.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
+import java.net.URL;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,38 +24,28 @@ public class TumorTypesUtil {
 
     public static Map<String, TumorType> getTumorTypes() {
         Map<String, TumorType> tumorTypes = new HashMap<>();
-        TsvParserSettings settings = new TsvParserSettings();
-
-        //the line separator sequence is defined here to ensure systems such as MacOS and Windows
-        //are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
-        settings.getFormat().setLineSeparator("\n");
-
-        // creates a TSV parser
-        TsvParser parser = new TsvParser(settings);
-
         Properties properties = getProperties();
-
-        // parses all rows in one go.
         try {
-            List<String[]> allRows = parser.parseAll(new InputStreamReader(new FileInputStream(properties.getProperty("tumor_type_file_path"))));
-
-            TumorType tumorType = new TumorType();
-            tumorType.setCode("TISSUE");
-            tumorType.setName("Tissue");
-
-            //Iterate each row and assign tumor type to parent following the order of appearing
-            for (String[] row : allRows.subList(1, allRows.size())) {
-                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0));
-            }
-
-            //Attach a root node in the JSON file
-            tumorTypes.put("TISSUE", tumorType);
+            tumorTypes = parseFromRaw(new FileInputStream(properties.getProperty("tumor_type_file_path")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return tumorTypes;
     }
-
+    
+    public static Map<String, TumorType> getTumorTypesByVersion(Version version) {
+        Map<String, TumorType> tumorTypes = new HashMap<>();
+        if(version != null && version.getCommitId() != null) {
+            try {
+                URL url = new URL("https://raw.githubusercontent.com/cBioPortal/oncotree/"+version.getCommitId()+"/tumor_tree.txt");
+                tumorTypes = parseFromRaw(url.openStream());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return tumorTypes;
+    }
+    
     public static Properties getProperties() {
         Properties properties = new Properties();
         InputStream inputStream = getInputStream(PROPERTY_FILE);
@@ -115,6 +104,35 @@ public class TumorTypesUtil {
         return inputStream;
     }
 
+    private static Map<String, TumorType> parseFromRaw(InputStream inputStream) {
+        TsvParserSettings settings = new TsvParserSettings();
+
+        //the line separator sequence is defined here to ensure systems such as MacOS and Windows
+        //are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
+        settings.getFormat().setLineSeparator("\n");
+
+        // creates a TSV parser
+        TsvParser parser = new TsvParser(settings);
+        
+        Map<String, TumorType> tumorTypes = new HashMap<>();
+        
+        List<String[]> allRows = parser.parseAll(inputStream);
+
+        TumorType tumorType = new TumorType();
+        tumorType.setCode("TISSUE");
+        tumorType.setName("Tissue");
+
+        //Iterate each row and assign tumor type to parent following the order of appearing
+        for (String[] row : allRows.subList(1, allRows.size())) {
+            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0));
+        }
+
+        //Attach a root node in the JSON file
+        tumorTypes.put("TISSUE", tumorType);
+        
+        return tumorTypes;
+    }
+    
     private static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
                                                  String key, String keyword, Boolean exactMatch) {
         Map<String, TumorType> childrenTumorTypes = allTumorTypes.getChildren();
