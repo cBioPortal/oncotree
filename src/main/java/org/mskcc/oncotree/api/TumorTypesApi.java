@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.mskcc.oncotree.model.*;
 import org.mskcc.oncotree.utils.CacheUtil;
 import org.mskcc.oncotree.utils.TumorTypesUtil;
+import org.mskcc.oncotree.utils.VersionUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -22,7 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Api(value = "/tumorTypes", description = "the tumorTypes API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorTypesApi {
-    
+
     @ApiOperation(value = "Create a tumor type", notes = "", response = CreateTumorTypeResp.class)
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 201, message = "Created and return the numerical id for newly created tumor type")})
@@ -73,6 +75,8 @@ public class TumorTypesApi {
         produces = {"application/json"},
         method = RequestMethod.GET)
     public ResponseEntity<InlineResponse200> tumorTypesGet(
+        @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
+        @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "Indicator that whether should include deprecated tumor types.", defaultValue = "false")
         @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated,
         @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
@@ -82,7 +86,12 @@ public class TumorTypesApi {
         Meta meta = new Meta();
         meta.setCode(200);
         response200.setMeta(meta);
-        response200.setData(CacheUtil.getTumorTypes());
+        if (version != null) {
+            Version v = VersionUtil.getVersion(version);
+            response200.setData(v != null ? CacheUtil.getTumorTypesByVersion(v) : new HashMap<>());
+        } else {
+            response200.setData(CacheUtil.getTumorTypesByVersion(VersionUtil.getVersion("realtime")));
+        }
         return new ResponseEntity<InlineResponse200>(response200, HttpStatus.OK);
     }
 
@@ -154,6 +163,8 @@ public class TumorTypesApi {
         @PathVariable("type") String type,
         @ApiParam(value = "The query content", required = true)
         @PathVariable("query") String query,
+        @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
+        @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "If it sets to true, it will only return one element array.", defaultValue = "true")
         @RequestParam(value = "exactMatch", required = false, defaultValue = "true") Boolean exactMatch,
         @ApiParam(value = "Tumor type levels. 1-5. By default, it includes all.", defaultValue = "1,2,3,4,5")
@@ -162,16 +173,22 @@ public class TumorTypesApi {
         @RequestParam(value = "callback", required = false) String callback
     )
         throws NotFoundException {
-        List<TumorType> matchedTumorTypes = TumorTypesUtil.findTumorTypes(type, query, exactMatch);
+        List<TumorType> matchedTumorTypes = new ArrayList<>();
+        if (version != null) {
+            Version v = VersionUtil.getVersion(version);
+            matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
+        } else {
+            matchedTumorTypes = TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, VersionUtil.getVersion("realtime"));
+        }
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
-        
-        if(type.toLowerCase() != "level" && levels != null) {
+
+        if (type.toLowerCase() != "level" && levels != null) {
             List<String> ls = Arrays.asList(levels.split(","));
             List<Level> levelList = new ArrayList<>();
-            for(String l : ls) {
+            for (String l : ls) {
                 Level level = Level.getByLevel(l.trim());
-                if(level != null) {
-                    levelList.add(level);   
+                if (level != null) {
+                    levelList.add(level);
                 }
             }
             matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
@@ -179,9 +196,9 @@ public class TumorTypesApi {
         Meta meta = new Meta();
         meta.setCode(200);
         resp.setMeta(meta);
-        
+
         resp.setData(matchedTumorTypes);
-        
+
         return new ResponseEntity<SearchTumorTypesResp>(resp, HttpStatus.OK);
     }
 

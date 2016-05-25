@@ -3,14 +3,16 @@ package org.mskcc.oncotree.utils;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
-import org.mskcc.oncotree.model.*;
+import org.mskcc.oncotree.model.Level;
+import org.mskcc.oncotree.model.MainType;
+import org.mskcc.oncotree.model.TumorType;
+import org.mskcc.oncotree.model.Version;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
-import java.net.URL;
 import java.io.*;
-import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,26 +28,28 @@ public class TumorTypesUtil {
         Map<String, TumorType> tumorTypes = new HashMap<>();
         Properties properties = getProperties();
         try {
-            tumorTypes = parseFromRaw(new FileInputStream(properties.getProperty("tumor_type_file_path")));
+            Version version = VersionUtil.getVersion("realtime");
+            CacheUtil.resetMainTypesByVersion(version);
+
+            tumorTypes = parseFromRaw(new FileInputStream(properties.getProperty("tumor_type_file_path")), version);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return tumorTypes;
     }
-    
-    public static Map<String, TumorType> getTumorTypesByVersion(Version version) {
+
+    public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) {
         Map<String, TumorType> tumorTypes = new HashMap<>();
-        if(version != null && version.getCommitId() != null) {
-            try {
-                URL url = new URL("https://raw.githubusercontent.com/cBioPortal/oncotree/"+version.getCommitId()+"/tumor_tree.txt");
-                tumorTypes = parseFromRaw(url.openStream());
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (version != null && version.getCommitId() != null) {
+            if (version.getVersion() == "realtime") {
+                tumorTypes = getTumorTypes();
+            } else {
+                tumorTypes = parseFromRaw(getTumorTypeInputStreamFromGitHub(version), version);
             }
         }
         return tumorTypes;
     }
-    
+
     public static Properties getProperties() {
         Properties properties = new Properties();
         InputStream inputStream = getInputStream(PROPERTY_FILE);
@@ -62,11 +66,11 @@ public class TumorTypesUtil {
         return properties;
     }
 
-    public static List<TumorType> findTumorTypes(String key, String keyword, Boolean exactMatch) {
+    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version) {
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
         if (TumorTypeKeys.contains(key)) {
-            tumorTypes = findTumorType(CacheUtil.getTumorTypes().get("TISSUE"), tumorTypes, key, keyword, exactMatch);
+            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"), tumorTypes, key, keyword, exactMatch);
         }
         return tumorTypes;
     }
@@ -83,16 +87,6 @@ public class TumorTypesUtil {
         return filtered;
     }
 
-    public static List<TumorType> findTumorTypes(TumorTypeQuery query) {
-        List<TumorType> tumorTypes = new ArrayList<>();
-        String key = normalizeTumorTypeKey(query.getType());
-        if (TumorTypeKeys.contains(key)) {
-            tumorTypes = findTumorType(
-                CacheUtil.getTumorTypes().get("TISSUE"), tumorTypes, key, query.getQuery(), query.getExactMatch());
-        }
-        return tumorTypes;
-    }
-
     public static InputStream getTumorTypeInputStream() {
         Properties properties = getProperties();
         InputStream inputStream = null;
@@ -104,7 +98,25 @@ public class TumorTypesUtil {
         return inputStream;
     }
 
-    private static Map<String, TumorType> parseFromRaw(InputStream inputStream) {
+    public static InputStream getTumorTypeInputStreamByVersion(Version version) {
+        if (version.getVersion() == "realtime") {
+            return getTumorTypeInputStream();
+        } else {
+            return getTumorTypeInputStreamFromGitHub(version);
+        }
+    }
+
+    public static InputStream getTumorTypeInputStreamFromGitHub(Version version) {
+        try {
+            URL url = new URL("https://raw.githubusercontent.com/cBioPortal/oncotree/" + version.getCommitId() + "/tumor_tree.txt");
+            return url.openStream();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Map<String, TumorType> parseFromRaw(InputStream inputStream, Version version) {
         TsvParserSettings settings = new TsvParserSettings();
 
         //the line separator sequence is defined here to ensure systems such as MacOS and Windows
@@ -113,9 +125,9 @@ public class TumorTypesUtil {
 
         // creates a TSV parser
         TsvParser parser = new TsvParser(settings);
-        
+
         Map<String, TumorType> tumorTypes = new HashMap<>();
-        
+
         List<String[]> allRows = parser.parseAll(inputStream);
 
         TumorType tumorType = new TumorType();
@@ -124,15 +136,15 @@ public class TumorTypesUtil {
 
         //Iterate each row and assign tumor type to parent following the order of appearing
         for (String[] row : allRows.subList(1, allRows.size())) {
-            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0));
+            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0, version));
         }
 
         //Attach a root node in the JSON file
         tumorTypes.put("TISSUE", tumorType);
-        
+
         return tumorTypes;
     }
-    
+
     private static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
                                                  String key, String keyword, Boolean exactMatch) {
         Map<String, TumorType> childrenTumorTypes = allTumorTypes.getChildren();
@@ -247,7 +259,7 @@ public class TumorTypesUtil {
      * @param index      Current index of row. It will be increased everytime this function has been called.
      * @return parent node.
      */
-    private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index) {
+    private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index, Version version) {
         if (index < 5 && row.length > index && row[index] != null && !row[index].isEmpty()) {
             Map<String, String> result = parseCodeName(row[index]);
             if (result.containsKey("code")) {
@@ -256,7 +268,7 @@ public class TumorTypesUtil {
                 if (!tumorTypes.containsKey(code)) {
                     MainType mainType = null;
                     if (row.length > 5 && !row[5].isEmpty()) {
-                        mainType = MainTypesUtil.getOrCreateMainType(row[5]);
+                        mainType = MainTypesUtil.getOrCreateMainType(row[5], version);
                     }
                     tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)));
                     tumorType.setCode(code);
@@ -268,7 +280,7 @@ public class TumorTypesUtil {
                 } else {
                     tumorType = tumorTypes.get(code);
                 }
-                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, ++index));
+                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, ++index, version));
                 tumorTypes.put(code, tumorType);
             }
         }
