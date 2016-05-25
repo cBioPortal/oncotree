@@ -142,13 +142,40 @@ public class TumorTypesApi {
     @RequestMapping(value = "/search",
         produces = {"application/json"},
         method = RequestMethod.POST)
-    public ResponseEntity<SearchTumorTypesResp> tumorTypesSearchPost(
+    public ResponseEntity<SearchTumorTypesPostResp> tumorTypesSearchPost(
 
-        @ApiParam(value = "queries", required = true) @RequestBody List<TumorTypeQueries> queries
+        @ApiParam(value = "queries", required = true) @RequestBody TumorTypeQueries queries
     )
         throws NotFoundException {
-        // do some magic!
-        return new ResponseEntity<SearchTumorTypesResp>(HttpStatus.OK);
+        SearchTumorTypesPostResp resp = new SearchTumorTypesPostResp();
+        resp.setMeta(new Meta() {{
+            setCode(200);
+        }});
+
+        Version v = queries.getVersion() != null ? VersionUtil.getVersion(queries.getVersion()) : VersionUtil.getVersion("realtime");
+        List<List<TumorType>> tumorTypes = new ArrayList<>();
+
+        for (TumorTypeQuery query : queries.getQueries()) {
+            List<TumorType> matchedTumorTypes = new ArrayList<>();
+            CacheUtil.getOrResetTumorTypesByVersion(v);
+            matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v);
+            String levels = "2,3,4,5";
+            if (query.getType().toLowerCase() != "level" && levels != null) {
+                List<String> ls = Arrays.asList(levels.split(","));
+                List<Level> levelList = new ArrayList<>();
+                for (String l : ls) {
+                    Level level = Level.getByLevel(l.trim());
+                    if (level != null) {
+                        levelList.add(level);
+                    }
+                }
+                matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
+            }
+            tumorTypes.add(matchedTumorTypes);
+        }
+
+        resp.setData(tumorTypes);
+        return new ResponseEntity<SearchTumorTypesPostResp>(resp, HttpStatus.OK);
     }
 
 
@@ -167,7 +194,7 @@ public class TumorTypesApi {
         @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "If it sets to true, it will only return one element array.", defaultValue = "true")
         @RequestParam(value = "exactMatch", required = false, defaultValue = "true") Boolean exactMatch,
-        @ApiParam(value = "Tumor type levels. 1-5. By default, it includes all.", defaultValue = "1,2,3,4,5")
+        @ApiParam(value = "Tumor type levels. 1-5. By default, it doesn't includes tissue which is the primary level.", defaultValue = "2,3,4,5")
         @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels,
         @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
         @RequestParam(value = "callback", required = false) String callback
