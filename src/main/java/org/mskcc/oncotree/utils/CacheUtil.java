@@ -20,7 +20,7 @@ public class CacheUtil {
         if (tumorTypes.containsKey(version)) {
             tumorTypes.get(version).clear();
         } else {
-            tumorTypes.put(version, new HashMap<>());
+            tumorTypes.put(version, new HashMap<String, TumorType>());
         }
     }
 
@@ -48,7 +48,7 @@ public class CacheUtil {
         if (mainTypes.containsKey(version)) {
             return mainTypes.get(version);
         } else {
-            mainTypes.put(version, new ArrayList<>());
+            mainTypes.put(version, new ArrayList<MainType>());
             Map<String, TumorType> tumorTypeMap = TumorTypesUtil.getTumorTypesByVersionFromRaw(version);
             return mainTypes.get(version);
         }
@@ -56,7 +56,7 @@ public class CacheUtil {
 
     public static void addMainTypeByVersion(Version version, MainType mainType) {
         if (!mainTypes.containsKey(version)) {
-            mainTypes.put(version, new ArrayList<>());
+            mainTypes.put(version, new ArrayList<MainType>());
         }
         mainTypes.get(version).add(mainType);
     }
@@ -65,7 +65,7 @@ public class CacheUtil {
         if (mainTypes.containsKey(version)) {
             mainTypes.get(version).clear();
         } else {
-            mainTypes.put(version, new ArrayList<>());
+            mainTypes.put(version, new ArrayList<MainType>());
         }
     }
 
