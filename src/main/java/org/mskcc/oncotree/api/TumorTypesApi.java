@@ -88,9 +88,9 @@ public class TumorTypesApi {
         response200.setMeta(meta);
         if (version != null) {
             Version v = VersionUtil.getVersion(version);
-            response200.setData(v != null ? CacheUtil.getTumorTypesByVersion(v) : new HashMap<>());
+            response200.setData(v != null ? CacheUtil.getOrResetTumorTypesByVersion(v) : new HashMap<>());
         } else {
-            response200.setData(CacheUtil.getTumorTypesByVersion(VersionUtil.getVersion("realtime")));
+            response200.setData(CacheUtil.getOrResetTumorTypesByVersion(VersionUtil.getVersion("realtime")));
         }
         return new ResponseEntity<InlineResponse200>(response200, HttpStatus.OK);
     }
@@ -174,12 +174,9 @@ public class TumorTypesApi {
     )
         throws NotFoundException {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
-        if (version != null) {
-            Version v = VersionUtil.getVersion(version);
-            matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
-        } else {
-            matchedTumorTypes = TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, VersionUtil.getVersion("realtime"));
-        }
+        Version v = version != null ? VersionUtil.getVersion(version) : VersionUtil.getVersion("realtime");
+        CacheUtil.getOrResetTumorTypesByVersion(v);
+        matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
 
         if (type.toLowerCase() != "level" && levels != null) {

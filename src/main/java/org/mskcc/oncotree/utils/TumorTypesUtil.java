@@ -201,10 +201,17 @@ public class TumorTypesUtil {
                 }
                 break;
             case "maintype":
-                match = allTumorTypes == null ? false :
-                    (allTumorTypes.getMainType() == null ? false :
-                        (allTumorTypes.getMainType().getName() == null ? false :
-                            allTumorTypes.getMainType().getName().equals(keyword)));
+                if (exactMatch) {
+                    match = allTumorTypes == null ? false :
+                        (allTumorTypes.getMainType() == null ? false :
+                            (allTumorTypes.getMainType().getName() == null ? false :
+                                allTumorTypes.getMainType().getName().equals(keyword)));
+                }else {
+                    match = allTumorTypes == null ? false :
+                        (allTumorTypes.getMainType() == null ? false :
+                            (allTumorTypes.getMainType().getName() == null ? false :
+                                StringUtils.containsIgnoreCase(allTumorTypes.getMainType().getName(), keyword)));
+                }
                 break;
             case "level":
                 match = allTumorTypes == null ? false :

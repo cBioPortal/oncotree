@@ -16,6 +16,25 @@ public class CacheUtil {
     public static Map<Version, List<MainType>> mainTypes = new HashMap<>();
     public static Map<Version, Map<String, TumorType>> tumorTypes = new HashMap<>();
 
+    public static void resetTumorTypesByVersion(Version version) {
+        if (tumorTypes.containsKey(version)) {
+            tumorTypes.get(version).clear();
+        } else {
+            tumorTypes.put(version, new HashMap<>());
+        }
+    }
+
+    public static Map<String, TumorType> getOrResetTumorTypesByVersion(Version version) {
+        if(version != null) {
+            if(version.getVersion() == "realtime") {
+                tumorTypes.remove(version);
+            }
+            return getTumorTypesByVersion(version);
+        }else {
+            return new HashMap<>();
+        }
+    }
+
     public static Map<String, TumorType> getTumorTypesByVersion(Version version) {
         if (tumorTypes.containsKey(version)) {
             return tumorTypes.get(version);
