@@ -2,14 +2,17 @@ package org.mskcc.oncotree.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiParam;
+import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.utils.TumorTypesUtil;
+import org.mskcc.oncotree.utils.VersionUtil;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.InputStream;
 
@@ -24,12 +27,21 @@ public class TumorTypesTxtApi {
 
     @ApiOperation(value = "Tumor Types in plain text format.", notes = "Return all available tumor types.", response = Void.class)
     @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Tumor types text file.") })
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Tumor types text file.")})
     @RequestMapping(value = "",
-        produces = { "text/plain" },
+        produces = {"text/plain"},
         method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> tumorTypesTxtGet() {
-        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream();
+    public ResponseEntity<InputStreamResource> tumorTypesTxtGet(
+        @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions.")
+        @RequestParam(value = "version", required = false) String version
+    ) {
+        Version v = VersionUtil.getVersion(version);
+        
+        if(v == null) {
+            v = VersionUtil.getVersion("realtime");
+        }
+        
+        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStreamByVersion(v);
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         return new ResponseEntity<>(inputStreamResource, HttpStatus.OK);
     }

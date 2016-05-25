@@ -1,38 +1,65 @@
 package org.mskcc.oncotree.utils;
 
+import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Hongxin on 2/25/16.
  */
 public class CacheUtil {
+    public static Map<Version, List<MainType>> mainTypes = new HashMap<>();
     public static Map<Version, Map<String, TumorType>> tumorTypes = new HashMap<>();
 
-    /**
-     * Get most up to date tumor types
-     *
-     * @return the tumor types
-     */
-    public static Map<String, TumorType> getTumorTypes() {
-        return TumorTypesUtil.getTumorTypes();
-    }
-
-
-    public static Map<String, TumorType> getTumorTypesByVersion(String v) {
-        if (VersionUtil.hasVersion(v)) {
-            Version version = VersionUtil.getVersion(v);
-            if (tumorTypes.containsKey(v)) {
-                return tumorTypes.get(v);
-            } else {
-                tumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersion(version));
-                return tumorTypes.get(version);
-            }
+    public static Map<String, TumorType> getTumorTypesByVersion(Version version) {
+        if (tumorTypes.containsKey(version)) {
+            return tumorTypes.get(version);
         } else {
-            return null;
+            tumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
+            return tumorTypes.get(version);
         }
     }
+
+    public static List<MainType> getMainTypesByVersion(Version version) {
+        if (mainTypes.containsKey(version)) {
+            return mainTypes.get(version);
+        } else {
+            mainTypes.put(version, new ArrayList<>());
+            Map<String, TumorType> tumorTypeMap = TumorTypesUtil.getTumorTypesByVersionFromRaw(version);
+            return mainTypes.get(version);
+        }
+    }
+
+    public static void addMainTypeByVersion(Version version, MainType mainType) {
+        if (!mainTypes.containsKey(version)) {
+            mainTypes.put(version, new ArrayList<>());
+        }
+        mainTypes.get(version).add(mainType);
+    }
+
+    public static void resetMainTypesByVersion(Version version) {
+        if (mainTypes.containsKey(version)) {
+            mainTypes.get(version).clear();
+        } else {
+            mainTypes.put(version, new ArrayList<>());
+        }
+    }
+
+    public static MainType getMainTypeByVersion(Version version, Integer id) {
+        List<MainType> selectedMainTypes = mainTypes.get(version);
+        if (selectedMainTypes != null) {
+            for (MainType mainType : selectedMainTypes) {
+                if (mainType.getId().equals(id)) {
+                    return mainType;
+                }
+            }
+        }
+        return null;
+    }
+
 }
