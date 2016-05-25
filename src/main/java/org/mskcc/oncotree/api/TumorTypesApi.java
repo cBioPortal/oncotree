@@ -158,7 +158,7 @@ public class TumorTypesApi {
         for (TumorTypeQuery query : queries.getQueries()) {
             List<TumorType> matchedTumorTypes = new ArrayList<>();
             CacheUtil.getOrResetTumorTypesByVersion(v);
-            matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v);
+            matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v);
             String levels = "2,3,4,5";
             if (query.getType().toLowerCase() != "level" && levels != null) {
                 List<String> ls = Arrays.asList(levels.split(","));
@@ -203,7 +203,7 @@ public class TumorTypesApi {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
         Version v = version != null ? VersionUtil.getVersion(version) : VersionUtil.getVersion("realtime");
         CacheUtil.getOrResetTumorTypesByVersion(v);
-        matchedTumorTypes = v == null ? new ArrayList<>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
+        matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
 
         if (type.toLowerCase() != "level" && levels != null) {

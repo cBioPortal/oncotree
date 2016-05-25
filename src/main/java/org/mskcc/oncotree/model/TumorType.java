@@ -19,7 +19,7 @@ public class TumorType {
     private String NCI = null;
     private String UMLS = null;
     private String tissue = null;
-    private Map<String, TumorType> children = new HashMap<>();
+    private Map<String, TumorType> children = new HashMap<String, TumorType>();
     private TumorType parent = null;
     private Boolean deprecated = false;
     private List<History> history = new ArrayList<History>();
@@ -147,7 +147,7 @@ public class TumorType {
         return children;
     }
 
-    public void setChildren(Map children) {
+    public void setChildren(Map<String, TumorType> children) {
         this.children = children;
     }
 
