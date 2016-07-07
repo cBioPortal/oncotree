@@ -399,7 +399,7 @@ Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)		
 Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	LightBlue	C6379	C1336945
 Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	LightBlue	C39985	C1518716
 Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	LightBlue	C3070	C0018206
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Malignant Fibrothecoma (MFT)			Sex Cord Stromal Tumor	LightBlue	C3498	C0149951
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Fibrothecoma (FT)			Sex Cord Stromal Tumor	LightBlue	C3498	C0149951
 Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	LightBlue	C2880	C0003810
 Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	LightBlue	C39979	C1518740
 Pancreas (PANCREAS)	Acinar Cell Carcinoma of the Pancreas (PAAC)				Pancreatic Cancer	Purple	C7977	C0279661
