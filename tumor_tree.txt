@@ -572,6 +572,7 @@ Vulva/Vagina (VULVA)	Mucosal Melanoma of the Vulva/Vagina (VMM)				Melanoma	Purp
 Vulva/Vagina (VULVA)	Squamous Cell Carcinoma of the Vulva/Vagina (VSC)				Vaginal Cancer	Purple	C7736	C0238518
 Vulva/Vagina (VULVA)	Vaginal Adenocarcinoma (VA)				Vaginal Cancer	Purple
 Vulva/Vagina (VULVA)	Poorly Differentiated Vaginal Carcinoma (VPDC)				Vaginal Cancer	Purple
+Other (OTHER)	Adenocarcinoma In Situ (AIS)				Adenocarcinoma In Situ	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)				Cancer of Unknown Primary	Black	C3812	C0220647
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Acinar Cell Carcinoma, NOS (ACN)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black
