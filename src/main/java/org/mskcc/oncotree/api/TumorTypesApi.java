@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -77,6 +74,8 @@ public class TumorTypesApi {
     public ResponseEntity<InlineResponse200> tumorTypesGet(
         @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
         @RequestParam(value = "version", required = false) String version,
+        @ApiParam(value = "The flat list of tumor types", defaultValue = "false")
+        @RequestParam(value = "falt", required = false) Boolean flat,
         @ApiParam(value = "Indicator that whether should include deprecated tumor types.", defaultValue = "false")
         @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated,
         @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
@@ -86,11 +85,19 @@ public class TumorTypesApi {
         Meta meta = new Meta();
         meta.setCode(200);
         response200.setMeta(meta);
+
+        Map<String, TumorType> tumorTypes = new HashMap<>();
+        
         if (version != null) {
             Version v = VersionUtil.getVersion(version);
-            response200.setData(v != null ? CacheUtil.getOrResetTumorTypesByVersion(v) : new HashMap<>());
+            tumorTypes = v != null ? CacheUtil.getOrResetTumorTypesByVersion(v) : tumorTypes;
         } else {
-            response200.setData(CacheUtil.getOrResetTumorTypesByVersion(VersionUtil.getVersion("realtime")));
+            tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(VersionUtil.getVersion("realtime"));
+        }
+        if(flat) {
+            response200.setData(TumorTypesUtil.flattenTumorTypes(tumorTypes));
+        }else {
+            response200.setData(tumorTypes);
         }
         return new ResponseEntity<InlineResponse200>(response200, HttpStatus.OK);
     }

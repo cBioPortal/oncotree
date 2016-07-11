@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -114,6 +115,24 @@ public class TumorTypesUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes) {
+        Set<TumorType> tumorTypes = new HashSet<>();
+
+        Iterator it = nestedTumorTypes.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, TumorType> pair = (Map.Entry)it.next();
+            TumorType tumorType = pair.getValue();
+
+            if(tumorType.getChildren() != null && tumorType.getChildren().size() > 0) {
+                tumorTypes.addAll(flattenTumorTypes(tumorType.getChildren()));
+            }
+            tumorType.setChildren(null);
+            tumorTypes.add(tumorType);
+        }
+
+        return tumorTypes;
     }
 
     private static Map<String, TumorType> parseFromRaw(InputStream inputStream, Version version) {
