@@ -231,6 +231,7 @@ public class TumorTypesUtil {
 
         if (match) {
             TumorType tumorType = new TumorType();
+            tumorType.setTissue(allTumorTypes.getTissue());
             tumorType.setCode(allTumorTypes.getCode());
             tumorType.setName(allTumorTypes.getName());
             tumorType.setUMLS(allTumorTypes.getUMLS());
@@ -269,6 +270,7 @@ public class TumorTypesUtil {
     private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index, Version version) {
         if (index < 5 && row.length > index && row[index] != null && !row[index].isEmpty()) {
             Map<String, String> result = parseCodeName(row[index]);
+            Map<String, String> tissue = parseCodeName(row[0]);
             if (result.containsKey("code")) {
                 String code = result.get("code");
                 TumorType tumorType = new TumorType();
@@ -277,6 +279,7 @@ public class TumorTypesUtil {
                     if (row.length > 5 && !row[5].isEmpty()) {
                         mainType = MainTypesUtil.getOrCreateMainType(row[5], version);
                     }
+                    tumorType.setTissue(tissue.get("name"));
                     tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)));
                     tumorType.setCode(code);
                     tumorType.setName(result.get("name"));
