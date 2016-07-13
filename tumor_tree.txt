@@ -78,6 +78,7 @@ Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Mucinous Adenocarcinoma of the A
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Signet Ring Cell Type of the Appendix (SRAP)			Appendiceal Cancer	SaddleBrown	C43554	C1711320
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)				Colorectal Cancer	SaddleBrown	C5105	C1319315
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Colon Adenocarcinoma (COAD)			Colorectal Cancer	SaddleBrown	C4349	C0338106
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Colon Adenocarcinoma In Situ (CAIS)			Colorectal Cancer	SaddleBrown
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Mucinous Adenocarcinoma of the Colon and Rectum (MACR)			Colorectal Cancer	SaddleBrown	C9383	C0149978
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Rectal Adenocarcinoma (READ)			Colorectal Cancer	SaddleBrown	C9383	C0149978
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Signet Ring Cell Adenocarcinoma of the Colon and Rectum (SRCCR)			Colorectal Cancer	SaddleBrown	C9383	C0149978
@@ -218,6 +219,7 @@ Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Neurofibroma (NFIB)			N
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)			Nerve Sheath Tumor	Gray	C3269	C0027809
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Cellular Schwannoma (CSCHW)		Nerve Sheath Tumor	Gray	C4724	C0431124
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Melanotic Schwannoma (MSCHW)		Nerve Sheath Tumor	Gray	C6970	C1306247
+Cervix (CERVIX)	Cervical Adenocarcinoma In Situ (CEAIS)				Cervical Cancer	Teal
 Cervix (CERVIX)	Cervical Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal	C40213	C1516403
 Cervix (CERVIX)	Cervical Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal	C6346	C1332911
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)				Cervical Cancer	Teal	C4029	C0279672
@@ -341,6 +343,7 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNK
 Lymph (LYMPH)	Rosai-Dorfman Disease (RD)				Histiocytic Disorder	LimeGreen
 Lung (LUNG)	Combined Small Cell Lung Carcinoma (CSCLC)				Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Inflammatory Myofibroblastic Lung Tumor (IMTL)				Non-Small Cell Lung Cancer	Gainsboro	C39740	C1518038
+Lung (LUNG)	Lung Adenocarcinoma In Situ (LAIS)				Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)				Non-Small Cell Lung Cancer	Gainsboro	C5670	C1334452
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Atypical Lung Carcinoid (ALUCA)			Non-Small Cell Lung Cancer	Gainsboro	C45551	C1708766
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Large Cell Neuroendocrine Carcinoma (LUNE)			Non-Small Cell Lung Cancer	Gainsboro	C6875	C1265996
@@ -510,6 +513,7 @@ Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma (TT)			Germ Ce
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma with Malignant Transformation (TMT)			Germ Cell Tumor	Red
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Yolk Sac Tumor (TYST)			Germ Cell Tumor	Red	C6379	C1336945
 Testis (TESTIS)	Seminoma (SEM)				Germ Cell Tumor	Red	C9309	C0036631
+Testis (TESTIS)	Sex Cord Stromal Tumor (TSCST)				Sex Cord Stromal Tumor	Red
 Testis (TESTIS)	Testicular Lymphoma (TLYM)				Non-Hodgkin Lymphoma	Red	C6810	C0349644
 Testis (TESTIS)	Testicular Mesothelioma (TMESO)				Mesothelioma	Red
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)				Thymic Tumor	Purple	C6450	C1266101
