@@ -22,13 +22,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorTypesApi {
 
-    @ApiOperation(value = "Create a tumor type", notes = "", response = CreateTumorTypeResp.class)
-    @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 201, message = "Created and return the numerical id for newly created tumor type")})
-    @RequestMapping(value = "/create",
-        produces = {"application/json"},
-        consumes = {"application/json"},
-        method = RequestMethod.POST)
+//    @ApiOperation(value = "Create a tumor type", notes = "", response = CreateTumorTypeResp.class)
+//    @io.swagger.annotations.ApiResponses(value = {
+//        @io.swagger.annotations.ApiResponse(code = 201, message = "Created and return the numerical id for newly created tumor type")})
+//    @RequestMapping(value = "/create",
+//        produces = {"application/json"},
+//        consumes = {"application/json"},
+//        method = RequestMethod.POST)
     public ResponseEntity<CreateTumorTypeResp> tumorTypesCreatePost(
         @ApiParam(value = "Unique identifier representing OncoTree tumor types.", required = true)
         @RequestParam(value = "code", required = true) String code,
@@ -49,12 +49,12 @@ public class TumorTypesApi {
     }
 
 
-    @ApiOperation(value = "Delete selected tumor type", notes = "", response = DeleteTumorTypeResp.class)
-    @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
-    @RequestMapping(value = "/delete/{id}",
-        produces = {"application/json"},
-        method = RequestMethod.POST)
+//    @ApiOperation(value = "Delete selected tumor type", notes = "", response = DeleteTumorTypeResp.class)
+//    @io.swagger.annotations.ApiResponses(value = {
+//        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
+//    @RequestMapping(value = "/delete/{id}",
+//        produces = {"application/json"},
+//        method = RequestMethod.POST)
     public ResponseEntity<DeleteTumorTypeResp> tumorTypesDeleteIdPost(
         @ApiParam(value = "the numerical identifier representing OncoTree tumor types.", required = true) @PathVariable("id") String id
 
@@ -103,12 +103,12 @@ public class TumorTypesApi {
     }
 
 
-    @ApiOperation(value = "Return the selected tumor type children list.", notes = "Return the selected tumor type children list. By default, it will only return the children IDs.", response = ChildrenListResp.class)
-    @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
-    @RequestMapping(value = "/{id}/children",
-        produces = {"application/json"},
-        method = RequestMethod.GET)
+//    @ApiOperation(value = "Return the selected tumor type children list.", notes = "Return the selected tumor type children list. By default, it will only return the children IDs.", response = ChildrenListResp.class)
+//    @io.swagger.annotations.ApiResponses(value = {
+//        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
+//    @RequestMapping(value = "/{id}/children",
+//        produces = {"application/json"},
+//        method = RequestMethod.GET)
     public ResponseEntity<ChildrenListResp> tumorTypesIdChildrenGet(
         @ApiParam(value = "The numerical ID of the desired tumor type", required = true)
         @PathVariable("id") Integer id,
@@ -123,12 +123,12 @@ public class TumorTypesApi {
     }
 
 
-    @ApiOperation(value = "Get tumor type by using numerical unique ID", notes = "", response = TumorTypeResp.class)
-    @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
-    @RequestMapping(value = "/{id}",
-        produces = {"application/json"},
-        method = RequestMethod.GET)
+//    @ApiOperation(value = "Get tumor type by using numerical unique ID", notes = "", response = TumorTypeResp.class)
+//    @io.swagger.annotations.ApiResponses(value = {
+//        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
+//    @RequestMapping(value = "/{id}",
+//        produces = {"application/json"},
+//        method = RequestMethod.GET)
     public ResponseEntity<TumorTypeResp> tumorTypesIdGet(
         @ApiParam(value = "The numerical ID of the desired tumor type", required = true)
         @PathVariable("id") String id,
@@ -234,12 +234,12 @@ public class TumorTypesApi {
     }
 
 
-    @ApiOperation(value = "Update selected tumor type", notes = "", response = UpdateTumorTypeResp.class)
-    @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
-    @RequestMapping(value = "/update/{id}",
-        produces = {"application/json"},
-        method = RequestMethod.POST)
+//    @ApiOperation(value = "Update selected tumor type", notes = "", response = UpdateTumorTypeResp.class)
+//    @io.swagger.annotations.ApiResponses(value = {
+//        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
+//    @RequestMapping(value = "/update/{id}",
+//        produces = {"application/json"},
+//        method = RequestMethod.POST)
     public ResponseEntity<UpdateTumorTypeResp> tumorTypesUpdateIdPost(
         @ApiParam(value = "Numerical unique ID, generated by server.", required = true) @PathVariable("id") String id,
         @ApiParam(value = "OncoTree tumor types code.") @RequestParam(value = "code", required = false) String code,
