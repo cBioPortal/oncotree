@@ -119,6 +119,7 @@ CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Melanotic Medulloblastoma (MMBL)			Embr
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Neuroblastoma (NBL)			Embryonal Tumor	Gray	C3270	C0027819
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Olfactory Neuroblastoma (ONBL)			Embryonal Tumor	Gray	C3789	C0206717
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Primitive Neuroectodermal Tumor (PNET)			Embryonal Tumor	Gray	C3716	C0206663
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Pleomorphic Xanthoastrocytoma (APXA)
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilocytic Astrocytoma (PAST)			Glioma	Gray	C4047	C0334583
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilomyxoid Astrocytoma (PMA)			Glioma	Gray	C40315	C1519086
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pleomorphic Xanthoastrocytoma (PXA)			Glioma	Gray	C4323	C0334586
@@ -167,12 +168,12 @@ CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Desmoplastic Infant
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Dysplastic Gangliocytoma of the Cerebellum/Lhermitte-Duclos Disease (LDD)			Miscellaneous Neuroepithelial Tumor	Gray	C8419	C0391826
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Extraventricular Neurocytoma (EVN)			Miscellaneous Neuroepithelial Tumor	Gray	C92555	C2985175
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Papillary Glioneuronal Tumor (PGNT)			Miscellaneous Neuroepithelial Tumor	Gray	C92554	C2985174
-CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Paraganglioma (PGNG)			Miscellaneous Neuroepithelial Tumor	Gray	C3308	C0030421
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Rosette-forming Glioneuronal Tumor of the Fourth Ventricle (RGNT)			Miscellaneous Neuroepithelial Tumor	Gray	C67559	C2347979
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Papillary Tumor of the Pineal Region (PTPR)			Pineal Tumor	Gray	C92624	C2985219
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineal Parenchymal Tumor of Intermediate Differentiation (PPTID)			Pineal Tumor	Gray	C6967	C1367859
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineocytoma (PINC)			Pineal Tumor	Gray	C6966	C0917890
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineoblastoma (PBL)			Pineal Tumor	Gray	C9344	C0205898
+CNS/Brain (BRAIN)	Primary CNS Melanoma (PCNSM)				Melanoma	LightSkyBlue
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Adamantinomatous Type (ACPG)			Sellar Tumor	Gray	C4726	C0431129
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Papillary Type (PCGP)			Sellar Tumor	Gray	C4725	C0431128
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Granular Cell Tumor (GCT)			Sellar Tumor	Gray	C3474	C0085167
@@ -239,6 +240,7 @@ Cervix (CERVIX)	Cervical Neuroendocrine Tumor (CENE)				Cervical Cancer	Teal	C40
 Cervix (CERVIX)	Cervical Rhabdomyosarcoma (CERMS)				Cervical Cancer	Teal
 Cervix (CERVIX)	Cervical Squamous Cell Carcinoma (CESC)				Cervical Cancer	Teal	C4028	C0279671
 Cervix (CERVIX)	Glassy Cell Carcinoma of the Cervix (CEGCC)				Cervical Cancer	Teal	C40212	C1516407
+Cervix (CERVIX)	Mixed Cervical Carcinoma (MCCE)				Cervical Cancer	Teal
 Cervix (CERVIX)	Small Cell Carcinoma of the Cervix (SCCE)				Cervical Cancer	Teal	C7982	C0279674
 Cervix (CERVIX)	Villoglandular Adenocarcinoma of the Cervix (VGCE)				Cervical Cancer	Teal	C40208	C1516425
 Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Cancer	LightSkyBlue	C9296	C1332166
@@ -490,6 +492,7 @@ Soft Tissue (SOFT_TISSUE)	Myopericytoma (MPC)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Myxofibrosarcoma (MFS)				Soft Tissue Sarcoma	LightYellow	C6496	C0334454
 Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)				Soft Tissue Sarcoma	LightYellow	C6577	C0027149
 Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)	Ossifying Fibromyxoid Tumor (OFMT)			Soft Tissue Sarcoma	LightYellow	C6582	C1266128
+Soft Tissue (SOFT_TISSUE)	Paraganglioma (PGNG)				Miscellaneous Neuroepithelial Tumor	Gray
 Soft Tissue (SOFT_TISSUE)	Perivascular Epithelioid Cell Tumor (PECOMA)				Soft Tissue Sarcoma	LightYellow	C38150	C1300127
 Soft Tissue (SOFT_TISSUE)	Pseudomyogenic Hemangioendothelioma (PMHE)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Radiation-Associated Sarcoma (RAS)				Soft Tissue Sarcoma	LightYellow	C93125	C2985448
