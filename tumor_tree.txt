@@ -198,6 +198,7 @@ Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous 
 Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Solid Papillary Carcinoma of the Breast (SPC)			Breast Cancer	HotPink
 Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Cancer	HotPink	C4001	C0278601
 Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Cancer	HotPink	C4018	C0279563
+Breast (BREAST)	Breast Neoplasm, NOS (BNNOS)				Breast Cancer	HotPink
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Cancer	HotPink	C5164	C1334708
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Cancer	HotPink	C40364	C1513365
 Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Cancer	HotPink	C40358	C1519487
@@ -225,8 +226,8 @@ Cervix (CERVIX)	Cervical Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal	
 Cervix (CERVIX)	Cervical Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal	C6346	C1332911
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)				Cervical Cancer	Teal	C4029	C0279672
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Clear Cell Carcinoma (CECC)			Cervical Cancer	Teal	C6344	C1332912
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Endometrioid Carcinoma (CEEN)			Cervical Cancer	Teal	C3769	C0206687
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Serous Carcinoma (CESE)			Cervical Cancer	Teal
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endometrioid Carcinoma (CEEN)			Cervical Cancer	Teal	C3769	C0206687
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endocervical Adenocarcinoma (ECAD)			Cervical Cancer	Teal	C28327	C1299237
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mesonephric Carcinoma (CEMN)			Cervical Cancer	Teal	C4072
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)			Cervical Cancer	Teal	C26712	C0007130
