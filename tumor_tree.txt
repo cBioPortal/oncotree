@@ -69,6 +69,7 @@ Bone (BONE)	Osteosarcoma (OS)	Periosteal Osteosarcoma (PEOS)			Bone Cancer	White
 Bone (BONE)	Osteosarcoma (OS)	Secondary Osteosarcoma (SECOS)			Bone Cancer	White	C53704	C1710042
 Bone (BONE)	Osteosarcoma (OS)	Small Cell Osteosarcoma (SCOS)			Bone Cancer	White	C4023	C0279622
 Bone (BONE)	Osteosarcoma (OS)	Telangiectatic Osteosarcoma (TEOS)			Bone Cancer	White	C3902	C0259782
+Bowel (BOWEL)	Anal Gland Adenocarcinoma (AGA)				Anal Cancer	SaddleBrown
 Bowel (BOWEL)	Anal Squamous Cell Carcinoma (ANSC)				Anal Cancer	SaddleBrown	C9161	C1412036
 Bowel (BOWEL)	Anorectal Mucosal Melanoma (ARMM)				Melanoma	SaddleBrown	C4639	C0349538
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)				Appendiceal Cancer	SaddleBrown	C7718	C0238003
