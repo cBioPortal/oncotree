@@ -15,6 +15,7 @@ public class VersionUtil {
         put("1", new Version("1", "369b74c599ebefdb71bb25a85cb877be954a0928"));
         put("1.1", new Version("1.1", "52a743f6a3493d1cb46eca2a3e12e7f92225558d"));
         put("oncokb", new Version("oncokb", "c294ba6461690e404472148c1cdf0f47963be496"));
+        put("genie", new Version("oncokb", "9a9932c7fef323fedf3b6584a76cd5710ba5c11c"));
         put("realtime", new Version("realtime", "realtime"));
     }};
 
