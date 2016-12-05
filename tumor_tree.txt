@@ -119,7 +119,7 @@ CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Melanotic Medulloblastoma (MMBL)			Embr
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Neuroblastoma (NBL)			Embryonal Tumor	Gray	C3270	C0027819
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Olfactory Neuroblastoma (ONBL)			Embryonal Tumor	Gray	C3789	C0206717
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Primitive Neuroectodermal Tumor (PNET)			Embryonal Tumor	Gray	C3716	C0206663
-CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Pleomorphic Xanthoastrocytoma (APXA)
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Pleomorphic Xanthoastrocytoma (APXA)			Glioma	Gray
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilocytic Astrocytoma (PAST)			Glioma	Gray	C4047	C0334583
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilomyxoid Astrocytoma (PMA)			Glioma	Gray	C40315	C1519086
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pleomorphic Xanthoastrocytoma (PXA)			Glioma	Gray	C4323	C0334586
