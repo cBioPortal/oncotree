@@ -12,7 +12,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -67,11 +66,11 @@ public class TumorTypesUtil {
         return properties;
     }
 
-    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version) {
+    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) {
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
         if (TumorTypeKeys.contains(key)) {
-            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"), tumorTypes, key, keyword, exactMatch);
+            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"), tumorTypes, key, keyword, exactMatch, includeParent);
         }
         return tumorTypes;
     }
@@ -117,17 +116,18 @@ public class TumorTypesUtil {
         return null;
     }
 
-    public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes) {
+    public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
         Set<TumorType> tumorTypes = new HashSet<>();
 
         Iterator it = nestedTumorTypes.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, TumorType> pair = (Map.Entry)it.next();
+            Map.Entry<String, TumorType> pair = (Map.Entry) it.next();
             TumorType tumorType = pair.getValue();
 
-            if(tumorType.getChildren() != null && tumorType.getChildren().size() > 0) {
-                tumorTypes.addAll(flattenTumorTypes(tumorType.getChildren()));
+            if (tumorType.getChildren() != null && tumorType.getChildren().size() > 0) {
+                tumorTypes.addAll(flattenTumorTypes(tumorType.getChildren(), pair.getKey()));
             }
+            tumorType.setParent(parent);
             tumorType.setChildren(null);
             tumorTypes.add(tumorType);
         }
@@ -164,10 +164,14 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    private static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
-                                                 String key, String keyword, Boolean exactMatch) {
+    public static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
+                                                String key, String keyword, Boolean exactMatch, Boolean includeParent) {
         Map<String, TumorType> childrenTumorTypes = allTumorTypes.getChildren();
         Boolean match = false;
+
+        if (includeParent == null) {
+            includeParent = false;
+        }
 
         if (exactMatch == null) {
             exactMatch = true;
@@ -225,7 +229,7 @@ public class TumorTypesUtil {
                         (allTumorTypes.getMainType() == null ? false :
                             (allTumorTypes.getMainType().getName() == null ? false :
                                 allTumorTypes.getMainType().getName().equals(keyword)));
-                }else {
+                } else {
                     match = allTumorTypes == null ? false :
                         (allTumorTypes.getMainType() == null ? false :
                             (allTumorTypes.getMainType().getName() == null ? false :
@@ -258,18 +262,27 @@ public class TumorTypesUtil {
             tumorType.setMainType(allTumorTypes.getMainType());
             tumorType.setColor(allTumorTypes.getColor());
             tumorType.setLevel(allTumorTypes.getLevel());
+            tumorType.setParent(allTumorTypes.getParent());
 
             matchedTumorTypes.add(tumorType);
+
+            if (includeParent) {
+                String code = allTumorTypes.getParent();
+                List<TumorType> parentTumorTypes = findTumorType(allTumorTypes, new ArrayList<TumorType>(), "code", code, true, false);
+                if (parentTumorTypes != null && parentTumorTypes.size() > 0) {
+                    matchedTumorTypes.add(parentTumorTypes.get(0));
+                }
+            }
         }
 
         if (childrenTumorTypes.size() > 0) {
             Iterator it = childrenTumorTypes.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
-                matchedTumorTypes = findTumorType((TumorType) pair.getValue(), matchedTumorTypes, key, keyword, exactMatch);
+                matchedTumorTypes = findTumorType((TumorType) pair.getValue(), matchedTumorTypes, key, keyword, exactMatch, includeParent);
             }
         }
-        return matchedTumorTypes;
+        return new ArrayList<>(new LinkedHashSet<>(matchedTumorTypes));
     }
 
     private static String normalizeTumorTypeKey(String key) {
