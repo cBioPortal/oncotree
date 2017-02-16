@@ -70,7 +70,9 @@ public class TumorTypesUtil {
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
         if (TumorTypeKeys.contains(key)) {
-            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"), tumorTypes, key, keyword, exactMatch, includeParent);
+            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
+                CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
+                tumorTypes, key, keyword, exactMatch, includeParent);
         }
         return tumorTypes;
     }
@@ -155,7 +157,7 @@ public class TumorTypesUtil {
 
         //Iterate each row and assign tumor type to parent following the order of appearing
         for (String[] row : allRows.subList(1, allRows.size())) {
-            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0, version));
+            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0, version, "TISSUE"));
         }
 
         //Attach a root node in the JSON file
@@ -164,9 +166,9 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    public static List<TumorType> findTumorType(TumorType allTumorTypes, List<TumorType> matchedTumorTypes,
+    public static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
                                                 String key, String keyword, Boolean exactMatch, Boolean includeParent) {
-        Map<String, TumorType> childrenTumorTypes = allTumorTypes.getChildren();
+        Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
 
         if (includeParent == null) {
@@ -180,97 +182,101 @@ public class TumorTypesUtil {
         switch (key) {
             case "code":
                 if (exactMatch) {
-                    match = allTumorTypes.getCode() == null ? false : allTumorTypes.getCode().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getCode() == null ? false : currentTumorType.getCode().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getCode() == null ?
+                    match = currentTumorType.getCode() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getCode(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getCode(), keyword);
                 }
                 break;
             case "color":
                 if (exactMatch) {
-                    match = allTumorTypes.getColor() == null ? false : allTumorTypes.getColor().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getColor() == null ? false : currentTumorType.getColor().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getColor() == null ?
+                    match = currentTumorType.getColor() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getColor(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getColor(), keyword);
                 }
                 break;
             case "name":
                 if (exactMatch) {
-                    match = allTumorTypes.getName() == null ? false : allTumorTypes.getName().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getName() == null ? false : currentTumorType.getName().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getName() == null ?
+                    match = currentTumorType.getName() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getName(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getName(), keyword);
                 }
                 break;
             case "nci":
                 if (exactMatch) {
-                    match = allTumorTypes.getNCI() == null ? false : allTumorTypes.getNCI().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getNCI() == null ? false : currentTumorType.getNCI().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getNCI() == null ?
+                    match = currentTumorType.getNCI() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getNCI(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getNCI(), keyword);
                 }
                 break;
             case "umls":
                 if (exactMatch) {
-                    match = allTumorTypes.getUMLS() == null ? false : allTumorTypes.getUMLS().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getUMLS() == null ? false : currentTumorType.getUMLS().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getUMLS() == null ?
+                    match = currentTumorType.getUMLS() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getUMLS(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getUMLS(), keyword);
                 }
                 break;
             case "maintype":
                 if (exactMatch) {
-                    match = allTumorTypes == null ? false :
-                        (allTumorTypes.getMainType() == null ? false :
-                            (allTumorTypes.getMainType().getName() == null ? false :
-                                allTumorTypes.getMainType().getName().equals(keyword)));
+                    match = currentTumorType == null ? false :
+                        (currentTumorType.getMainType() == null ? false :
+                            (currentTumorType.getMainType().getName() == null ? false :
+                                currentTumorType.getMainType().getName().equals(keyword)));
                 } else {
-                    match = allTumorTypes == null ? false :
-                        (allTumorTypes.getMainType() == null ? false :
-                            (allTumorTypes.getMainType().getName() == null ? false :
-                                StringUtils.containsIgnoreCase(allTumorTypes.getMainType().getName(), keyword)));
+                    match = currentTumorType == null ? false :
+                        (currentTumorType.getMainType() == null ? false :
+                            (currentTumorType.getMainType().getName() == null ? false :
+                                StringUtils.containsIgnoreCase(currentTumorType.getMainType().getName(), keyword)));
                 }
                 break;
             case "level":
-                match = allTumorTypes == null ? false :
-                    (allTumorTypes.getLevel() == null ? false :
-                        (allTumorTypes.getLevel() == null ? false :
-                            allTumorTypes.getLevel().equals(keyword)));
+                match = currentTumorType == null ? false :
+                    (currentTumorType.getLevel() == null ? false :
+                        (currentTumorType.getLevel() == null ? false :
+                            currentTumorType.getLevel().equals(keyword)));
                 break;
             default:
                 if (exactMatch) {
-                    match = allTumorTypes.getCode() == null ? false : allTumorTypes.getCode().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getCode() == null ? false : currentTumorType.getCode().equalsIgnoreCase(keyword);
                 } else {
-                    match = allTumorTypes.getCode() == null ?
+                    match = currentTumorType.getCode() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(allTumorTypes.getCode(), keyword);
+                        StringUtils.containsIgnoreCase(currentTumorType.getCode(), keyword);
                 }
         }
 
         if (match) {
             TumorType tumorType = new TumorType();
-            tumorType.setTissue(allTumorTypes.getTissue());
-            tumorType.setCode(allTumorTypes.getCode());
-            tumorType.setName(allTumorTypes.getName());
-            tumorType.setUMLS(allTumorTypes.getUMLS());
-            tumorType.setNCI(allTumorTypes.getNCI());
-            tumorType.setMainType(allTumorTypes.getMainType());
-            tumorType.setColor(allTumorTypes.getColor());
-            tumorType.setLevel(allTumorTypes.getLevel());
-            tumorType.setParent(allTumorTypes.getParent());
+            tumorType.setTissue(currentTumorType.getTissue());
+            tumorType.setCode(currentTumorType.getCode());
+            tumorType.setName(currentTumorType.getName());
+            tumorType.setUMLS(currentTumorType.getUMLS());
+            tumorType.setNCI(currentTumorType.getNCI());
+            tumorType.setMainType(currentTumorType.getMainType());
+            tumorType.setColor(currentTumorType.getColor());
+            tumorType.setLevel(currentTumorType.getLevel());
+            tumorType.setParent(currentTumorType.getParent());
 
             matchedTumorTypes.add(tumorType);
 
             if (includeParent) {
-                String code = allTumorTypes.getParent();
-                List<TumorType> parentTumorTypes = findTumorType(allTumorTypes, new ArrayList<TumorType>(), "code", code, true, false);
+                String code = currentTumorType.getParent();
+                List<TumorType> parentTumorTypes = findTumorType(allTumorTypes, allTumorTypes, new ArrayList<TumorType>(), "code", code, true, true);
                 if (parentTumorTypes != null && parentTumorTypes.size() > 0) {
-                    matchedTumorTypes.add(parentTumorTypes.get(0));
+                    TumorType parentNode = parentTumorTypes.get(0);
+                    matchedTumorTypes.add(parentNode);
+                    if(parentNode.getParent() != null) {
+                        matchedTumorTypes = findTumorType(allTumorTypes, allTumorTypes, matchedTumorTypes, "code", parentNode.getParent(), true, true);
+                    }
                 }
             }
         }
@@ -279,7 +285,7 @@ public class TumorTypesUtil {
             Iterator it = childrenTumorTypes.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
-                matchedTumorTypes = findTumorType((TumorType) pair.getValue(), matchedTumorTypes, key, keyword, exactMatch, includeParent);
+                matchedTumorTypes = findTumorType(allTumorTypes, (TumorType) pair.getValue(), matchedTumorTypes, key, keyword, exactMatch, includeParent);
             }
         }
         return new ArrayList<>(new LinkedHashSet<>(matchedTumorTypes));
@@ -299,7 +305,7 @@ public class TumorTypesUtil {
      * @param index      Current index of row. It will be increased everytime this function has been called.
      * @return parent node.
      */
-    private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index, Version version) {
+    private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index, Version version, String parentCode) {
         if (index < 5 && row.length > index && row[index] != null && !row[index].isEmpty()) {
             Map<String, String> result = parseCodeName(row[index]);
             Map<String, String> tissue = parseCodeName(row[0]);
@@ -319,10 +325,11 @@ public class TumorTypesUtil {
                     tumorType.setColor(row.length > 6 ? row[6] : "");
                     tumorType.setNCI(row.length > 7 ? row[7] : "");
                     tumorType.setUMLS(row.length > 8 ? row[8] : "");
+                    tumorType.setParent(parentCode);
                 } else {
                     tumorType = tumorTypes.get(code);
                 }
-                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, ++index, version));
+                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, ++index, version, code));
                 tumorTypes.put(code, tumorType);
             }
         }
