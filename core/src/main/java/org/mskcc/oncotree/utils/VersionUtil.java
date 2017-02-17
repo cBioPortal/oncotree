@@ -23,6 +23,10 @@ public class VersionUtil {
         return VERSIONS.get(version);
     }
 
+    public static Version getVersionOrRealtime(String version) {
+        return VERSIONS.get(version) == null ? VERSIONS.get("realtime") : VERSIONS.get(version);
+    }
+
     public static Set<Version> getVersions() {
         Set<Version> versions = new HashSet<>();
         for (Map.Entry<String, Version> entry : VERSIONS.entrySet()) {

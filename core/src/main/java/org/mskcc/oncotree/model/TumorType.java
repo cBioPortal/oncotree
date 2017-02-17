@@ -20,7 +20,7 @@ public class TumorType {
     private String UMLS = null;
     private String tissue = null;
     private Map<String, TumorType> children = new HashMap<String, TumorType>();
-    private TumorType parent = null;
+    private String parent = null;
     private Boolean deprecated = false;
     private List<History> history = new ArrayList<History>();
     private Links links = null;
@@ -155,13 +155,13 @@ public class TumorType {
     /**
      * The parent node id.
      **/
-    @ApiModelProperty(value = "The parent node id.")
+    @ApiModelProperty(value = "The parent node code.")
     @JsonProperty("parent")
-    public TumorType getParent() {
+    public String getParent() {
         return parent;
     }
 
-    public void setParent(TumorType parent) {
+    public void setParent(String parent) {
         this.parent = parent;
     }
 

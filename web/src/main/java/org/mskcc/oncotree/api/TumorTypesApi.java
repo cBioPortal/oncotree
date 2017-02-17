@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorTypesApi {
 
-//    @ApiOperation(value = "Create a tumor type", notes = "", response = CreateTumorTypeResp.class)
+    //    @ApiOperation(value = "Create a tumor type", notes = "", response = CreateTumorTypeResp.class)
 //    @io.swagger.annotations.ApiResponses(value = {
 //        @io.swagger.annotations.ApiResponse(code = 201, message = "Created and return the numerical id for newly created tumor type")})
 //    @RequestMapping(value = "/create",
@@ -49,7 +49,7 @@ public class TumorTypesApi {
     }
 
 
-//    @ApiOperation(value = "Delete selected tumor type", notes = "", response = DeleteTumorTypeResp.class)
+    //    @ApiOperation(value = "Delete selected tumor type", notes = "", response = DeleteTumorTypeResp.class)
 //    @io.swagger.annotations.ApiResponses(value = {
 //        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
 //    @RequestMapping(value = "/delete/{id}",
@@ -75,11 +75,12 @@ public class TumorTypesApi {
         @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
         @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "The flat list of tumor types", defaultValue = "false")
-        @RequestParam(value = "falt", required = false) Boolean flat,
+        @RequestParam(value = "flat", required = false) Boolean flat,
         @ApiParam(value = "Indicator that whether should include deprecated tumor types.", defaultValue = "false")
-        @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback)
+        @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
+    )
         throws NotFoundException {
         InlineResponse200 response200 = new InlineResponse200();
         Meta meta = new Meta();
@@ -87,23 +88,21 @@ public class TumorTypesApi {
         response200.setMeta(meta);
 
         Map<String, TumorType> tumorTypes = new HashMap<>();
+
+        Version v = VersionUtil.getVersionOrRealtime(version);
         
-        if (version != null) {
-            Version v = VersionUtil.getVersion(version);
-            tumorTypes = v != null ? CacheUtil.getOrResetTumorTypesByVersion(v) : tumorTypes;
+        tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
+        
+        if (flat) {
+            response200.setData(TumorTypesUtil.flattenTumorTypes(tumorTypes, null));
         } else {
-            tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(VersionUtil.getVersion("realtime"));
-        }
-        if(flat) {
-            response200.setData(TumorTypesUtil.flattenTumorTypes(tumorTypes));
-        }else {
             response200.setData(tumorTypes);
         }
         return new ResponseEntity<InlineResponse200>(response200, HttpStatus.OK);
     }
 
 
-//    @ApiOperation(value = "Return the selected tumor type children list.", notes = "Return the selected tumor type children list. By default, it will only return the children IDs.", response = ChildrenListResp.class)
+    //    @ApiOperation(value = "Return the selected tumor type children list.", notes = "Return the selected tumor type children list. By default, it will only return the children IDs.", response = ChildrenListResp.class)
 //    @io.swagger.annotations.ApiResponses(value = {
 //        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
 //    @RequestMapping(value = "/{id}/children",
@@ -111,9 +110,9 @@ public class TumorTypesApi {
 //        method = RequestMethod.GET)
     public ResponseEntity<ChildrenListResp> tumorTypesIdChildrenGet(
         @ApiParam(value = "The numerical ID of the desired tumor type", required = true)
-        @PathVariable("id") Integer id,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback
+        @PathVariable("id") Integer id
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
 
 
     )
@@ -123,7 +122,7 @@ public class TumorTypesApi {
     }
 
 
-//    @ApiOperation(value = "Get tumor type by using numerical unique ID", notes = "", response = TumorTypeResp.class)
+    //    @ApiOperation(value = "Get tumor type by using numerical unique ID", notes = "", response = TumorTypeResp.class)
 //    @io.swagger.annotations.ApiResponses(value = {
 //        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
 //    @RequestMapping(value = "/{id}",
@@ -162,10 +161,12 @@ public class TumorTypesApi {
         Version v = queries.getVersion() != null ? VersionUtil.getVersion(queries.getVersion()) : VersionUtil.getVersion("realtime");
         List<List<TumorType>> tumorTypes = new ArrayList<>();
 
+        // Cache in tumor types in case no data present
+        CacheUtil.getOrResetTumorTypesByVersion(v);
+        
         for (TumorTypeQuery query : queries.getQueries()) {
             List<TumorType> matchedTumorTypes = new ArrayList<>();
-            CacheUtil.getOrResetTumorTypesByVersion(v);
-            matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v);
+            matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v, false);
             String levels = "2,3,4,5";
             if (query.getType().toLowerCase() != "level" && levels != null) {
                 List<String> ls = Arrays.asList(levels.split(","));
@@ -202,15 +203,18 @@ public class TumorTypesApi {
         @ApiParam(value = "If it sets to true, it will only return one element array.", defaultValue = "true")
         @RequestParam(value = "exactMatch", required = false, defaultValue = "true") Boolean exactMatch,
         @ApiParam(value = "Tumor type levels. 1-5. By default, it doesn't includes tissue which is the primary level.", defaultValue = "2,3,4,5")
-        @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback
+        @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
     )
         throws NotFoundException {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
-        Version v = version != null ? VersionUtil.getVersion(version) : VersionUtil.getVersion("realtime");
+        Version v = VersionUtil.getVersionOrRealtime(version);
+        
+        // Cache in tumor types in case no data present
         CacheUtil.getOrResetTumorTypesByVersion(v);
-        matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v);
+        
+        matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v, false);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
 
         if (type.toLowerCase() != "level" && levels != null) {
@@ -234,14 +238,14 @@ public class TumorTypesApi {
     }
 
 
-//    @ApiOperation(value = "Update selected tumor type", notes = "", response = UpdateTumorTypeResp.class)
+    //    @ApiOperation(value = "Update selected tumor type", notes = "", response = UpdateTumorTypeResp.class)
 //    @io.swagger.annotations.ApiResponses(value = {
 //        @io.swagger.annotations.ApiResponse(code = 200, message = "OK")})
 //    @RequestMapping(value = "/update/{id}",
 //        produces = {"application/json"},
 //        method = RequestMethod.POST)
     public ResponseEntity<UpdateTumorTypeResp> tumorTypesUpdateIdPost(
-        @ApiParam(value = "Numerical unique ID, generated by server.", required = true) @PathVariable("id") String id,
+        @ApiParam(value = "Numerical unique ID, generated by server.", required = true) @PathVariable("id") Integer id,
         @ApiParam(value = "OncoTree tumor types code.") @RequestParam(value = "code", required = false) String code,
         @ApiParam(value = "Tumor type name.") @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "General tumor type category.") @RequestParam(value = "mainType", required = false) String mainType,
