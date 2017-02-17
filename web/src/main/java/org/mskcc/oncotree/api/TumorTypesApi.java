@@ -77,9 +77,10 @@ public class TumorTypesApi {
         @ApiParam(value = "The flat list of tumor types", defaultValue = "false")
         @RequestParam(value = "flat", required = false) Boolean flat,
         @ApiParam(value = "Indicator that whether should include deprecated tumor types.", defaultValue = "false")
-        @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback)
+        @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
+    )
         throws NotFoundException {
         InlineResponse200 response200 = new InlineResponse200();
         Meta meta = new Meta();
@@ -111,9 +112,9 @@ public class TumorTypesApi {
 //        method = RequestMethod.GET)
     public ResponseEntity<ChildrenListResp> tumorTypesIdChildrenGet(
         @ApiParam(value = "The numerical ID of the desired tumor type", required = true)
-        @PathVariable("id") Integer id,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback
+        @PathVariable("id") Integer id
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
 
 
     )
@@ -202,9 +203,9 @@ public class TumorTypesApi {
         @ApiParam(value = "If it sets to true, it will only return one element array.", defaultValue = "true")
         @RequestParam(value = "exactMatch", required = false, defaultValue = "true") Boolean exactMatch,
         @ApiParam(value = "Tumor type levels. 1-5. By default, it doesn't includes tissue which is the primary level.", defaultValue = "2,3,4,5")
-        @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback
+        @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
     )
         throws NotFoundException {
         List<TumorType> matchedTumorTypes = new ArrayList<>();

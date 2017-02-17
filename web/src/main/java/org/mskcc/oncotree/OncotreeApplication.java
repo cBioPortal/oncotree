@@ -35,7 +35,7 @@ public class OncotreeApplication  extends SpringBootServletInitializer{
     ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
             "OncoTree API",
-            "OncoTree API definition from cBioPortal, MSKCC",
+            "OncoTree API definition from MSKCC",
             "0.0.1",
             "",
             "",

@@ -9,7 +9,6 @@ import org.mskcc.oncotree.model.MainTypesResp;
 import org.mskcc.oncotree.model.Meta;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.utils.CacheUtil;
-import org.mskcc.oncotree.utils.MainTypesUtil;
 import org.mskcc.oncotree.utils.VersionUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +35,9 @@ public class MainTypesApi {
         method = RequestMethod.GET)
     public ResponseEntity<MainTypesResp> mainTypesGet(
         @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions.")
-        @RequestParam(value = "version", required = false) String version,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
-        @RequestParam(value = "callback", required = false) String callback
+        @RequestParam(value = "version", required = false) String version
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
+//        @RequestParam(value = "callback", required = false) String callback
     )
         throws NotFoundException {
         MainTypesResp resp = new MainTypesResp();
@@ -48,9 +47,9 @@ public class MainTypesApi {
         resp.setMeta(meta);
 
         Version v = VersionUtil.getVersion(version);
-        if(v != null) {
+        if (v != null) {
             resp.setData(CacheUtil.getMainTypesByVersion(v));
-        }else {
+        } else {
             resp.setData(CacheUtil.getMainTypesByVersion(VersionUtil.getVersion("realtime")));
         }
 
@@ -67,8 +66,8 @@ public class MainTypesApi {
     public ResponseEntity<MainTypeResp> mainTypesIdGet(
         @ApiParam(value = "The numerical ID of the desired tumor type", required = true) @PathVariable("id") String id,
         @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions.")
-        @RequestParam(value = "version", required = false) String version,
-        @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.") @RequestParam(value = "callback", required = false) String callback
+        @RequestParam(value = "version", required = false) String version
+//        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.") @RequestParam(value = "callback", required = false) String callback
     )
         throws NotFoundException {
         MainTypeResp resp = new MainTypeResp();
@@ -78,9 +77,9 @@ public class MainTypesApi {
         resp.setMeta(meta);
 
         Version v = VersionUtil.getVersion(version);
-        if(v != null) {
+        if (v != null) {
             resp.setData(CacheUtil.getMainTypeByVersion(v, Integer.getInteger(id)));
-        }else {
+        } else {
             resp.setData(CacheUtil.getMainTypeByVersion(VersionUtil.getVersion("realtime"), Integer.getInteger(id)));
         }
 
