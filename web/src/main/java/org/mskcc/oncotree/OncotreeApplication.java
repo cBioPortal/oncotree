@@ -50,6 +50,7 @@ public class OncotreeApplication  extends SpringBootServletInitializer{
             .select()
             .apis(RequestHandlerSelectors.basePackage("org.mskcc.oncotree.api"))
             .build()
+            .useDefaultResponseMessages(false)
             .apiInfo(apiInfo());
     }
 
