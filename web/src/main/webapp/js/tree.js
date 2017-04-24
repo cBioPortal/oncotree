@@ -317,7 +317,6 @@ var tree = (function () {
                 
                 var umls_link = (typeof d.umls !== 'undefined' && d.umls != '') ? '<a class="qtip-link" href="' + umls_base_uri + d.umls + '" target="_blank">' + d.umls + '</a>' : 'Not Available';
 
-
                 _qtipContent += '<b>Code:</b> ' + d.acronym +
 
                      //clipboard JS is not supported in Safari.
