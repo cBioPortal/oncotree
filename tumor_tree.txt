@@ -3,20 +3,20 @@ Adrenal Gland (ADRENAL_GLAND)	Adrenocortical Adenoma (ACA)				Adrenocortical Car
 Adrenal Gland (ADRENAL_GLAND)	Adrenocortical Carcinoma (ACC)				Adrenocortical Carcinoma	Purple	C9325	C0206686
 Adrenal Gland (ADRENAL_GLAND)	Pheochromocytoma (PHC)				Pheochromocytoma	Purple	C3326	C0031511
 Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)				Ampullary Carcinoma	Purple	C3908	C0262401
-Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Intestinal Ampullary Carcinoma (IAMPCA)			Ampullary Carcinoma	Purple
-Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Mixed Ampullary Carcinoma (MAMPCA)			Ampullary Carcinoma	Purple
-Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Pancreatobiliary Ampullary Carcinoma (PAMPCA)			Ampullary Carcinoma	Purple
-Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)				Biliary Cancer	Green	C4436	C0206698
-Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Extrahepatic Cholangiocarcinoma (EHCH)			Biliary Cancer	Green
-Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Intrahepatic Cholangiocarcinoma (IHCH)			Biliary Cancer	Green	C35417	C0345905
-Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Perihilar Cholangiocarcinoma (PHCH)			Biliary Cancer	Green	C96804	C3273047
-Biliary Tract (BILIARY_TRACT)	Gallbladder Cancer (GBC)				Biliary Cancer	Green	C3844	C0235782
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Intestinal Ampullary Carcinoma (IAMPCA)			Ampullary Carcinoma	Purple	C27415	C1332247
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Mixed Ampullary Carcinoma (MAMPCA)			Ampullary Carcinoma	Purple	C95986	C3272482
+Ampulla of Vater (AMPULLA_OF_VATER)	Ampullary Carcinoma (AMPCA)	Pancreatobiliary Ampullary Carcinoma (PAMPCA)			Ampullary Carcinoma	Purple	C95963	C3272461
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)				Hepatobiliary Cancer	Green	C4436	C0206698
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Extrahepatic Cholangiocarcinoma (EHCH)			Hepatobiliary Cancer	Green	C7975	C0279659
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Intrahepatic Cholangiocarcinoma (IHCH)			Hepatobiliary Cancer	Green	C35417	C0345905
+Biliary Tract (BILIARY_TRACT)	Cholangiocarcinoma (CHOL)	Perihilar Cholangiocarcinoma (PHCH)			Hepatobiliary Cancer	Green	C96804	C3273047
+Biliary Tract (BILIARY_TRACT)	Gallbladder Cancer (GBC)				Hepatobiliary Cancer	Green	C3844	C0235782
 Bladder/Urinary Tract (BLADDER)	Bladder Squamous Cell Carcinoma (BLSC)				Bladder Cancer	Yellow	C4031	C0279681
 Bladder/Urinary Tract (BLADDER)	Bladder Adenocarcinoma (BLAD)				Bladder Cancer	Yellow	C4032	C0279682
 Bladder/Urinary Tract (BLADDER)	Bladder Urothelial Carcinoma (BLCA)				Bladder Cancer	Yellow	C39851	C0279680
 Bladder/Urinary Tract (BLADDER)	Inflammatory Myofibroblastic Bladder Tumor (IMTB)				Bladder Cancer	Yellow	C6177	C1336891
 Bladder/Urinary Tract (BLADDER)	Mucosal Melanoma of the Urethra (URMM)				Melanoma	Yellow
-Bladder/Urinary Tract (BLADDER)	Plasmacytoid/Signet Ring Cell Bladder Carcinoma (SRCBC)				Bladder Cancer	Yellow	C39823	C1512742
+Bladder/Urinary Tract (BLADDER)	Plasmacytoid/Signet Ring Cell Bladder Carcinoma (SRCBC)				Bladder Cancer	Yellow	C6163	C1332563
 Bladder/Urinary Tract (BLADDER)	Sarcomatoid Carcinoma of the Urinary Bladder (SCB)				Bladder Cancer	Yellow	C39824	C1512743
 Bladder/Urinary Tract (BLADDER)	Small Cell Bladder Cancer (SCBC)				Bladder Cancer	Yellow	C9461	C1332564
 Bladder/Urinary Tract (BLADDER)	Upper Tract Urothelial Carcinoma (UTUC)				Bladder Cancer	Yellow
@@ -25,7 +25,7 @@ Bladder/Urinary Tract (BLADDER)	Urachal Carcinoma (URCA)	Urachal Adenocarcinoma 
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)				Bladder Cancer	Yellow	C9106	C0700101
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Adenocarcinoma (UAD)			Bladder Cancer	Yellow	C6167	C1336885
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Squamous Cell Carcinoma (USCC)			Bladder Cancer	Yellow	C6165	C1336890
-Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Urothelial Carcinoma (UCU)			Bladder Cancer	Yellow
+Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Urothelial Carcinoma (UCU)			Bladder Cancer	Yellow	C6166	C0863015
 Blood (BLOOD)	Blastic Plasmacytoid Dendritic Cell Neoplasm (BPDCN)				Blastic Plasmacytoid Dendritic Cell Neoplasm	LightSalmon	C7203	C1301363
 Blood (BLOOD)	Histiocytosis (HIST)				Histiocytosis	LightSalmon	C3106	C0019618
 Blood (BLOOD)	Histiocytosis (HIST)	Langerhans Cell Histiocytosis (LCH)			Histiocytosis	LightSalmon	C3107	C0019621
@@ -37,7 +37,7 @@ Blood (BLOOD)	Leukemia (LEUK)	Acute Monocytic Leukemia (AMOL)			Leukemia	LightSa
 Blood (BLOOD)	Leukemia (LEUK)	Acute Myeloid Leukemia (AML)			Leukemia	LightSalmon	C3171	C0023467
 Blood (BLOOD)	Leukemia (LEUK)	Chronic Lymphocytic Leukemia (CLL)			Leukemia	LightSalmon	C3163	C0023434
 Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelogenous Leukemia (CML)			Leukemia	LightSalmon	C3172	C0023470
-Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelomonocytic Leukemia (CMML)			Leukemia	LightSalmon
+Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelomonocytic Leukemia (CMML)			Leukemia	LightSalmon	C3178	C0023480
 Blood (BLOOD)	Leukemia (LEUK)	Hairy Cell Leukemia (HCL)			Leukemia	LightSalmon	C7402	C0023443
 Blood (BLOOD)	Leukemia (LEUK)	Large Granular Lymphocytic Leukemia (LGLL)			Leukemia	LightSalmon	C4664	C1955861
 Blood (BLOOD)	Multiple Myeloma (MM)				Multiple Myeloma	LightSalmon	C3242	C0026764
@@ -47,28 +47,29 @@ Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Essential Thrombocythaemia (ETC)
 Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Myelofibrosis/Osteomyelofibrosis (MYF)			Myeloproliferative Neoplasm	LightSalmon	C3248	C0026987
 Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Polycythemia Vera  (PCV)			Myeloproliferative Neoplasm	LightSalmon	C3336	C0032463
 Blood (BLOOD)	Systemic Mastocytosis (SM)				Mastocytosis	LightSalmon	C9235	C0221013
-Bone (BONE)	Chondroblastoma (CHBL)				Chondroblastoma	White	C2945	C0008441
-Bone (BONE)	Chondrosarcoma (CHS)				Chondrosarcoma	White	C2946	C0008479
-Bone (BONE)	Chondrosarcoma (CHS)	Dedifferentiated Chondrosarcoma (DDCHS)			Chondrosarcoma	White	C6476	C0862878
-Bone (BONE)	Chondrosarcoma (CHS)	Extraskeletal Myxoid Chondrosarcoma (EMCHS)			Chondrosarcoma	White	C27502	C1275278
-Bone (BONE)	Chondrosarcoma (CHS)	Mesenchymal Chondrosarcoma (MCHS)			Chondrosarcoma	White	C3737	C0206637
-Bone (BONE)	Chondrosarcoma (CHS)	Myxoid Chondrosarcoma (MYCHS)			Chondrosarcoma	White	C4303	C0334551
-Bone (BONE)	Chordoma (CHDM)				Chordoma	White	C2947	C0008487
-Bone (BONE)	Chordoma (CHDM)	Conventional Type Chordoma (CCHDM)			Chordoma	White
-Bone (BONE)	Chordoma (CHDM)	Dedifferentiated Chordoma  (DDCHDM)			Chordoma	White	C48876	C1266174
-Bone (BONE)	Ewing Sarcoma (ES)				Ewing Sarcoma	White	C4817	C0553580
-Bone (BONE)	Giant Cell Tumor of Bone (GCTB)				Giant Cell Tumor	White	C121932	C0206638
-Bone (BONE)	Osteosarcoma (OS)				Osteosarcoma	White	C9145	C0029463
-Bone (BONE)	Osteosarcoma (OS)	Chondroblastic Osteosarcoma (CHOS)			Osteosarcoma	White
-Bone (BONE)	Osteosarcoma (OS)	Fibroblastic Osteosarcoma (FIOS)			Osteosarcoma	White	C4020	C0279602
-Bone (BONE)	Osteosarcoma (OS)	High-Grade Surface Osteosarcoma (HGSOS)			Osteosarcoma	White	C53958	C1266165
-Bone (BONE)	Osteosarcoma (OS)	Low-Grade Central Osteosarcoma (LGCOS)			Osteosarcoma	White	C6474	C1266163
-Bone (BONE)	Osteosarcoma (OS)	Osteoblastic Osteosarcoma (OSOS)			Osteosarcoma	White	C53953	C1704328
-Bone (BONE)	Osteosarcoma (OS)	Parosteal Osteosarcoma (PAOS)			Osteosarcoma	White	C8969	C0206642
-Bone (BONE)	Osteosarcoma (OS)	Periosteal Osteosarcoma (PEOS)			Osteosarcoma	White	C8970	C1377843
-Bone (BONE)	Osteosarcoma (OS)	Secondary Osteosarcoma (SECOS)			Osteosarcoma	White	C53704	C1710042
-Bone (BONE)	Osteosarcoma (OS)	Small Cell Osteosarcoma (SCOS)			Osteosarcoma	White	C4023	C0279622
-Bone (BONE)	Osteosarcoma (OS)	Telangiectatic Osteosarcoma (TEOS)			Osteosarcoma	White	C3902	C0259782
+Bone (BONE)	Chondroblastoma (CHBL)				Bone Cancer	White	C2945	C0008441
+Bone (BONE)	Chondrosarcoma (CHS)				Bone Cancer	White	C2946	C0008479
+Bone (BONE)	Chondrosarcoma (CHS)	Dedifferentiated Chondrosarcoma (DDCHS)			Bone Cancer	White	C6476	C0862878
+Bone (BONE)	Chondrosarcoma (CHS)	Extraskeletal Myxoid Chondrosarcoma (EMCHS)			Bone Cancer	White	C27502	C1275278
+Bone (BONE)	Chondrosarcoma (CHS)	Mesenchymal Chondrosarcoma (MCHS)			Bone Cancer	White	C53493	C1708980
+Bone (BONE)	Chondrosarcoma (CHS)	Myxoid Chondrosarcoma (MYCHS)			Bone Cancer	White	C4303	C0334551
+Bone (BONE)	Chordoma (CHDM)				Bone Cancer	White	C2947	C0008487
+Bone (BONE)	Chordoma (CHDM)	Conventional Type Chordoma (CCHDM)			Bone Cancer	White
+Bone (BONE)	Chordoma (CHDM)	Dedifferentiated Chordoma  (DDCHDM)			Bone Cancer	White	C48876	C1266174
+Bone (BONE)	Ewing Sarcoma (ES)				Bone Cancer	White	C4835	C0585474
+Bone (BONE)	Giant Cell Tumor of Bone (GCTB)				Bone Cancer	White	C121932	C0206638
+Bone (BONE)	Osteosarcoma (OS)				Bone Cancer	White	C53707	C0585442
+Bone (BONE)	Osteosarcoma (OS)	Chondroblastic Osteosarcoma (CHOS)			Bone Cancer	White	C4021	C0279603
+Bone (BONE)	Osteosarcoma (OS)	Fibroblastic Osteosarcoma (FIOS)			Bone Cancer	White	C4020	C0279602
+Bone (BONE)	Osteosarcoma (OS)	High-Grade Surface Osteosarcoma (HGSOS)			Bone Cancer	White	C53958	C1266165
+Bone (BONE)	Osteosarcoma (OS)	Low-Grade Central Osteosarcoma (LGCOS)			Bone Cancer	White	C6474	C1266163
+Bone (BONE)	Osteosarcoma (OS)	Osteoblastic Osteosarcoma (OSOS)			Bone Cancer	White	C53953	C1704328
+Bone (BONE)	Osteosarcoma (OS)	Parosteal Osteosarcoma (PAOS)			Bone Cancer	White	C8969	C0206642
+Bone (BONE)	Osteosarcoma (OS)	Periosteal Osteosarcoma (PEOS)			Bone Cancer	White	C8970	C1377843
+Bone (BONE)	Osteosarcoma (OS)	Secondary Osteosarcoma (SECOS)			Bone Cancer	White	C53704	C1710042
+Bone (BONE)	Osteosarcoma (OS)	Small Cell Osteosarcoma (SCOS)			Bone Cancer	White	C4023	C0279622
+Bone (BONE)	Osteosarcoma (OS)	Telangiectatic Osteosarcoma (TEOS)			Bone Cancer	White	C3902	C0259782
+Bowel (BOWEL)	Anal Gland Adenocarcinoma (AGA)				Anal Cancer	SaddleBrown	C5609	C1266027
 Bowel (BOWEL)	Anal Squamous Cell Carcinoma (ANSC)				Anal Cancer	SaddleBrown	C9161	C1412036
 Bowel (BOWEL)	Anorectal Mucosal Melanoma (ARMM)				Melanoma	SaddleBrown	C4639	C0349538
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)				Appendiceal Cancer	SaddleBrown	C7718	C0238003
@@ -78,18 +79,20 @@ Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Mucinous Adenocarcinoma of the A
 Bowel (BOWEL)	Appendiceal Adenocarcinoma (APAD)	Signet Ring Cell Type of the Appendix (SRAP)			Appendiceal Cancer	SaddleBrown	C43554	C1711320
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)				Colorectal Cancer	SaddleBrown	C5105	C1319315
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Colon Adenocarcinoma (COAD)			Colorectal Cancer	SaddleBrown	C4349	C0338106
-Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Mucinous Adenocarcinoma of the Colon and Rectum (MACR)			Colorectal Cancer	SaddleBrown	C9383	C0149978
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Colon Adenocarcinoma In Situ (CAIS)			Colorectal Cancer	SaddleBrown	C3638	C0154061
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Mucinous Adenocarcinoma of the Colon and Rectum (MACR)			Colorectal Cancer	SaddleBrown	C43585	C1707439
 Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Rectal Adenocarcinoma (READ)			Colorectal Cancer	SaddleBrown	C9383	C0149978
-Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Signet Ring Cell Adenocarcinoma of the Colon and Rectum (SRCCR)			Colorectal Cancer	SaddleBrown	C9383	C0149978
+Bowel (BOWEL)	Colorectal Adenocarcinoma (COADREAD)	Signet Ring Cell Adenocarcinoma of the Colon and Rectum (SRCCR)			Colorectal Cancer	SaddleBrown	C43586	C1707440
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)				Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C95404	C2987127
 Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	High-Grade Neuroendocrine Carcinoma of the Colon and Rectum (HGNEC)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C96156	C3272607
-Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Small Bowel Well-Differentiated Neuroendocrine Tumor (SBWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
-Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Appendix (AWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
-Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Rectum (RWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown
-Bowel (BOWEL)	Medullary Carcinoma of the Colon (CMC)				Colorectal Cancer	SaddleBrown
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Small Bowel Well-Differentiated Neuroendocrine Tumor (SBWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C96061	C3272528
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Appendix (AWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C96422	C3272767
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumor of the Rectum (RWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C5547	C1335678
+Bowel (BOWEL)	Gastrointestinal Neuroendocrine Tumors (GINET)	Well-Differentiated Neuroendocrine Tumors of the Stomach (SWDNET)			Gastrointestinal Neuroendocrine Tumor	SaddleBrown	C95871	C3272399
+Bowel (BOWEL)	Medullary Carcinoma of the Colon (CMC)				Colorectal Cancer	SaddleBrown	C60641	C1880119
 Bowel (BOWEL)	Small Bowel Cancer (SBC)				Small Bowel Cancer	SaddleBrown	C7724	C0238196
-Bowel (BOWEL)	Small Bowel Cancer (SBC)	Duodenal Adenocarcinoma (DA)			Small Bowel Cancer	SaddleBrown
-Bowel (BOWEL)	Small Intestinal Carcinoma (SIC)				Small Bowel Cancer	SaddleBrown
+Bowel (BOWEL)	Small Bowel Cancer (SBC)	Duodenal Adenocarcinoma (DA)			Small Bowel Cancer	SaddleBrown	C7889	C0278804
+Bowel (BOWEL)	Small Intestinal Carcinoma (SIC)				Small Bowel Cancer	SaddleBrown	C7724	C0238196
 CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Carcinoma (CPC)			Choroid Plexus Tumor	Gray	C4715	C0431109
 CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Choroid Plexus Papilloma (CPP)			Choroid Plexus Tumor	Gray	C3698	C0205770
 CNS/Brain (BRAIN)	Choroid Plexus Tumor (CPT)	Atypical Choroid Plexus Papilloma (ACPP)			Choroid Plexus Tumor	Gray	C53686	C1266176
@@ -100,13 +103,13 @@ CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Anaplastic Oligodendroglioma (AODG)			Gl
 CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Oligoastrocytoma (OAST)			Glioma	Gray	C4050	C0280793
 CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Anaplastic Oligoastrocytoma (AOAST)			Glioma	Gray	C6959	C0431108
 CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Diffuse Intrinsic Pontine Glioma (DIPG)			Glioma	Gray	C94764	C2986658
-CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Glioblastoma Multiforme (GBM)		Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Glioblastoma Multiforme (GBM)		Glioma	Gray	C3058	C0017636
 CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Gliosarcoma (GSARC)		Glioma	Gray	C3796	C0206726
-CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Small Cell Glioblastoma (SCGBM)		Glioma	Gray
+CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	Glioblastoma (GB)	Small Cell Glioblastoma (SCGBM)		Glioma	Gray	C125890	C1272516
 CNS/Brain (BRAIN)	Diffuse Glioma (DIFG)	High-Grade Glioma, NOS (HGGNOS)			Glioma	Gray
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Atypical Teratoid/Rhabdoid Tumor (ATRT)			Embryonal Tumor	Gray	C6906	C1266184
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Desmoplastic/Nodular Medulloblastoma (DMBL)			Embryonal Tumor	Gray	C4956	C0751291
-CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Embryonal Tumor with Abundant Neuropil and True Rosettes (ETANTR)			Embryonal Tumor	Gray
+CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Embryonal Tumor with Abundant Neuropil and True Rosettes (ETANTR)			Embryonal Tumor	Gray	C4915	C0700367
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Ganglioneuroblastoma (GNBL)			Embryonal Tumor	Gray	C3790	C0206718
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Large Cell/Anaplastic Medulloblastoma (AMBL)			Embryonal Tumor	Gray	C6904	C1266180
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Medulloblastoma (MBL)			Embryonal Tumor	Gray	C3222	C0025149
@@ -117,40 +120,41 @@ CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Melanotic Medulloblastoma (MMBL)			Embr
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Neuroblastoma (NBL)			Embryonal Tumor	Gray	C3270	C0027819
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Olfactory Neuroblastoma (ONBL)			Embryonal Tumor	Gray	C3789	C0206717
 CNS/Brain (BRAIN)	Embryonal Tumor (EMBT)	Primitive Neuroectodermal Tumor (PNET)			Embryonal Tumor	Gray	C3716	C0206663
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Pleomorphic Xanthoastrocytoma (APXA)			Glioma	Gray	C129327	CL512339
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilocytic Astrocytoma (PAST)			Glioma	Gray	C4047	C0334583
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pilomyxoid Astrocytoma (PMA)			Glioma	Gray	C40315	C1519086
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Pleomorphic Xanthoastrocytoma (PXA)			Glioma	Gray	C4323	C0334586
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Dysembryoplastic Neuroepithelial Tumor (DNT)			Glioma	Gray	C9505	C1266177
-CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Gangliocytoma (GNC)			Glioma	Gray	C6934
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Gangliocytoma (GNC)			Glioma	Gray	C6934	CL378224
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Ganglioglioma (GNG)			Glioma	Gray	C3788	C0206716
 CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Anaplastic Ganglioglioma (AGNG)			Glioma	Gray	C4717	C0431112
-CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Low-Grade Glioma, NOS (LGGNOS)			Glioma	Gray
-CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Ependymoma (EPM)			Ependymomal Tumor	Gray	C3017	C0014474
-CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Anaplastic Ependymoma (APE)			Ependymomal Tumor	Gray	C4049	C0280788
-CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Clear Cell Ependymoma (CCE)			Ependymomal Tumor	Gray	C4714	C1384404
-CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Myxopapillary Ependymoma (MPE)			Ependymomal Tumor	Gray	C3697	C0205769
-CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Subependymoma (SUBE)			Ependymomal Tumor	Gray	C3795	C0206725
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Choriocarcinoma (BCCA)			Germ Cell Tumor	Gray	C27246	C0279677
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Embryonal Carcinoma (BEC)			Germ Cell Tumor	Gray
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Germinoma (GMN)			Germ Cell Tumor	Gray	C3753	C0206660
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Immature Teratoma (BIMT)			Germ Cell Tumor	Gray	C8884	C0855163
+CNS/Brain (BRAIN)	Encapsulated Glioma (ENCG)	Low-Grade Glioma, NOS (LGGNOS)			Glioma	Gray		C1997581
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Ependymoma (EPM)			CNS Cancer	Gray	C3017	C0014474
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Anaplastic Ependymoma (APE)			CNS Cancer	Gray	C4049	C0280788
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Clear Cell Ependymoma (CCE)			CNS Cancer	Gray	C4714	C1384404
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Myxopapillary Ependymoma (MPE)			CNS Cancer	Gray	C3697	C0205769
+CNS/Brain (BRAIN)	Ependymomal Tumor (EPMT)	Subependymoma (SUBE)			CNS Cancer	Gray	C3795	C0206725
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Choriocarcinoma (BCCA)			Germ Cell Tumor	Gray	C7012	C1332876
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Embryonal Carcinoma (BEC)			Germ Cell Tumor	Gray	C7010	C1333377
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Germinoma (GMN)			Germ Cell Tumor	Gray	C7009	C1333813
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Immature Teratoma (BIMT)			Germ Cell Tumor	Gray	C7014	C1332883
 CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Malignant Teratoma (BMGT)			Germ Cell Tumor	Gray	C7015	C1336704
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mature Teratoma (BMT)			Germ Cell Tumor	Gray	C9015	C1368910
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mixed Germ Cell Tumor (BMGCT)			Germ Cell Tumor	Gray	C8881	C0855160
-CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Yolk Sac Tumor (BYST)			Germ Cell Tumor	Gray	C6379	C1336945
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Meningioma (MNG)			Meningothelial Tumor	Gray	C3230	C0025286
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Anaplastic Meningioma (ANM)			Meningothelial Tumor	Gray	C4051	C0259785
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Atypical Meningioma (ATM)			Meningothelial Tumor	Gray	C4723	C0431122
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Chordoid Meningioma (CHOM)			Meningothelial Tumor	Gray	C6908	C1370510
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Clear cell Meningioma (CCM)			Meningothelial Tumor	Gray	C4722	C0431121
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Hemangiopericytoma of the Central Nervous System (HPCCNS)			Meningothelial Tumor	Gray	C4660	C0349622
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Papillary Meningioma (PPM)			Meningothelial Tumor	Gray	C3904	C3163622
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Rhabdoid Meningioma (RHM)			Meningothelial Tumor	Gray	C6909	C0259786
-CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Solitary Fibrous Tumor of the Central Nervous System (SFTCNS)			Meningothelial Tumor	Gray
-CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Hemangioblastoma (HMBL)			Miscellaneous Brain Tumor	Gray	C3801	C0206734
-CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Lymphoma (MLYM)			Miscellaneous Brain Tumor	Gray	C3208	C0024299
-CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Tumor (MT)			Miscellaneous Brain Tumor	Gray	C9305	C0006826
-CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Mesenchymal Chondrosarcoma of the CNS (MCHSCNS)			Miscellaneous Brain Tumor	Gray	C3737	C0206637
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mature Teratoma (BMT)			Germ Cell Tumor	Gray	C7013	C1332886
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Mixed Germ Cell Tumor (BMGCT)			Germ Cell Tumor	Gray	C7016	C1334785
+CNS/Brain (BRAIN)	Germ Cell Tumor, Brain (BGCT)	Yolk Sac Tumor (BYST)			Germ Cell Tumor	Gray	C7011	C1337040
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Meningioma (MNG)			CNS Cancer	Gray	C3230	C0025286
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Anaplastic Meningioma (ANM)			CNS Cancer	Gray	C4051	C0259785
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Atypical Meningioma (ATM)			CNS Cancer	Gray	C4723	C0431122
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Chordoid Meningioma (CHOM)			CNS Cancer	Gray	C6908	C1370510
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Clear cell Meningioma (CCM)			CNS Cancer	Gray	C4722	C0431121
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Hemangiopericytoma of the Central Nervous System (HPCCNS)			CNS Cancer	Gray	C4660	C0349622
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Papillary Meningioma (PPM)			CNS Cancer	Gray	C3904	C3163622
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Rhabdoid Meningioma (RHM)			CNS Cancer	Gray	C6909	C0259786
+CNS/Brain (BRAIN)	Meningothelial Tumor (MNGT)	Solitary Fibrous Tumor of the Central Nervous System (SFTCNS)			CNS Cancer	Gray	C4660	C0349622
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Hemangioblastoma (HMBL)			Miscellaneous Brain Tumor	Gray	C7007	C1333955
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Lymphoma (MLYM)			Miscellaneous Brain Tumor	Gray	C9301	C0280803
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Malignant Tumor (MT)			Miscellaneous Brain Tumor	Gray	C4627	C0348374
+CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Mesenchymal Chondrosarcoma of the CNS (MCHSCNS)			Miscellaneous Brain Tumor	Gray	C129534	CL512686
 CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Primary Brain Tumor (PBT)			Miscellaneous Brain Tumor	Gray	C4952	C0750974
 CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	Primary Neuroepithelial Tumor (PRNET)			Miscellaneous Brain Tumor	Gray	C3787	C0206715
 CNS/Brain (BRAIN)	Miscellaneous Brain Tumor (MBT)	High-Grade Neuroepithelial Tumor (HGNET)			Miscellaneous Brain Tumor	Gray
@@ -165,12 +169,12 @@ CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Desmoplastic Infant
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Dysplastic Gangliocytoma of the Cerebellum/Lhermitte-Duclos Disease (LDD)			Miscellaneous Neuroepithelial Tumor	Gray	C8419	C0391826
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Extraventricular Neurocytoma (EVN)			Miscellaneous Neuroepithelial Tumor	Gray	C92555	C2985175
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Papillary Glioneuronal Tumor (PGNT)			Miscellaneous Neuroepithelial Tumor	Gray	C92554	C2985174
-CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Paraganglioma (PGNG)			Miscellaneous Neuroepithelial Tumor	Gray	C3308	C0030421
 CNS/Brain (BRAIN)	Miscellaneous Neuroepithelial Tumor (MNET)	Rosette-forming Glioneuronal Tumor of the Fourth Ventricle (RGNT)			Miscellaneous Neuroepithelial Tumor	Gray	C67559	C2347979
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Papillary Tumor of the Pineal Region (PTPR)			Pineal Tumor	Gray	C92624	C2985219
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineal Parenchymal Tumor of Intermediate Differentiation (PPTID)			Pineal Tumor	Gray	C6967	C1367859
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineocytoma (PINC)			Pineal Tumor	Gray	C6966	C0917890
 CNS/Brain (BRAIN)	Pineal Tumor (PINT)	Pineoblastoma (PBL)			Pineal Tumor	Gray	C9344	C0205898
+CNS/Brain (BRAIN)	Primary CNS Melanoma (PCNSM)				Melanoma	LightSkyBlue		CL495811
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Adamantinomatous Type (ACPG)			Sellar Tumor	Gray	C4726	C0431129
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Craniopharyngioma, Papillary Type (PCGP)			Sellar Tumor	Gray	C4725	C0431128
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Granular Cell Tumor (GCT)			Sellar Tumor	Gray	C3474	C0085167
@@ -179,139 +183,147 @@ CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Adenoma (PTAD)			Sellar Tumor	Gr
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Atypical Pituitary Adenoma (APTAD)			Sellar Tumor	Gray
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Pituitary Carcinoma (PTCA)			Sellar Tumor	Gray	C4536	C0346300
 CNS/Brain (BRAIN)	Sellar Tumor (SELT)	Spindle Cell Oncocytoma of the Adenohypophysis (SCOAH)			Sellar Tumor	Gray	C94537	C2986561
-Breast (BREAST)	Adenomyoepithelioma of the Breast (BRAME)				Breast Carcinoma	HotPink	C6899	C1510795
-Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)				Breast Carcinoma	HotPink	C2924	C0007124
-Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)	Paget Disease of the Nipple (PD)			Breast Carcinoma	HotPink	C3301	C1704323
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)				Breast Carcinoma	HotPink	C9245	C0853879
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (ACBC)			Breast Carcinoma	HotPink	C5130	C1332167
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Carcinoma	HotPink	C5175	C1335964
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Carcinoma	HotPink	C9245	C0853879
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Carcinoma	HotPink	C4194	C1134719
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Carcinoma	HotPink	C7950	C0279565
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Carcinoma	HotPink	C5160
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous Carcinoma (IMMC)			Breast Carcinoma	HotPink	C9131	C1334807
-Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Solid Papillary Carcinoma of the Breast (SPC)			Breast Carcinoma	HotPink
-Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Carcinoma	HotPink	C4001	C0278601
-Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Carcinoma	HotPink	C4018	C0279563
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Carcinoma	HotPink	C5164	C1334708
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Carcinoma	HotPink	C40358	C1519487
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenosquamous Carcinoma (MASC)		Breast Carcinoma	HotPink	C40361	C1510796
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Squamous Cell Carcinoma (MSCC)		Breast Carcinoma	HotPink	C5177	C1336079
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)			Breast Carcinoma	HotPink	C40364	C1513365
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Carcinoma	HotPink	C47847	C1707042
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Carcinoma	HotPink	C47848	C1711312
-Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Carcinoma	HotPink
+Breast (BREAST)	Adenomyoepithelioma of the Breast (BRAME)				Breast Cancer	HotPink	C6899	C1510795
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)				Breast Cancer	HotPink	C2924	C0007124
+Breast (BREAST)	Breast Ductal Carcinoma In Situ (DCIS)	Paget Disease of the Nipple (PD)			Breast Cancer	HotPink	C3301	C1704323
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)				Breast Cancer	HotPink	C9245	C0853879
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Adenoid Cystic Breast Cancer (ACBC)			Breast Cancer	HotPink	C5130	C1332167
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Carcinoma with Signet Ring (BRSRCC)			Breast Cancer	HotPink	C5175	C1335964
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Cancer, NOS (BRCANOS)			Breast Cancer	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinoma, NOS (BRCNOS)			Breast Cancer	HotPink
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Carcinosarcoma, NOS (CSNOS)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Ductal Carcinoma (IDC)			Breast Cancer	HotPink	C4194	C1134719
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Lobular Carcinoma (ILC)			Breast Cancer	HotPink	C7950	C0279565
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Mixed Ductal and Lobular Carcinoma (MDLC)			Breast Cancer	HotPink	C5160	CL007210
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Breast Invasive Mixed Mucinous Carcinoma (IMMC)			Breast Cancer	HotPink	C40347	C1517577
+Breast (BREAST)	Invasive Breast Carcinoma (BRCA)	Solid Papillary Carcinoma of the Breast (SPC)			Breast Cancer	HotPink	C6870	C1336027
+Breast (BREAST)	Inflammatory Breast Cancer (IBC)				Breast Cancer	HotPink	C4001	C0278601
+Breast (BREAST)	Breast Lobular Carcinoma In Situ (LCIS)				Breast Cancer	HotPink	C4018	C0279563
+Breast (BREAST)	Breast Neoplasm, NOS (BNNOS)				Breast Cancer	HotPink	C2910	C1458155
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)				Breast Cancer	HotPink	C5164	C1334708
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenocarcinoma with Spindle Cell Differentiation (MASCC)		Breast Cancer	HotPink	C40360	C1511281
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Adenosquamous Carcinoma (MASC)		Breast Cancer	HotPink	C5163	C1332613
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Epithelial Type Metaplastic Breast Cancer (EMBC)	Metaplastic Squamous Cell Carcinoma (MSCC)		Breast Cancer	HotPink	C6987	C1333319
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)			Breast Cancer	HotPink	C40364	C1513365
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Chondroid Metaplasia (CCHM)		Breast Cancer	HotPink	C47847	C1707042
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Carcinoma with Osseous Metaplasia (COM)		Breast Cancer	HotPink	C47848	C1711312
+Breast (BREAST)	Metaplastic Breast Cancer (MBC)	Mixed Type Metaplastic Breast Cancer (MMBC)	Metaplastic Carcinosarcoma (MCS)		Breast Cancer	HotPink
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)				Breast Sarcoma	HotPink	C40405	C1511309
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Fibroadenoma (FA)			Breast Sarcoma	HotPink	C3744	C0206650
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)			Breast Sarcoma	HotPink	C7575	C0238031
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Sarcoma	HotPink	C5196	C1332533
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Sarcoma	HotPink	C5316	C1332592
+Breast (BREAST)	Breast Fibroepithelial Neoplasms (BFN)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Sarcoma	HotPink	C4504	C0346154
 Breast (BREAST)	Breast Sarcoma (PBS)				Breast Sarcoma	HotPink	C4670	C0349667
-Breast (BREAST)	Breast Sarcoma (PBS)	Breast Angiosarcoma (BA)			Breast Sarcoma	HotPink	C7575	C0238031
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)			Breast Sarcoma	HotPink	C7575	C0238031
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Benign Phyllodes Tumor of the Breast (BPT)		Breast Sarcoma	HotPink	C5196	C1332533
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Borderline Phyllodes Tumor of the Breast (BLPT)		Breast Sarcoma	HotPink	C5316	C1332592
-Breast (BREAST)	Breast Sarcoma (PBS)	Phyllodes Tumor of the Breast (PT)	Malignant Phyllodes Tumor of the Breast (MPT)		Breast Sarcoma	HotPink	C4504	C0346154
+Breast (BREAST)	Breast Sarcoma (PBS)	Breast Angiosarcoma (BA)			Breast Sarcoma	HotPink	C5184	C1332614
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Malignant Peripheral Nerve Sheath Tumor (MPNST)			Nerve Sheath Tumor	Gray	C3798	C0751690
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Neurofibroma (NFIB)			Nerve Sheath Tumor	Gray	C3272	C0027830
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)			Nerve Sheath Tumor	Gray	C3269	C0027809
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Cellular Schwannoma (CSCHW)		Nerve Sheath Tumor	Gray	C4724	C0431124
 Peripheral Nervous System (PNS)	Nerve Sheath Tumor (NST)	Schwannoma (SCHW)	Melanotic Schwannoma (MSCHW)		Nerve Sheath Tumor	Gray	C6970	C1306247
+Cervix (CERVIX)	Cervical Adenocarcinoma In Situ (CEAIS)				Cervical Cancer	Teal	C4520	C0346203
 Cervix (CERVIX)	Cervical Adenoid Basal Carcinoma (CABC)				Cervical Cancer	Teal	C40213	C1516403
 Cervix (CERVIX)	Cervical Adenoid Cystic Carcinoma (CACC)				Cervical Cancer	Teal	C6346	C1332911
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)				Cervical Cancer	Teal	C4029	C0279672
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Clear Cell Carcinoma (CECC)			Cervical Cancer	Teal	C6344	C1332912
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Serous Carcinoma (CESE)			Cervical Cancer	Teal
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endometrioid Carcinoma (CEEN)			Cervical Cancer	Teal	C3769	C0206687
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endocervical Adenocarcinoma (ECAD)			Cervical Cancer	Teal	C28327	C1299237
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mesonephric Carcinoma (CEMN)			Cervical Cancer	Teal	C4072
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)			Cervical Cancer	Teal	C26712	C0007130
-Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Gastric Type Mucinous Carcinoma (GCEMU)		Cervical Cancer	Teal	C5248	C1334809
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Endometrioid Carcinoma (CEEN)			Cervical Cancer	Teal	C6343	C1332913
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Cervical Serous Carcinoma (CESE)			Cervical Cancer	Teal	C40201	C1516431
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Endocervical Adenocarcinoma (ECAD)			Cervical Cancer	Teal	C127907	CL508738
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mesonephric Carcinoma (CEMN)			Cervical Cancer	Teal	C40254	C1516419
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)			Cervical Cancer	Teal	C36095	C1332919
+Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Gastric Type Mucinous Carcinoma (GCEMU)		Cervical Cancer	Teal	C127905	CL509705
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Intestinal Type Mucinous Carcinoma (ICEMU)		Cervical Cancer	Teal	C40203	C1516422
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Mucinous Carcinoma (CEMU)	Signet Ring Mucinous Carcinoma (SCEMU)		Cervical Cancer	Teal	C40205	C1516424
 Cervix (CERVIX)	Cervical Adenocarcinoma (CEAD)	Villoglandular Carcinoma (CEVG)			Cervical Cancer	Teal	C40208	C1516425
 Cervix (CERVIX)	Cervical Adenosquamous Carcinoma (CEAS)				Cervical Cancer	Teal	C4519	C0346202
-Cervix (CERVIX)	Cervical Leiomyosarcoma (CELI)				Cervical Cancer	Teal
-Cervix (CERVIX)	Cervical Neuroendocrine Tumor (CENE)				Cervical Cancer	Teal	C40214	C1516417
-Cervix (CERVIX)	Cervical Rhabdomyosarcoma (CERMS)				Cervical Cancer	Teal
+Cervix (CERVIX)	Cervical Leiomyosarcoma (CELI)				Cervical Cancer	Teal	C128047	CL509701
+Cervix (CERVIX)	Cervical Neuroendocrine Tumor (CENE)				Cervical Cancer	Teal	C128041	CL509706
+Cervix (CERVIX)	Cervical Rhabdomyosarcoma (CERMS)				Cervical Cancer	Teal	C128048	CL509707
 Cervix (CERVIX)	Cervical Squamous Cell Carcinoma (CESC)				Cervical Cancer	Teal	C4028	C0279671
-Cervix (CERVIX)	Glassy Cell Carcinoma of the Cervix (CEGCC)				Cervical Cancer	Teal	C40212	C1516407
+Cervix (CERVIX)	Glassy Cell Carcinoma of the Cervix (CEGCC)				Cervical Cancer	Teal		C2012072
+Cervix (CERVIX)	Mixed Cervical Carcinoma (MCCE)				Cervical Cancer	Teal
 Cervix (CERVIX)	Small Cell Carcinoma of the Cervix (SCCE)				Cervical Cancer	Teal	C7982	C0279674
 Cervix (CERVIX)	Villoglandular Adenocarcinoma of the Cervix (VGCE)				Cervical Cancer	Teal	C40208	C1516425
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Carcinoma	LightSkyBlue	C9296	C1332166
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenocarcinoma of the Gastroesophageal Junction (GEJ)			Esophagogastric Carcinoma	LightSkyBlue	C9296	C1332166
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenosquamous Carcinoma of the Stomach (STAS)			Esophagogastric Carcinoma	LightSkyBlue	C5474	C1333761
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Esophageal Adenocarcinoma (ESCA)			Esophagogastric Carcinoma	LightSkyBlue	C4025	C0279628
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Gastric Remnant Adenocarcinoma (GRC)			Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Small Cell Carcinoma of the Stomach (STSC)			Esophagogastric Carcinoma	LightSkyBlue	C6764	C1333788
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)			Esophagogastric Carcinoma	LightSkyBlue	C4004	C0278701
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Diffuse Type Stomach Adenocarcinoma (DSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C9159	C0279635
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Intestinal Type Stomach Adenocarcinoma (ISTAD)		Esophagogastric Carcinoma	LightSkyBlue	C9157	C0279633
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Mucinous Stomach Adenocarcinoma (MSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5248	C1334809
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Papillary Stomach Adenocarcinoma (PSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5472	C1333785
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Tubular Stomach Adenocarcinoma (TSTAD)		Esophagogastric Carcinoma	LightSkyBlue	C5473	C1333791
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)			Esophagogastric Carcinoma	LightSkyBlue	C5476	C1336858
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Poorly Differentiated Carcinoma of the Stomach (SPDAC)		Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Carcinoma	LightSkyBlue	C5250	C1335965
-Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Carcinoma	LightSkyBlue
-Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Carcinoma	LightSkyBlue	C4024	C0279626
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)				Esophagogastric Cancer	LightSkyBlue	C9296	C1332166
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenocarcinoma of the Gastroesophageal Junction (GEJ)			Esophagogastric Cancer	LightSkyBlue	C9296	C1332166
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Adenosquamous Carcinoma of the Stomach (STAS)			Esophagogastric Cancer	LightSkyBlue	C5474	C1333761
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Esophageal Adenocarcinoma (ESCA)			Esophagogastric Cancer	LightSkyBlue	C4025	C0279628
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Gastric Remnant Adenocarcinoma (GRC)			Esophagogastric Cancer	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Small Cell Carcinoma of the Stomach (STSC)			Esophagogastric Cancer	LightSkyBlue	C6764	C1333788
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)			Esophagogastric Cancer	LightSkyBlue	C4004	C0278701
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Diffuse Type Stomach Adenocarcinoma (DSTAD)		Esophagogastric Cancer	LightSkyBlue	C9159	C0279635
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Intestinal Type Stomach Adenocarcinoma (ISTAD)		Esophagogastric Cancer	LightSkyBlue	C9157	C0279633
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Mucinous Stomach Adenocarcinoma (MSTAD)		Esophagogastric Cancer	LightSkyBlue	C5248	C1334809
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Papillary Stomach Adenocarcinoma (PSTAD)		Esophagogastric Cancer	LightSkyBlue	C5472	C1333785
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Stomach Adenocarcinoma (STAD)	Tubular Stomach Adenocarcinoma (TSTAD)		Esophagogastric Cancer	LightSkyBlue	C5473	C1333791
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)			Esophagogastric Cancer	LightSkyBlue	C5476	C1336858
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Poorly Differentiated Carcinoma of the Stomach (SPDAC)		Esophagogastric Cancer	LightSkyBlue
+Esophagus/Stomach (STOMACH)	Esophagogastric Adenocarcinoma (EGC)	Undifferentiated Stomach Adenocarcinoma (USTAD)	Signet Ring Cell Carcinoma of the Stomach (SSRCC)		Esophagogastric Cancer	LightSkyBlue	C5250	C1335965
+Esophagus/Stomach (STOMACH)	Esophageal Poorly Differentiated Carcinoma (EPDCA)				Esophagogastric Cancer	LightSkyBlue	C95619	C2987262
+Esophagus/Stomach (STOMACH)	Esophageal Squamous Cell Carcinoma (ESCC)				Esophagogastric Cancer	LightSkyBlue	C4024	C0279626
 Esophagus/Stomach (STOMACH)	Mucosal Melanoma of the Esophagus (ESMM)				Melanoma	LightSkyBlue	C5707	C1333460
+Esophagus/Stomach (STOMACH)	Smooth Muscle Neoplasm, NOS (SMN)				Esophagogastric Cancer	LightSkyBlue	C3751	C0206658
 Eye (EYE)	Retinoblastoma (RBL)				Retinoblastoma	Green	C7541	C0035335
 Eye (EYE)	Ocular Melanoma (OM)				Melanoma	Green	C8562	C0558356
 Eye (EYE)	Ocular Melanoma (OM)	Uveal Melanoma (UM)			Melanoma	Green	C7712	C0220633
 Eye (EYE)	Ocular Melanoma (OM)	Conjunctival Melanoma (CM)			Melanoma	Green	C4550	C0346360
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Neck Carcinoma	DarkRed	C35850
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Epithelial-Myoepithelial Carcinoma (EMYOCA)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	NUT Midline Carcinoma of the Head and Neck (NMCHN)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Carcinoma	DarkRed	C4812	C0334558
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Carcinoma	DarkRed	C54300	C0475829
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Adenocarcinoma (SNA)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Undifferentiated Carcinoma (SNUC)			Head and Neck Carcinoma	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)				Head and Neck Cancer	DarkRed	C35850	C3887461
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Epithelial-Myoepithelial Carcinoma (EMYOCA)			Head and Neck Cancer	DarkRed	C35701	C1335900
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Head and Neck Neuroendocrine Carcinoma (HNNE)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	NUT Midline Carcinoma of the Head and Neck (NMCHN)			Head and Neck Cancer	DarkRed	C45716	C1707291
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)			Head and Neck Cancer	DarkRed	C4812	C0334558
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Odontogenic Carcinoma (ODGC)	Clear Cell Odontogenic Carcinoma (CCOC)		Head and Neck Cancer	DarkRed	C54300	C0475829
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Adenocarcinoma (SNA)			Head and Neck Cancer	DarkRed	C116316	C3898709
+Head and Neck (HEAD_NECK)	Head and Neck Carcinoma, Other (OHNCA)	Sinonasal Undifferentiated Carcinoma (SNUC)			Head and Neck Cancer	DarkRed	C54294	C1710096
 Head and Neck (HEAD_NECK)	Head and Neck Mucosal Melanoma (HNMUCM)				Melanoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Carcinoma	DarkRed	C34447	C1168401
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Carcinoma	DarkRed
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Carcinoma	DarkRed	C4043	C0280321
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oral Cavity Squamous Cell Carcinoma (OCSC)			Head and Neck Carcinoma	DarkRed	C4833	C0585362
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharynx Squamous Cell Carcinoma (OPHSC)			Head and Neck Carcinoma	DarkRed	C8181	C0280313
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Carcinoma	DarkRed	C4044	C0280324
-Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Carcinoma	DarkRed	C68611	C0280332
-Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Carcinoma	DarkRed	C3871	C2931822
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Carcinoma	DarkRed	C9272	C0948750
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Carcinoma	DarkRed	C3768	C0206685
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Carcinoma	DarkRed	C2970	C0010606
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (HNMASC)			Salivary Carcinoma	DarkRed	C123384
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Carcinoma	DarkRed	C3772	C0206694
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Carcinoma	DarkRed	C7596	C0334699
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Carcinoma	DarkRed	C8021	C0279746
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Carcinoma	DarkRed	C62191	C1882971
-Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Carcinoma	DarkRed	C5904	C1301194
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)				Head and Neck Cancer	DarkRed	C34447	C1168401
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Head and Neck Squamous Cell Carcinoma of Unknown Primary (HNSCUP)			Head and Neck Cancer	DarkRed
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Hypopharynx Squamous Cell Carcinoma (HPHSC)			Head and Neck Cancer	DarkRed	C4043	C0280321
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oral Cavity Squamous Cell Carcinoma (OCSC)			Head and Neck Cancer	DarkRed	C4833	C0585362
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Oropharynx Squamous Cell Carcinoma (OPHSC)			Head and Neck Cancer	DarkRed	C8181	CL497390
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Larynx Squamous Cell Carcinoma (LXSC)			Head and Neck Cancer	DarkRed	C4044	C0280324
+Head and Neck (HEAD_NECK)	Head and Neck Squamous Cell Carcinoma (HNSC)	Sinonasal Squamous Cell Carcinoma (SNSC)			Head and Neck Cancer	DarkRed	C68611	C0280332
+Head and Neck (HEAD_NECK)	Nasopharyngeal Carcinoma (NPC)				Head and Neck Cancer	DarkRed	C3871	C2931822
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)				Salivary Gland Cancer	DarkRed	C9272	C0948750
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Acinic Cell Carcinoma (ACCC)			Salivary Gland Cancer	DarkRed	C8013	C0279738
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Adenoid Cystic Carcinoma (ACYC)			Salivary Gland Cancer	DarkRed	C8026	C0279751
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mammary Analogue Secretory Carcinoma of Salivary Gland Origin (HNMASC)			Salivary Gland Cancer	DarkRed	C123384	CL512709
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Mucoepidermoid Carcinoma (MUCC)			Salivary Gland Cancer	DarkRed	C5908	C1335903
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Myoepithelial Carcinoma (MYEC)			Salivary Gland Cancer	DarkRed	C35700	C1335904
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Adenocarcinoma (SAAD)			Salivary Gland Cancer	DarkRed	C8021	C0279746
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Carcinoma, Other (OSACA)			Salivary Gland Cancer	DarkRed	C62191	C1882971
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Duct Carcinoma (SDCA)			Salivary Gland Cancer	DarkRed	C5904	C1301194
+Head and Neck (HEAD_NECK)	Salivary Carcinoma (SACA)	Salivary Gland Oncocytoma (SGO)			Salivary Gland Cancer	DarkRed	C5932	C1335906
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)			Renal Cell Carcinoma	Orange	C4033	C0279702
-Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)	Renal Clear Cell Carcinoma with Sarcomatoid Features (SCCRCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Clear Cell Carcinoma (CCRCC)	Renal Clear Cell Carcinoma with Sarcomatoid Features (SCCRCC)		Renal Cell Carcinoma	Orange	C27893	C1266043
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)			Renal Cell Carcinoma	Orange
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Chromophobe Renal Cell Carcinoma (CHRCC)		Renal Cell Carcinoma	Orange	C4146	C1266042
-Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Clear Cell Papillary Renal Cell Carcinoma (CCPRC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Clear Cell Papillary Renal Cell Carcinoma (CCPRC)		Renal Cell Carcinoma	Orange		C1720430
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Collecting Duct Renal Cell Carcinoma (CDRCC)		Renal Cell Carcinoma	Orange	C6194	C1266044
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Papillary Renal Cell Carcinoma (PRCC)		Renal Cell Carcinoma	Orange	C6975	C1306837
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Angiomyolipoma (RAML)		Renal Cell Carcinoma	Orange	C3888	C0241961
-Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Medullary Carcinoma (MRC)		Renal Cell Carcinoma	Orange	C7572
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Medullary Carcinoma (MRC)		Renal Cell Carcinoma	Orange	C7572	C4049328
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Mucinous Tubular Spindle Cell Carcinoma (MTSCC)		Renal Cell Carcinoma	Orange	C39807	C1513719
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Oncocytoma (ROCY)		Renal Cell Carcinoma	Orange	C4526	C0346255
-Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Small Cell Carcinoma (RSCC)		Renal Cell Carcinoma	Orange
+Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Renal Small Cell Carcinoma (RSCC)		Renal Cell Carcinoma	Orange	C116317	C2212425
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Sarcomatoid Renal Cell Carcinoma (SRCC)		Renal Cell Carcinoma	Orange	C27893	C1266043
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Unclassified Renal Cell Carcinoma (URCC)		Renal Cell Carcinoma	Orange	C27892	C1336853
 Kidney (KIDNEY)	Renal Cell Carcinoma (RCC)	Renal Non-Clear Cell Carcinoma (NCCRCC)	Translocation-Associated Renal Cell Carcinoma (TRCC)		Renal Cell Carcinoma	Orange	C27891	C1337036
-Kidney (KIDNEY)	Wilms' Tumor (WT)				Wilms Tumor	Orange	C3267
+Kidney (KIDNEY)	Wilms' Tumor (WT)				Wilms Tumor	Orange	C3267	CL505178
 Kidney (KIDNEY)	Wilms' Tumor (WT)	Rhabdoid Cancer (MRT)			Wilms Tumor	Orange	C3808	C0206743
-Liver (LIVER)	Fibrolamellar Carcinoma (FLC)				Hepatocellular Carcinoma	MediumSeaGreen	C4131	C0334287
-Liver (LIVER)	Hepatoblastoma (LIHB)				Hepatocellular Carcinoma	MediumSeaGreen	C3728	C0206624
-Liver (LIVER)	Hepatocellular Adenoma (LIAD)				Hepatocellular Carcinoma	MediumSeaGreen	C3758	C0206669
-Liver (LIVER)	Hepatocellular Carcinoma (HCC)				Hepatocellular Carcinoma	MediumSeaGreen	C3099	C0019204
-Liver (LIVER)	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma (HCCIHCH)				Hepatocellular Carcinoma	MediumSeaGreen	C3828	C0221287
-Liver (LIVER)	Liver Angiosarcoma (LIAS)				Hepatocellular Carcinoma	MediumSeaGreen	C4438	C0345907
-Liver (LIVER)	Malignant Nonepithelial Tumor of the Liver (LIMNET)				Hepatocellular Carcinoma	MediumSeaGreen
+Liver (LIVER)	Fibrolamellar Carcinoma (FLC)				Hepatobiliary Cancer	MediumSeaGreen	C4131	C0334287
+Liver (LIVER)	Hepatoblastoma (LIHB)				Hepatobiliary Cancer	MediumSeaGreen	C3728	C0206624
+Liver (LIVER)	Hepatocellular Adenoma (LIAD)				Hepatobiliary Cancer	MediumSeaGreen	C3758	C0206669
+Liver (LIVER)	Hepatocellular Carcinoma (HCC)				Hepatobiliary Cancer	MediumSeaGreen	C3099	C0019204
+Liver (LIVER)	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma (HCCIHCH)				Hepatobiliary Cancer	MediumSeaGreen	C3828	C0221287
+Liver (LIVER)	Liver Angiosarcoma (LIAS)				Hepatobiliary Cancer	MediumSeaGreen	C4438	C0345907
+Liver (LIVER)	Malignant Nonepithelial Tumor of the Liver (LIMNET)				Hepatobiliary Cancer	MediumSeaGreen
 Lymph (LYMPH)	Hodgkin Lymphoma (HL)				Hodgkin Lymphoma	LimeGreen	C9357	C0019829
 Lymph (LYMPH)	Hodgkin Lymphoma (HL)	Classical Hodgkin Lymphoma (CHL)			Hodgkin Lymphoma	LimeGreen	C7164	C1333064
 Lymph (LYMPH)	Hodgkin Lymphoma (HL)	Nodular Lymphocyte-Predominant Hodgkin Lymphoma (NLPHL)			Hodgkin Lymphoma	LimeGreen	C7258	C1334968
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)				Non-Hodgkin Lymphoma	LimeGreen	C3211	C0024305
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)			Non-Hodgkin Lymphoma	LimeGreen	C3457
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)			Non-Hodgkin Lymphoma	LimeGreen	C3457	CL448793
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Burkitt Lymphoma (BL)		Non-Hodgkin Lymphoma	LimeGreen	C2912	C0006413
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Diffuse Large B-Cell Lymphoma (DLBCL)		Non-Hodgkin Lymphoma	LimeGreen	C8851	C0079744
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Extranodal Marginal Zone Lymphoma (MALTL)		Non-Hodgkin Lymphoma	LimeGreen	C3898	C0242647
@@ -321,7 +333,7 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Marginal Zone Lym
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Mediastinal Large B-Cell Lymphoma (MBCL)		Non-Hodgkin Lymphoma	LimeGreen	C9280	C1292754
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Nodal Marginal Zone Lymphoma (NMZL)		Non-Hodgkin Lymphoma	LimeGreen	C8863	C0855139
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Primary CNS Lymphoma (PCNSL)		Non-Hodgkin Lymphoma	LimeGreen	C9301	C0280803
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Primary Effusion Lymphoma (PEL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Primary Effusion Lymphoma (PEL)		Non-Hodgkin Lymphoma	LimeGreen	C6915	C1292753
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Small Lymphocytic Lymphoma (SLL)		Non-Hodgkin Lymphoma	LimeGreen	C7540	C0855095
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Splenic Marginal Zone Lymphoma (SMZL)		Non-Hodgkin Lymphoma	LimeGreen	C4663	C0349632
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	B-Cell Lymphoma (BCL)	Waldenstrom Macroglobulinemia (WM)		Non-Hodgkin Lymphoma	LimeGreen	C80307	C0024419
@@ -329,19 +341,21 @@ Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNK
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)		Non-Hodgkin Lymphoma	LimeGreen	C3467	C0079773
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Mycosis Fungoides (MYCF)	Non-Hodgkin Lymphoma	LimeGreen	C3246	C0026948
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Cutaneous T-Cell Lymphoma (CTCL)	Sezary Syndrome (SEZS)	Non-Hodgkin Lymphoma	LimeGreen	C3366	C0036920
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)		Non-Hodgkin Lymphoma	LimeGreen	C3468	C0079774
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Anaplastic Large Cell Lymphoma (ALCL)	Non-Hodgkin Lymphoma	LimeGreen	C3720	C0206180
 Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Angioimmunoblastic T-Cell Lymphoma (AITL)	Non-Hodgkin Lymphoma	LimeGreen	C7528	C0020981
-Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Peripheral T-Cell Lymphoma, NOS (PTCLNOS)	Non-Hodgkin Lymphoma	LimeGreen	C4340
-Lymph (LYMPH)	Rosai-Dorfman Disease (RD)				Histiocytic Disorder	LimeGreen
-Lung (LUNG)	Combined Small Cell Lung Carcinoma (CSCLC)				Small Cell Lung Cancer	Gainsboro
+Lymph (LYMPH)	Non-Hodgkin Lymphoma (NHL)	T-Cell and Natural Killer Lymphoma (TNKL)	Peripheral T-Cell Lymphoma (PTCL)	Peripheral T-Cell Lymphoma, NOS (PTCLNOS)	Non-Hodgkin Lymphoma	LimeGreen	C4340	C2853959
+Lymph (LYMPH)	Rosai-Dorfman Disease (RD)				Histiocytic Disorder	LimeGreen	C36075	C0019625
+Lung (LUNG)	Combined Small Cell Lung Carcinoma (CSCLC)				Small Cell Lung Cancer	Gainsboro	C9137	C0334240
 Lung (LUNG)	Inflammatory Myofibroblastic Lung Tumor (IMTL)				Non-Small Cell Lung Cancer	Gainsboro	C39740	C1518038
+Lung (LUNG)	Lung Adenocarcinoma In Situ (LAIS)				Non-Small Cell Lung Cancer	Gainsboro	C8758	C0854984
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)				Non-Small Cell Lung Cancer	Gainsboro	C5670	C1334452
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Atypical Lung Carcinoid (ALUCA)			Non-Small Cell Lung Cancer	Gainsboro	C45551	C1708766
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Large Cell Neuroendocrine Carcinoma (LUNE)			Non-Small Cell Lung Cancer	Gainsboro	C6875	C1265996
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Lung Carcinoid (LUCA)			Non-Small Cell Lung Cancer	Gainsboro	C4038	C0280089
 Lung (LUNG)	Lung Neuroendocrine Tumor (LNET)	Small Cell Lung Cancer (SCLC)			Small Cell Lung Cancer	Gainsboro	C4917	C0149925
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)				Non-Small Cell Lung Cancer	Gainsboro	C2926	C0007131
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Ciliated Muconodular Papillary Tumor of the Lung (CMPT)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)			Non-Small Cell Lung Cancer	Gainsboro	C4450	C0345958
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Basaloid Large Cell Carcinoma of the Lung (BLCLC)		Non-Small Cell Lung Cancer	Gainsboro	C7266	C1332463
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	Clear Cell Carcinoma of the Lung (CCLC)		Non-Small Cell Lung Cancer	Gainsboro	C4451	C1707407
@@ -351,50 +365,51 @@ Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Large Cell Lung Carcinoma (LCLC)	
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenocarcinoma (LUAD)			Non-Small Cell Lung Cancer	Gainsboro	C3512	C0152013
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Adenosquamous Carcinoma (LUAS)			Non-Small Cell Lung Cancer	Gainsboro	C9133	C0279557
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Lung Squamous Cell Carcinoma (LUSC)			Non-Small Cell Lung Cancer	Gainsboro	C3493	C0149782
+Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Pleomorphic Carcinoma of the Lung (LUPC)			Non-Small Cell Lung Cancer	Gainsboro	C45542	C1711397
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Poorly Differentiated Non-Small Cell Lung Cancer (NSCLCPD)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)			Non-Small Cell Lung Cancer	Gainsboro
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Adenoid Cystic Carcinoma of the Lung (LUACC)		Non-Small Cell Lung Cancer	Gainsboro	C5666	C1334439
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Salivary Gland–Type Tumor of the Lung (SGTTL)	Mucoepidermoid Carcinoma of the Lung (LUMEC)		Non-Small Cell Lung Cancer	Gainsboro	C45544	C1708778
 Lung (LUNG)	Non-Small Cell Lung Cancer (NSCLC)	Spindle Cell Carcinoma of the Lung (SpCC)			Non-Small Cell Lung Cancer	Gainsboro	C45541	C1708784
-Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer	Gainsboro
-Lung (LUNG)	Pulmonary Lymphangiomyomatosis (LAM)				Non-Small Cell Lung Cancer	Gainsboro
+Lung (LUNG)	Pleuropulmonary Blastoma (PPB)				Non-Small Cell Lung Cancer	Gainsboro	C5669	C1266144
+Lung (LUNG)	Pulmonary Lymphangiomyomatosis (LAM)				Non-Small Cell Lung Cancer	Gainsboro	C38153	C0349649
 Lung (LUNG)	Sarcomatoid Carcinoma of the Lung (SARCL)				Non-Small Cell Lung Cancer	Gainsboro	C45540	C1708781
-Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	#N/A	C4908	C0677886
-Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)	High-Grade Neuroendocrine Carcinoma of the Ovary (HGONEC)			Ovarian Cancer
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	#N/A	C4381	C0341823
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	#N/A	C39954
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	#N/A	C4270	C0334495
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Borderline (BTBOV)		Ovarian Cancer	#N/A	C9459	C0334494
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Benign (BTBEOV)		Ovarian Cancer	#N/A	C4746	C0474834
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Ovarian Cancer (CCOV)			Ovarian Cancer	#N/A	C40076	C0346164
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Borderline Ovarian Tumor (CCBOV)			Ovarian Cancer	#N/A	C40080	C0279676
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Ovarian Cancer (EOV)			Ovarian Cancer	#N/A	C7979	C0346163
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Borderlin Ovarian Tumor (EBOV)			Ovarian Cancer	#N/A	C7983	C0334338
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mixed Ovarian Carcinoma (MXOV)			Ovarian Cancer	#N/A	C40090	C0279392
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)			Ovarian Cancer	#N/A	C7550	C1335177
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	High-Grade Serous Ovarian Cancer (HGSOC)		Ovarian Cancer	#N/A	C105555
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	Low-Grade Serous Ovarian Cancer (LGSOC)		Ovarian Cancer	#N/A	C105556
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Ovarian Cancer (MOV)			Ovarian Cancer	#N/A	C5242	C1335168
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Borderline Ovarian Tumor (MBOV)			Ovarian Cancer	#N/A	C40036	C0279664
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Carcinosarcoma/Malignant Mixed Mesodermal Tumor (OCS)			Ovarian Cancer	#N/A	C9192	C0392998
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Adenoma (OSMAD)			Ovarian Cancer	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Borderline Tumor (OSMBT)			Ovarian Cancer	#N/A	C40038	C1511264
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Carcinoma (OSMCA)			Ovarian Cancer	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Small Cell Carcinoma of the Ovary (SCCO)			Ovarian Cancer	#N/A	C27390	C2212006
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor (SBOV)			Ovarian Cancer	#N/A	C5226	C0279662
-Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor, Micropapillary (SBMOV)			Ovarian Cancer	#N/A	C122585
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Dysgerminoma (ODYS)			Germ Cell Tumor	#N/A	C8106	C0346185
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Cell Tumor	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	#N/A	C8884	C0855163
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	#N/A	C9015	C1368910
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	#N/A	C8881	C0855160
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)			Germ Cell Tumor	#N/A
-Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	#N/A	C6379	C1336945
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	#N/A	C39985	C1518716
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	#N/A	C3070	C0018206
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Malignant Fibrothecoma (MFT)			Sex Cord Stromal Tumor	#N/A	C3498	C0149951
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	#N/A	C2880	C0003810
-Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	#N/A	C39979	C1518740
+Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)				Ovarian Cancer	LightBlue	C4908	C0677886
+Ovary/Fallopian Tube (OVARY)	Ovarian Cancer, Other (OOVC)	High-Grade Neuroendocrine Carcinoma of the Ovary (HGONEC)			Ovarian Cancer	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)				Ovarian Cancer	LightBlue	C4381	C0341823
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)			Ovarian Cancer	LightBlue	C39954	CL323981
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Malignant (BTMOV)		Ovarian Cancer	LightBlue	C4270	C0334495
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Borderline (BTBOV)		Ovarian Cancer	LightBlue	C9459	C0334494
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Brenner Tumor (BTOV)	Brenner Tumor, Benign (BTBEOV)		Ovarian Cancer	LightBlue	C4746	C0474834
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Ovarian Cancer (CCOV)			Ovarian Cancer	LightBlue	C40076	C0346164
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Clear Cell Borderline Ovarian Tumor (CCBOV)			Ovarian Cancer	LightBlue	C40080	C0279676
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Ovarian Cancer (EOV)			Ovarian Cancer	LightBlue	C7979	C0346163
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Endometrioid Borderlin Ovarian Tumor (EBOV)			Ovarian Cancer	LightBlue	C7983	C0334338
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mixed Ovarian Carcinoma (MXOV)			Ovarian Cancer	LightBlue	C40090	C0279392
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)			Ovarian Cancer	LightBlue	C7550	C1335177
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	High-Grade Serous Ovarian Cancer (HGSOC)		Ovarian Cancer	LightBlue	C105555	C3642254
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Ovarian Cancer (SOC)	Low-Grade Serous Ovarian Cancer (LGSOC)		Ovarian Cancer	LightBlue	C105556	C3642255
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Ovarian Cancer (MOV)			Ovarian Cancer	LightBlue	C5242	C1335168
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Mucinous Borderline Ovarian Tumor (MBOV)			Ovarian Cancer	LightBlue	C40036	C0279664
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Carcinosarcoma/Malignant Mixed Mesodermal Tumor (OCS)			Ovarian Cancer	LightBlue	C9192	C0392998
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Adenoma (OSMAD)			Ovarian Cancer	LightBlue
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Borderline Tumor (OSMBT)			Ovarian Cancer	LightBlue	C40038	C1511264
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Ovarian Seromucinous Carcinoma (OSMCA)			Ovarian Cancer	LightBlue	C40090	C0279392
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Small Cell Carcinoma of the Ovary (SCCO)			Ovarian Cancer	LightBlue	C27390	C2212006
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor (SBOV)			Ovarian Cancer	LightBlue	C5226	C1332598
+Ovary/Fallopian Tube (OVARY)	Ovarian Epithelial Tumor (OVT)	Serous Borderline Ovarian Tumor, Micropapillary (SBMOV)			Ovarian Cancer	LightBlue	C122585	C4055371
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Dysgerminoma (ODYS)			Germ Cell Tumor	LightBlue	C8106	C0346185
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Embryonal Carcinoma (OEC)			Germ Cell Tumor	LightBlue	C8108	C0346183
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Immature Teratoma (OIMT)			Germ Cell Tumor	LightBlue	C8111	C0346182
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mature Teratoma (OMT)			Germ Cell Tumor	LightBlue	C8112	C1334637
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Mixed Germ Cell Tumor (OMGCT)			Germ Cell Tumor	LightBlue	C8114	C0280135
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Polyembryoma (OPE)			Germ Cell Tumor	LightBlue	C39990	C1514199
+Ovary/Fallopian Tube (OVARY)	Ovarian Germ Cell Tumor (OGCT)	Yolk Sac Tumor (OYST)			Germ Cell Tumor	LightBlue	C8107	C0346188
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Gonadoblastoma (OGBL)			Sex Cord Stromal Tumor	LightBlue	C39985	C1518716
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Granulosa Cell Tumor (GRCT)			Sex Cord Stromal Tumor	LightBlue	C6261	C1370419
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Fibrothecoma (FT)			Sex Cord Stromal Tumor	LightBlue	C3405	C0039747
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Sertoli-Leydig Cell Tumor (SLCT)			Sex Cord Stromal Tumor	LightBlue	C2880	C0003810
+Ovary/Fallopian Tube (OVARY)	Sex Cord Stromal Tumor (SCST)	Steroid Cell Tumor, NOS (SCT)			Sex Cord Stromal Tumor	LightBlue	C39979	C1518740
 Pancreas (PANCREAS)	Acinar Cell Carcinoma of the Pancreas (PAAC)				Pancreatic Cancer	Purple	C7977	C0279661
 Pancreas (PANCREAS)	Adenosquamous Carcinoma of the Pancreas (PAASC)				Pancreatic Cancer	Purple	C5721	C1335299
 Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)				Pancreatic Cancer	Purple	C41247	C1518872
@@ -403,7 +418,7 @@ Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)	Mucinous Cystic Neoplasm
 Pancreas (PANCREAS)	Cystic Tumor of the Pancreas (PACT)	Serous Cystadenoma of the Pancreas (PSC)			Pancreatic Cancer	Purple	C5712	C1335316
 Pancreas (PANCREAS)	Pancreatic Adenocarcinoma (PAAD)				Pancreatic Cancer	Purple	C8294	C0281361
 Pancreas (PANCREAS)	Pancreatic Neuroendocrine Tumor (PANET)				Pancreatic Cancer	Purple	C27720	C1337011
-Pancreas (PANCREAS)	Pancreatoblastoma (PB)				Pancreatic Cancer	Purple
+Pancreas (PANCREAS)	Pancreatoblastoma (PB)				Pancreatic Cancer	Purple	C4265	C0334489
 Pancreas (PANCREAS)	Solid Pseudopapillary Neoplasm of the Pancreas (SPN)				Pancreatic Cancer	Purple	C37212	C1336030
 Pancreas (PANCREAS)	Undifferentiated Carcinoma of the Pancreas (UCP)				Pancreatic Cancer	Purple	C5722	C1336861
 Penis (PENIS)	Penile Squamous Cell Carcinoma (PSCC)				Penile Cancer	Blue	C7729	C0238348
@@ -418,7 +433,7 @@ Pleura (PLEURA)	Pleural Mesothelioma (PLMESO)	Pleural Mesothelioma, Sarcomatoid 
 Prostate (PROSTATE)	Prostate Adenocarcinoma (PRAD)				Prostate Cancer	Cyan	C2919	C0007112
 Prostate (PROSTATE)	Prostate Neuroendocrine Carcinoma (PRNE)				Prostate Cancer	Cyan	C5545	C1335515
 Prostate (PROSTATE)	Prostate Small Cell Carcinoma (PRSCC)				Prostate Cancer	Cyan	C6766	C1300585
-Prostate (PROSTATE)	Prostate Sqamous Cell Carcinoma (PRSC)				Prostate Cancer	Cyan
+Prostate (PROSTATE)	Prostate Sqamous Cell Carcinoma (PRSC)				Prostate Cancer	Cyan	C5536	C1302530
 Skin (SKIN)	Aggressive Digital Papillary Adenocarcinoma (ADPA)				Skin Cancer, Non-Melanoma	Black	C27534	C1367789
 Skin (SKIN)	Atypical Fibroxanthoma (AFX)				Skin Cancer, Non-Melanoma	Black	C4246	C0346053
 Skin (SKIN)	Basal Cell Carcinoma (BCC)				Skin Cancer, Non-Melanoma	Black	C2921	C0007117
@@ -427,29 +442,29 @@ Skin (SKIN)	Dermatofibroma (DF)				Skin Cancer, Non-Melanoma	Black	C6801	C000299
 Skin (SKIN)	Dermatofibrosarcoma Protuberans (DFSP)				Skin Cancer, Non-Melanoma	Black	C4683	C0392784
 Skin (SKIN)	Desmoplastic Trichoepithelioma (DTE)				Skin Cancer, Non-Melanoma	Black	C27524	C0432526
 Skin (SKIN)	Endocrine Mucin Producing Sweat Gland Carcinoma (EMPSGC)				Skin Cancer, Non-Melanoma	Black
-Skin (SKIN)	Extramammary Paget Disease (EMPD)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Extramammary Paget Disease (EMPD)				Skin Cancer, Non-Melanoma	Black	C3302	C0030186
 Skin (SKIN)	Melanoma (MEL)				Melanoma	Black	C3224	C0025202
 Skin (SKIN)	Melanoma (MEL)	Acral Melanoma (ACRM)			Melanoma	Black	C4022	C0346037
 Skin (SKIN)	Melanoma (MEL)	Cutaneous Melanoma (SKCM)			Melanoma	Black	C3510	C0151779
 Skin (SKIN)	Melanoma (MEL)	Desmoplastic Melanoma (DESM)			Melanoma	Black	C37257	C0334439
 Skin (SKIN)	Melanoma (MEL)	Genitourinary Mucosal Melanoma (GMUCM)			Melanoma	Black
 Skin (SKIN)	Melanoma (MEL)	Lentigo Maligna Melanoma (SKLMM)			Melanoma	Black	C9151	C2739810
-Skin (SKIN)	Melanoma (MEL)	Melanoma of Unknown Primary (MUP)			Melanoma	Black
+Skin (SKIN)	Melanoma (MEL)	Melanoma of Unknown Primary (MUP)			Melanoma	Black		C1828274
 Skin (SKIN)	Melanoma (MEL)	Congenital Nevus (SKCN)			Melanoma	Black	C3944	C1318558
 Skin (SKIN)	Merkel Cell Carcinoma (MCC)				Skin Cancer, Non-Melanoma	Black	C9231	C0007129
 Skin (SKIN)	Microcystic Adnexal Carcinoma (MAC)				Skin Cancer, Non-Melanoma	Black	C7581	C0346027
 Skin (SKIN)	Poroma/Acrospiroma (PORO)				Skin Cancer, Non-Melanoma	Black	C27273	C1533161
 Skin (SKIN)	Porocarcinoma/Spiroadenocarcinoma (POCA)				Skin Cancer, Non-Melanoma	Black	C5560	C1266065
 Skin (SKIN)	Porphyria Cutania Tarda (PCT)				Skin Cancer, Non-Melanoma	Black	C27725	C0162566
-Skin (SKIN)	Proliferating Pilar Cystic Tumor (PPCT)				Skin Cancer, Non-Melanoma	Black	C27125	C0345992
+Skin (SKIN)	Proliferating Pilar Cystic Tumor (PPCT)				Skin Cancer, Non-Melanoma	Black	C27125	C0086809
 Skin (SKIN)	Sebaceous Carcinoma (SEBA)				Skin Cancer, Non-Melanoma	Black	C40310	C0206684
 Skin (SKIN)	Skin Adnexal Carcinoma (SKAC)				Skin Cancer, Non-Melanoma	Black	C3775	C0206697
 Skin (SKIN)	Spiroma/Spiradenoma (SPIR)				Skin Cancer, Non-Melanoma	Black	C4170	C0334347
-Skin (SKIN)	Sweat Gland Adenocarcinoma (SGAD)				Skin Cancer, Non-Melanoma	Black
+Skin (SKIN)	Sweat Gland Adenocarcinoma (SGAD)				Skin Cancer, Non-Melanoma	Black	C4810	C1321904
 Skin (SKIN)	Sweat Gland Carcinoma/Apocrine Eccrine Carcinoma (AECA)				Skin Cancer, Non-Melanoma	Black	C6938	C1412016
-Soft Tissue (SOFT_TISSUE)	Aggressive Angiomyxoma (AA)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Aggressive Angiomyxoma (AA)				Soft Tissue Sarcoma	LightYellow	C6936	C1306242
 Soft Tissue (SOFT_TISSUE)	Alveolar Soft Part Sarcoma (ASPS)				Soft Tissue Sarcoma	LightYellow	C3750	C0206657
-Soft Tissue (SOFT_TISSUE)	Angiosarcoma (ANGS)				Soft Tissue Sarcoma	LightYellow	C3088	C0018923
+Soft Tissue (SOFT_TISSUE)	Angiosarcoma (ANGS)				Soft Tissue Sarcoma	LightYellow	C121671	C4055466
 Soft Tissue (SOFT_TISSUE)	Clear Cell Sarcoma (CCS)				Soft Tissue Sarcoma	LightYellow	C3745	C0206651
 Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)				Soft Tissue Sarcoma	LightYellow	C9294	C1334030
 Soft Tissue (SOFT_TISSUE)	Dendritic Cell Sarcoma (DCS)	Follicular Dendritic Cell Sarcoma (FDCS)			Soft Tissue Sarcoma	LightYellow	C9281	C1260325
@@ -463,7 +478,7 @@ Soft Tissue (SOFT_TISSUE)	Epithelioid Sarcoma (EPIS)	Proximal-Type Epithelioid S
 Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)				Soft Tissue Sarcoma	LightYellow	C3043	C0016057
 Soft Tissue (SOFT_TISSUE)	Fibrosarcoma (FIBS)	Sclerosing Epithelioid Fibrosarcoma (SEF)			Soft Tissue Sarcoma	LightYellow	C49027	C1710026
 Soft Tissue (SOFT_TISSUE)	Gastrointestinal Stromal Tumor (GIST)				Gastrointestinal Stromal Tumor	LightYellow	C3868	C0238198
-Soft Tissue (SOFT_TISSUE)	Glomangiosarcoma (GS)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Glomangiosarcoma (GS)				Soft Tissue Sarcoma	LightYellow	C4221	C1266111
 Soft Tissue (SOFT_TISSUE)	Hemangioma (HEMA)				Soft Tissue Sarcoma	LightYellow	C3085	C0018916
 Soft Tissue (SOFT_TISSUE)	Inflammatory Myofibroblastic Tumor (IMT)				Soft Tissue Sarcoma	LightYellow	C6481	C0334121
 Soft Tissue (SOFT_TISSUE)	Intimal Sarcoma (INTS)				Soft Tissue Sarcoma	LightYellow	C53677	C1708550
@@ -480,41 +495,43 @@ Soft Tissue (SOFT_TISSUE)	Myopericytoma (MPC)				Soft Tissue Sarcoma	LightYellow
 Soft Tissue (SOFT_TISSUE)	Myxofibrosarcoma (MFS)				Soft Tissue Sarcoma	LightYellow	C6496	C0334454
 Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)				Soft Tissue Sarcoma	LightYellow	C6577	C0027149
 Soft Tissue (SOFT_TISSUE)	Myxoma (MYXO)	Ossifying Fibromyxoid Tumor (OFMT)			Soft Tissue Sarcoma	LightYellow	C6582	C1266128
+Soft Tissue (SOFT_TISSUE)	Paraganglioma (PGNG)				Miscellaneous Neuroepithelial Tumor	Gray	C3308	C0030421
 Soft Tissue (SOFT_TISSUE)	Perivascular Epithelioid Cell Tumor (PECOMA)				Soft Tissue Sarcoma	LightYellow	C38150	C1300127
-Soft Tissue (SOFT_TISSUE)	Pseudomyogenic Hemangioendothelioma (PMHE)				Soft Tissue Sarcoma	LightYellow
+Soft Tissue (SOFT_TISSUE)	Pseudomyogenic Hemangioendothelioma (PMHE)				Soft Tissue Sarcoma	LightYellow	C121668	C3840252
 Soft Tissue (SOFT_TISSUE)	Radiation-Associated Sarcoma (RAS)				Soft Tissue Sarcoma	LightYellow	C93125	C2985448
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)				Soft Tissue Sarcoma	LightYellow	C3359	C0035412
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Alveolar Rhabdomyosarcoma (ARMS)			Soft Tissue Sarcoma	LightYellow	C3749	C0206655
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Embryonal Rhabdomyosarcoma (ERMS)			Soft Tissue Sarcoma	LightYellow	C8971	C0206656
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Pleomorphic Rhabdomyosarcoma (PLRMS)			Soft Tissue Sarcoma	LightYellow	C4258	C0334480
 Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell Rhabdomyosarcoma (SCRMS)			Soft Tissue Sarcoma	LightYellow	C6519	C1266134
-Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell/Sclerosing Rhabdomyosarcoma (SCSRMS)			Soft Tissue Sarcoma	LightYellow	C121654
-Soft Tissue (SOFT_TISSUE)	Round Cell Sarcoma, NOS (RCSNOS)				Soft Tissue Sarcoma	LightYellow
-Soft Tissue (SOFT_TISSUE)	Sarcoma, NOS (SARCNOS)				Soft Tissue Sarcoma	LightYellow	C121804
+Soft Tissue (SOFT_TISSUE)	Rhabdomyosarcoma (RMS)	Spindle Cell/Sclerosing Rhabdomyosarcoma (SCSRMS)			Soft Tissue Sarcoma	LightYellow	C121654	C4053999
+Soft Tissue (SOFT_TISSUE)	Round Cell Sarcoma, NOS (RCSNOS)				Soft Tissue Sarcoma	LightYellow	C121799	C4048304
+Soft Tissue (SOFT_TISSUE)	Sarcoma, NOS (SARCNOS)				Soft Tissue Sarcoma	LightYellow	C121804	C4053897
 Soft Tissue (SOFT_TISSUE)	Solitary Fibrous Tumor/Hemangiopericytoma (SFT)				Soft Tissue Sarcoma	LightYellow	C7634	C1266119
 Soft Tissue (SOFT_TISSUE)	Soft Tissue Myoepithelial Carcinoma (STMYEC)				Soft Tissue Sarcoma	LightYellow	C7596	C0334699
 Soft Tissue (SOFT_TISSUE)	Synovial Sarcoma (SYNS)				Soft Tissue Sarcoma	LightYellow	C3400	C0039101
-Soft Tissue (SOFT_TISSUE)	Tenosynovial Giant Cell Tumor Diffuse Type (TGCT)				Soft Tissue Sarcoma	LightYellow
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)				Germ Cell Tumor	Red	C9313
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Choriocarcinoma (TCCA)			Germ Cell Tumor	Red	C27246	C0279677
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Embryonal Carcinoma (EMBCA)			Germ Cell Tumor	Red
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Mixed Germ Cell Tumor (MGCT)			Germ Cell Tumor	Red	C8881	C0855160
+Soft Tissue (SOFT_TISSUE)	Tenosynovial Giant Cell Tumor Diffuse Type (TGCT)				Soft Tissue Sarcoma	LightYellow	C3401	C0039106
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)				Germ Cell Tumor	Red	C9313	C1336724
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Choriocarcinoma (TCCA)			Germ Cell Tumor	Red	C7733	C0238449
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Embryonal Carcinoma (EMBCA)			Germ Cell Tumor	Red	C6341	C0238448
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Mixed Germ Cell Tumor (MGCT)			Germ Cell Tumor	Red	C6347	C1336720
 Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma (TT)			Germ Cell Tumor	Red	C3877	C0238451
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma with Malignant Transformation (TMT)			Germ Cell Tumor	Red
-Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Yolk Sac Tumor (TYST)			Germ Cell Tumor	Red	C6379	C1336945
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Teratoma with Malignant Transformation (TMT)			Germ Cell Tumor	Red	C4289	C0334523
+Testis (TESTIS)	Non-Seminomatous Germ Cell Tumor (NSGCT)	Yolk Sac Tumor (TYST)			Germ Cell Tumor	Red	C8000	C0279708
 Testis (TESTIS)	Seminoma (SEM)				Germ Cell Tumor	Red	C9309	C0036631
-Testis (TESTIS)	Testicular Lymphoma (TLYM)				Non-Hodgkin’s Lymphoma	Red	C6810	C0349644
-Testis (TESTIS)	Testicular Mesothelioma (TMESO)				Mesothelioma	Red
+Testis (TESTIS)	Sex Cord Stromal Tumor (TSCST)				Sex Cord Stromal Tumor	Red	C6358	C3840076
+Testis (TESTIS)	Testicular Lymphoma (TLYM)				Non-Hodgkin Lymphoma	Red	C6810	C0349644
+Testis (TESTIS)	Testicular Mesothelioma (TMESO)				Mesothelioma	Red		C4022391
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)				Thymic Tumor	Purple	C6450	C1266101
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymic Carcinoma (THYC)			Thymic Tumor	Purple	C7569	C0205969
 Thymus (THYMUS)	Thymic Epithelial Tumor (TET)	Thymoma (THYM)			Thymic Tumor	Purple	C3411	C0040100
-Thymus (THYMUS)	Thymic Neuroendocrine Tumor (TNET)				Thymic Tumor	Purple
+Thymus (THYMUS)	Thymic Neuroendocrine Tumor (TNET)				Thymic Tumor	Purple		CL511204
 Thyroid (THYROID)	Anaplastic Thyroid Cancer (THAP)				Thyroid Cancer	Teal	C3878	C0238461
 Thyroid (THYROID)	Hurthle Cell Thyroid Cancer (THHC)				Thyroid Cancer	Teal	C4946	C0749424
-Thyroid (THYROID)	Hyalinizing Trabecular Adenoma of the Thyroid (HTAT)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Hyalinizing Trabecular Adenoma of the Thyroid (HTAT)				Thyroid Cancer	Teal	C6846	C1266049
 Thyroid (THYROID)	Medullary Thyroid Cancer (THME)				Thyroid Cancer	Teal	C3879	C0238462
 Thyroid (THYROID)	Poorly Differentiated Thyroid Cancer (THPD)				Thyroid Cancer	Teal	C6040	C1266050
-Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)				Thyroid Cancer	Teal
+Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)				Thyroid Cancer	Teal	C7153	C1337013
 Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)	Follicular Thyroid Cancer (THFO)			Thyroid Cancer	Teal	C8054	C0206682
 Thyroid (THYROID)	Well-Differentiated Thyroid Cancer (WDTC)	Papillary Thyroid Cancer (THPA)			Thyroid Cancer	Teal	C4035	C0238463
 Uterus (UTERUS)	Gestational Trophoblastic Disease (GTD)				Gestational Trophoblastic Disease	PeachPuff	C4699	C1135868
@@ -535,44 +552,45 @@ Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Endometrioid Carcinoma (UEC
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Mesonephric Carcinoma (UMNC)			Endometrial Cancer	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Mixed Endometrial Carcinoma (UMEC)			Endometrial Cancer	PeachPuff
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Mucinous Carcinoma (UMC)			Endometrial Cancer	PeachPuff	C40144	C0854923
-Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Neuroendocrine Carcinoma (UNEC)			Endometrial Cancer	PeachPuff
+Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Neuroendocrine Carcinoma (UNEC)			Endometrial Cancer	PeachPuff	C126771	CL508215
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Serous Carcinoma/Uterine Papillary Serous Carcinoma (USC)			Endometrial Cancer	PeachPuff	C27838	C0854924
 Uterus (UTERUS)	Endometrial Carcinoma (UCEC)	Uterine Undifferentiated Carcinoma (UUC)			Endometrial Cancer	PeachPuff	C6345	C0850327
 Uterus (UTERUS)	Other Uterine Tumor (OUTT)				Endometrial Cancer	PeachPuff
-Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Undifferentiated Uterine Sarcoma (UUS)			Uterine Sarcoma	PeachPuff	C8972
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Undifferentiated Uterine Sarcoma (UUS)			Uterine Sarcoma	PeachPuff	C8972	CL033042
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Adenosarcoma (UAS)			Uterine Sarcoma	PeachPuff	C6336	C1336917
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)			Uterine Sarcoma	PeachPuff	C8973	C0206630
-Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)	High-Grade Endometrial Stromal Sarcoma (HGESS)		Uterine Sarcoma	PeachPuff
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)	High-Grade Endometrial Stromal Sarcoma (HGESS)		Uterine Sarcoma	PeachPuff	C126998	CL508195
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Endometrial Stromal Sarcoma (ESS)	Low-Grade Endometrial Stromal Sarcoma (LGESS)		Uterine Sarcoma	PeachPuff	C4263	C0334486
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Perivascular Epithelioid Cell Tumor (UPECOMA)			Uterine Sarcoma	PeachPuff	C40180	C1519862
-Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Sarcoma, Other (OUSARC)			Uterine Sarcoma	PeachPuff	C8972
+Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Sarcoma, Other (OUSARC)			Uterine Sarcoma	PeachPuff
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)			Uterine Sarcoma	PeachPuff	C40176	C1519863
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Leiomyoma (ULM)		Uterine Sarcoma	PeachPuff	C3434	C0042133
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Leiomyosarcoma (ULMS)		Uterine Sarcoma	PeachPuff	C6340	C0280631
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Epithelioid Leiomyosarcoma (UELMS)		Uterine Sarcoma	PeachPuff	C40174	C1519851
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Myxoid Leiomyosarcoma (UMLMS)		Uterine Sarcoma	PeachPuff	C40175	C1519861
 Uterus (UTERUS)	Uterine Sarcoma/Mesenchymal (USARC)	Uterine Smooth Muscle Tumor (USMT)	Uterine Smooth Muscle Tumor of Uncertain Malignant Potential (USTUMP)		Uterine Sarcoma	PeachPuff	C40177	C1519864
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)				Germ Cell Tumor	Purple
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Dysgerminoma (VDYS)			Germ Cell Tumor	Purple	C8106	C0346185
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VOEC)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)				Germ Cell Tumor	Purple	C128294	CL509570
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Dysgerminoma (VDYS)			Germ Cell Tumor	Purple	C2996	C0013377
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Embryonal Carcinoma (VOEC)			Germ Cell Tumor	Purple	C3752	C0206659
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Immature Teratoma (VIMT)			Germ Cell Tumor	Purple	C8884	C0855163
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mature Teratoma (VMT)			Germ Cell Tumor	Purple	C9015	C1368910
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple	C8881	C0855160
-Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryoma (VPE)			Germ Cell Tumor	Purple
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Mixed Germ Cell Tumor (VMGCT)			Germ Cell Tumor	Purple		C0334524
+Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Polyembryoma (VPE)			Germ Cell Tumor	Purple		C0334518
 Vulva/Vagina (VULVA)	Germ Cell Tumor of the Vulva (VGCT)	Yolk Sac Tumor (VYST)			Germ Cell Tumor	Purple	C6379	C1336945
 Vulva/Vagina (VULVA)	Mucinous Adenocarcinoma of the Vulva/Vagina (VMA)				Vulvar Carcinoma	Purple	C40252	C1519925
 Vulva/Vagina (VULVA)	Mucosal Melanoma of the Vulva/Vagina (VMM)				Melanoma	Purple	C27394	C2004576
 Vulva/Vagina (VULVA)	Squamous Cell Carcinoma of the Vulva/Vagina (VSC)				Vaginal Cancer	Purple	C7736	C0238518
-Vulva/Vagina (VULVA)	Vaginal Adenocarcinoma (VA)				Vaginal Cancer	Purple
-Vulva/Vagina (VULVA)	Poorly Differentiated Vaginal Carcinoma (VPDC)				Vaginal Cancer	Purple
+Vulva/Vagina (VULVA)	Vaginal Adenocarcinoma (VA)				Vaginal Cancer	Purple	C7981	C0279668
+Vulva/Vagina (VULVA)	Poorly Differentiated Vaginal Carcinoma (VPDC)				Vaginal Cancer	Purple	C40264	C1519934
+Other (OTHER)	Adenocarcinoma In Situ (AIS)				Adenocarcinoma In Situ	Black	C4123	C0334276
 Other (OTHER)	Cancer of Unknown Primary (CUP)				Cancer of Unknown Primary	Black	C3812	C0220647
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Acinar Cell Carcinoma, NOS (ACN)			Cancer of Unknown Primary	Black
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Adenocarcinoma, NOS (ADNOS)			Cancer of Unknown Primary	Black	C4039	C0280096
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Cancer of Unknown Primary, NOS (CUPNOS)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Mixed Cancer Types (MIXED)			Cancer of Unknown Primary	Black
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Tumor, NOS (NETNOS)			Cancer of Unknown Primary	Black
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Poorly Differentiated Carcinoma, NOS (PDC)			Cancer of Unknown Primary	Black
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Small Cell Carcinoma of Unknown Primary (SCUP)			Cancer of Unknown Primary	Black	C8099	C0280097
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Carcinoma, NOS (NECNOS)			Cancer of Unknown Primary	Black	C3773	C0206695
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Neuroendocrine Tumor, NOS (NETNOS)			Cancer of Unknown Primary	Black	C3809	C0206754
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Poorly Differentiated Carcinoma, NOS (PDC)			Cancer of Unknown Primary	Black	C8100	C0280098
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Small Cell Carcinoma of Unknown Primary (SCUP)			Cancer of Unknown Primary	Black
 Other (OTHER)	Cancer of Unknown Primary (CUP)	Squamous Cell Carcinoma, NOS (SCCNOS)			Cancer of Unknown Primary	Black	C8099	C0280097
-Other (OTHER)	Cancer of Unknown Primary (CUP)	Undifferentiated Malignant Neoplasm (UDMN)			Cancer of Unknown Primary	Black
+Other (OTHER)	Cancer of Unknown Primary (CUP)	Undifferentiated Malignant Neoplasm (UDMN)			Cancer of Unknown Primary	Black	C8100	C0280098
