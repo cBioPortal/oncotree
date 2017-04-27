@@ -49,6 +49,12 @@ body {
     left: 10px; /* padding from the left side of the window */
 }
 
+#other-version .other-version-content .item {
+    margin-right: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 rect {
   fill: none;
   pointer-events: all;
