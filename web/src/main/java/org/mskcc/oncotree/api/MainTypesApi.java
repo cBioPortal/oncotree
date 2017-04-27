@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
 @RequestMapping(value = "/api/mainTypes", produces = {APPLICATION_JSON_VALUE})
-@Api(value = "/mainTypes", description = "the mainTypes API")
+@Api(value = "/mainTypes", description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-25T21:05:12.544Z")
 public class MainTypesApi {
 
