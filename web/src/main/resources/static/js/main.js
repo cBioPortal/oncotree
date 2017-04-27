@@ -2,13 +2,37 @@
 $(document).ready(function(){
 	"use strict";
     var version_ = '';
-    checkURL(function() {
+    var versions_ = {};
+
+    loadVersions(function() {
+      checkURL();
       tree.init(version_);
+      initVersionsLink();
       initEvents();
       OutJS.backToTop();
       initQtips();
     });
 
+    function loadVersions(callback) {
+      $.get('api/versions')
+        .done(function(data) {
+          if (data instanceof Object
+            && data.hasOwnProperty('data')
+            && data.data instanceof Array) {
+            versions_ = data.data.reduce(function(acc, cur) {
+              acc[cur.version] = cur;
+              return acc;
+            }, {});
+          }
+        })
+        .fail(function() {
+          // Error handling
+        }).always(function() {
+        if (callback instanceof Function) {
+          callback();
+        }
+      })
+    }
     function initEvents() {
     	$('#tumor_search button').click(function() {
 	        OutJS.search();
@@ -51,7 +75,31 @@ $(document).ready(function(){
 	    		OutJS.backToTop();
 	    	}
 		});
-    }   
+    }
+  
+    function initVersionsLink() {
+      // Update other versions info
+      var _str = [];
+      var _version = version_ === '' ? 'realtime' : version_;
+      Object.keys(versions_).sort().filter(function(item) {
+        return item !== _version;
+      }).forEach(function(item) {
+        var _hash = '#/home';
+        var _content = 'Lastest';
+  
+        if (item !== 'realtime') {
+          _hash += '?version=' + item;
+          _content = item;
+        }
+        _str.push('<span class="item" hash="' + _hash + '">' + _content + '</span>');
+      });
+      $('#other-version .other-version-content').html(_str.join(''));
+      $('#other-version .other-version-content .item').click(function() {
+        var _hash = $(this).attr('hash');
+        window.location.hash = _hash;
+        window.location.reload();
+      })
+    }
 
     function initQtips() {
     	$('#expand-nodes-btn').qtip({
@@ -71,7 +119,7 @@ $(document).ready(function(){
 	    });
     } 
     
-    function checkURL(callback) {
+    function checkURL() {
       var hash = window.location.hash;
       var hashRegexStr = /^#\/home\?(.+)/;
 
@@ -96,38 +144,19 @@ $(document).ready(function(){
         }, {});
 
         if (parameters.hasOwnProperty('version') && parameters.version.val) {
-          $.get('api/versions')
-            .done(function(data) {
-              if (data instanceof Object
-                && data.hasOwnProperty('data')
-                && data.data instanceof Array) {
-                for (var i = 0; i < data.data.length; i++) {
-                  var _data = data.data[i];
-                  if (_data.version === parameters.version.val) {
-                    version_ = _data.version;
-                    break;
-                  }
-                }
-              }
-            })
-            .fail(function() {
-              // Error handling
-            }).always(function() {
-            var _hash = '/home';
-            if (version_) {
-              _hash += '?version=' + version_;
+          for (var _version in versions_) {
+            if (_version === parameters.version.val) {
+              version_ = _version;
             }
-            window.location.hash = _hash;
-            if (callback instanceof Function) {
-              callback();
-            }
-          })
+          }
+          var _hash = '/home';
+          if (version_) {
+            _hash += '?version=' + version_;
+          }
+          window.location.hash = _hash;
         }
       } else {
         window.location.hash = '/home';
-        if (callback instanceof Function) {
-          callback();
-        }
       }
     }
 });
