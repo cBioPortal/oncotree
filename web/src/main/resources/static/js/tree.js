@@ -35,7 +35,12 @@ var tree = (function () {
         this.umls = '';
     }
 
-    function initDataAndTree() {
+    function initDataAndTree(version) {
+        var txtUrl = 'api/tumor_types.txt';
+  
+        if (version) {
+          txtUrl += '?version=' + version;
+        }
         tree = d3.layout.tree()
             .nodeSize([20, null]);
 
@@ -50,7 +55,7 @@ var tree = (function () {
             .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + 300 + ")");
 
-        d3.tsv("api/tumor_types.txt", function (csv) {
+        d3.tsv(txtUrl, function (csv) {
             var rootDatum = new UniqueTreeNodeDatum();
             rootDatum.name = 'Tissue';
 
@@ -81,7 +86,11 @@ var tree = (function () {
                         }
 
                         if(row.hasOwnProperty('metamaintype')) {
+                          if (col == 'primary') {
+                            uniqueTreeNode[type].mainType = 'Not Available';
+                          } else {
                             uniqueTreeNode[type].mainType = row.metamaintype;
+                          }
                         }
 
                         if(row.hasOwnProperty('metacolor')) {

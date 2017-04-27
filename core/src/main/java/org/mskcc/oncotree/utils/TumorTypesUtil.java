@@ -314,14 +314,18 @@ public class TumorTypesUtil {
                 TumorType tumorType = new TumorType();
                 if (!tumorTypes.containsKey(code)) {
                     MainType mainType = null;
+                    Level level = Level.getByLevel(Integer.toString(index + 1));
                     if (row.length > 5 && !row[5].isEmpty()) {
                         mainType = MainTypesUtil.getOrCreateMainType(row[5], version);
                     }
                     tumorType.setTissue(tissue.get("name"));
-                    tumorType.setLevel(Level.getByLevel(Integer.toString(index + 1)));
+                    tumorType.setLevel(level);
                     tumorType.setCode(code);
                     tumorType.setName(result.get("name"));
-                    tumorType.setMainType(mainType);
+                    if (level != null && !Level.PRIMARY.equals(level)) {
+                        // Don't assign main type for primary column
+                        tumorType.setMainType(mainType);
+                    }
                     tumorType.setColor(row.length > 6 ? row[6] : "");
                     tumorType.setNCI(row.length > 7 ? row[7] : "");
                     tumorType.setUMLS(row.length > 8 ? row[8] : "");
