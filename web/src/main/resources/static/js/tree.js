@@ -86,7 +86,11 @@ var tree = (function () {
                         }
 
                         if(row.hasOwnProperty('metamaintype')) {
+                          if (col == 'primary') {
+                            uniqueTreeNode[type].mainType = 'Not Available';
+                          } else {
                             uniqueTreeNode[type].mainType = row.metamaintype;
+                          }
                         }
 
                         if(row.hasOwnProperty('metacolor')) {
