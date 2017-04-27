@@ -1,12 +1,38 @@
 
 $(document).ready(function(){
 	"use strict";
+    var version_ = '';
+    var versions_ = {};
 
-    tree.init();
-    initEvents();
-    OutJS.backToTop();
-    initQtips();
+    loadVersions(function() {
+      checkURL();
+      tree.init(version_);
+      initVersionsLink();
+      initEvents();
+      OutJS.backToTop();
+      initQtips();
+    });
 
+    function loadVersions(callback) {
+      $.get('api/versions')
+        .done(function(data) {
+          if (data instanceof Object
+            && data.hasOwnProperty('data')
+            && data.data instanceof Array) {
+            versions_ = data.data.reduce(function(acc, cur) {
+              acc[cur.version] = cur;
+              return acc;
+            }, {});
+          }
+        })
+        .fail(function() {
+          // Error handling
+        }).always(function() {
+        if (callback instanceof Function) {
+          callback();
+        }
+      })
+    }
     function initEvents() {
     	$('#tumor_search button').click(function() {
 	        OutJS.search();
@@ -49,7 +75,31 @@ $(document).ready(function(){
 	    		OutJS.backToTop();
 	    	}
 		});
-    }   
+    }
+  
+    function initVersionsLink() {
+      // Update other versions info
+      var _str = [];
+      var _version = version_ === '' ? 'realtime' : version_;
+      Object.keys(versions_).sort().filter(function(item) {
+        return item !== _version;
+      }).forEach(function(item) {
+        var _hash = '#/home';
+        var _content = 'Lastest';
+  
+        if (item !== 'realtime') {
+          _hash += '?version=' + item;
+          _content = item;
+        }
+        _str.push('<span class="item" hash="' + _hash + '">' + _content + '</span>');
+      });
+      $('#other-version .other-version-content').html(_str.join(''));
+      $('#other-version .other-version-content .item').click(function() {
+        var _hash = $(this).attr('hash');
+        window.location.hash = _hash;
+        window.location.reload();
+      })
+    }
 
     function initQtips() {
     	$('#expand-nodes-btn').qtip({
@@ -68,6 +118,47 @@ $(document).ready(function(){
             position: {my:'bottom left',at:'top center', viewport: $(window)}
 	    });
     } 
+    
+    function checkURL() {
+      var hash = window.location.hash;
+      var hashRegexStr = /^#\/home\?(.+)/;
+
+      if (new RegExp(hashRegexStr, 'gi').test(hash)) {
+        // there is additional parameters, currently we only handle version
+        var match = new RegExp(hashRegexStr, 'gi').exec(hash);
+
+        // Since this passed the test, match will definitely have second element.
+        var parameters = match[1].split('&').filter(function(item) {
+          return !!item;
+        }).map(function(item) {
+          var content = item.trim().split('=');
+          return {
+            key: content[0],
+            val: content[1] || ''
+          }
+        }).filter(function(item) {
+          return !!item.key;
+        }).reduce(function(acc, cur) {
+          acc[cur.key] = cur;
+          return acc;
+        }, {});
+
+        if (parameters.hasOwnProperty('version') && parameters.version.val) {
+          for (var _version in versions_) {
+            if (_version === parameters.version.val) {
+              version_ = _version;
+            }
+          }
+          var _hash = '/home';
+          if (version_) {
+            _hash += '?version=' + version_;
+          }
+          window.location.hash = _hash;
+        }
+      } else {
+        window.location.hash = '/home';
+      }
+    }
 });
 
 $(document).keypress(function(e) {
