@@ -26,27 +26,6 @@ Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)				Bladder Cancer	Yellow	C
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Adenocarcinoma (UAD)			Bladder Cancer	Yellow	C6167	C1336885	Bladder Cancer
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Squamous Cell Carcinoma (USCC)			Bladder Cancer	Yellow	C6165	C1336890	Bladder Cancer
 Bladder/Urinary Tract (BLADDER)	Urethral Cancer (UCA)	Urethral Urothelial Carcinoma (UCU)			Bladder Cancer	Yellow	C6166	C0863015	Bladder Cancer
-Blood (BLOOD)	Blastic Plasmacytoid Dendritic Cell Neoplasm (BPDCN)				Blastic Plasmacytoid Dendritic Cell Neoplasm	LightSalmon	C7203	C1301363	
-Blood (BLOOD)	Histiocytosis (HIST)				Histiocytosis	LightSalmon	C3106	C0019618	
-Blood (BLOOD)	Histiocytosis (HIST)	Langerhans Cell Histiocytosis (LCH)			Histiocytosis	LightSalmon	C3107	C0019621	
-Blood (BLOOD)	Histiocytosis (HIST)	Non-Langerhans Cell Histiocytosis/Erdheim-Chester Disease (ECD)			Histiocytosis	LightSalmon	C53972	C0878675	
-Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)			Leukemia	LightSalmon	C3167	C0023449	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)	B-Cell Acute Lymphoid Leukemia (BALL)		Leukemia	LightSalmon	C8644	C1292769	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Acute Lymphoid Leukemia (ALL)	T-Cell Acute Lymphoid Leukemia (TALL)		Leukemia	LightSalmon	C3183	C1961099	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Acute Monocytic Leukemia (AMOL)			Leukemia	LightSalmon	C4861	C0023465	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Acute Myeloid Leukemia (AML)			Leukemia	LightSalmon	C3171	C0023467	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Chronic Lymphocytic Leukemia (CLL)			Leukemia	LightSalmon	C3163	C0023434	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelogenous Leukemia (CML)			Leukemia	LightSalmon	C3172	C0023470	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Chronic Myelomonocytic Leukemia (CMML)			Leukemia	LightSalmon	C3178	C0023480	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Hairy Cell Leukemia (HCL)			Leukemia	LightSalmon	C7402	C0023443	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Leukemia (LEUK)	Large Granular Lymphocytic Leukemia (LGLL)			Leukemia	LightSalmon	C4664	C1955861	Acute Lymphoblastic Leukemia
-Blood (BLOOD)	Multiple Myeloma (MM)				Multiple Myeloma	LightSalmon	C3242	C0026764	Multiple Myeloma
-Blood (BLOOD)	Myelodysplasia (MDS)				Myelodysplasia	LightSalmon	C3247	C3463824	Myelodysplastic Syndromes
-Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)				Myeloproliferative Neoplasm	LightSalmon	C4345	C1292778	
-Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Essential Thrombocythaemia (ETC)			Myeloproliferative Neoplasm	LightSalmon	C3407	C0040028	
-Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Myelofibrosis/Osteomyelofibrosis (MYF)			Myeloproliferative Neoplasm	LightSalmon	C3248	C0026987	
-Blood (BLOOD)	Myeloproliferative Neoplasm (MPN)	Polycythemia Vera  (PCV)			Myeloproliferative Neoplasm	LightSalmon	C3336	C0032463	
-Blood (BLOOD)	Systemic Mastocytosis (SM)				Mastocytosis	LightSalmon	C9235	C0221013	
 Bone (BONE)	Chondroblastoma (CHBL)				Bone Cancer	White	C2945	C0008441	Bone Cancer
 Bone (BONE)	Chondrosarcoma (CHS)				Bone Cancer	White	C2946	C0008479	Bone Cancer
 Bone (BONE)	Chondrosarcoma (CHS)	Dedifferentiated Chondrosarcoma (DDCHS)			Bone Cancer	White	C6476	C0862878	Bone Cancer
