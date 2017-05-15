@@ -2,6 +2,7 @@ package org.mskcc.oncotree;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -15,9 +16,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class OncotreeApplication  extends SpringBootServletInitializer{
+public class OncotreeApplication extends SpringBootServletInitializer {
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(OncotreeApplication.class);
+    }
+    
     public static void main(String[] args) {
+        
         SpringApplication.run(OncotreeApplication.class, args);
     }
 
@@ -30,7 +37,7 @@ public class OncotreeApplication  extends SpringBootServletInitializer{
             }
         };
     }
-    
+
     @Bean
     ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
