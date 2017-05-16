@@ -3,3 +3,8 @@ springfox.documentation.swagger.v2.path=/api-docs
 server.port=${port:38080}
 
 tumor_type_file_path=
+
+# for topbraid e.g. https://evn.mskcc.org/evn/tbl/sparql
+topbraid.url=
+topbraid.oncotree.username=
+topbraid.oncotree.password=

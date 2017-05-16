@@ -151,6 +151,12 @@ public class TumorType {
         this.children = children;
     }
 
+    public void addChild(TumorType child) {
+        if (children == null) {
+            this.children = new HashMap<String, TumorType>();
+        }
+        this.children.put(child.getCode(), child);
+    }
 
     /**
      * The parent node id.
