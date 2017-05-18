@@ -167,7 +167,7 @@ public class TumorTypesApi {
         for (TumorTypeQuery query : queries.getQueries()) {
             List<TumorType> matchedTumorTypes = new ArrayList<>();
             matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v, false);
-            String levels = "2,3,4,5";
+            /*String levels = "2,3,4,5";
             if (query.getType().toLowerCase() != "level" && levels != null) {
                 List<String> ls = Arrays.asList(levels.split(","));
                 List<Level> levelList = new ArrayList<>();
@@ -178,7 +178,7 @@ public class TumorTypesApi {
                     }
                 }
                 matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
-            }
+            }*/
             tumorTypes.add(matchedTumorTypes);
         }
 
@@ -217,7 +217,7 @@ public class TumorTypesApi {
         matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v, false);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
 
-        if (type.toLowerCase() != "level" && levels != null) {
+        /*if (type.toLowerCase() != "level" && levels != null) {
             List<String> ls = Arrays.asList(levels.split(","));
             List<Level> levelList = new ArrayList<>();
             for (String l : ls) {
@@ -227,7 +227,7 @@ public class TumorTypesApi {
                 }
             }
             matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
-        }
+        }*/
         Meta meta = new Meta();
         meta.setCode(200);
         resp.setMeta(meta);

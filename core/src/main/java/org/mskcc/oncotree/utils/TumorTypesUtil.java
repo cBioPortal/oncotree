@@ -1,5 +1,7 @@
 package org.mskcc.oncotree.utils;
 
+import org.apache.log4j.Logger;
+
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
@@ -7,9 +9,13 @@ import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
+import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.topbraid.OncoTreeNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URL;
@@ -20,32 +26,22 @@ import java.util.regex.Pattern;
 /**
  * Created by Hongxin on 2/25/16.
  */
+@Component
 public class TumorTypesUtil {
+
+    private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
+
+    private static OncoTreeRepository oncoTreeRepository;
+    @Autowired
+    public void setOncoTreeRepository(OncoTreeRepository property) { oncoTreeRepository = property; }
+
     private static final String PROPERTY_FILE = "classpath:application.properties";
     private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
-
-    public static Map<String, TumorType> getTumorTypes() {
-        Map<String, TumorType> tumorTypes = new HashMap<>();
-        Properties properties = getProperties();
-        try {
-            Version version = VersionUtil.getVersion("realtime");
-            CacheUtil.resetMainTypesByVersion(version);
-
-            tumorTypes = parseFromRaw(new FileInputStream(properties.getProperty("tumor_type_file_path")), version);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return tumorTypes;
-    }
 
     public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) {
         Map<String, TumorType> tumorTypes = new HashMap<>();
         if (version != null && version.getCommitId() != null) {
-            if (version.getVersion() == "realtime") {
-                tumorTypes = getTumorTypes();
-            } else {
-                tumorTypes = parseFromRaw(getTumorTypeInputStreamFromGitHub(version), version);
-            }
+            tumorTypes = loadFromRepository(version);
         }
         return tumorTypes;
     }
@@ -67,6 +63,7 @@ public class TumorTypesUtil {
     }
 
     public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) {
+        logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
         if (TumorTypeKeys.contains(key)) {
@@ -74,6 +71,7 @@ public class TumorTypesUtil {
                 CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
                 tumorTypes, key, keyword, exactMatch, includeParent);
         }
+        logger.debug("Returning " + tumorTypes.size() + " tumor types");
         return tumorTypes;
     }
 
@@ -118,6 +116,7 @@ public class TumorTypesUtil {
         return null;
     }
 
+
     public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
         Set<TumorType> tumorTypes = new HashSet<>();
 
@@ -137,33 +136,60 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    private static Map<String, TumorType> parseFromRaw(InputStream inputStream, Version version) {
-        TsvParserSettings settings = new TsvParserSettings();
+    private static Map<String, TumorType> loadFromRepository(Version version) {
+        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree();
+        Map<String, TumorType> tree = new HashMap<>();
 
-        //the line separator sequence is defined here to ensure systems such as MacOS and Windows
-        //are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
-        settings.getFormat().setLineSeparator("\n");
+        TumorType root = new TumorType();
+        root.setCode("TISSUE");
+        root.setName("Tissue");
+        // tree seems to only contain root node
+        tree.put(root.getCode(), root);
 
-        // creates a TSV parser
-        TsvParser parser = new TsvParser(settings);
+        Map<String, TumorType> allNodes = new HashMap<>();
 
-        Map<String, TumorType> tumorTypes = new HashMap<>();
-
-        List<String[]> allRows = parser.parseAll(inputStream);
-
-        TumorType tumorType = new TumorType();
-        tumorType.setCode("TISSUE");
-        tumorType.setName("Tissue");
-
-        //Iterate each row and assign tumor type to parent following the order of appearing
-        for (String[] row : allRows.subList(1, allRows.size())) {
-            tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, 0, version, "TISSUE"));
+        for (OncoTreeNode node : oncoTreeNodes) {
+            logger.debug("OncoTreeNode: code='" + node.getCode() + "', name='" + node.getName() + "'");
+            TumorType tumorType = initTumorType(node, version);
+            allNodes.put(tumorType.getCode(), tumorType);
         }
 
-        //Attach a root node in the JSON file
-        tumorTypes.put("TISSUE", tumorType);
+        // now we have all nodes, fill in children
+        for (TumorType tumorType : allNodes.values()) {
+            // TISSUE is root and has no parent, skip
+            if (!tumorType.getCode().equals("TISSUE")) {
+                if (tumorType.getParent() == null) {
+                    logger.debug("Parent is null for tumor type code '" +
+                        tumorType.getCode() + "'.  Adding to 'TISSUE' node.");
+                    tumorType.setParent(root.getCode());
+                    root.addChild(tumorType);
+                } else if (allNodes.containsKey(tumorType.getParent())) {
+                    TumorType parent = allNodes.get(tumorType.getParent());
+                    parent.addChild(tumorType);
+                } else {
+                    logger.error("Could not find parent '" + 
+                        tumorType.getParent() + "' for tumor type code '" + 
+                        tumorType.getCode() + "'.");
+                }
+            }
+        }
 
-        return tumorTypes;
+        return tree;
+    }
+
+    private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) {
+        // we do not have level or tissue
+        TumorType tumorType = new TumorType();
+        if (oncoTreeNode.getMainType() != null) {
+            tumorType.setMainType(MainTypesUtil.getOrCreateMainType(oncoTreeNode.getMainType(), version));
+        }
+        tumorType.setCode(oncoTreeNode.getCode());
+        tumorType.setName(oncoTreeNode.getName());
+        tumorType.setColor(oncoTreeNode.getColor());
+        tumorType.setNCI(oncoTreeNode.getNci());
+        tumorType.setUMLS(oncoTreeNode.getUmls());
+        tumorType.setParent(oncoTreeNode.getParentCode());
+        return tumorType;
     }
 
     public static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
@@ -298,49 +324,6 @@ public class TumorTypesUtil {
     }
 
     /**
-     * Attach children to parent node.
-     *
-     * @param tumorTypes
-     * @param row        One row of text file
-     * @param index      Current index of row. It will be increased everytime this function has been called.
-     * @return parent node.
-     */
-    private static Map<String, TumorType> attachTumorType(Map<String, TumorType> tumorTypes, String[] row, int index, Version version, String parentCode) {
-        if (index < 5 && row.length > index && row[index] != null && !row[index].isEmpty()) {
-            Map<String, String> result = parseCodeName(row[index]);
-            Map<String, String> tissue = parseCodeName(row[0]);
-            if (result.containsKey("code")) {
-                String code = result.get("code");
-                TumorType tumorType = new TumorType();
-                if (!tumorTypes.containsKey(code)) {
-                    MainType mainType = null;
-                    Level level = Level.getByLevel(Integer.toString(index + 1));
-                    if (row.length > 5 && !row[5].isEmpty()) {
-                        mainType = MainTypesUtil.getOrCreateMainType(row[5], version);
-                    }
-                    tumorType.setTissue(tissue.get("name"));
-                    tumorType.setLevel(level);
-                    tumorType.setCode(code);
-                    tumorType.setName(result.get("name"));
-                    if (level != null && !Level.PRIMARY.equals(level)) {
-                        // Don't assign main type for primary column
-                        tumorType.setMainType(mainType);
-                    }
-                    tumorType.setColor(row.length > 6 ? row[6] : "");
-                    tumorType.setNCI(row.length > 7 ? row[7] : "");
-                    tumorType.setUMLS(row.length > 8 ? row[8] : "");
-                    tumorType.setParent(parentCode);
-                } else {
-                    tumorType = tumorTypes.get(code);
-                }
-                tumorType.setChildren(attachTumorType(tumorType.getChildren(), row, ++index, version, code));
-                tumorTypes.put(code, tumorType);
-            }
-        }
-        return tumorTypes;
-    }
-
-    /**
      * Parsing cell content into tumor type code and tumor type name.
      *
      * @param content One cell of each row.
@@ -357,21 +340,6 @@ public class TumorTypesUtil {
             result.put("code", matcher.group(2).trim());
         }
         return result;
-    }
-
-    /**
-     * Get tumor type text file input stream.
-     *
-     * @param relativePath Tumor type text file path.
-     * @return Input stream
-     */
-    private static InputStreamReader getReader(String relativePath) {
-        try {
-            return new InputStreamReader(getInputStream(relativePath), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private static InputStream getInputStream(String relativePath) {
