@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -36,6 +37,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -50,7 +52,17 @@ public abstract class TopBraidRepository<T> {
     @Value("${topbraid.url}")
     private String topBraidURL;
 
-    protected List<T> query(String sessionId, String query, ParameterizedTypeReference parameterizedType) {
+    @Autowired
+    private TopBraidSessionConfiguration topBraidSessionConfiguration;
+
+    protected List<T> query(String query, ParameterizedTypeReference parameterizedType)
+            throws TopBraidException {
+        return query(query, parameterizedType, true);
+    }
+
+    private List<T> query(String query, ParameterizedTypeReference parameterizedType, boolean refreshSessionOnFailure)
+            throws TopBraidException {
+        String sessionId = topBraidSessionConfiguration.getSessionId();
         logger.debug("query() -- sessionId: " + sessionId);
         RestTemplate restTemplate = new RestTemplate();
 
@@ -74,12 +86,22 @@ public abstract class TopBraidRepository<T> {
 
         // NOTE ParameterizedTypeReference cannot be made generic, that is why child class passes it
         // See: http://stackoverflow.com/questions/21987295/using-spring-resttemplate-in-generic-method-with-generic-parameter
-        ResponseEntity<List<T>> response = restTemplate.exchange(topBraidURL,
-            HttpMethod.POST,
-            request,
-            parameterizedType);
-        logger.debug("query() -- response.getBody(): '" + response.getBody() + "'");
-        return response.getBody();
+        try {
+            ResponseEntity<List<T>> response = restTemplate.exchange(topBraidURL,
+                HttpMethod.POST,
+                request,
+                parameterizedType);
+            logger.debug("query() -- response.getBody(): '" + response.getBody() + "'");
+            return response.getBody();
+        } catch (RestClientException e) {
+            logger.debug("query() -- caught RestClientException");
+            // see if we should try again, maybe the session expired
+            if (refreshSessionOnFailure == true) {
+                // force refresh of the session id
+                sessionId = topBraidSessionConfiguration.getFreshSessionId();
+                return query(query, parameterizedType, false); // do not make a second attempt
+            }
+            throw new TopBraidException("Failed to connect to TopBraid", e);
+        }
     }
-
 }

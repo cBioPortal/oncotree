@@ -75,7 +75,7 @@ public class TumorTypesApi {
         @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
         @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "The flat list of tumor types", defaultValue = "false")
-        @RequestParam(value = "flat", required = false) Boolean flat,
+        @RequestParam(value = "flat", required = false, defaultValue = "false") Boolean flat,
         @ApiParam(value = "Indicator that whether should include deprecated tumor types.", defaultValue = "false")
         @RequestParam(value = "deprecated", required = false, defaultValue = "false") Boolean deprecated
 //        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
@@ -89,7 +89,7 @@ public class TumorTypesApi {
 
         Map<String, TumorType> tumorTypes = new HashMap<>();
 
-        Version v = VersionUtil.getVersionOrRealtime(version);
+        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
         
         tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
         
@@ -158,7 +158,7 @@ public class TumorTypesApi {
             setCode(200);
         }});
 
-        Version v = queries.getVersion() != null ? VersionUtil.getVersion(queries.getVersion()) : VersionUtil.getVersion("realtime");
+        Version v = queries.getVersion() != null ? VersionUtil.getVersion(queries.getVersion()) : VersionUtil.getDefaultVersion();
         List<List<TumorType>> tumorTypes = new ArrayList<>();
 
         // Cache in tumor types in case no data present
@@ -209,7 +209,7 @@ public class TumorTypesApi {
     )
         throws NotFoundException {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
-        Version v = VersionUtil.getVersionOrRealtime(version);
+        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
         
         // Cache in tumor types in case no data present
         CacheUtil.getOrResetTumorTypesByVersion(v);
@@ -256,6 +256,5 @@ public class TumorTypesApi {
         // do some magic!
         return new ResponseEntity<UpdateTumorTypeResp>(HttpStatus.OK);
     }
-
 
 }

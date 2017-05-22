@@ -32,16 +32,8 @@ public class TumorTypesTxtApi {
         produces = {"text/plain"},
         method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> tumorTypesTxtGet(
-        @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions.")
-        @RequestParam(value = "version", required = false) String version
     ) {
-        Version v = VersionUtil.getVersion(version);
-        
-        if(v == null) {
-            v = VersionUtil.getVersion("realtime");
-        }
-        
-        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStreamByVersion(v);
+        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream();
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         return new ResponseEntity<>(inputStreamResource, HttpStatus.OK);
     }

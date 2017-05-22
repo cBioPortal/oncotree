@@ -32,29 +32,21 @@ import org.springframework.stereotype.Repository;
  * @author Manda Wilson
  **/
 @Repository
-public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
+public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
 
-    private final static Logger logger = Logger.getLogger(OncoTreeRepository.class);
+    private final static Logger logger = Logger.getLogger(OncoTreeVersionRepository.class);
 
-    private String query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
-        "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree/> " +
-        "SELECT DISTINCT ?code ?name ?mainType ?color ?nci ?umls ?icdo ?parentCode " +
+    private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
+        "SELECT ?api_identifier ?graph_uri ?description " +
         "WHERE { " +
-        "   GRAPH <%s> { " +
-        "       ?s skos:prefLabel ?name;" +
-        "       skos:broader ?broader;" +
-        "       skos:notation ?code." +
-        "       OPTIONAL{?broader skos:notation ?parentCode}." +
-        "       OPTIONAL{?s onc:mainType ?mainType}." +
-        "       OPTIONAL{?s onc:color ?color}." +
-        "       OPTIONAL{?s onc:nci ?nci}." +
-        "       OPTIONAL{?s onc:umls ?umls}." +
-        "       OPTIONAL{?s onc:icdo ?icdo}." +
-        "   }" +
+        "   GRAPH <urn:x-evn-master:oncotree_version> { " +
+        "       ?s oncotree-version:graph_uri ?graph_uri. " +
+        "       ?s oncotree-version:api_identifier ?api_identifier. " +
+        "       OPTIONAL{?s oncotree-version:description ?description.} " +
+        "   } " +
         "}";
 
-    public List<OncoTreeNode> getOncoTree(Version version) throws TopBraidException {
-        return super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){});
+    public List<Version> getOncoTreeVersions() throws TopBraidException {
+        return super.query(query, new ParameterizedTypeReference<List<Version>>(){});
     }
-
 }

@@ -1,41 +1,44 @@
 package org.mskcc.oncotree.utils;
 
 import org.mskcc.oncotree.model.Version;
+import org.mskcc.oncotree.error.InvalidVersionException;
+import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by Hongxin on 2/25/16.
  */
+@Component
 public class VersionUtil {
-    private static final Map<String, Version> VERSIONS = new HashMap<String, Version>() {{
-        put("1", new Version("1", "369b74c599ebefdb71bb25a85cb877be954a0928"));
-        put("1.1", new Version("1.1", "52a743f6a3493d1cb46eca2a3e12e7f92225558d"));
-        put("oncokb", new Version("oncokb", "a41b4b38aeabbcf0ae2a6414ee90add1fd72468d"));
-        put("genie", new Version("genie", "23fac821a946a3973b65d91b0616136222578e40"));
-        put("realtime", new Version("realtime", "realtime"));
-    }};
 
-    public static Version getVersion(String version) {
-        return VERSIONS.get(version);
+    private static OncoTreeVersionRepository oncoTreeVersionRepository;
+    @Autowired
+    public void setOncoTreeVersionRepository(OncoTreeVersionRepository property) { oncoTreeVersionRepository = property; }
+
+    public static List<Version> getVersions() {
+        return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
-    public static Version getVersionOrRealtime(String version) {
-        return VERSIONS.get(version) == null ? VERSIONS.get("realtime") : VERSIONS.get(version);
-    }
-
-    public static Set<Version> getVersions() {
-        Set<Version> versions = new HashSet<>();
-        for (Map.Entry<String, Version> entry : VERSIONS.entrySet()) {
-            versions.add(entry.getValue());
+    public static Version getVersion(String version) throws InvalidVersionException {
+        if (version != null && version.trim() != "") {
+            for (Version v : getVersions()) {
+                if (v.getVersion().equals(version)) {
+                    return v;
+                }
+            }
+        } else {
+            throw new InvalidVersionException("'' is not a valid version.");
         }
-        return versions;
+        throw new InvalidVersionException("'" + version + "' is not a valid version.");
     }
 
-    public static Boolean hasVersion(String version) {
-        return VERSIONS.containsKey(version);
-    }
+    public static Version getDefaultVersion() throws InvalidVersionException {
+        // note we will throw an InvalidVersionException if this is not found in TopBraid
+        return getVersion("oncotree_current"); 
+    } 
+
 }
