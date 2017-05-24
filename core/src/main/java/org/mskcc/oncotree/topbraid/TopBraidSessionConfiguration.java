@@ -51,36 +51,45 @@ public class TopBraidSessionConfiguration {
     @Value("${topbraid.url}")
     private String topBraidURL;
 
+    @Value("${topbraid.username:}")
     private String username;
-    private String password;
-    private Cookie sessionIdCookie;   
 
-    public void setUsernameAndPassword(String username, String password) {
-        this.username = username;
-        this.password = password;
+    @Value("${topbraid.password:}")
+    private String password;
+
+    private static Cookie sessionIdCookie;
+
+    /*
+     * Get the session id, if has not been set then set it
+     */
+    public String getSessionId() {
+        if (sessionIdCookie != null) {
+            logger.debug("getSessionId() -- returning session id: " + sessionIdCookie.getValue());
+            return sessionIdCookie.getValue();
+        }
+        logger.debug("getSessionId() -- session id is null, get a new one");
+        return getFreshSessionId();
     }
 
-    public String getSessionId() {
-        if (sessionIdCookie == null || aboutToExpire()) {
-            // we need a valid session id to query the login page, so first get that from another page
-            Cookie initialSessionIdCookie = getSessionIdCookie(topBraidURL);
-            if (initialSessionIdCookie != null) {
-                logger.debug("getSessionId() -- initial session id: " + initialSessionIdCookie.getValue());
-                // now actually login, using our session id
-                String loginURL = topBraidURL + "/j_security_check?j_username=" + username + "&j_password=" + password;
-                // send our previous session id cookie and then replace it with the one attached to our successful login
-                sessionIdCookie = getSessionIdCookie(loginURL, initialSessionIdCookie);
-                if (sessionIdCookie != null) {
-                    logger.debug("getSessionId() -- successfully logged in and session id is now: " + sessionIdCookie.getValue());
-                    return sessionIdCookie.getValue();
-                }
-                logger.error("getSessionId() -- failed to login");
-            } else {
-                logger.debug("getSessionId() -- failed to get initial session id.");
+    /*
+     * Get a fresh session id
+     */
+    public String getFreshSessionId() {
+        // we need a valid session id to query the login page, so first get that from another page
+        Cookie initialSessionIdCookie = getSessionIdCookie(topBraidURL);
+        if (initialSessionIdCookie != null) {
+            logger.debug("getFreshSessionId() -- initial session id: " + initialSessionIdCookie.getValue());
+            // now actually login, using our session id
+            String loginURL = topBraidURL + "/j_security_check?j_username=" + username + "&j_password=" + password;
+            // send our previous session id cookie and then replace it with the one attached to our successful login
+            sessionIdCookie = getSessionIdCookie(loginURL, initialSessionIdCookie);
+            if (sessionIdCookie != null) {
+                logger.debug("getFreshSessionId() -- successfully logged in and session id is now: " + sessionIdCookie.getValue());
+                return sessionIdCookie.getValue();
             }
-        } else { // session has not expired
-            logger.debug("getSessionId() -- session has not expired so reuse: " + sessionIdCookie.getValue());
-            return sessionIdCookie.getValue();
+            logger.error("getFreshSessionId() -- failed to login");
+        } else {
+            logger.debug("getFreshSessionId() -- failed to get initial session id.");
         }
         return null;
     }
@@ -124,12 +133,4 @@ public class TopBraidSessionConfiguration {
         return null;
     }
 
-    private boolean aboutToExpire() {
-        if (sessionIdCookie != null) { 
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.MINUTE, 10);
-            return sessionIdCookie.isExpired(calendar.getTime());
-        }
-        return true;
-    }
 }

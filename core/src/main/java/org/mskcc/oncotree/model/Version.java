@@ -1,49 +1,77 @@
 package org.mskcc.oncotree.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import java.util.Map;
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
+
 /**
  * Created by Hongxin on 5/23/16.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "api_identifier",
+    "graph_uri",
+    "description"
+})
 public class Version {
+
+    @JsonProperty("api_identifier")
     private String version;
-    private String commitId;
 
-    public Version(String version, String commitId) {
-        this.version = version;
-        this.commitId = commitId;
-    }
+    private String graphURI;
 
-    public String getVersion() {
-        return version;
-    }
+    @JsonProperty("description")
+    private String description;
 
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("api_identifier")
     public void setVersion(String version) {
         this.version = version;
     }
 
-    public String getCommitId() {
-        return commitId;
+    @JsonProperty("api_identifier")
+    public String getVersion() {
+        return version;
     }
 
-    public void setCommitId(String commitId) {
-        this.commitId = commitId;
+    @JsonProperty("graph_uri")
+    public void setGraphURI(String graphURI) {
+        this.graphURI = graphURI;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Version version1 = (Version) o;
-
-        if (version != null ? !version.equals(version1.version) : version1.version != null) return false;
-        return commitId != null ? commitId.equals(version1.commitId) : version1.commitId == null;
-
+    @JsonIgnore
+    public String getGraphURI() {
+        return graphURI;
     }
 
-    @Override
-    public int hashCode() {
-        int result = version != null ? version.hashCode() : 0;
-        result = 31 * result + (commitId != null ? commitId.hashCode() : 0);
-        return result;
+    @JsonProperty("description")
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
 }

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
+import org.mskcc.oncotree.error.InvalidTreeException;
 import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
@@ -40,7 +41,7 @@ public class TumorTypesUtil {
 
     public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) {
         Map<String, TumorType> tumorTypes = new HashMap<>();
-        if (version != null && version.getCommitId() != null) {
+        if (version != null) {
             tumorTypes = loadFromRepository(version);
         }
         return tumorTypes;
@@ -98,25 +99,6 @@ public class TumorTypesUtil {
         return inputStream;
     }
 
-    public static InputStream getTumorTypeInputStreamByVersion(Version version) {
-        if (version.getVersion() == "realtime") {
-            return getTumorTypeInputStream();
-        } else {
-            return getTumorTypeInputStreamFromGitHub(version);
-        }
-    }
-
-    public static InputStream getTumorTypeInputStreamFromGitHub(Version version) {
-        try {
-            URL url = new URL("https://raw.githubusercontent.com/cBioPortal/oncotree/" + version.getCommitId() + "/tumor_tree.txt");
-            return url.openStream();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
         Set<TumorType> tumorTypes = new HashSet<>();
 
@@ -137,7 +119,7 @@ public class TumorTypesUtil {
     }
 
     private static Map<String, TumorType> loadFromRepository(Version version) {
-        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree();
+        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
         Map<String, TumorType> tree = new HashMap<>();
 
         TumorType root = new TumorType();
@@ -149,7 +131,7 @@ public class TumorTypesUtil {
         Map<String, TumorType> allNodes = new HashMap<>();
 
         for (OncoTreeNode node : oncoTreeNodes) {
-            logger.debug("OncoTreeNode: code='" + node.getCode() + "', name='" + node.getName() + "'");
+            logger.debug("loadFromRepository() -- OncoTreeNode: code='" + node.getCode() + "', name='" + node.getName() + "'");
             TumorType tumorType = initTumorType(node, version);
             allNodes.put(tumorType.getCode(), tumorType);
         }
@@ -159,7 +141,7 @@ public class TumorTypesUtil {
             // TISSUE is root and has no parent, skip
             if (!tumorType.getCode().equals("TISSUE")) {
                 if (tumorType.getParent() == null) {
-                    logger.debug("Parent is null for tumor type code '" +
+                    logger.debug("loadFromRepository() -- Parent is null for tumor type code '" +
                         tumorType.getCode() + "'.  Adding to 'TISSUE' node.");
                     tumorType.setParent(root.getCode());
                     root.addChild(tumorType);
@@ -167,14 +149,28 @@ public class TumorTypesUtil {
                     TumorType parent = allNodes.get(tumorType.getParent());
                     parent.addChild(tumorType);
                 } else {
-                    logger.error("Could not find parent '" + 
-                        tumorType.getParent() + "' for tumor type code '" + 
+                    throw new InvalidTreeException("Could not find parent '" +
+                        tumorType.getParent() + "' for tumor type code '" +
                         tumorType.getCode() + "'.");
                 }
             }
         }
 
+        for (TumorType tumorType : root.getChildren().values()) {
+            setDepthAndTissue(tumorType, 1, tumorType.getName());
+        }
+
         return tree;
+    }
+
+    private static void setDepthAndTissue(TumorType tumorType, int depth, String tissue) {
+        if (tumorType != null) {
+            tumorType.setLevel(Level.getByLevel(Integer.toString(depth)));
+            tumorType.setTissue(tissue);
+            for (TumorType childTumorType: tumorType.getChildren().values()) {
+                setDepthAndTissue(childTumorType, depth + 1, tissue);
+            }
+        }
     }
 
     private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) {

@@ -25,12 +25,9 @@ public class CacheUtil {
     }
 
     public static Map<String, TumorType> getOrResetTumorTypesByVersion(Version version) {
-        if(version != null) {
-            if(version.getVersion() == "realtime") {
-                tumorTypes.remove(version);
-            }
+        if (version != null) {
             return getTumorTypesByVersion(version);
-        }else {
+        } else {
             return new HashMap<>();
         }
     }
@@ -49,7 +46,6 @@ public class CacheUtil {
             return mainTypes.get(version);
         } else {
             mainTypes.put(version, new ArrayList<MainType>());
-            Map<String, TumorType> tumorTypeMap = TumorTypesUtil.getTumorTypesByVersionFromRaw(version);
             return mainTypes.get(version);
         }
     }

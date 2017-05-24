@@ -35,6 +35,7 @@ public class VersionsResp {
         return data;
     }
 
+    @JsonProperty("data")
     public void setData(List<Version> data) {
         this.data = data;
     }

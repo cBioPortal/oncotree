@@ -46,7 +46,7 @@ public class MainTypesApi {
         meta.setCode(200);
         resp.setMeta(meta);
 
-        Version v = VersionUtil.getVersionOrRealtime(version);
+        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
         resp.setData(CacheUtil.getMainTypesByVersion(v));
 
         return new ResponseEntity<MainTypesResp>(resp, HttpStatus.OK);
@@ -75,7 +75,7 @@ public class MainTypesApi {
         resp.setMeta(meta);
 
         if (id != null) {
-            Version v = VersionUtil.getVersionOrRealtime(version);
+            Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
 
             // Cache in tumor types in case no data present
             CacheUtil.getOrResetTumorTypesByVersion(v);
