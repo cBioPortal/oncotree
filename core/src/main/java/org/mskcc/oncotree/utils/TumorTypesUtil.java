@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
-import org.mskcc.oncotree.error.InvalidTreeException;
+import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
@@ -39,7 +39,7 @@ public class TumorTypesUtil {
     private static final String PROPERTY_FILE = "classpath:application.properties";
     private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
-    public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) {
+    public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
         Map<String, TumorType> tumorTypes = new HashMap<>();
         if (version != null) {
             tumorTypes = loadFromRepository(version);
@@ -63,7 +63,7 @@ public class TumorTypesUtil {
         return properties;
     }
 
-    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) {
+    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException {
         logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
@@ -118,54 +118,59 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    private static Map<String, TumorType> loadFromRepository(Version version) {
-        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
-        Map<String, TumorType> tree = new HashMap<>();
-
-        TumorType root = new TumorType();
-        root.setCode("TISSUE");
-        root.setName("Tissue");
-        // tree seems to only contain root node
-        tree.put(root.getCode(), root);
-
-        Map<String, TumorType> allNodes = new HashMap<>();
-
-        for (OncoTreeNode node : oncoTreeNodes) {
-            logger.debug("loadFromRepository() -- OncoTreeNode: code='" + node.getCode() + "', name='" + node.getName() + "'");
-            TumorType tumorType = initTumorType(node, version);
-            allNodes.put(tumorType.getCode(), tumorType);
+    public static boolean hasNoParent(TumorType node) {
+        String parentCode = node.getParent();
+        if (parentCode == null) {
+            return true;
         }
+        if (parentCode.trim().length() == 0) {
+            return true;
+        }
+        return false;
+    }
 
-        // now we have all nodes, fill in children
+    private static void validateOncoTreeOrThrowException(Set<String> rootNodeCodeSet, Set<String> duplicateCodeSet, Map<String, TumorType> allNodes) throws InvalidOncoTreeDataException {
+        StringBuilder errorMessageBuilder = new StringBuilder();
+        //check for one root node
+        if (rootNodeCodeSet.size() == 0) {
+            errorMessageBuilder.append("\toncotree has no root node (a node where parent is empty)\n");
+        } else if (rootNodeCodeSet.size() > 1) {
+            errorMessageBuilder.append("\toncotree has more than one root node (nodes where parent is empty):\n");
+            for (String code : rootNodeCodeSet) {
+                errorMessageBuilder.append("\t\t" + code + "\n");
+            }
+        }
+        //check for no duplicated oncotree codes
+        if (duplicateCodeSet.size() > 0) {
+            errorMessageBuilder.append("\tduplication : oncotree has more than one node containing each of the following OncoTree codes:\n");
+            for (String code : duplicateCodeSet) {
+                errorMessageBuilder.append("\t\t" + code + "\n");
+            }
+        }
+        //check that non-root nodes have a parent in the set of all nodes
+        Set<String> allCodeSet = allNodes.keySet();
         for (TumorType tumorType : allNodes.values()) {
-            // TISSUE is root and has no parent, skip
-            if (!tumorType.getCode().equals("TISSUE")) {
-                if (tumorType.getParent() == null) {
-                    logger.debug("loadFromRepository() -- Parent is null for tumor type code '" +
-                        tumorType.getCode() + "'.  Adding to 'TISSUE' node.");
-                    tumorType.setParent(root.getCode());
-                    root.addChild(tumorType);
-                } else if (allNodes.containsKey(tumorType.getParent())) {
-                    TumorType parent = allNodes.get(tumorType.getParent());
-                    parent.addChild(tumorType);
-                } else {
-                    throw new InvalidTreeException("Could not find parent '" +
-                        tumorType.getParent() + "' for tumor type code '" +
-                        tumorType.getCode() + "'.");
+            String thisNodeCode = tumorType.getCode();
+            String parentCode = tumorType.getParent();
+            if (rootNodeCodeSet.contains(thisNodeCode)) {
+                continue; //by definition, root nodes have no parent
+            } else {
+                if (!allCodeSet.contains(parentCode)) {
+                    errorMessageBuilder.append("\tnode " + thisNodeCode + " has parent code '" + parentCode + "', which is not a code for any node in the tree\n");
                 }
             }
         }
-
-        for (TumorType tumorType : root.getChildren().values()) {
-            setDepthAndTissue(tumorType, 1, tumorType.getName());
+        if (errorMessageBuilder.length() > 0) {
+            throw new InvalidOncoTreeDataException("Invalid oncotree received:\n" + errorMessageBuilder.toString());
         }
-
-        return tree;
     }
 
     private static void setDepthAndTissue(TumorType tumorType, int depth, String tissue) {
         if (tumorType != null) {
             tumorType.setLevel(Level.getByLevel(Integer.toString(depth)));
+            if (depth == 1) {
+                tissue = tumorType.getName();
+            }
             tumorType.setTissue(tissue);
             for (TumorType childTumorType: tumorType.getChildren().values()) {
                 setDepthAndTissue(childTumorType, depth + 1, tissue);
@@ -173,7 +178,45 @@ public class TumorTypesUtil {
         }
     }
 
-    private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) {
+    private static Map<String, TumorType> loadFromRepository(Version version) throws InvalidOncoTreeDataException {
+        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+        Map<String, TumorType> allNodes = new HashMap<>();
+        HashSet<String> rootNodeCodeSet = new HashSet<>();
+        HashSet<String> duplicateCodeSet = new HashSet<>();
+        // construct basic nodes
+        for (OncoTreeNode thisNode : oncoTreeNodes) {
+            logger.debug("OncoTreeNode: code='" + thisNode.getCode() + "', name='" + thisNode.getName() + "'");
+            TumorType tumorType = initTumorType(thisNode, version);
+            String thisNodeCode = tumorType.getCode();
+            if (allNodes.containsKey(thisNodeCode)) {
+                duplicateCodeSet.add(thisNodeCode);
+            }
+            allNodes.put(thisNodeCode, tumorType);
+            if (hasNoParent(tumorType)) {
+                rootNodeCodeSet.add(thisNodeCode);
+            }
+        }
+        validateOncoTreeOrThrowException(rootNodeCodeSet, duplicateCodeSet, allNodes);
+        // fill in children property, based on parent
+        for (TumorType tumorType : allNodes.values()) {
+            String thisNodeCode = tumorType.getCode();
+            if (rootNodeCodeSet.contains(thisNodeCode)) {
+                continue; //root node has no parent
+            }
+            TumorType parent = allNodes.get(tumorType.getParent());
+            parent.addChild(tumorType);
+        }
+        // set depth and tissue properties (root has tissue = null)
+        String rootCode = rootNodeCodeSet.iterator().next();
+        TumorType rootNode = allNodes.get(rootCode);
+        setDepthAndTissue(rootNode, 0, null);
+        // now that all children have a path of references to them from the root, return only the root node.
+        allNodes.clear();
+        allNodes.put(rootCode, rootNode);
+        return allNodes;
+    }
+
+    private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
         if (oncoTreeNode.getMainType() != null) {

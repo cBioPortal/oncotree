@@ -42,9 +42,9 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
         "WHERE { " +
         "   GRAPH <%s> { " +
         "       ?s skos:prefLabel ?name;" +
-        "       skos:broader ?broader;" +
         "       skos:notation ?code." +
-        "       OPTIONAL{?broader skos:notation ?parentCode}." +
+        "       OPTIONAL{?s skos:broader ?broader." +
+        "           ?broader skos:notation ?parentCode}." +
         "       OPTIONAL{?s onc:mainType ?mainType}." +
         "       OPTIONAL{?s onc:color ?color}." +
         "       OPTIONAL{?s onc:nci ?nci}." +

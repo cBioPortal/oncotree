@@ -24,11 +24,11 @@ import org.apache.log4j.Logger;
  *
  * @author Manda Wilson
  **/
-public class InvalidTreeException extends RuntimeException {
+public class InvalidOncoTreeDataException extends RuntimeException {
 
-    private final static Logger logger = Logger.getLogger(InvalidTreeException.class);
+    private final static Logger logger = Logger.getLogger(InvalidOncoTreeDataException.class);
 
-    public InvalidTreeException(String message) {
+    public InvalidOncoTreeDataException(String message) {
         super(message);
         logger.error(message);
     }   
