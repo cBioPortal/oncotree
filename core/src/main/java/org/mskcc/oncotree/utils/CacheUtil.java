@@ -1,5 +1,6 @@
 package org.mskcc.oncotree.utils;
 
+import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
@@ -24,15 +25,18 @@ public class CacheUtil {
         }
     }
 
-    public static Map<String, TumorType> getOrResetTumorTypesByVersion(Version version) {
+    public static Map<String, TumorType> getOrResetTumorTypesByVersion(Version version) throws InvalidOncoTreeDataException {
         if (version != null) {
+            if(version.getVersion() == "realtime") {
+                tumorTypes.remove(version);
+            }
             return getTumorTypesByVersion(version);
         } else {
             return new HashMap<>();
         }
     }
 
-    public static Map<String, TumorType> getTumorTypesByVersion(Version version) {
+    public static Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidOncoTreeDataException {
         if (tumorTypes.containsKey(version)) {
             return tumorTypes.get(version);
         } else {
@@ -41,7 +45,7 @@ public class CacheUtil {
         }
     }
 
-    public static List<MainType> getMainTypesByVersion(Version version) {
+    public static List<MainType> getMainTypesByVersion(Version version) throws InvalidOncoTreeDataException {
         if (mainTypes.containsKey(version)) {
             return mainTypes.get(version);
         } else {

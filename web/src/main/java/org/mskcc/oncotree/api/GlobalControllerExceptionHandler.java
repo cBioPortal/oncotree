@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import org.mskcc.oncotree.error.InvalidTreeException;
+import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.topbraid.TopBraidException;
 
 import org.springframework.http.HttpStatus;
@@ -47,8 +47,8 @@ class GlobalControllerExceptionHandler {
     }
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
-    @ExceptionHandler(InvalidTreeException.class)
-    public void handleInvalidTreeException() {
+    @ExceptionHandler(InvalidOncoTreeDataException.class)
+    public void handleInvalidOncoTreeDataException() {
         // nothing to do
     }
 

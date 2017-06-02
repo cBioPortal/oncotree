@@ -1,5 +1,6 @@
 package org.mskcc.oncotree.utils;
 
+import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.Version;
 
@@ -15,7 +16,7 @@ public class MainTypesUtil {
      * @param name The searched main type name
      * @return
      */
-    public static MainType getOrCreateMainType(String name, Version version) {
+    public static MainType getOrCreateMainType(String name, Version version) throws InvalidOncoTreeDataException {
         List<MainType> mainTypes = CacheUtil.getMainTypesByVersion(version);
 
         for (MainType mainType : mainTypes) {
