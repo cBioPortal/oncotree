@@ -18,25 +18,23 @@
 package org.mskcc.oncotree.utils;
 
 import org.mockito.Mockito;
-//import org.mskcc.cbio.importer.internal.OncoTreeServiceImpl;
-//import org.mskcc.cbio.importer.OncoTreeService;
-//import org.mskcc.cbio.importer.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 @Configuration
-//@ImportResource("classpath:applicationContext-importer.xml")
 @ComponentScan(basePackages = {"org.mskcc.oncotree.utils","org.mskcc.oncotree.topbraid"})
 public class TumorTypesUtilTestConfig {
 
-//    @Bean
-//    public OncoTreeRepository oncoTreeRepositoryMock() {
-//        return Mockito.mock(OncoTreeRepository.class);
-//    }
-//    @Bean
-//    public OncoTreeService unitTestOncoTreeServiceImpl() {
-//        return new OncoTreeServiceImpl();
-//    }
+    @Bean
+    public OncoTreeRepository oncoTreeRepository() {
+        return Mockito.mock(OncoTreeRepository.class);
+    }
+    @Bean
+    public TumorTypesUtil tumorTypesUtil() {
+        return new TumorTypesUtil();
+    }
+
 }

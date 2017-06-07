@@ -35,13 +35,12 @@ import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -52,13 +51,15 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 
-@Configuration
+//@Configuration
+@RunWith(SpringRunner.class)
 @Import(TumorTypesUtilTestConfig.class)
 public class TumorTypesUtilTest {
-
     private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse = null;
-    private OncoTreeRepository mockRepository = null;
     private Version mockVersion = null;
+    @Autowired
+    private OncoTreeRepository mockRepository = null;
+    @Autowired
     private TumorTypesUtil tumorTypesUtil = null;
     private HashMap<String, TumorType> expectedTumorTypeMap = null;
 //TODO: add negative tests, tests based on a copy of data_clinical
@@ -99,19 +100,9 @@ public class TumorTypesUtilTest {
     }
 
     private void setupMockRepository() throws Exception {
-        if (mockRepository == null) {
-            setupMockVersion();
-            setupOncoTreeRepositoryMockResponse();
-            mockRepository = Mockito.mock(OncoTreeRepository.class);
-            Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
-        }
-    }
-
-    private void setupTumorTypesUtil() {
-        if (tumorTypesUtil == null) {
-            tumorTypesUtil = new TumorTypesUtil();
-            tumorTypesUtil.setOncoTreeRepository(mockRepository);
-        }
+        setupMockVersion();
+        setupOncoTreeRepositoryMockResponse();
+        Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
     }
 
     private void setupExpectedTumorTypeMap() throws Exception {
@@ -159,7 +150,6 @@ public class TumorTypesUtilTest {
 
     private void setupForTest() throws Exception {
         setupMockRepository();
-        setupTumorTypesUtil();
         setupExpectedTumorTypeMap();
     }
 
