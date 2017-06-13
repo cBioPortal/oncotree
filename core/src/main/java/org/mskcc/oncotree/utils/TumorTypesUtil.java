@@ -102,9 +102,9 @@ public class TumorTypesUtil {
     public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
         Set<TumorType> tumorTypes = new HashSet<>();
 
-        Iterator it = nestedTumorTypes.entrySet().iterator();
+        Iterator<Map.Entry<String, TumorType>> it = nestedTumorTypes.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, TumorType> pair = (Map.Entry) it.next();
+            Map.Entry<String, TumorType> pair = it.next();
             TumorType tumorType = pair.getValue();
 
             if (tumorType.getChildren() != null && tumorType.getChildren().size() > 0) {
