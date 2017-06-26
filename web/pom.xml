@@ -9,15 +9,15 @@
 
     <name>OncoTree Web</name>
     <description>The web module for OncoTree</description>
-    
+
     <parent>
         <groupId>org.mskcc.oncotree</groupId>
         <artifactId>master</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    
+
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>1.7</java.version>
         <github.global.server>github</github.global.server>
         <spring.version>4.3.8.RELEASE</spring.version>
         <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
@@ -44,7 +44,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -71,9 +71,9 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-        
+
         <!--
-        Ensure that the embedded servlet container doesn’t interfere with 
+        Ensure that the embedded servlet container doesn’t interfere with
         the servlet container to which the war file will be deployed.
         Otherwise it may cause Offending class issue.
         http://stackoverflow.com/questions/15601469/jar-not-loaded-see-servlet-spec-2-3-section-9-7-2-offending-class-javax-serv
@@ -98,7 +98,7 @@
             <version>2.2.2</version>
             <scope>compile</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.mskcc.oncotree</groupId>
             <artifactId>core</artifactId>
