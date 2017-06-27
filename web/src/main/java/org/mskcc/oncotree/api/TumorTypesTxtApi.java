@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import org.mskcc.oncotree.model.TumorType;
+import org.mskcc.oncotree.utils.CacheUtil;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -32,8 +36,13 @@ public class TumorTypesTxtApi {
         produces = {"text/plain"},
         method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> tumorTypesTxtGet(
+        @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see GitHub for released versions. ")
+        @RequestParam(value = "version", required = false) String version
     ) {
-        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream();
+        Map<String, TumorType> tumorTypes = new HashMap<>();
+        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
+        tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
+        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream(tumorTypes);
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         return new ResponseEntity<>(inputStreamResource, HttpStatus.OK);
     }

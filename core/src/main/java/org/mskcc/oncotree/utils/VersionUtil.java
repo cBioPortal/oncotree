@@ -16,6 +16,7 @@ import java.util.List;
 public class VersionUtil {
 
     private static OncoTreeVersionRepository oncoTreeVersionRepository;
+    public static final String DEFAULT_VERSION = "oncotree_latest_stable";
     @Autowired
     public void setOncoTreeVersionRepository(OncoTreeVersionRepository property) { oncoTreeVersionRepository = property; }
 
@@ -38,7 +39,6 @@ public class VersionUtil {
 
     public static Version getDefaultVersion() throws InvalidVersionException {
         // note we will throw an InvalidVersionException if this is not found in TopBraid
-        return getVersion("oncotree_latest_stable"); 
-    } 
-
+        return getVersion(DEFAULT_VERSION);
+    }
 }

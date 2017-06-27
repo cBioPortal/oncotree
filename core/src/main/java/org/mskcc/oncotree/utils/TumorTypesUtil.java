@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.core.io.InputStreamResource;
 
 /**
  * Created by Hongxin on 2/25/16.
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 public class TumorTypesUtil {
 
     private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
+    private final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls";
 
     private static OncoTreeRepository oncoTreeRepository;
     @Autowired
@@ -88,15 +90,65 @@ public class TumorTypesUtil {
         return filtered;
     }
 
-    public static InputStream getTumorTypeInputStream() {
-        Properties properties = getProperties();
-        InputStream inputStream = null;
+    public static InputStream getTumorTypeInputStream(Map<String, TumorType> tumorTypes) {
+        String tsvAsString = getTsvFromTumorTypes(tumorTypes);
         try {
-            inputStream = new FileInputStream(properties.getProperty("tumor_type_file_path"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return new ByteArrayInputStream(tsvAsString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
         }
-        return inputStream;
+        return null;
+    }
+
+    private static String getTsvFromTumorTypes(Map<String, TumorType> tumorTypes) {
+        List<String> rows = new ArrayList<>();
+        rows.add(TSV_HEADER);
+        for (String code : tumorTypes.keySet()) {
+            TumorType tumorType = tumorTypes.get(code);
+            // skip the root node, "TISSUE". Just add it's children
+            Map<String, TumorType> children = tumorType.getChildren();
+            for (String childCode : children.keySet()) {
+                addTumorTypeToRows(children.get(childCode), rows, new ArrayList<String>());
+            }
+        }
+        return StringUtils.join(rows, "\n") + "\n";
+    }
+
+    private static void addTumorTypeToRows(TumorType tumorType, List<String> rows, List<String> parents) {
+        List<String> row = new ArrayList<>();
+        String oncotreeCode = StringUtils.defaultString(tumorType.getCode()).trim();
+        
+        // if parents.size() > 4 at this point, this means that the oncotree cannot be represented in our expected format as there are
+        // only 5 levels of headers. Abort the attemp to render the spreadsheet and throw an exception.
+        if (parents.size() > 4) {
+            throw new RuntimeException("Oncotree depth for code " + oncotreeCode + " exceeds max representation. Depth cannot be > 5");
+        }
+
+        String displayName = StringUtils.defaultString(tumorType.getName()).trim() + " (" + oncotreeCode + ")";
+        row.addAll(parents);
+        row.add(displayName);
+
+        // Need to pad for the primary - quinternary columns if all parents are not present
+        for (int i = 4; i > parents.size(); i--) {
+            row.add("");
+        }
+
+        row.add(StringUtils.defaultString(tumorType.getMainType() != null ? tumorType.getMainType().getName() : ""));
+        row.add(StringUtils.defaultString(tumorType.getColor()));
+        row.add(StringUtils.defaultString(tumorType.getNCI()));
+        row.add(StringUtils.defaultString(tumorType.getUMLS()));
+        rows.add(StringUtils.join(row, "\t"));
+
+        // Prepare for next recursive call
+        Map<String, TumorType> children = tumorType.getChildren();
+        if (children.size() > 0) {
+            parents.add(displayName);
+            for (String code : children.keySet()) {
+                TumorType child = children.get(code);
+                addTumorTypeToRows(child, rows, parents);
+            }
+            parents.remove(parents.size() - 1);
+        }
     }
 
     public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
