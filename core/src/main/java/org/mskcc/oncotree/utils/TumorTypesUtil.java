@@ -271,11 +271,11 @@ public class TumorTypesUtil {
     private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
-        if (oncoTreeNode.getMainType() != null) {
-            tumorType.setMainType(MainTypesUtil.getOrCreateMainType(oncoTreeNode.getMainType(), version));
-        }
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
+        MainType mainType = new MainType();
+        mainType.setName(oncoTreeNode.getMainType());
+        tumorType.setMainType(mainType);
         tumorType.setColor(oncoTreeNode.getColor());
         tumorType.setNCI(oncoTreeNode.getNci());
         tumorType.setUMLS(oncoTreeNode.getUmls());
