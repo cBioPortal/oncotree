@@ -20,7 +20,7 @@ $(document).ready(function(){
             && data.hasOwnProperty('data')
             && data.data instanceof Array) {
             versions_ = data.data.reduce(function(acc, cur) {
-              acc[cur.version] = cur;
+              acc[cur.api_identifier] = cur;
               return acc;
             }, {});
           }
@@ -91,7 +91,7 @@ $(document).ready(function(){
           _hash += '?version=' + item;
           _content = item;
         }
-        _str.push('<span class="item" hash="' + _hash + '">' + _content + '</span>');
+        _str.push('<span title="' + versions_[item].description + '" ' + 'class="item" hash="' + _hash + '">' + _content + '</span>');
       });
       $('#other-version .other-version-content').html(_str.join(''));
       $('#other-version .other-version-content .item').click(function() {
