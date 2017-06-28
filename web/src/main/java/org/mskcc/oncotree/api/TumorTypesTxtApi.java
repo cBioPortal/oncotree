@@ -36,7 +36,7 @@ public class TumorTypesTxtApi {
         produces = {"text/plain"},
         method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource> tumorTypesTxtGet(
-        @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see GitHub for released versions. ")
+        @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "version", required = false) String version
     ) {
         Map<String, TumorType> tumorTypes = new HashMap<>();

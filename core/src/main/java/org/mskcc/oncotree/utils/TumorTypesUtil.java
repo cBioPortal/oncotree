@@ -117,7 +117,7 @@ public class TumorTypesUtil {
     private static void addTumorTypeToRows(TumorType tumorType, List<String> rows, List<String> parents) {
         List<String> row = new ArrayList<>();
         String oncotreeCode = StringUtils.defaultString(tumorType.getCode()).trim();
-        
+
         // if parents.size() > 4 at this point, this means that the oncotree cannot be represented in our expected format as there are
         // only 5 levels of headers. Abort the attemp to render the spreadsheet and throw an exception.
         if (parents.size() > 4) {
@@ -272,7 +272,7 @@ public class TumorTypesUtil {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
         if (oncoTreeNode.getMainType() != null) {
-            tumorType.setMainType(MainTypesUtil.getOrCreateMainType(oncoTreeNode.getMainType(), version));
+            tumorType.setMainType(new MainType(oncoTreeNode.getMainType()));
         }
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());

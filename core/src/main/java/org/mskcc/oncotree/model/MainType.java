@@ -16,11 +16,16 @@ import java.util.Objects;
 @ApiModel(description = "General tumor type category.")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class MainType  {
-  
+
   private Integer id = null;
   private String name = null;
 
-  
+  public MainType(){}
+
+  public MainType(String name) {
+      this.name = name;
+  }
+
   /**
    * the numarical identifier of tumor type.
    **/
@@ -33,7 +38,7 @@ public class MainType  {
     this.id = id;
   }
 
-  
+
   /**
    * Tumor type name.
    **/
@@ -46,7 +51,7 @@ public class MainType  {
     this.name = name;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -70,7 +75,7 @@ public class MainType  {
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class MainType {\n");
-    
+
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
     sb.append("}\n");
