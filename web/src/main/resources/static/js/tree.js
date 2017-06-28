@@ -1,8 +1,8 @@
 var tree = (function () {
     "use strict";
-    
+
     var nci_base_uri = 'https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&code=';
-    
+
     var umls_base_uri = 'https://ncim.nci.nih.gov/ncimbrowser/ConceptReport.jsp?code=';
 
     var m = [20, 120, 20, 50],
@@ -37,7 +37,7 @@ var tree = (function () {
 
     function initDataAndTree(version) {
         var txtUrl = 'api/tumor_types.txt';
-  
+
         if (version) {
           txtUrl += '?version=' + version;
         }
@@ -85,26 +85,26 @@ var tree = (function () {
                             uniqueTreeNode[type].acronym = acronymMatches[1];
                         }
 
-                        if(row.hasOwnProperty('metamaintype')) {
-                          if (col == 'primary') {
-                            uniqueTreeNode[type].mainType = 'Not Available';
-                          } else {
+                        if(row.hasOwnProperty('metamaintype') && row.metamaintype !== '') {
                             uniqueTreeNode[type].mainType = row.metamaintype;
-                          }
                         }
+                        else {
+                            uniqueTreeNode[type].mainType = 'Not Available';
+                        }
+
 
                         if(row.hasOwnProperty('metacolor')) {
                             uniqueTreeNode[type].color = row.metacolor;
                         }
-                        
-                        if(row.hasOwnProperty('metanci')){
-                        	uniqueTreeNode[type].nci = row.metanci;
-                        }
-                        
-                        if(row.hasOwnProperty('metaumls')){
-                        	uniqueTreeNode[type].umls = row.metaumls;
-                        }
-                        
+// Temporarily removed until we properly fetch nci/umls values
+//                        if(row.hasOwnProperty('metanci')){
+//                            uniqueTreeNode[type].nci = row.metanci;
+//                        }
+//
+//                        if(row.hasOwnProperty('metaumls')){
+//                            uniqueTreeNode[type].umls = row.metaumls;
+//                        }
+
                     }
                     node = node[type];
                 }
@@ -321,10 +321,9 @@ var tree = (function () {
                 }else {
                     _position = {my:'bottom left',at:'top right', viewport: $(window)};
                 }
-                
-                var nci_link = (typeof d.nci !== 'undefined' && d.nci != '') ? '<a class="qtip-link" href="' + nci_base_uri + d.nci + '" target="_blank">' + d.nci + '</a>' : 'Not Available';
-                
-                var umls_link = (typeof d.umls !== 'undefined' && d.umls != '') ? '<a class="qtip-link" href="' + umls_base_uri + d.umls + '" target="_blank">' + d.umls + '</a>' : 'Not Available';
+// Temporarily removed until we properly fetch nci/umls values
+//                var nci_link = (typeof d.nci !== 'undefined' && d.nci != '') ? '<a class="qtip-link" href="' + nci_base_uri + d.nci + '" target="_blank">' + d.nci + '</a>' : 'Not Available';
+//                var umls_link = (typeof d.umls !== 'undefined' && d.umls != '') ? '<a class="qtip-link" href="' + umls_base_uri + d.umls + '" target="_blank">' + d.umls + '</a>' : 'Not Available';
 
 
                 _qtipContent += '<b>Code:</b> ' + d.acronym +
@@ -340,8 +339,9 @@ var tree = (function () {
                     '<br/>';
                 _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
                 _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
-                _qtipContent += '<b>NCI:</b> ' + nci_link  + '<br/>';
-                _qtipContent += '<b>UMLS:</b> ' + umls_link  + '<br/>';
+// Temporarily removed until we properly fetch nci/umls values
+//                _qtipContent += '<b>NCI:</b> ' + nci_link  + '<br/>';
+//                _qtipContent += '<b>UMLS:</b> ' + umls_link  + '<br/>';
                 _qtipContent += '<b>Color:</b> ' + d.color||'LightBlue'  + '<br/>';
 
                 $(this).qtip({
