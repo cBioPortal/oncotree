@@ -1,3 +1,20 @@
+/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
+ * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
+ * documentation provided hereunder is on an "as is" basis, and
+ * Memorial Sloan-Kettering Cancer Center
+ * has no obligations to provide maintenance, support,
+ * updates, enhancements or modifications.  In no event shall
+ * Memorial Sloan-Kettering Cancer Center
+ * be liable to any party for direct, indirect, special,
+ * incidental or consequential damages, including lost profits, arising
+ * out of the use of this software and its documentation, even if
+ * Memorial Sloan-Kettering Cancer Center
+ * has been advised of the possibility of such damage.
+*/
+
 package org.mskcc.oncotree.utils;
 
 import com.google.common.collect.Lists;
@@ -13,31 +30,14 @@ import org.mskcc.oncotree.model.TumorType;
  */
 public class MainTypesUtil {
 
-    public static List<MainType> getMainTypesByTumorTypes(Map<String, TumorType> tumorTypes) {
+    public static List<MainType> getMainTypesByTumorTypes(Set<TumorType> tumorTypes) {
         Set<MainType> mainTypes = new HashSet<>();
         // skip the root node, "TISSUE". Just add it's children
-        for (String tumorTypeName : tumorTypes.keySet()) {
-            TumorType tumorType = tumorTypes.get(tumorTypeName);
-            Map<String, TumorType> children = tumorType.getChildren();
-            for (String code : children.keySet()) {
-                addMainTypesToSet(children.get(code), mainTypes);
+        for (TumorType tumorType : tumorTypes) {
+            if (tumorType.getMainType() != null && tumorType.getParent() != null) {
+                mainTypes.add(tumorType.getMainType());
             }
         }
-        List<MainType> toReturn = new ArrayList<>();
-        toReturn.addAll(mainTypes);
-        return toReturn;
-    }
-
-    private static void addMainTypesToSet(TumorType tumorType, Set<MainType> mainTypes) {
-        if (tumorType.getMainType() != null) {
-            mainTypes.add(tumorType.getMainType());
-        }
-        Map<String, TumorType> children = tumorType.getChildren();
-        if (children.size() > 0) {
-            for (String code : children.keySet()) {
-                TumorType child = children.get(code);
-                addMainTypesToSet(child, mainTypes);
-            }
-        }
+        return new ArrayList<>(mainTypes);
     }
 }
