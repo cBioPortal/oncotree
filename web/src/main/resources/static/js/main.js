@@ -78,12 +78,8 @@ $(document).ready(function(){
     }
 
     function initVersionsLink() {
-      // Update other versions info
-      var _str = [];
-      var _version = version_ === '' ? 'realtime' : version_;
-      Object.keys(versions_).sort().filter(function(item) {
-        return item !== _version;
-      }).forEach(function(item) {
+      var _str = [];      
+      Object.keys(versions_).sort().forEach(function(item) {
         var _hash = '#/home';
         var _content = 'Lastest';
 
@@ -91,7 +87,15 @@ $(document).ready(function(){
           _hash += '?version=' + item;
           _content = item;
         }
-        _str.push('<option title="' + versions_[item].description + '" ' + 'class="item" hash="' + _hash + '">' + _content + '</option>');
+        var option = '<option title="' + versions_[item].description + '" ' + 'class="item" hash="' + _hash + '">' + _content + '</option>';
+        if (version_ === _content && _str.length > 0) {
+            var tmp = _str[0];
+            _str[0] = option;
+            _str.push(tmp);
+        }
+        else {
+            _str.push(option);
+        }        
       });
       $('#other-version .other-version-content').html(_str.join(''));
       $('#other-version .other-version-content').change(function() {
@@ -159,7 +163,6 @@ $(document).ready(function(){
           version_ = 'oncotree_latest_stable';
         window.location.hash = '/home';
       }
-      $('#version-name').text(version_);
     }
 });
 
