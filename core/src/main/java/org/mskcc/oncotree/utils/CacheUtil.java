@@ -5,10 +5,7 @@ import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Hongxin on 2/25/16.
@@ -46,12 +43,10 @@ public class CacheUtil {
     }
 
     public static List<MainType> getMainTypesByVersion(Version version) throws InvalidOncoTreeDataException {
-        if (mainTypes.containsKey(version)) {
-            return mainTypes.get(version);
-        } else {
+        if (!mainTypes.containsKey(version)) {
             mainTypes.put(version, new ArrayList<MainType>());
-            return mainTypes.get(version);
         }
+        return mainTypes.get(version);
     }
 
     public static void addMainTypeByVersion(Version version, MainType mainType) {
@@ -80,5 +75,4 @@ public class CacheUtil {
         }
         return null;
     }
-
 }

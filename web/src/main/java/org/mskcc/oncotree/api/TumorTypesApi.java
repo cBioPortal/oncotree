@@ -72,7 +72,7 @@ public class TumorTypesApi {
         produces = {"application/json"},
         method = RequestMethod.GET)
     public ResponseEntity<InlineResponse200> tumorTypesGet(
-        @ApiParam(value = "The version of tumor types. For example, 1, 1.1 Please see GitHub for released versions. ")
+        @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "version", required = false) String version,
         @ApiParam(value = "The flat list of tumor types", defaultValue = "false")
         @RequestParam(value = "flat", required = false, defaultValue = "false") Boolean flat,
@@ -90,9 +90,9 @@ public class TumorTypesApi {
         Map<String, TumorType> tumorTypes = new HashMap<>();
 
         Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        
+
         tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
-        
+
         if (flat) {
             response200.setData(TumorTypesUtil.flattenTumorTypes(tumorTypes, null));
         } else {
@@ -163,7 +163,7 @@ public class TumorTypesApi {
 
         // Cache in tumor types in case no data present
         CacheUtil.getOrResetTumorTypesByVersion(v);
-        
+
         for (TumorTypeQuery query : queries.getQueries()) {
             List<TumorType> matchedTumorTypes = new ArrayList<>();
             matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v, false);
@@ -210,10 +210,10 @@ public class TumorTypesApi {
         throws NotFoundException {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
         Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        
+
         // Cache in tumor types in case no data present
         CacheUtil.getOrResetTumorTypesByVersion(v);
-        
+
         matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v, false);
         SearchTumorTypesResp resp = new SearchTumorTypesResp();
 
