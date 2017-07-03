@@ -17,10 +17,13 @@
 
 package org.mskcc.oncotree.utils;
 
+import java.io.*;
 import java.util.*;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
@@ -28,9 +31,8 @@ import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-import static org.mockito.Matchers.*;
 import static org.junit.Assert.fail;
-import org.junit.Before;
+import static org.mockito.Matchers.*;
 
 @RunWith(SpringRunner.class)
 @Import(OncotreeUtilTestConfig.class)
@@ -45,22 +47,29 @@ public class TumorTypesUtilTest {
     private TumorTypesUtil tumorTypesUtil;
     @Autowired
     private Map<String, TumorType> expectedTumorTypeMap;
-//TODO: add negative tests, tests based on a copy of data_clinical
-//TODO: add mock implementation of OncoTree Connection manager ... so that true connection is not needed for unit tests (integration tests use true connection)
 
     @Before
     public void setupMockRepository() throws Exception {
         Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
     }
-    
+
     public String makeMismatchMessage(String oncoTreeCode, String fieldName, String gotValue, String expectedValue) {
         return oncoTreeCode + " : mismatch in " + fieldName + " (got:" + gotValue + ") (expected:" + expectedValue + ")\n";
     }
 
-    public Set<TumorType> simulateTumorTypeApiResponse() throws Exception {
+    public Set<TumorType> simulateFullTumorTypeApiResponse() throws Exception {
         Map<String, TumorType> tumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(mockVersion);
         Set<TumorType> tumorTypeSet = tumorTypesUtil.flattenTumorTypes(tumorTypeMap, null);
         return tumorTypeSet;
+    }
+
+    private Map<String, TumorType> getReturnedFullTumorTypeMap() throws Exception {
+        Set<TumorType> tumorTypesAsPreparedForTumorTypesEndpoint = simulateFullTumorTypeApiResponse();
+        HashMap<String, TumorType> returnedTumorTypeMap = new HashMap<>(tumorTypesAsPreparedForTumorTypesEndpoint.size());
+        for (TumorType tumorType : tumorTypesAsPreparedForTumorTypesEndpoint) {
+            returnedTumorTypeMap.put(tumorType.getCode(), tumorType);
+        }
+        return returnedTumorTypeMap;
     }
 
     private boolean testValuesMatch(String value1, String value2) {
@@ -72,22 +81,20 @@ public class TumorTypesUtilTest {
 
     @Test
     public void testFullOncoTreeCodeListByCode() throws Exception {
-        Set<TumorType> tumorTypesAsPreparedForTumorTypesEndpoint = simulateTumorTypeApiResponse();
-        HashMap<String,TumorType> returnedTumorTypeMap = new HashMap<>(tumorTypesAsPreparedForTumorTypesEndpoint.size());
-        for (TumorType tumorType : tumorTypesAsPreparedForTumorTypesEndpoint) {
-            returnedTumorTypeMap.put(tumorType.getCode(), tumorType);
-        }
         int failureCount = 0;
         StringBuilder failureReport  = new StringBuilder();
+        Map<String,TumorType> returnedTumorTypeMap = getReturnedFullTumorTypeMap();
         for (String oncoTreeCode : expectedTumorTypeMap.keySet()) {
             TumorType expectedTumorType = expectedTumorTypeMap.get(oncoTreeCode);
             TumorType returnedTumorType = returnedTumorTypeMap.get(oncoTreeCode);
             if (expectedTumorType == null || returnedTumorType == null) {
                 if (expectedTumorType == null) {
                     failureReport.append(oncoTreeCode + " : no values in expected tumor type hash (internal error)\n");
+                    failureCount = failureCount + 1;
                 }
                 if (returnedTumorType == null) {
                     failureReport.append(oncoTreeCode + " : tumor type expected but not returned from tumorTypesUtil\n");
+                    failureCount = failureCount + 1;
                 }
             } else {
                 String expectedCode = expectedTumorType.getCode();
@@ -101,6 +108,29 @@ public class TumorTypesUtilTest {
                 if (!testValuesMatch(expectedName, returnedName)) {
                     failureReport.append(makeMismatchMessage(oncoTreeCode, "name", returnedName, expectedName));
                     failureCount = failureCount + 1;
+                }
+                MainType expectedMainType = expectedTumorType.getMainType();
+                MainType returnedMainType = returnedTumorType.getMainType();
+                if (expectedMainType == null || returnedMainType == null) {
+                    if (expectedMainType == null && returnedMainType != null) {
+                        String returnedMainTypeName = returnedMainType.getName();
+                        if (returnedMainTypeName != null && returnedMainTypeName.trim().length() != 0) {
+                            failureReport.append(oncoTreeCode + " : expected MainType is null, and returned MainType is non-null\n");
+                            failureCount = failureCount + 1;
+                        }
+                    }
+                    if (returnedMainType == null && expectedMainType != null) {
+                        String expectedMainTypeName = expectedMainType.getName();
+                        if (expectedMainTypeName != null && expectedMainTypeName.trim().length() != 0) {
+                            failureReport.append(oncoTreeCode + " : retunred MainType is null, and expected MainType is non-null\n");
+                            failureCount = failureCount + 1;
+                        }
+                    }
+                } else {
+                    if (!testValuesMatch(expectedMainType.getName(), returnedMainType.getName())) {
+                        failureReport.append(makeMismatchMessage(oncoTreeCode, "mainType", returnedMainType.getName(), expectedMainType.getName()));
+                        failureCount = failureCount + 1;
+                    }
                 }
                 String expectedColor = expectedTumorType.getColor();
                 String returnedColor = returnedTumorType.getColor();
@@ -122,5 +152,17 @@ public class TumorTypesUtilTest {
             fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());
         }
         return;
+    }
+    //TODO: add negative tests
+
+    @Test
+    public void testFullTumorTypesTxt() throws Exception {
+        int failureCount = 0;
+        StringBuilder failureReport  = new StringBuilder();
+        Map<String,TumorType> returnedTumorTypeMap = getReturnedFullTumorTypeMap();
+        //For this to work, children must be set:   InputStream tumorTypeTxtInputStream = tumorTypesUtil.getTumorTypeInputStream(returnedTumorTypeMap);
+        if (failureCount > 0) {
+            fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());
+        }
     }
 }
