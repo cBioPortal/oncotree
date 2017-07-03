@@ -18,7 +18,6 @@
 package org.mskcc.oncotree.utils;
 
 import java.util.*;
-import static org.junit.Assert.fail;
 import org.mockito.Mockito;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
@@ -37,48 +36,48 @@ import static org.junit.Assert.fail;
 @Configuration
 @ComponentScan(basePackages = {"org.mskcc.oncotree.utils","org.mskcc.oncotree.topbraid"})
 public class OncotreeUtilTestConfig {
-    
+
     @Bean
     public ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse() throws Exception {
         return setupOncotreeRepositoryMockResponse();
     }
-    
+
     @Bean
-    public Map<String, TumorType> expectedTumorTypeMap() throws Exception {
+    public HashMap<String, TumorType> expectedTumorTypeMap() throws Exception {
         return setupExpectedTumorTypeMap();
     }
-    
+
     @Bean
-    public List<MainType> expectedMainTypeList() throws Exception {
+    public ArrayList<MainType> expectedMainTypeList() throws Exception {
         return setupExpectedMainTypeList();
     }
-    
+
     @Bean
     public Version mockVersion() {
         return setupMockVersion();
     }
-    
+
     @Bean
     public OncoTreeRepository oncoTreeRepository() {
         return Mockito.mock(OncoTreeRepository.class);
     }
-    
+
     @Bean
     public TumorTypesUtil tumorTypesUtil() {
         return new TumorTypesUtil();
     }
-    
+
     @Bean
     public MainTypesUtil mainTypesUtil() {
         return new MainTypesUtil();
     }
-    
+
     private Version setupMockVersion() {
         Version mockVersion = new Version();
         mockVersion = new Version();
         mockVersion.setVersion("mockversion");
         return mockVersion;
-    }    
+    }
 
     private ArrayList<OncoTreeNode> setupOncotreeRepositoryMockResponse() throws Exception {
         ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse = new ArrayList<>();
@@ -106,9 +105,8 @@ public class OncotreeUtilTestConfig {
         }
         return oncoTreeRepositoryMockResponse;
     }
-    
-    private Map<String, TumorType> setupExpectedTumorTypeMap() throws Exception {
-        Map<String, TumorType> expectedTumorTypeMap = new HashMap<>();
+
+    private HashMap<String, TumorType> setupExpectedTumorTypeMap() throws Exception {
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -118,7 +116,7 @@ public class OncotreeUtilTestConfig {
         if (caseCount < 1) {
             throw new Exception("Error : no test cases defined in rawTestValueSource");
         }
-        expectedTumorTypeMap = new HashMap<>(caseCount + 1);
+        HashMap<String, TumorType> expectedTumorTypeMap = new HashMap<>(caseCount + 1);
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             TumorType nextType = new TumorType();
             String code = rawTestValueSource[pos];
@@ -147,13 +145,12 @@ public class OncotreeUtilTestConfig {
             }
             expectedTumorTypeMap.put(code, nextType);
         }
-        return expectedTumorTypeMap;        
+        return expectedTumorTypeMap;
     }
-    
-    
-    private List<MainType> setupExpectedMainTypeList() throws Exception {
+
+    private ArrayList<MainType> setupExpectedMainTypeList() throws Exception {
         Set<MainType> expectedMainTypeSet = new HashSet<>();
-        List<MainType> expectedMainTypeList = new ArrayList<>();
+        ArrayList<MainType> expectedMainTypeList = new ArrayList<>();
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -166,7 +163,8 @@ public class OncotreeUtilTestConfig {
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             MainType nextType = new MainType();
             String mainType = rawTestValueSource[pos + 2];
-            if (mainType != null && mainType.trim().length() > 0 && rawTestValueSource[pos + 4] != null) {
+            String parentCode = rawTestValueSource[pos + 4];
+            if (mainType != null && mainType.trim().length() > 0 && parentCode != null && parentCode.trim().length() > 0) {
                 nextType.setName(mainType);
             }
             expectedMainTypeSet.add(nextType);
@@ -822,5 +820,5 @@ public class OncotreeUtilTestConfig {
                 "WPSCC", "Warty Penile Squamous Cell Carcinoma", "Penile Cancer", "Blue", "PSCC",
                 "WT", "Wilms' Tumor", "Wilms Tumor", "Orange", "KIDNEY"};
         return rawTestValueSource;
-    }        
+    }
 }

@@ -55,12 +55,12 @@ public abstract class TopBraidRepository<T> {
     @Autowired
     private TopBraidSessionConfiguration topBraidSessionConfiguration;
 
-    protected List<T> query(String query, ParameterizedTypeReference parameterizedType)
+    protected List<T> query(String query, ParameterizedTypeReference<List<T>> parameterizedType)
             throws TopBraidException {
         return query(query, parameterizedType, true);
     }
 
-    private List<T> query(String query, ParameterizedTypeReference parameterizedType, boolean refreshSessionOnFailure)
+    private List<T> query(String query, ParameterizedTypeReference<List<T>> parameterizedType, boolean refreshSessionOnFailure)
             throws TopBraidException {
         String sessionId = topBraidSessionConfiguration.getSessionId();
         logger.debug("query() -- sessionId: " + sessionId);
