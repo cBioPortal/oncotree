@@ -19,6 +19,7 @@ package org.mskcc.oncotree.utils;
 
 import java.io.*;
 import java.util.*;
+import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.Test;
@@ -39,14 +40,19 @@ import static org.mockito.Matchers.*;
 public class TumorTypesUtilTest {
     @Autowired
     private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse;
-    @Autowired
+    @Resource(name="mockVersion")
     private Version mockVersion;
     @Autowired
     private OncoTreeRepository mockRepository;
     @Autowired
     private TumorTypesUtil tumorTypesUtil;
-    @Autowired
+    @Resource(name="expectedTumorTypeMap")
     private Map<String, TumorType> expectedTumorTypeMap;
+
+    //TODO: move towards a more fine-grained test definition --- each condition being tested should be a single test function, and needed expected and actual data structures should be set up using the Before or BeforeClass annotation
+    //TODO: as an example, in this class, the various conditions being tested might be:
+    //          fullOncoTreeCodesMatchTest, fullOncoTreeTumorTypesMatchTest, fullOncoTreeColorsMatchTest, fullOncoTreeMainTypesMatchTest, fullOncoTreeChildrenMatchTest, ...
+    //          fullOncoTreeTumorTypesTxtHeaderPresentTest, fullOncoTreeTumorTypesTxtColumnCountTest, fullOncoTreeTumorTypesTxtRowCountTest, ...
 
     @Before
     public void setupMockRepository() throws Exception {
@@ -155,12 +161,58 @@ public class TumorTypesUtilTest {
     }
     //TODO: add negative tests
 
+    public int countNonRootNodes(Map<String, TumorType> tumorTypeMap, boolean isSubtree) {
+        if (tumorTypeMap == null) {
+            return 0;
+        }
+        int count = 0;
+        for (String code : tumorTypeMap.keySet()) {
+            if (isSubtree) {
+                count = count + 1; //count current node if within subtree .. otherwise ignore root(s)
+            }
+            Map<String, TumorType> children = tumorTypeMap.get(code).getChildren();
+            if (children != null && children.keySet().size() > 0) {
+                count = count + countNonRootNodes(children, true);
+            }
+        }
+        return count;
+    }
+
     @Test
     public void testFullTumorTypesTxt() throws Exception {
         int failureCount = 0;
         StringBuilder failureReport  = new StringBuilder();
-        Map<String,TumorType> returnedTumorTypeMap = getReturnedFullTumorTypeMap();
-        //For this to work, children must be set:   InputStream tumorTypeTxtInputStream = tumorTypesUtil.getTumorTypeInputStream(returnedTumorTypeMap);
+        Map<String, TumorType> returnedTumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(mockVersion);
+        InputStream tumorTypeTxtInputStream = tumorTypesUtil.getTumorTypeInputStream(returnedTumorTypeMap);
+        BufferedReader returnedSheetReader = new BufferedReader(new InputStreamReader(tumorTypeTxtInputStream));
+        //check that header is present and matches
+        String header = returnedSheetReader.readLine();
+        if (!header.equals(TumorTypesUtil.TSV_HEADER)) {
+            failureReport.append("Header does not match what was expected, received : " + header + "\n\texpected:" + TumorTypesUtil.TSV_HEADER);
+            failureCount = failureCount + 1;
+        }
+        //check that each line is proper width and that line count matches the count of all nodes, minus root(s)
+        int expectedDataLineCount = countNonRootNodes(returnedTumorTypeMap, false);
+        int headerColumnCount = header.split("\t", -1).length;
+        int linesRead = 0;
+        while (returnedSheetReader.ready()) {
+            String nextLine = returnedSheetReader.readLine();
+            if (nextLine == null) {
+                break;
+            }
+            linesRead = linesRead + 1;
+            int lineColumnCount = nextLine.split("\t", -1).length;
+            if (lineColumnCount != headerColumnCount) {
+                failureReport.append("Line in TSV table has incorrect number of columns. expected: " + Integer.toString(headerColumnCount) +
+                        " seen: " + Integer.toString(lineColumnCount) + " on line:\n\t:" + nextLine);
+                failureCount = failureCount + 1;
+            }
+        }
+        if (expectedDataLineCount != linesRead) {
+            failureReport.append("Incorrect number of data lines. Expected: " + Integer.toString(expectedDataLineCount) + " received: " + Integer.toString(linesRead));
+            failureCount = failureCount + 1;
+        }
+        //TODO: add test for alphabetized order and the proper filling in of parents in primary, secondary, tertiary...; also meta fields
         if (failureCount > 0) {
             fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());
         }

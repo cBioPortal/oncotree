@@ -18,6 +18,7 @@
 package org.mskcc.oncotree.utils;
 
 import java.util.*;
+import javax.annotation.Resource;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.mskcc.oncotree.model.MainType;
@@ -40,21 +41,23 @@ public class MainTypesUtilTest {
     private OncoTreeRepository mockRepository;
     @Autowired
     private MainTypesUtil mainTypesUtil;
-    @Autowired
+    @Resource(name="expectedTumorTypeMap")
     private Map<String, TumorType> expectedTumorTypeMap;
-    @Autowired
+    @Resource(name="expectedMainTypeList")
     private List<MainType> expectedMainTypeList;
-    
+
+    //TODO: move towards a more fine-grained test definition --- each condition being tested should be a single test function, and needed expected and actual data structures should be set up using the Before or BeforeClass annotation
+
     @Test
     public void testFullMainTypesListFromExpectedTumorTypes() {
         List<MainType> returnedMainTypeList = mainTypesUtil.getMainTypesByTumorTypes(new HashSet<>(expectedTumorTypeMap.values()));
-        
+
         StringBuilder failureReport = new StringBuilder();
-        int failureCount = 0;        
+        int failureCount = 0;
         if (returnedMainTypeList.size() != expectedMainTypeList.size()) {
             failureCount++;
             failureReport.append("Returned MainType list is of different length than the expected MainType list." +
-            "\n\tReturned list length: " + String.valueOf(returnedMainTypeList.size()) + 
+            "\n\tReturned list length: " + String.valueOf(returnedMainTypeList.size()) +
             "\n\tExpected list length: " + String.valueOf(expectedMainTypeList.size()) + "\n");
         }
         for (MainType mainType : expectedMainTypeList) {
@@ -62,7 +65,7 @@ public class MainTypesUtilTest {
                 failureCount++;
                 failureReport.append("MainType " + mainType.getName() + " missing in returned MainType list\n");
             }
-        }        
+        }
         for (MainType mainType : returnedMainTypeList) {
             if (!expectedMainTypeList.contains(mainType)) {
                 failureCount++;

@@ -38,17 +38,17 @@ import static org.junit.Assert.fail;
 public class OncotreeUtilTestConfig {
 
     @Bean
-    public ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse() throws Exception {
+    public List<OncoTreeNode> oncoTreeRepositoryMockResponse() throws Exception {
         return setupOncotreeRepositoryMockResponse();
     }
 
     @Bean
-    public HashMap<String, TumorType> expectedTumorTypeMap() throws Exception {
+    public Map<String, TumorType> expectedTumorTypeMap() throws Exception {
         return setupExpectedTumorTypeMap();
     }
 
     @Bean
-    public ArrayList<MainType> expectedMainTypeList() throws Exception {
+    public List<MainType> expectedMainTypeList() throws Exception {
         return setupExpectedMainTypeList();
     }
 
@@ -79,8 +79,7 @@ public class OncotreeUtilTestConfig {
         return mockVersion;
     }
 
-    private ArrayList<OncoTreeNode> setupOncotreeRepositoryMockResponse() throws Exception {
-        ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse = new ArrayList<>();
+    private List<OncoTreeNode> setupOncotreeRepositoryMockResponse() throws Exception {
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -90,7 +89,7 @@ public class OncotreeUtilTestConfig {
         if (caseCount < 1) {
             throw new Exception("Error : no test cases defined in rawTestValueSource");
         }
-        oncoTreeRepositoryMockResponse = new ArrayList<>();
+        List<OncoTreeNode> oncoTreeRepositoryMockResponse = new ArrayList<>();
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             OncoTreeNode nextNode = new OncoTreeNode();
             nextNode.setCode(rawTestValueSource[pos]);
@@ -106,7 +105,7 @@ public class OncotreeUtilTestConfig {
         return oncoTreeRepositoryMockResponse;
     }
 
-    private HashMap<String, TumorType> setupExpectedTumorTypeMap() throws Exception {
+    private Map<String, TumorType> setupExpectedTumorTypeMap() throws Exception {
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -116,7 +115,7 @@ public class OncotreeUtilTestConfig {
         if (caseCount < 1) {
             throw new Exception("Error : no test cases defined in rawTestValueSource");
         }
-        HashMap<String, TumorType> expectedTumorTypeMap = new HashMap<>(caseCount + 1);
+        Map<String, TumorType> expectedTumorTypeMap = new HashMap<>(caseCount + 1);
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             TumorType nextType = new TumorType();
             String code = rawTestValueSource[pos];
@@ -148,9 +147,9 @@ public class OncotreeUtilTestConfig {
         return expectedTumorTypeMap;
     }
 
-    private ArrayList<MainType> setupExpectedMainTypeList() throws Exception {
+    private List<MainType> setupExpectedMainTypeList() throws Exception {
         Set<MainType> expectedMainTypeSet = new HashSet<>();
-        ArrayList<MainType> expectedMainTypeList = new ArrayList<>();
+        List<MainType> expectedMainTypeList = new ArrayList<>();
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
