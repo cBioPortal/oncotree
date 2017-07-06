@@ -59,7 +59,10 @@ public class VersionUtilTest {
     private OncoTreeVersionRepository mockVersionRepository = null;
     @Autowired
     private VersionUtil versionUtil = null;
+    //TODO convert this class to use the common OncotreeConfiguration class for unit tests. Proviede the expectedVersionMap as a @Resource
     private HashMap<String, Version> expectedVersionMap = null;
+
+    //TODO: move towards a more fine-grained test definition --- each condition being tested should be a single test function, and needed expected and actual data structures should be set up using the Before or BeforeClass annotation
 
     private void setupOncoTreeVersionRepositoryMockResponse() throws Exception {
         if (oncoTreeVersionRepositoryMockResponse == null) {

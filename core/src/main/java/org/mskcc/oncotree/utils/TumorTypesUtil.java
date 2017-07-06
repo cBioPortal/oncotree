@@ -49,7 +49,7 @@ import org.springframework.core.io.InputStreamResource;
 public class TumorTypesUtil {
 
     private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
-    private final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls";
+    public final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls";
 
     private static OncoTreeRepository oncoTreeRepository;
     @Autowired
