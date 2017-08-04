@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.mskcc.oncotree</groupId>
-    <artifactId>oncotree</artifactId>
+    <artifactId>master</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <modules>
+        <module>web</module>
+        <module>core</module>
+    </modules>
+
+    <name>OncoTree</name>
+
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE Version 3</name>
+            <url>https://www.gnu.org/licenses/gpl.txt</url>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.7</java.version>
+        <tomcat.version>7.0.52</tomcat.version>
+        <github.global.server>github</github.global.server>
+        <spring.version>4.3.8.RELEASE</spring.version>
+        <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
     </properties>
-  <modules>
-    <module>web</module>
-    <module>core</module>
-  </modules>
+
+    <developers>
+        <developer>
+            <name>Hongxin Zhang</name>
+            <email>hongxin@cbio.mskcc.org</email>
+            <organization>MSKCC</organization>
+            <organizationUrl>https://www.mskcc.org/</organizationUrl>
+        </developer>
+    </developers>
+
 </project>
