@@ -27,8 +27,10 @@ import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
+import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.crosswalk.MSKConceptCache;
+import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -54,6 +56,10 @@ public class TumorTypesUtil {
     private static OncoTreeRepository oncoTreeRepository;
     @Autowired
     public void setOncoTreeRepository(OncoTreeRepository property) { oncoTreeRepository = property; }
+
+    private static MSKConceptCache mskConceptCache;
+    @Autowired
+    public void setMSKConceptCache(MSKConceptCache property) { mskConceptCache = property; }
 
     private static final String PROPERTY_FILE = "classpath:application.properties";
     private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
@@ -152,8 +158,8 @@ public class TumorTypesUtil {
 
         row.add(StringUtils.defaultString(tumorType.getMainType() != null ? tumorType.getMainType().getName() : ""));
         row.add(StringUtils.defaultString(tumorType.getColor()));
-        row.add(StringUtils.defaultString(tumorType.getNCI()));
-        row.add(StringUtils.defaultString(tumorType.getUMLS()));
+        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getNCI(), ",")));
+        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getUMLS(), ",")));
         rows.add(StringUtils.join(row, "\t"));
 
         // Prepare for next recursive call
@@ -267,8 +273,21 @@ public class TumorTypesUtil {
         }
         validateOncoTreeOrThrowException(rootNodeCodeSet, duplicateCodeSet, allNodes);
         // fill in children property, based on parent
+        // also set NCI and UMLS codes
         for (TumorType tumorType : allNodes.values()) {
             String thisNodeCode = tumorType.getCode();
+            MSKConcept mskConcept = mskConceptCache.get(thisNodeCode);
+            if (mskConcept != null) {
+                HashMap<String, List<String>> crosswalks = mskConcept.getCrosswalks();
+                if (crosswalks != null && crosswalks.containsKey("NCI")) {
+                    tumorType.setNCI(crosswalks.get("NCI"));
+                }
+                List<String> umlsIds = new ArrayList<String>();
+                for (String mskConceptId : mskConcept.getConceptIds()) {
+                    umlsIds.add(mskConceptId.replace("MSK", "C"));
+                }
+                tumorType.setUMLS(umlsIds);
+            }
             if (rootNodeCodeSet.contains(thisNodeCode)) {
                 continue; //root node has no parent
             }
@@ -294,8 +313,9 @@ public class TumorTypesUtil {
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
-        tumorType.setNCI(oncoTreeNode.getNci());
-        tumorType.setUMLS(oncoTreeNode.getUmls());
+        // we no longer get these from TopBraid, we get them from crosswalk, above
+        //tumorType.setNCI(oncoTreeNode.getNci());
+        //tumorType.setUMLS(oncoTreeNode.getUmls());
         tumorType.setParent(oncoTreeNode.getParentCode());
         return tumorType;
     }
@@ -343,20 +363,20 @@ public class TumorTypesUtil {
                 break;
             case "nci":
                 if (exactMatch) {
-                    match = currentTumorType.getNCI() == null ? false : currentTumorType.getNCI().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getNCI() == null ? false : ListUtil.hasMatchingElementIgnoreCase(currentTumorType.getNCI(), keyword);
                 } else {
                     match = currentTumorType.getNCI() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(currentTumorType.getNCI(), keyword);
+                        ListUtil.hasElementWhichContainsStringIgnoreCase(currentTumorType.getNCI(), keyword);
                 }
                 break;
             case "umls":
                 if (exactMatch) {
-                    match = currentTumorType.getUMLS() == null ? false : currentTumorType.getUMLS().equalsIgnoreCase(keyword);
+                    match = currentTumorType.getUMLS() == null ? false : ListUtil.hasMatchingElementIgnoreCase(currentTumorType.getUMLS(), keyword);
                 } else {
                     match = currentTumorType.getUMLS() == null ?
                         false :
-                        StringUtils.containsIgnoreCase(currentTumorType.getUMLS(), keyword);
+                        ListUtil.hasElementWhichContainsStringIgnoreCase(currentTumorType.getUMLS(), keyword);
                 }
                 break;
             case "maintype":

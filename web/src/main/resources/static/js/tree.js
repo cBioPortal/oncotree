@@ -26,6 +26,14 @@ var tree = (function () {
     var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
     var is_safari = navigator.userAgent.indexOf("Safari") > -1;
 
+    function getNCILink(nciCode) {
+        return (typeof nciCode !== 'undefined' && nciCode != '') ? '<a class="qtip-link" href="' + nci_base_uri + nciCode + '" target="_blank">' + nciCode + '</a>' : 'Not Available';
+    }
+
+    function getUMLSLink(umlsCode) {
+        return (typeof umlsCode !== 'undefined' && umlsCode != '') ? '<a class="qtip-link" href="' + umls_base_uri + umlsCode + '" target="_blank">' + umlsCode + '</a>' : 'Not Available';
+    }
+
     function UniqueTreeNodeDatum() {
         this.name = '';
         this.acronym = '';
@@ -96,14 +104,14 @@ var tree = (function () {
                         if(row.hasOwnProperty('metacolor')) {
                             uniqueTreeNode[type].color = row.metacolor;
                         }
-// Temporarily removed until we properly fetch nci/umls values
-//                        if(row.hasOwnProperty('metanci')){
-//                            uniqueTreeNode[type].nci = row.metanci;
-//                        }
-//
-//                        if(row.hasOwnProperty('metaumls')){
-//                            uniqueTreeNode[type].umls = row.metaumls;
-//                        }
+
+                        if(row.hasOwnProperty('metanci')){
+                            uniqueTreeNode[type].nci = row.metanci;
+                        }
+
+                        if(row.hasOwnProperty('metaumls')){
+                            uniqueTreeNode[type].umls = row.metaumls;
+                        }
 
                     }
                     node = node[type];
@@ -321,10 +329,26 @@ var tree = (function () {
                 }else {
                     _position = {my:'bottom left',at:'top right', viewport: $(window)};
                 }
-// Temporarily removed until we properly fetch nci/umls values
-//                var nci_link = (typeof d.nci !== 'undefined' && d.nci != '') ? '<a class="qtip-link" href="' + nci_base_uri + d.nci + '" target="_blank">' + d.nci + '</a>' : 'Not Available';
-//                var umls_link = (typeof d.umls !== 'undefined' && d.umls != '') ? '<a class="qtip-link" href="' + umls_base_uri + d.umls + '" target="_blank">' + d.umls + '</a>' : 'Not Available';
 
+                var nci_links = [];
+                if (typeof d.nci !== 'undefined' && d.nci != '') {
+                    $.each(d.nci.split(","), function( index , value ) {
+                        nci_links.push(getNCILink(value));
+                    });
+                } else {
+                    // will have 'Not Available' link
+                    nci_links.push(getNCILink(""));
+                }
+
+                var umls_links = [];
+                if (typeof d.umls !== 'undefined' && d.umls != '') {
+                    $.each(d.umls.split(","), function( index, value ) {
+                        umls_links.push(getUMLSLink(value));
+                    });
+                } else {
+                    // will have 'Not Available' link
+                    umls_links.push(getUMLSLink(""));
+                }
 
                 _qtipContent += '<b>Code:</b> ' + d.acronym +
 
@@ -339,9 +363,8 @@ var tree = (function () {
                     '<br/>';
                 _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
                 _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
-// Temporarily removed until we properly fetch nci/umls values
-//                _qtipContent += '<b>NCI:</b> ' + nci_link  + '<br/>';
-//                _qtipContent += '<b>UMLS:</b> ' + umls_link  + '<br/>';
+                _qtipContent += '<b>NCI:</b> ' + nci_links.join(",") + '<br/>';
+                _qtipContent += '<b>UMLS:</b> ' + umls_links.join(",") + '<br/>';
                 _qtipContent += '<b>Color:</b> ' + d.color||'LightBlue'  + '<br/>';
 
                 $(this).qtip({

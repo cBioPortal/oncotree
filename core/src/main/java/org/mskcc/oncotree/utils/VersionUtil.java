@@ -15,8 +15,8 @@ import java.util.List;
 @Component
 public class VersionUtil {
 
-    private static OncoTreeVersionRepository oncoTreeVersionRepository;
     public static final String DEFAULT_VERSION = "oncotree_latest_stable";
+    private static OncoTreeVersionRepository oncoTreeVersionRepository;
     @Autowired
     public void setOncoTreeVersionRepository(OncoTreeVersionRepository property) { oncoTreeVersionRepository = property; }
 

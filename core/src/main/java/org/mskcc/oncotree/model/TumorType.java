@@ -3,6 +3,7 @@ package org.mskcc.oncotree.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -16,8 +17,8 @@ public class TumorType {
     private String color = null;
     private String name = null;
     private MainType mainType = null;
-    private String NCI = null;
-    private String UMLS = null;
+    private List<String> NCI = new ArrayList<String>();
+    private List<String> UMLS = new ArrayList<String>();
     private String tissue = null;
     private Map<String, TumorType> children = new HashMap<String, TumorType>();
     private String parent = null;
@@ -97,32 +98,38 @@ public class TumorType {
 
 
     /**
-     * NCI Thesaurus Code.
+     * NCI Thesaurus Code(s).
      **/
-    @ApiModelProperty(value = "NCI Thesaurus Code.")
+    @ApiModelProperty(value = "NCI Thesaurus Code(s).")
     @JsonProperty("NCI")
-    public String getNCI() {
+    public List<String> getNCI() {
         return NCI;
     }
 
-    public void setNCI(String NCI) {
+    public void setNCI(List<String> NCI) {
         this.NCI = NCI;
     }
 
+    public void addNCI(String NCI) {
+        this.NCI.add(NCI);
+    }
 
     /**
-     * Concept Unique Identifier.
+     * Concept Unique Identifier(s).
      **/
-    @ApiModelProperty(value = "Concept Unique Identifier.")
+    @ApiModelProperty(value = "Concept Unique Identifier(s).")
     @JsonProperty("UMLS")
-    public String getUMLS() {
+    public List<String> getUMLS() {
         return UMLS;
     }
 
-    public void setUMLS(String UMLS) {
+    public void setUMLS(List<String> UMLS) {
         this.UMLS = UMLS;
     }
 
+    public void addUMLS(String UMLS) {
+        this.UMLS.add(UMLS);
+    }
 
     /**
      * The tissue this tumor type belongs to.
@@ -262,8 +269,8 @@ public class TumorType {
         sb.append("  color: ").append(color).append("\n");
         sb.append("  name: ").append(name).append("\n");
         sb.append("  mainType: ").append(mainType).append("\n");
-        sb.append("  NCI: ").append(NCI).append("\n");
-        sb.append("  UMLS: ").append(UMLS).append("\n");
+        sb.append("  NCI: ").append(StringUtils.join(NCI, ",")).append("\n");
+        sb.append("  UMLS: ").append(StringUtils.join(UMLS, ",")).append("\n");
         sb.append("  tissue: ").append(tissue).append("\n");
         sb.append("  children: ").append(children).append("\n");
         sb.append("  parent: ").append(parent).append("\n");
