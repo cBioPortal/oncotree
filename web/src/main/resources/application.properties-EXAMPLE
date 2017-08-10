@@ -6,3 +6,6 @@ server.port=${port:38080}
 topbraid.url=
 topbraid.username=
 topbraid.password=
+
+# for crosswalk e.g. http://data.mskcc.org/ontologies/api/concept/crosswalk?vocabularyId=ONCOTREE&conceptId=
+crosswalk.url=
