@@ -125,7 +125,6 @@ public class TumorTypesUtil {
 
     private static String getTsvFromTumorTypes(Map<String, TumorType> tumorTypes) {
         List<String> rows = new ArrayList<>();
-        rows.add(TSV_HEADER);
         for (String code : tumorTypes.keySet()) {
             TumorType tumorType = tumorTypes.get(code);
             // skip the root node, "TISSUE". Just add it's children
@@ -134,6 +133,8 @@ public class TumorTypesUtil {
                 addTumorTypeToRows(children.get(childCode), rows, new ArrayList<String>());
             }
         }
+        Collections.sort(rows);
+        rows.add(0, TSV_HEADER);
         return StringUtils.join(rows, "\n") + "\n";
     }
 
