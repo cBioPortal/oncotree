@@ -35,7 +35,7 @@ import static org.junit.Assert.fail;
  */
 
 @RunWith(SpringRunner.class)
-@Import(OncotreeUtilTestConfig.class)
+@Import(OncotreeTestConfig.class)
 public class MainTypesUtilTest {
     @Autowired
     private OncoTreeRepository mockRepository;

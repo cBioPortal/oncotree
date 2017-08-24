@@ -19,23 +19,85 @@ package org.mskcc.oncotree.utils;
 
 import java.util.*;
 import org.mockito.Mockito;
+import org.mskcc.oncotree.crosswalk.MSKConcept;
+import org.mskcc.oncotree.crosswalk.MSKConceptCache;
+import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
+import org.mskcc.oncotree.utils.VersionUtil;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.topbraid.TopBraidSessionConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.*;
 
 /**
  *
  * @author heinsz
  */
 @Configuration
-@ComponentScan(basePackages = {"org.mskcc.oncotree.utils","org.mskcc.oncotree.topbraid"})
-public class OncotreeUtilTestConfig {
+public class OncotreeTestConfig {
+
+    @Bean
+    public OncoTreeVersionRepository oncoTreeVersionRepository() {
+        OncoTreeVersionRepository repository = Mockito.mock(OncoTreeVersionRepository.class);
+        Mockito.when(repository.getOncoTreeVersions()).thenReturn(oncoTreeVersionRepositoryMockResponse());
+        return repository;
+    }
+
+    @Bean
+    public List<Version> oncoTreeVersionRepositoryMockResponse() {
+        List<Version> oncoTreeVersionRepositoryMockResponse = new ArrayList<Version>();
+        Version nextVersion = new Version();
+        nextVersion.setVersion("oncotree_latest_stable");
+        nextVersion.setGraphURI("urn:x-evn-master:oncotree_2017_06_21");
+        nextVersion.setDescription("This is an alias for whatever OncoTree version is the latest stable (timestamped) release.");
+        oncoTreeVersionRepositoryMockResponse.add(nextVersion);
+        nextVersion = new Version();
+        nextVersion.setVersion("oncotree_development");
+        nextVersion.setGraphURI("urn:x-evn-master:oncotree_current");
+        nextVersion.setDescription("Latest OncoTree under development (subject to change without notice)");
+        oncoTreeVersionRepositoryMockResponse.add(nextVersion);
+        nextVersion = new Version();
+        nextVersion.setVersion("oncotree_2017_06_21");
+        nextVersion.setGraphURI("urn:x-evn-master:oncotree_2017_06_21");
+        nextVersion.setDescription("Stable OncoTree released on date 2017-06-21");
+        oncoTreeVersionRepositoryMockResponse.add(nextVersion);
+        nextVersion = new Version();
+        nextVersion.setVersion("oncotree_legacy_1.1");
+        nextVersion.setGraphURI("urn:x-evn-master:oncotree_legacy_1_1");
+        nextVersion.setDescription("This is the closest match in TopBraid for the TumorTypes_txt file associated with release 1.1 of OncoTree (approved by committee)");
+        oncoTreeVersionRepositoryMockResponse.add(nextVersion);
+        return oncoTreeVersionRepositoryMockResponse;
+    }
+
+    @Bean
+    public TopBraidSessionConfiguration topBraidSessionConfiguration() {
+        return new TopBraidSessionConfiguration();
+    }
+
+    @Bean
+    public MSKConceptCache mskConceptCache() {
+        MSKConceptCache mskConceptCache = Mockito.mock(MSKConceptCache.class);
+        MSKConcept mskConcept = new MSKConcept();
+        mskConcept.setConceptIds(Arrays.asList("MSK00001", "MSK00002"));
+        Mockito.when(mskConceptCache.get(any(String.class))).thenReturn(mskConcept); 
+        return mskConceptCache;
+    }
+
+    @Bean
+    public CrosswalkRepository crosswalkRepository() {
+        return Mockito.mock(CrosswalkRepository.class);
+    }
+
+    @Bean
+    public VersionUtil versionUtil() {
+        return new VersionUtil();
+    }
 
     @Bean
     public List<OncoTreeNode> oncoTreeRepositoryMockResponse() throws Exception {

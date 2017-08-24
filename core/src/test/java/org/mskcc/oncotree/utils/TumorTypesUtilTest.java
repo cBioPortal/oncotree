@@ -36,7 +36,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.*;
 
 @RunWith(SpringRunner.class)
-@Import(OncotreeUtilTestConfig.class)
+@Import(OncotreeTestConfig.class)
 public class TumorTypesUtilTest {
     @Autowired
     private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse;

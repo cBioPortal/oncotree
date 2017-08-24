@@ -20,83 +20,33 @@ package org.mskcc.oncotree.utils;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import org.junit.AfterClass;
+import javax.annotation.Resource;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mskcc.oncotree.error.InvalidVersionException;
-import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-
 
 @RunWith(SpringRunner.class)
-@Import(VersionUtilTestConfig.class)
+@Import(OncotreeTestConfig.class)
 public class VersionUtilTest {
-    private List<Version> oncoTreeVersionRepositoryMockResponse = null;
+    @Resource(name="oncoTreeVersionRepositoryMockResponse")
+    private List<Version> oncoTreeVersionRepositoryMockResponse;
+
     @Autowired
-    private OncoTreeVersionRepository mockVersionRepository = null;
-    @Autowired
-    private VersionUtil versionUtil = null;
-    //TODO convert this class to use the common OncotreeConfiguration class for unit tests. Proviede the expectedVersionMap as a @Resource
+    private VersionUtil versionUtil;
+
+    //TODO convert this class to use the common OncotreeConfiguration class for unit tests. Provide the expectedVersionMap as a @Resource
     private HashMap<String, Version> expectedVersionMap = null;
 
     //TODO: move towards a more fine-grained test definition --- each condition being tested should be a single test function, and needed expected and actual data structures should be set up using the Before or BeforeClass annotation
 
-    private void setupOncoTreeVersionRepositoryMockResponse() throws Exception {
-        if (oncoTreeVersionRepositoryMockResponse == null) {
-            oncoTreeVersionRepositoryMockResponse = new ArrayList<Version>();
-            Version nextVersion = new Version();
-            nextVersion.setVersion("oncotree_latest_stable");
-            nextVersion.setGraphURI("urn:x-evn-master:oncotree_2017_06_21");
-            nextVersion.setDescription("This is an alias for whatever OncoTree version is the latest stable (timestamped) release.");
-            oncoTreeVersionRepositoryMockResponse.add(nextVersion);
-            nextVersion = new Version();
-            nextVersion.setVersion("oncotree_development");
-            nextVersion.setGraphURI("urn:x-evn-master:oncotree_current");
-            nextVersion.setDescription("Latest OncoTree under development (subject to change without notice)");
-            oncoTreeVersionRepositoryMockResponse.add(nextVersion);
-            nextVersion = new Version();
-            nextVersion.setVersion("oncotree_2017_06_21");
-            nextVersion.setGraphURI("urn:x-evn-master:oncotree_2017_06_21");
-            nextVersion.setDescription("Stable OncoTree released on date 2017-06-21");
-            oncoTreeVersionRepositoryMockResponse.add(nextVersion);
-            nextVersion = new Version();
-            nextVersion.setVersion("oncotree_legacy_1.1");
-            nextVersion.setGraphURI("urn:x-evn-master:oncotree_legacy_1_1");
-            nextVersion.setDescription("This is the closest match in TopBraid for the TumorTypes_txt file associated with release 1.1 of OncoTree (approved by committee)");
-            oncoTreeVersionRepositoryMockResponse.add(nextVersion);
-        }
-    }
-
-    private void setupMockVersionRepository() throws Exception {
-        setupOncoTreeVersionRepositoryMockResponse();
-        Mockito.when(mockVersionRepository.getOncoTreeVersions()).thenReturn(oncoTreeVersionRepositoryMockResponse);
-    }
-
     private void setupExpectedVersionMap() throws Exception {
-        setupOncoTreeVersionRepositoryMockResponse();
         if (expectedVersionMap == null) {
             expectedVersionMap = new HashMap<>(oncoTreeVersionRepositoryMockResponse.size());
             for (Version version : oncoTreeVersionRepositoryMockResponse) {
@@ -107,14 +57,12 @@ public class VersionUtilTest {
 
     @Before
     public void setupForTests() throws Exception {
-        setupMockVersionRepository();
         setupExpectedVersionMap();
     }
 
     public String makeMismatchMessage(String versionName, String fieldName, String gotValue, String expectedValue) {
         return versionName + " : mismatch in " + fieldName + " (got:" + gotValue + ") (expected:" + expectedValue + ")\n";
     }
-
 
     private boolean testValuesMatch(String value1, String value2) {
         if (value1 == null || value1.trim().length() == 0) {
