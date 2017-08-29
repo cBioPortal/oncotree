@@ -23,7 +23,7 @@ public class TumorType {
     private Map<String, TumorType> children = new HashMap<String, TumorType>();
     private String parent = null;
     private Boolean deprecated = false;
-    private List<History> history = new ArrayList<History>();
+    private List<String> history = new ArrayList<String>();
     private Links links = null;
     private Level level = null;
 
@@ -197,11 +197,11 @@ public class TumorType {
      **/
     @ApiModelProperty(value = "")
     @JsonProperty("history")
-    public List<History> getHistory() {
+    public List<String> getHistory() {
         return history;
     }
 
-    public void setHistory(List<History> history) {
+    public void setHistory(List<String> history) {
         this.history = history;
     }
 

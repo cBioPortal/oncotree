@@ -31,16 +31,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+    "uri",
     "code",
     "name",
     "mainType",
     "color",
-    "nci",
-    "umls",
-    "nccn",
     "parentCode"
 })
 public class OncoTreeNode {
+
+    @JsonProperty("uri")
+    private String uri;
 
     @JsonProperty("code")
     private String code;
@@ -54,20 +55,21 @@ public class OncoTreeNode {
     @JsonProperty("color")
     private String color;
 
-    @JsonProperty("nci")
-    private String nci;
-
-    @JsonProperty("umls")
-    private String umls;
-
-    @JsonProperty("nccn")
-    private String nccn;
-
     @JsonProperty("parentCode")
     private String parentCode;
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("uri")
+    public String getURI() {
+        return uri;
+    }
+
+    @JsonProperty("uri")
+    public void setURI(String uri) {
+        this.uri = uri;
+    }
 
     @JsonProperty("code")
     public String getCode() {
@@ -107,36 +109,6 @@ public class OncoTreeNode {
     @JsonProperty("color")
     public void setColor(String color) {
         this.color = color;
-    }
-
-    @JsonProperty("nci")
-    public String getNci() {
-        return nci;
-    }
-
-    @JsonProperty("nci")
-    public void setNci(String nci) {
-        this.nci = nci;
-    }
-
-    @JsonProperty("umls")
-    public String getUmls() {
-        return umls;
-    }
-
-    @JsonProperty("umls")
-    public void setUmls(String umls) {
-        this.umls = umls;
-    }
-
-    @JsonProperty("nccn")
-    public String getNccn() {
-        return nccn;
-    }
-
-    @JsonProperty("nccn")
-    public void setNccn(String nccn) {
-        this.nccn = nccn;
     }
 
     @JsonProperty("parentCode")
