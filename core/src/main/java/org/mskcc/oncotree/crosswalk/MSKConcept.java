@@ -37,6 +37,7 @@ public class MSKConcept {
     private HashMap<String, List<String>> crosswalks;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Set<String> history = new HashSet<String>();
 
     /**
     * No args constructor for use in serialization
@@ -79,6 +80,30 @@ public class MSKConcept {
     @JsonProperty("crosswalks")
     public void setCrosswalks(HashMap<String, List<String>> crosswalks) {
         this.crosswalks = crosswalks;
+    }
+
+    /**
+    *
+    * @return history
+    */
+    public Set<String> getHistory() {
+        return history;
+    }
+
+    /**
+    *
+    * @param oncotreeCode
+    */
+    public void addHistory(String oncotreeCode) {
+        this.history.add(oncotreeCode);
+    }
+
+    /**
+    *
+    * @param oncotreeCodes
+    */
+    public void addHistory(Set<String> oncotreeCodes) {
+        this.history.addAll(oncotreeCodes);
     }
 
     @JsonAnyGetter

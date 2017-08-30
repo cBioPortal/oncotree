@@ -38,7 +38,7 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
 
     private String query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
         "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree/> " +
-        "SELECT DISTINCT ?code ?name ?mainType ?color ?nci ?umls ?icdo ?parentCode " +
+        "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode " +
         "WHERE { " +
         "   GRAPH <%s> { " +
         "       ?s skos:prefLabel ?name;" +
@@ -47,9 +47,6 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
         "           ?broader skos:notation ?parentCode}." +
         "       OPTIONAL{?s onc:mainType ?mainType}." +
         "       OPTIONAL{?s onc:color ?color}." +
-        "       OPTIONAL{?s onc:nci ?nci}." +
-        "       OPTIONAL{?s onc:umls ?umls}." +
-        "       OPTIONAL{?s onc:icdo ?icdo}." +
         "   }" +
         "}";
 

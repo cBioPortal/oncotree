@@ -158,9 +158,6 @@ public class OncotreeTestConfig {
             nextNode.setName(rawTestValueSource[pos + 1]);
             nextNode.setMainType(rawTestValueSource[pos + 2]);
             nextNode.setColor(rawTestValueSource[pos + 3]);
-            nextNode.setNci("");
-            nextNode.setUmls("");
-            nextNode.setNccn("");
             nextNode.setParentCode(rawTestValueSource[pos + 4]);
             oncoTreeRepositoryMockResponse.add(nextNode);
         }
