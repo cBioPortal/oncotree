@@ -51,7 +51,7 @@ import org.springframework.core.io.InputStreamResource;
 public class TumorTypesUtil {
 
     private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
-    public final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls";
+    public final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
 
     private static OncoTreeRepository oncoTreeRepository;
     @Autowired
@@ -161,6 +161,7 @@ public class TumorTypesUtil {
         row.add(StringUtils.defaultString(tumorType.getColor()));
         row.add(StringUtils.defaultString(StringUtils.join(tumorType.getNCI(), ",")));
         row.add(StringUtils.defaultString(StringUtils.join(tumorType.getUMLS(), ",")));
+        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getHistory(), ",")));
         rows.add(StringUtils.join(row, "\t"));
 
         // Prepare for next recursive call
@@ -284,10 +285,13 @@ public class TumorTypesUtil {
                     tumorType.setNCI(crosswalks.get("NCI"));
                 }
                 List<String> umlsIds = new ArrayList<String>();
-                for (String mskConceptId : mskConcept.getConceptIds()) {
-                    umlsIds.add(mskConceptId.replace("MSK", "C"));
+                if (mskConcept.getConceptIds() != null) {
+                    for (String mskConceptId : mskConcept.getConceptIds()) {
+                        umlsIds.add(mskConceptId.replace("MSK", "C"));
+                    }
                 }
                 tumorType.setUMLS(umlsIds);
+                tumorType.setHistory(new ArrayList(mskConcept.getHistory()));
             }
             if (rootNodeCodeSet.contains(thisNodeCode)) {
                 continue; //root node has no parent
@@ -314,9 +318,6 @@ public class TumorTypesUtil {
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
-        // we no longer get these from TopBraid, we get them from crosswalk, above
-        //tumorType.setNCI(oncoTreeNode.getNci());
-        //tumorType.setUMLS(oncoTreeNode.getUmls());
         tumorType.setParent(oncoTreeNode.getParentCode());
         return tumorType;
     }

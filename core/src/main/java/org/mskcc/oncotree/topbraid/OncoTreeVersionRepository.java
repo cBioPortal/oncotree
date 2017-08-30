@@ -36,16 +36,21 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
 
     private final static Logger logger = Logger.getLogger(OncoTreeVersionRepository.class);
 
+    // NOTE we MUST order by release_date
     private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
-        "SELECT ?api_identifier ?graph_uri ?description " +
+        "SELECT ?api_identifier ?graph_uri ?description ?release_date " +
         "WHERE { " +
         "   GRAPH <urn:x-evn-master:oncotree_version> { " +
         "       ?s oncotree-version:graph_uri ?graph_uri. " +
         "       ?s oncotree-version:api_identifier ?api_identifier. " +
+        "       ?s oncotree-version:release_date ?release_date. " +
         "       OPTIONAL{?s oncotree-version:description ?description.} " +
         "   } " +
-        "}";
+        "} ORDER BY ASC(?release_date)";
 
+    /**
+     * @return all oncotree versions ordered by ascending release date (development last)
+     */
     public List<Version> getOncoTreeVersions() throws TopBraidException {
         return super.query(query, new ParameterizedTypeReference<List<Version>>(){});
     }

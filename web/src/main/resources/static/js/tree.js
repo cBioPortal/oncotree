@@ -113,6 +113,10 @@ var tree = (function () {
                             uniqueTreeNode[type].umls = row.metaumls;
                         }
 
+                        if(row.hasOwnProperty('history')){
+                            uniqueTreeNode[type].history = row.history;
+                        }
+
                     }
                     node = node[type];
                 }
@@ -365,8 +369,10 @@ var tree = (function () {
                 _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
                 _qtipContent += '<b>NCI:</b> ' + nci_links.join(",") + '<br/>';
                 _qtipContent += '<b>UMLS:</b> ' + umls_links.join(",") + '<br/>';
-                _qtipContent += '<b>Color:</b> ' + d.color||'LightBlue'  + '<br/>';
-
+                _qtipContent += '<b>Color:</b> ' + (d.color||'LightBlue') + '<br/>';
+                if (typeof d.history !== 'undefined' && d.history != '') {
+                    _qtipContent += '<b>Previous codes:</b> ' + d.history  + '<br/>';
+                }
                 $(this).qtip({
                     content:{text: _qtipContent},
                     style: { classes: 'qtip-light qtip-rounded qtip-shadow qtip-grey qtip-wide'},
@@ -592,7 +598,8 @@ var tree = (function () {
             if (searchKey === '') {
                 d3.select(this).style('fill', 'black');
             } else {
-                if (d.name.toLowerCase().indexOf(searchKey) !== -1) {
+                if (d.name.toLowerCase().indexOf(searchKey) !== -1 ||
+                    (typeof d.history !== 'undefined' && d.history != '' && d.history.toLowerCase().split(",").indexOf(searchKey) !== -1)) {
                     d3.select(this).style('fill', 'red');
                 } else {
                     d3.select(this).style('fill', 'black');
@@ -604,14 +611,16 @@ var tree = (function () {
     function findChildContain(parentId, searchKey, node) {
         parentId = String(parentId);
         if (node._children) {
-            if (node.name.toLowerCase().indexOf(searchKey) !== -1) {
+            if (node.name.toLowerCase().indexOf(searchKey) !== -1 ||
+                (typeof node.history !== 'undefined' && node.history != '' && node.history.toLowerCase().split(",").indexOf(searchKey) !== -1)) {
                 searchResult.push(parentId);
             }
             for (var i = 0, numOfChild = node._children.length; i < numOfChild; i++) {
                 findChildContain(parentId + "-" + i, searchKey, node._children[i]);
             }
         } else {
-            if (node.name.toLowerCase().indexOf(searchKey) !== -1) {
+            if (node.name.toLowerCase().indexOf(searchKey) !== -1 ||
+                (typeof node.history !== 'undefined' && node.history != '' && node.history.toLowerCase().split(",").indexOf(searchKey) !== -1)) {
                 searchResult.push(parentId);
             }
         }
