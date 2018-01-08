@@ -30,9 +30,11 @@ import javax.annotation.Generated;
  * @author Manda Wilson
  **/
 public class MSKConcept {
-
+    // TODO this is a subset of the full model
     @JsonProperty("conceptId")
     private List<String> conceptIds;
+    @JsonProperty("oncotreeCode")
+    private List<String> oncotreeCodes;
     @JsonProperty("crosswalks")
     private HashMap<String, List<String>> crosswalks;
     @JsonIgnore
@@ -62,6 +64,24 @@ public class MSKConcept {
     @JsonProperty("conceptIds")
     public void setConceptIds(List<String> conceptIds) {
         this.conceptIds = conceptIds;
+    }
+
+    /**
+    *
+    * @return oncotreeCodes
+    */
+    @JsonProperty("oncotreeCode")
+    public List<String> getOncotreeCodes() {
+        return oncotreeCodes;
+    }
+
+    /**
+    *
+    * @param oncotreeCodes
+    */
+    @JsonProperty("oncotreeCode")
+    public void setOncotreeCodes(List<String> oncotreeCodes) {
+        this.oncotreeCodes = oncotreeCodes;
     }
 
     /**
