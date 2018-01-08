@@ -5,9 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -24,16 +27,22 @@ public class OncotreeApplication extends SpringBootServletInitializer {
     }
     
     public static void main(String[] args) {
-        
         SpringApplication.run(OncotreeApplication.class, args);
     }
 
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
+    public WebMvcConfigurer webMvcConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**");
+            }
+
+            @Override
+            public void addViewControllers(final ViewControllerRegistry registry) {
+                super.addViewControllers(registry);
+                registry.addRedirectViewController("/oncotree-mappings/","/oncotree-mappings.html").setKeepQueryParams(true).setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+        
             }
         };
     }

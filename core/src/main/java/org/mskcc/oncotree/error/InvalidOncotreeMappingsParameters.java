@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -31,5 +31,5 @@ public class InvalidOncotreeMappingsParameters extends RuntimeException {
     public InvalidOncotreeMappingsParameters(String message) {
         super(message);
         logger.error(message);
-    }   
+    }
 }
