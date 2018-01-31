@@ -15,11 +15,7 @@ var tree = (function () {
 
     var tree, diagonal, vis, numOfTumorTypes = 0, numOfTissues = 0;
 
-    //Hierarchical nodes.
-    var treeNode = {};
-
-    //Regardless column, each node name should be unique. Store global attributes here.
-    var uniqueTreeNode = {};
+    var oncotreeCodesToNames = {}; // used to find duplicate codes
 
     var searchResult = [];
 
@@ -39,15 +35,79 @@ var tree = (function () {
         this.acronym = '';
         this.mainType = '';
         this.color = '';
-        this.nci = '';
-        this.umls = '';
+        this.nci = [];
+        this.umls = [];
+        this.history = ''; // comma delimited string
+    }
+
+    function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
+        return Object.keys(oncotreeNodeDict).sort(function(a,b) {
+                var nameA = oncotreeNodeDict[a].name;
+                var nameB = oncotreeNodeDict[b].name;
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+    }
+
+    function process_children(parentNode, childData) {
+        // childData is always for a new unique node
+        var childNode = new UniqueTreeNodeDatum();
+        childNode.name = childData.name + " (" + childData.code + ")";
+        childNode.acronym = childData.code;
+
+        if (childData.hasOwnProperty('mainType') && childData.mainType != null && childData.mainType.hasOwnProperty('name') && childData.mainType.name !== '') {
+            childNode.mainType = childData.mainType.name;
+        } else {
+            childNode.mainType = 'Not Available';
+        }
+
+        if (childData.hasOwnProperty('color')) {
+            childNode.color = childData.color;
+        }
+        if (childData.hasOwnProperty('NCI')) {
+            childNode.nci = childData.NCI;
+        }
+
+        if (childData.hasOwnProperty('UMLS')) {
+            childNode.umls = childData.UMLS;
+        }
+
+        if (childData.hasOwnProperty('history')) {
+            childNode.history = childData.history.join();
+        }
+
+        // save code and name to check for duplicate codes later
+        if (!oncotreeCodesToNames.hasOwnProperty(childNode.acronym)) {
+            oncotreeCodesToNames[childNode.acronym] = [];
+        }
+        oncotreeCodesToNames[childNode.acronym].push(childNode.name);
+
+        // add new node to children list of parentNode
+        parentNode.children.push(childNode);
+
+        // now process this node's children
+        if (childData.hasOwnProperty('children')) {
+            var codesSortedByName =  getOncotreeCodeKeysSortedByName(childData.children);
+            if (codesSortedByName.length > 0) {
+                childNode.children = [];
+                codesSortedByName.forEach(function (code) {
+                    // now childNode's children are added
+                    process_children(childNode, childData.children[code]);
+                });
+            }
+        }
     }
 
     function initDataAndTree(version) {
-        var txtUrl = 'api/tumor_types.txt';
+        var jsonUrl = 'api/tumorTypes?flat=false'
 
         if (version) {
-          txtUrl += '?version=' + version;
+          jsonUrl += '&version=' + version;
         }
         tree = d3.layout.tree()
             .nodeSize([20, null]);
@@ -63,67 +123,18 @@ var tree = (function () {
             .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + 300 + ")");
 
-        d3.tsv(txtUrl, function (csv) {
-            var rootDatum = new UniqueTreeNodeDatum();
-            rootDatum.name = 'Tissue';
+        d3.json(jsonUrl, function (oncotree_json) {
+            var rootNode = new UniqueTreeNodeDatum();
+            rootNode.name = 'Tissue';
+            rootNode.children = []
 
-            treeNode[rootDatum.name] = {};
-            csv.forEach(function (row) {
-                var node = treeNode[rootDatum.name];
-                for (var col in row) {
-                    var type = row[col];
-                    var acronymMatches;
-                    var acronymRegex = /\((\w+)\)/g;
-
-                    //Ignore specific columns
-                    if (['metamaintype', 'metacolor'].indexOf(col) !== -1) break;
-
-                    if (!type) break;
-
-                    if (!(type in node)) {
-                        node[type] = {};
-                    }
-
-                    if (!(type in uniqueTreeNode)) {
-                        uniqueTreeNode[type] = new UniqueTreeNodeDatum();
-                        uniqueTreeNode[type].name = type;
-
-                        acronymMatches = acronymRegex.exec(type);
-                        if (acronymMatches instanceof Array && acronymMatches[1]) {
-                            uniqueTreeNode[type].acronym = acronymMatches[1];
-                        }
-
-                        if(row.hasOwnProperty('metamaintype') && row.metamaintype !== '') {
-                            uniqueTreeNode[type].mainType = row.metamaintype;
-                        }
-                        else {
-                            uniqueTreeNode[type].mainType = 'Not Available';
-                        }
-
-
-                        if(row.hasOwnProperty('metacolor')) {
-                            uniqueTreeNode[type].color = row.metacolor;
-                        }
-
-                        if(row.hasOwnProperty('metanci')){
-                            uniqueTreeNode[type].nci = row.metanci;
-                        }
-
-                        if(row.hasOwnProperty('metaumls')){
-                            uniqueTreeNode[type].umls = row.metaumls;
-                        }
-
-                        if(row.hasOwnProperty('history')){
-                            uniqueTreeNode[type].history = row.history;
-                        }
-
-                    }
-                    node = node[type];
-                }
+            getOncotreeCodeKeysSortedByName(oncotree_json.data.TISSUE.children).forEach(function (code) {
+                var childData = oncotree_json.data.TISSUE.children[code];
+                // these nodes all belong at root of tree
+                process_children(rootNode, childData);
             });
 
-            var json = formatTree(rootDatum, treeNode);
-            build(json);
+            build(rootNode);
             var dups = searchDupAcronym();
 
             if (Object.keys(dups).length > 0) {
@@ -142,36 +153,11 @@ var tree = (function () {
         });
     }
 
-    function formatTree(treeDatum, treeNode) {
-        var root = treeNode[treeDatum.name];
-        var children = [];
-
-        for (var child in root) {
-            children.push(formatTree(uniqueTreeNode[child], root));
-        }
-        if (children.length === 0) {
-            treeDatum.size = 4000;
-        } else {
-            treeDatum.children = children;
-        }
-        return treeDatum;
-    }
-
     function searchDupAcronym() {
         var dups = {};
-
-        for(var tumor in uniqueTreeNode) {
-            var tumorDatum = uniqueTreeNode[tumor];
-            for(var tumor1 in uniqueTreeNode) {
-                if(tumor1 !== tumor1) {
-                    var tumor1Datum = uniqueTreeNode[tumor1];
-                    if (tumorDatum.acronym && tumorDatum.acronym === tumor1Datum.acronym) {
-                        if (!dups.hasOwnProperty(tumorDatum.acronym)) {
-                            dups[tumorDatum.acronym] = [];
-                        }
-                        dups[tumorDatum.acronym].push(tumor1Datum.name);
-                    }
-                }
+        for (var code in oncotreeCodesToNames) {
+            if (oncotreeCodesToNames[code].length > 1) {
+                dups[code] = oncotreeCodesToNames[code];
             }
         }
         return dups;
@@ -335,8 +321,8 @@ var tree = (function () {
                 }
 
                 var nci_links = [];
-                if (typeof d.nci !== 'undefined' && d.nci != '') {
-                    $.each(d.nci.split(","), function( index , value ) {
+                if (typeof d.nci !== 'undefined' && d.nci.length > 0) {
+                    $.each(d.nci, function( index , value ) {
                         nci_links.push(getNCILink(value));
                     });
                 } else {
@@ -345,8 +331,8 @@ var tree = (function () {
                 }
 
                 var umls_links = [];
-                if (typeof d.umls !== 'undefined' && d.umls != '') {
-                    $.each(d.umls.split(","), function( index, value ) {
+                if (typeof d.umls !== 'undefined' && d.umls.length > 0) {
+                    $.each(d.umls, function( index, value ) {
                         umls_links.push(getUMLSLink(value));
                     });
                 } else {
