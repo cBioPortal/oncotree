@@ -16,60 +16,95 @@
 
   <body>
     <div id="body" class="container">
-      <div class="row">
-        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-          <b>CMO Tumor Type Tree</b><br>
-          Please send all comments and suggestions to <a href="mailto:oncotree@googlegroups.com?Subject=Oncotree comment" target="_top"><u>oncotree@googlegroups.com</u></a><br>
-          If you cannot see the tree below in Internet Explorer, please use Firefox or Chrome.
+      
+      <!-- start of tabs nav div-->
+      <ul  class="nav nav-tabs" id="tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" href="#tree" data-toggle="tab">Tree</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#news" data-toggle="tab">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#api" data-toggle="tab" >API</a>
+        </li>
+      </ul>
+      <!-- end of tabs nav div -->
+      
+      <!-- start of tabs content div -->
+      <div class="tab-content">
+        <!-- tree tab -->
+        <div class="tab-pane fade show active" id="tree" role="tabpanel">
+          <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+              <br><b>CMO Tumor Type Tree</b><br>
+              Please send all comments and suggestions to <a href="mailto:oncotree@googlegroups.com?Subject=Oncotree comment" target="_top"><u>oncotree@googlegroups.com</u></a><br>
+              If you cannot see the tree below in Internet Explorer, please use Firefox or Chrome.
+              <br/>
+              <span id="summary-info"></span>
+              <br/>
+              <span>Please see <a href="swagger-ui.html" target="_blank"><b>here</b></a> for the API</span>
+              <br/>
+              <span>Oncotree verison currently displayed: </span>
+              <span id="other-version">
+                <select class="other-version-content"></select>
+              </span>
+                <br/>
+            </div>
+          </div>
           <br/>
-          <span id="summary-info"></span>
-          <br/>
-          <span>Please see <a href="swagger-ui.html" target="_blank"><b>here</b></a> for the API</span>
-          <br/>
-          <span>Oncotree verison currently displayed: </span>
-          <span id="other-version">
-            <select class="other-version-content"></select>
+          <div class="row">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-9 has-addon-feedback">
+              <div class="input-group" id='tumor_search'>
+                <input type="text" class="form-control" placeholder="Search Tumor Type" />
+                <span id="searchRemoveIcon" class="form-control-feedback glyphicon glyphicon-remove-circle"></span>
+                <span id="searchResult" class="form-control-feedback result"></span>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default">Search</button>
+                </span>
+
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+              <div class="btn-group">
+                <button type="button" class="btn btn-default" id='expand-nodes-btn'>
+                  <span class="glyphicon glyphicon-resize-full"></span>
+                </button>
+
+                <button type="button" class="btn btn-default" id='collapse-nodes-btn'>
+                  <span class="glyphicon glyphicon-resize-small"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="tree"></div>
+          <div id="summary-duplicates" class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+            <b>Acronym crash:</b>
+            <p id="" class="bg-danger"></p>
+          </div>
+          <span id="top-link-block" class="hidden">
+            <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0, scrollLeft: 0},'slow');return false;">
+                <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
+            </a>
           </span>
-            <br/>
-        </div>
-      </div>
-      <br/>
-      <div class="row">
-        <div class="col-lg-4 col-md-5 col-sm-6 col-xs-9 has-addon-feedback">
-          <div class="input-group" id='tumor_search'>
-            <input type="text" class="form-control" placeholder="Search Tumor Type" />
-            <span id="searchRemoveIcon" class="form-control-feedback glyphicon glyphicon-remove-circle"></span>
-            <span id="searchResult" class="form-control-feedback result"></span>
-            <span class="input-group-btn">
-              <button type="button" class="btn btn-default">Search</button>
-            </span>
-
-          </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-          <div class="btn-group">
-            <button type="button" class="btn btn-default" id='expand-nodes-btn'>
-              <span class="glyphicon glyphicon-resize-full"></span>
-            </button>
+        <!-- news tab -->
+        <div class="tab-pane fade" id='news' role="tabpanel">News Here</div>
 
-            <button type="button" class="btn btn-default" id='collapse-nodes-btn'>
-              <span class="glyphicon glyphicon-resize-small"></span>
-            </button>
-          </div>
-        </div>
+        <!-- api tab -->
+        <div class="tab-pane fade" id='api' role="tabpanel">API</div>
+
       </div>
-      <div id="tree"></div>
-      <div id="summary-duplicates" class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-        <b>Acronym crash:</b>
-        <p id="" class="bg-danger"></p>
-      </div>
-      <span id="top-link-block" class="hidden">
-        <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0, scrollLeft: 0},'slow');return false;">
-            <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
-        </a>
-      </span>
+      <!-- end of tabs content div -->
+
     </div>
   </body>
 </html>
+
+<script>
+  $(function () {
+    $('#tabs li:first-child a').tab('show')
+  })
+</script>
 
