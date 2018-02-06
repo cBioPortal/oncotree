@@ -31,6 +31,9 @@ public class Version {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("visible")
+    private boolean visible;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -62,6 +65,16 @@ public class Version {
     @JsonProperty("description")
     public String getDescription() {
         return description;
+    }
+
+    @JsonProperty("visible")
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    @JsonProperty("visible")
+    public boolean getVisible() {
+        return visible;
     }
 
     @JsonAnyGetter

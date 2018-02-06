@@ -38,13 +38,14 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
 
     // NOTE we MUST order by release_date
     private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
-        "SELECT ?api_identifier ?graph_uri ?description ?release_date " +
+        "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
         "WHERE { " +
         "   GRAPH <urn:x-evn-master:oncotree_version> { " +
         "       ?s oncotree-version:graph_uri ?graph_uri. " +
         "       ?s oncotree-version:api_identifier ?api_identifier. " +
         "       ?s oncotree-version:release_date ?release_date. " +
         "       OPTIONAL{?s oncotree-version:description ?description.} " +
+        "       OPTIONAL{?s oncotree-version:visible ?visible.} " +
         "   } " +
         "} ORDER BY ASC(?release_date)";
 
