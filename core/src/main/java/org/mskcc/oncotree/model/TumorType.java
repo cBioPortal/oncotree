@@ -25,8 +25,8 @@ public class TumorType {
     private Boolean deprecated = false;
     private List<String> history = new ArrayList<String>();
     private Links links = null;
-    private Level level = null;
-
+    private Integer level = null;
+    private static final String UNKNOWN_ONCOTREE_NODE_LEVEL = "-1";
 
     /**
      * the numarical identifier of tumor type.
@@ -220,13 +220,13 @@ public class TumorType {
 
     /**
      **/
-    @ApiModelProperty(value = "")
+    @ApiModelProperty(value = UNKNOWN_ONCOTREE_NODE_LEVEL)
     @JsonProperty("level")
-    public Level getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
