@@ -23,7 +23,6 @@ import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
-import org.mskcc.oncotree.model.Level;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
@@ -51,7 +50,7 @@ import org.springframework.core.io.InputStreamResource;
 public class TumorTypesUtil {
 
     private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
-    public final static String TSV_HEADER = "primary\tsecondary\ttertiary\tquaternary\tquinternary\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
+    public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
 
     private static OncoTreeRepository oncoTreeRepository;
     @Autowired
@@ -101,7 +100,7 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    public static List<TumorType> filterTumorTypesByLevel(List<TumorType> tumorTypes, List<Level> levels) {
+    public static List<TumorType> filterTumorTypesByLevel(List<TumorType> tumorTypes, List<Integer> levels) {
         List<TumorType> filtered = new ArrayList<>();
         if (tumorTypes != null && levels != null) {
             for (TumorType tumorType : tumorTypes) {
@@ -142,10 +141,10 @@ public class TumorTypesUtil {
         List<String> row = new ArrayList<>();
         String oncotreeCode = StringUtils.defaultString(tumorType.getCode()).trim();
 
-        // if parents.size() > 4 at this point, this means that the oncotree cannot be represented in our expected format as there are
-        // only 5 levels of headers. Abort the attemp to render the spreadsheet and throw an exception.
-        if (parents.size() > 4) {
-            throw new RuntimeException("Oncotree depth for code " + oncotreeCode + " exceeds max representation. Depth cannot be > 5");
+        // if parents.size() > 6 at this point, this means that the oncotree cannot be represented in our expected format as there are
+        // only 7 levels of headers. Abort the attemp to render the spreadsheet and throw an exception.
+        if (parents.size() > 7) {
+            throw new RuntimeException("Oncotree depth for code " + oncotreeCode + " exceeds max representation. Depth cannot be > 7");
         }
 
         String displayName = StringUtils.defaultString(tumorType.getName()).trim() + " (" + oncotreeCode + ")";
@@ -153,7 +152,7 @@ public class TumorTypesUtil {
         row.add(displayName);
 
         // Need to pad for the primary - quinternary columns if all parents are not present
-        for (int i = 4; i > parents.size(); i--) {
+        for (int i = 6; i > parents.size(); i--) {
             row.add("");
         }
 
@@ -244,7 +243,7 @@ public class TumorTypesUtil {
 
     private static void setDepthAndTissue(TumorType tumorType, int depth, String tissue) {
         if (tumorType != null) {
-            tumorType.setLevel(Level.getByLevel(Integer.toString(depth)));
+            tumorType.setLevel(new Integer(depth));
             if (depth == 1) {
                 tissue = tumorType.getName();
             }
@@ -326,6 +325,7 @@ public class TumorTypesUtil {
                                                 String key, String keyword, Boolean exactMatch, Boolean includeParent) {
         Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
+        Integer keywordAsInteger = convertStringToInteger(keyword);
 
         if (includeParent == null) {
             includeParent = false;
@@ -398,7 +398,7 @@ public class TumorTypesUtil {
                 match = currentTumorType == null ? false :
                     (currentTumorType.getLevel() == null ? false :
                         (currentTumorType.getLevel() == null ? false :
-                            currentTumorType.getLevel().equals(keyword)));
+                            currentTumorType.getLevel().equals(keywordAsInteger)));
                 break;
             default:
                 if (exactMatch) {
@@ -481,5 +481,17 @@ public class TumorTypesUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static Integer convertStringToInteger(String string) {
+        if (string == null) {
+            return null;
+        }
+        try {
+            Integer integer = Integer.parseInt(string.trim());
+            return integer;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
