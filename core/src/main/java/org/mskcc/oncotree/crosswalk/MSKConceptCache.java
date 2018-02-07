@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.utils.VersionUtil;
+import org.mskcc.oncotree.model.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -41,6 +42,8 @@ public class MSKConceptCache {
 
     private final static Logger logger = Logger.getLogger(MSKConceptCache.class);
     private static HashMap<String, MSKConcept> oncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
+    // use this to store and look up previous oncoTree codes
+    private static HashMap<String, HashSet<String>> topBraidURIsToOncotreeCodes = new HashMap<String, HashSet<String>>();
 
     @Autowired
     private OncoTreeRepository oncoTreeRepository;
@@ -67,20 +70,38 @@ public class MSKConceptCache {
     private void resetCache() {
         logger.info("resetCache() -- clearing Crosswalk MSKConcept cache and refilling");
         oncoTreeCodesToMSKConcepts.clear();
-        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(VersionUtil.getDefaultVersion());
-        for (OncoTreeNode node : oncoTreeNodes) {
-            getFromCrosswalkAndSave(node.getCode());
-        } 
+        // versions are ordered in ascending order by release date
+        for (Version version : VersionUtil.getVersions()) {
+            List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+            for (OncoTreeNode node : oncoTreeNodes) {
+                MSKConcept mskConcept = getFromCrosswalkAndSave(node.getCode());
+                // get all codes defined so far for this topbraid uri and save in history
+                if (topBraidURIsToOncotreeCodes.containsKey(node.getURI())) {
+                    // do not add this code to the history, but add any others
+                    HashSet<String> allButThisNode = new HashSet<String>(topBraidURIsToOncotreeCodes.get(node.getURI()));
+                    allButThisNode.remove(node.getCode());
+                    mskConcept.addHistory(allButThisNode);
+                } else {
+                    topBraidURIsToOncotreeCodes.put(node.getURI(), new HashSet<String>());
+                }
+                // now save this as onoctree code history for this topbraid uri
+                topBraidURIsToOncotreeCodes.get(node.getURI()).add(node.getCode());
+            }
+        }
     }
 
     private MSKConcept getFromCrosswalkAndSave(String oncoTreeCode) {
-        MSKConcept concept = null;
+        // only save if we have not seen before (UMLS/NCI info will not be different)
+        if (oncoTreeCodesToMSKConcepts.containsKey(oncoTreeCode)) {
+            return oncoTreeCodesToMSKConcepts.get(oncoTreeCode);
+        }
+        MSKConcept concept = new MSKConcept();
         try {
             concept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         } catch (CrosswalkException e) {
             // do nothing
         }
-        // save even if null
+        // save even if has no information in it
         oncoTreeCodesToMSKConcepts.put(oncoTreeCode, concept);
         return concept;
     }

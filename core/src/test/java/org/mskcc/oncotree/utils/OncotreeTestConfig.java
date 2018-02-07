@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -134,6 +134,11 @@ public class OncotreeTestConfig {
         return new MainTypesUtil();
     }
 
+    @Bean
+    public ApiUtil ApiUtil() {
+        return new ApiUtil();
+    }
+
     private Version setupMockVersion() {
         Version mockVersion = new Version();
         mockVersion = new Version();
@@ -158,9 +163,6 @@ public class OncotreeTestConfig {
             nextNode.setName(rawTestValueSource[pos + 1]);
             nextNode.setMainType(rawTestValueSource[pos + 2]);
             nextNode.setColor(rawTestValueSource[pos + 3]);
-            nextNode.setNci("");
-            nextNode.setUmls("");
-            nextNode.setNccn("");
             nextNode.setParentCode(rawTestValueSource[pos + 4]);
             oncoTreeRepositoryMockResponse.add(nextNode);
         }

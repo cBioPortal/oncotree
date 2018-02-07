@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
+import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
 import org.mskcc.oncotree.topbraid.TopBraidException;
 
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,12 @@ class GlobalControllerExceptionHandler {
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
     @ExceptionHandler(InvalidOncoTreeDataException.class)
     public void handleInvalidOncoTreeDataException() {
+        // nothing to do
+    }
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
+    @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
+    public void handleInvalidOncotreeMappingsParameters() {
         // nothing to do
     }
 

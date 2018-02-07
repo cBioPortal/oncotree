@@ -20,7 +20,10 @@ $(document).ready(function(){
             && data.hasOwnProperty('data')
             && data.data instanceof Array) {
             versions_ = data.data.reduce(function(acc, cur) {
-              acc[cur.api_identifier] = cur;
+              //acc[cur.api_identifier] = cur;
+              if (cur.visible) {
+                acc[cur.api_identifier] = cur;
+              }
               return acc;
             }, {});
           }
@@ -98,6 +101,7 @@ $(document).ready(function(){
         }        
       });
       $('#other-version .other-version-content').html(_str.join(''));
+      $('#version-note').append($("#other-version .other-version-content")[0].selectedOptions[0].title);
       $('#other-version .other-version-content').change(function() {
         var _hash = $(this)[0].selectedOptions[0].attributes['hash'].value;
         window.location.hash = _hash;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -39,19 +39,29 @@ public class CrosswalkRepository {
 
     private final static Logger logger = Logger.getLogger(CrosswalkRepository.class);
 
+    // URI variables should be vocabularyId={vocabularyId}&conceptId={conceptId}&histologyCode={histologyCode}&siteCode={siteCode}
     @Value("${crosswalk.url}")
     private String crosswalkURL;
 
-    protected MSKConcept getByOncotreeCode(String oncotreeCode)
+    public MSKConcept getByOncotreeCode(String oncotreeCode)
+            throws CrosswalkException {
+        return queryCVS("ONCOTREE", oncotreeCode, null, null);
+    }
+
+    public MSKConcept queryCVS(String vocabularyId, String conceptId, String histologyCode, String siteCode)
             throws CrosswalkException {
         RestTemplate restTemplate = new RestTemplate();
-        String url = crosswalkURL + oncotreeCode;
         try {
-            ResponseEntity<MSKConcept> response = restTemplate.getForEntity(url, MSKConcept.class);
+            ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
             return response.getBody();
         } catch (RestClientException e) {
-            logger.error("getByOncotreeCode() -- caught RestClientException: " + e);
-            throw new CrosswalkException("Exception querying url '" + url + "'", e);
+            logger.error("queryCVS() -- caught RestClientException: " + e);
+            throw new CrosswalkException("Exception while getting data from CVS Service with: \n " +
+                "URI: " + crosswalkURL + "\n" +
+                "vocabularyId: " + vocabularyId + "\n" +
+                "conceptId: " + conceptId != null ? conceptId : "" + "\n" +
+                "histologyCode: " + histologyCode != null ? histologyCode : "" + "\n" +
+                "siteCode: " + siteCode != null ? siteCode : "" + "\n" , e);
         }
     }
 }

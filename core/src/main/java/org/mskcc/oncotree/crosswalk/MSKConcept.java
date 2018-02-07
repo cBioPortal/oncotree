@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -30,13 +30,16 @@ import javax.annotation.Generated;
  * @author Manda Wilson
  **/
 public class MSKConcept {
-
+    // TODO this is a subset of the full model
     @JsonProperty("conceptId")
     private List<String> conceptIds;
+    @JsonProperty("oncotreeCode")
+    private List<String> oncotreeCodes;
     @JsonProperty("crosswalks")
     private HashMap<String, List<String>> crosswalks;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Set<String> history = new HashSet<String>();
 
     /**
     * No args constructor for use in serialization
@@ -65,6 +68,24 @@ public class MSKConcept {
 
     /**
     *
+    * @return oncotreeCodes
+    */
+    @JsonProperty("oncotreeCode")
+    public List<String> getOncotreeCodes() {
+        return oncotreeCodes;
+    }
+
+    /**
+    *
+    * @param oncotreeCodes
+    */
+    @JsonProperty("oncotreeCode")
+    public void setOncotreeCodes(List<String> oncotreeCodes) {
+        this.oncotreeCodes = oncotreeCodes;
+    }
+
+    /**
+    *
     * @return crosswalks
     */
     @JsonProperty("crosswalks")
@@ -79,6 +100,30 @@ public class MSKConcept {
     @JsonProperty("crosswalks")
     public void setCrosswalks(HashMap<String, List<String>> crosswalks) {
         this.crosswalks = crosswalks;
+    }
+
+    /**
+    *
+    * @return history
+    */
+    public Set<String> getHistory() {
+        return history;
+    }
+
+    /**
+    *
+    * @param oncotreeCode
+    */
+    public void addHistory(String oncotreeCode) {
+        this.history.add(oncotreeCode);
+    }
+
+    /**
+    *
+    * @param oncotreeCodes
+    */
+    public void addHistory(Set<String> oncotreeCodes) {
+        this.history.addAll(oncotreeCodes);
     }
 
     @JsonAnyGetter
