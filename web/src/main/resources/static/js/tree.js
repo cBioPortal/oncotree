@@ -148,7 +148,7 @@ var tree = (function () {
                 $('#summary-duplicates').css('display', 'none');
             }
             $("#summary-info").text(function () {
-                return "( " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + " )";
+                return "Includes " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + ".";
             });
         });
     }
