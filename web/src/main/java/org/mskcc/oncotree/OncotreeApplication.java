@@ -41,7 +41,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
             @Override
             public void addViewControllers(final ViewControllerRegistry registry) {
                 super.addViewControllers(registry);
-                registry.addRedirectViewController("/oncotree-mappings/","/oncotree-mappings.html").setKeepQueryParams(true).setStatusCode(HttpStatus.MOVED_PERMANENTLY);
+                registry.addRedirectViewController("/oncotree-mappings/","/#/home?tab=mapping").setKeepQueryParams(true).setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         
             }
         };

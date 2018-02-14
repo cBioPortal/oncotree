@@ -1,4 +1,5 @@
-## February 1, 2018
+### News
+#### February 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_02_01* is now the latest stable release. The previous stable version is still accessible for use through version name *oncotree_2018_01_01*.
  *   **New nodes added:**
         * Adenosquamous Carcinoma of the Gallbladder (GBASC)
