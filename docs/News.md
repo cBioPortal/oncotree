@@ -5,7 +5,7 @@
  *   **New node added:**
         * Ganglioneuroma (GN)
  *   **Node reclassified**
-        * Rhabdoid Cancer (MRT) now has direct parent Kidney (KIDNEY) [previously: Wilms' Tumor (WT)]
+        * Rhabdoid Cancer (MRT) now has direct parent Kidney (KIDNEY) [previously: Wilms' Tumor (WT)] Main type is now "Rhabdoid Cancer" [previously: Wilms Tumor]
 #### February 7, 2018
  *   **Oncotree format expanded to support deeper tree nodes**
         * To support upcoming expansion of the oncotree, the 5 named levels of the oncotree {*Primary*, *Secondary*, *Tertiary*, *Quaternary*, *Quinternary*} have been dropped in favor of level numbers {1, 2, 3, 4, 5, ...}. Web API functions have been adjusted accordingly, and an API function which outputs a table format of the oncotree has been adjusted to output 7 levels of depth.
