@@ -22,7 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ import org.springframework.web.client.RestTemplate;
 @Repository
 public class CrosswalkRepository {
 
-    private final static Logger logger = Logger.getLogger(CrosswalkRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(CrosswalkRepository.class);
 
     // URI variables should be vocabularyId={vocabularyId}&conceptId={conceptId}&histologyCode={histologyCode}&siteCode={siteCode}
     @Value("${crosswalk.url}")

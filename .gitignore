@@ -5,3 +5,4 @@ mvnw
 mvnw.cmd
 *.iml
 application.properties
+logback.xml
