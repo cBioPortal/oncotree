@@ -20,7 +20,8 @@ package org.mskcc.oncotree.topbraid;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.model.Version;
 
@@ -34,7 +35,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
 
-    private final static Logger logger = Logger.getLogger(OncoTreeVersionRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(OncoTreeVersionRepository.class);
 
     // NOTE we MUST order by release_date
     private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +

@@ -20,7 +20,8 @@ package org.mskcc.oncotree.topbraid;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.model.Version;
 
@@ -34,7 +35,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
 
-    private final static Logger logger = Logger.getLogger(OncoTreeRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(OncoTreeRepository.class);
 
     private String query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
         "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree/> " +

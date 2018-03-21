@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-
 /**
  * Created by Hongxin on 5/23/16.
  */

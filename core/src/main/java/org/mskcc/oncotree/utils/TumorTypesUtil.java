@@ -17,7 +17,8 @@
 
 package org.mskcc.oncotree.utils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.univocity.parsers.tsv.TsvParser;
 import com.univocity.parsers.tsv.TsvParserSettings;
@@ -49,7 +50,7 @@ import org.springframework.core.io.InputStreamResource;
 @Component
 public class TumorTypesUtil {
 
-    private final static Logger logger = Logger.getLogger(TumorTypesUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
     public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
 
     private static OncoTreeRepository oncoTreeRepository;

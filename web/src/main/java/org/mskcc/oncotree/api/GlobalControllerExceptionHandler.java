@@ -21,7 +21,8 @@ package org.mskcc.oncotree.api;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
@@ -39,7 +40,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 class GlobalControllerExceptionHandler {
 
-    private final static Logger logger = Logger.getLogger(GlobalControllerExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to connect to TopBraid")
     @ExceptionHandler(TopBraidException.class)
@@ -64,6 +65,6 @@ class GlobalControllerExceptionHandler {
     public void defaultErrorHandler(Exception e) {
         // note our custom exceptions above already log errors
         // an unknown exception might not log anything so log it here
-        logger.error(e);
+        logger.error(e.toString());
     }
 }

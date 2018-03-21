@@ -18,7 +18,8 @@
 
 package org.mskcc.oncotree.api;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
@@ -43,7 +44,7 @@ public class OncotreeMappingsApi {
     private final static int MAX_CONCEPT_ID_ARG_LENGTH = 36;
     private final static int MAX_HISTOLOGY_CODE_ARG_LENGTH = 36;
     private final static int MAX_SITE_CODE_ARG_LENGTH = 36;
-    private final static Logger logger = Logger.getLogger(OncotreeMappingsApi.class);
+    private static final Logger logger = LoggerFactory.getLogger(OncotreeMappingsApi.class);
 
     @RequestMapping(value = "api/crosswalk", method = RequestMethod.GET)
     public OncotreeMappingsResp getMappings(

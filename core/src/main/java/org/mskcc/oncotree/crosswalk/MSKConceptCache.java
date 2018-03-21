@@ -21,7 +21,8 @@ package org.mskcc.oncotree.crosswalk;
 import java.util.*;
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.utils.VersionUtil;
@@ -40,7 +41,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class MSKConceptCache {
 
-    private final static Logger logger = Logger.getLogger(MSKConceptCache.class);
+    private static final Logger logger = LoggerFactory.getLogger(MSKConceptCache.class);
     private static HashMap<String, MSKConcept> oncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
     // use this to store and look up previous oncoTree codes
     private static HashMap<String, HashSet<String>> topBraidURIsToOncotreeCodes = new HashMap<String, HashSet<String>>();

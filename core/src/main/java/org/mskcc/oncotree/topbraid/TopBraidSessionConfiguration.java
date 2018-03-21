@@ -23,7 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.StatusLine;
@@ -46,7 +47,7 @@ import org.springframework.http.HttpStatus;
 @Configuration
 public class TopBraidSessionConfiguration {
 
-    private final static Logger logger = Logger.getLogger(TopBraidSessionConfiguration.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopBraidSessionConfiguration.class);
 
     @Value("${topbraid.url}")
     private String topBraidURL;

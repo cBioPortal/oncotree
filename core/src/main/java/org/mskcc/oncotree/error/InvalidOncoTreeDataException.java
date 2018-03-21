@@ -18,7 +18,8 @@
 
 package org.mskcc.oncotree.error;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ import org.apache.log4j.Logger;
  **/
 public class InvalidOncoTreeDataException extends RuntimeException {
 
-    private final static Logger logger = Logger.getLogger(InvalidOncoTreeDataException.class);
+    private static final Logger logger = LoggerFactory.getLogger(InvalidOncoTreeDataException.class);
 
     public InvalidOncoTreeDataException(String message) {
         super(message);

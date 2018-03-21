@@ -18,7 +18,8 @@
 
 package org.mskcc.oncotree.topbraid;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ import org.apache.log4j.Logger;
  **/
 public class TopBraidException extends RuntimeException {
 
-    private final static Logger logger = Logger.getLogger(TopBraidException.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopBraidException.class);
 
     public TopBraidException(String message, Throwable cause) {
         super(message, cause);

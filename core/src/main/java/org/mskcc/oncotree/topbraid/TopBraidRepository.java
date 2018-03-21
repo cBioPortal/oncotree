@@ -22,7 +22,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,7 @@ import org.springframework.web.client.RestTemplate;
 @Repository
 public abstract class TopBraidRepository<T> {
 
-    private final static Logger logger = Logger.getLogger(TopBraidRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopBraidRepository.class);
 
     @Value("${topbraid.url}")
     private String topBraidURL;

@@ -40,7 +40,10 @@
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
+                </configuration>
             </plugin>
         </plugins>
     </build>
