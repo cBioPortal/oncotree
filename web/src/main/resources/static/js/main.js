@@ -3,6 +3,7 @@ $(document).ready(function(){
 	"use strict";
     var version_ = '';
     var versions_ = {};
+    var location_ = window.location.href;
 
     loadVersions(function() {
       checkURL();
@@ -11,6 +12,21 @@ $(document).ready(function(){
       initEvents();
       OutJS.backToTop();
       initQtips();
+    });
+
+    $(function () {
+      $('#tree-tab').click(function (e) {
+        window.location.hash = "/home";
+      })
+      $('#mapping-tab').click(function (e) {
+        window.location.hash = "/home?tab=mapping";
+      })
+      $('#news-tab').click(function (e) {
+        window.location.hash = "/home?tab=news";
+      })
+      $('#api-tab').click(function (e) {
+        window.location.hash = "/home?tab=api";
+      })
     });
 
     function loadVersions(callback) {
