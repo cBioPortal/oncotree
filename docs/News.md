@@ -1,7 +1,7 @@
 ### News
 #### April 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_04_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_03_01*.
- *   **New node added:**
+ *   **New nodes added:**
         * Adamantinoma (ADMA)
         * Tubular Adenoma of the Colon (TAC)
         * Parathyroid Cancer (PTH)
