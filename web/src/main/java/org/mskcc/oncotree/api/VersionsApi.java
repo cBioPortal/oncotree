@@ -25,8 +25,7 @@ public class VersionsApi {
     @RequestMapping(value = "",
         produces = {"application/json"},
         method = RequestMethod.GET)
-    public ResponseEntity<VersionsResp> versionsGet()
-        throws NotFoundException {
+    public ResponseEntity<VersionsResp> versionsGet() {
         VersionsResp resp = new VersionsResp();
         resp.setMeta(new Meta() {{
             setCode(200);

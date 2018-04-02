@@ -57,8 +57,7 @@ public class MainTypesApi {
         @RequestParam(value = "version", required = false) String version
 //        , @ApiParam(value = "The callback function name. This has to be used with dataType JSONP.")
 //        @RequestParam(value = "callback", required = false) String callback
-    )
-        throws NotFoundException {
+    ) {
         MainTypesResp resp = new MainTypesResp();
 
         Meta meta = new Meta();
@@ -67,7 +66,7 @@ public class MainTypesApi {
 
         Map<String, TumorType> tumorTypes = new HashMap<>();
         Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
+        tumorTypes = CacheUtil.getTumorTypesByVersion(v);
         Set<TumorType> tumorTypesSet = TumorTypesUtil.flattenTumorTypes(tumorTypes, version);
         resp.setData(MainTypesUtil.getMainTypesByTumorTypes(tumorTypesSet));
 

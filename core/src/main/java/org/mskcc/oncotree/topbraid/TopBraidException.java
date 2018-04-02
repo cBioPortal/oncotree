@@ -29,6 +29,11 @@ public class TopBraidException extends RuntimeException {
 
     private static final Logger logger = LoggerFactory.getLogger(TopBraidException.class);
 
+    public TopBraidException(String message) {
+        super(message);
+        logger.error(message + ": (Check that authentication is working)");
+    }
+
     public TopBraidException(String message, Throwable cause) {
         super(message, cause);
         logger.error(message + ": " + cause + " (Check that authentication is working)");
