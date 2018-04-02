@@ -16,24 +16,21 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.model;
+package org.mskcc.oncotree.error;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class OncotreeMappingsResp {
+/**
+ *
+ * @author Manda Wilson
+ **/
+public class InvalidQueryException extends RuntimeException {
 
-    private List<String> oncotreeCode;
+    private static final Logger logger = LoggerFactory.getLogger(InvalidQueryException.class);
 
-    public OncotreeMappingsResp() {
-        oncotreeCode = new ArrayList<String>();
-    }
-
-    public List<String> getOncotreeCode() {
-        return oncotreeCode;
-    }
-
-    public void setOncotreeCode(List<String> oncotreeCode) {
-        this.oncotreeCode = oncotreeCode;
-    }
+    public InvalidQueryException(String message) {
+        super(message);
+        logger.error(message);
+    }   
 }

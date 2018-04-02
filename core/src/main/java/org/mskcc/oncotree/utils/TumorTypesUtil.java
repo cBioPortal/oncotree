@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017-2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -17,32 +17,28 @@
 
 package org.mskcc.oncotree.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.util.*;
 
-import com.univocity.parsers.tsv.TsvParser;
-import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
+
+import org.mskcc.oncotree.crosswalk.MSKConceptCache;
+import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
-import org.mskcc.oncotree.model.MainType;
+import org.mskcc.oncotree.error.InvalidQueryException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
-import org.mskcc.oncotree.crosswalk.MSKConceptCache;
-import org.mskcc.oncotree.crosswalk.MSKConcept;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.springframework.core.io.InputStreamResource;
 
 /**
  * Created by Hongxin on 2/25/16.
@@ -61,34 +57,16 @@ public class TumorTypesUtil {
     @Autowired
     public void setMSKConceptCache(MSKConceptCache property) { mskConceptCache = property; }
 
-    private static final String PROPERTY_FILE = "classpath:application.properties";
-    private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
+    public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
     public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
-        Map<String, TumorType> tumorTypes = new HashMap<>();
         if (version != null) {
-            tumorTypes = loadFromRepository(version);
+            return loadFromRepository(version);
         }
-        return tumorTypes;
+        return new HashMap<>();
     }
 
-    public static Properties getProperties() {
-        Properties properties = new Properties();
-        InputStream inputStream = getInputStream(PROPERTY_FILE);
-
-        try {
-            if (inputStream != null) {
-                properties.load(inputStream);
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return properties;
-    }
-
-    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException {
+    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException, InvalidQueryException {
         logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
@@ -96,6 +74,8 @@ public class TumorTypesUtil {
             tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
                 CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
                 tumorTypes, key, keyword, exactMatch, includeParent);
+        } else {
+            throw new InvalidQueryException(buildInvalidQueryTypeError(key));
         }
         logger.debug("Returning " + tumorTypes.size() + " tumor types");
         return tumorTypes;
@@ -157,10 +137,20 @@ public class TumorTypesUtil {
             row.add("");
         }
 
-        row.add(StringUtils.defaultString(tumorType.getMainType() != null ? tumorType.getMainType().getName() : ""));
+        row.add(StringUtils.defaultString(tumorType.getMainType()));
         row.add(StringUtils.defaultString(tumorType.getColor()));
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getNCI(), ",")));
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getUMLS(), ",")));
+        // TODO enum or something
+        if (tumorType.getExternalReferences().containsKey("NCI")) {
+            row.add(StringUtils.defaultString(StringUtils.join(tumorType.getExternalReferences().get("NCI"), ",")));
+        } else {
+            row.add("");
+        }
+        // TODO enum or something
+        if (tumorType.getExternalReferences().containsKey("UMLS")) {
+            row.add(StringUtils.defaultString(StringUtils.join(tumorType.getExternalReferences().get("UMLS"), ",")));
+        } else {
+            row.add("");
+        }
         row.add(StringUtils.defaultString(StringUtils.join(tumorType.getHistory(), ",")));
         rows.add(StringUtils.join(row, "\t"));
 
@@ -195,7 +185,7 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    public static boolean hasNoParent(TumorType node) {
+    private static boolean hasNoParent(TumorType node) {
         String parentCode = node.getParent();
         if (parentCode == null) {
             return true;
@@ -282,15 +272,13 @@ public class TumorTypesUtil {
             if (mskConcept != null) {
                 HashMap<String, List<String>> crosswalks = mskConcept.getCrosswalks();
                 if (crosswalks != null && crosswalks.containsKey("NCI")) {
-                    tumorType.setNCI(crosswalks.get("NCI"));
+                    tumorType.setExternalReference("NCI", crosswalks.get("NCI"));
                 }
-                List<String> umlsIds = new ArrayList<String>();
                 if (mskConcept.getConceptIds() != null) {
                     for (String mskConceptId : mskConcept.getConceptIds()) {
-                        umlsIds.add(mskConceptId.replace("MSK", "C"));
+                        tumorType.addExternalReference("UMLS", mskConceptId.replace("MSK", "C"));
                     }
                 }
-                tumorType.setUMLS(umlsIds);
                 tumorType.setHistory(new ArrayList(mskConcept.getHistory()));
             }
             if (rootNodeCodeSet.contains(thisNodeCode)) {
@@ -312,9 +300,7 @@ public class TumorTypesUtil {
     private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
-        if (oncoTreeNode.getMainType() != null) {
-            tumorType.setMainType(new MainType(oncoTreeNode.getMainType()));
-        }
+        tumorType.setMainType(oncoTreeNode.getMainType());
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
@@ -322,11 +308,12 @@ public class TumorTypesUtil {
         return tumorType;
     }
 
-    public static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
-                                                String key, String keyword, Boolean exactMatch, Boolean includeParent) {
+    private static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
+                                                String key, String keyword, Boolean exactMatch, Boolean includeParent) 
+            throws InvalidQueryException {
         Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
-        Integer keywordAsInteger = convertStringToInteger(keyword);
+        Map<String, List<String>> externalReferences = currentTumorType.getExternalReferences();
 
         if (includeParent == null) {
             includeParent = false;
@@ -366,64 +353,49 @@ public class TumorTypesUtil {
                 break;
             case "nci":
                 if (exactMatch) {
-                    match = currentTumorType.getNCI() == null ? false : ListUtil.hasMatchingElementIgnoreCase(currentTumorType.getNCI(), keyword);
+                    match = externalReferences.containsKey("NCI") ? ListUtil.hasMatchingElementIgnoreCase(externalReferences.get("NCI"), keyword) : false;
                 } else {
-                    match = currentTumorType.getNCI() == null ?
-                        false :
-                        ListUtil.hasElementWhichContainsStringIgnoreCase(currentTumorType.getNCI(), keyword);
+                    match = externalReferences.containsKey("NCI") ?
+                        ListUtil.hasElementWhichContainsStringIgnoreCase(externalReferences.get("NCI"), keyword) : false;
                 }
                 break;
             case "umls":
                 if (exactMatch) {
-                    match = currentTumorType.getUMLS() == null ? false : ListUtil.hasMatchingElementIgnoreCase(currentTumorType.getUMLS(), keyword);
+                    match = externalReferences.containsKey("UMLS") ? ListUtil.hasMatchingElementIgnoreCase(externalReferences.get("UMLS"), keyword) : false;
                 } else {
-                    match = currentTumorType.getUMLS() == null ?
-                        false :
-                        ListUtil.hasElementWhichContainsStringIgnoreCase(currentTumorType.getUMLS(), keyword);
+                    match = externalReferences.containsKey("UMLS") ?
+                        ListUtil.hasElementWhichContainsStringIgnoreCase(externalReferences.get("UMLS"), keyword) : false;
                 }
                 break;
             case "maintype":
                 if (exactMatch) {
                     match = currentTumorType == null ? false :
                         (currentTumorType.getMainType() == null ? false :
-                            (currentTumorType.getMainType().getName() == null ? false :
-                                currentTumorType.getMainType().getName().equals(keyword)));
+                                currentTumorType.getMainType().equals(keyword));
                 } else {
                     match = currentTumorType == null ? false :
                         (currentTumorType.getMainType() == null ? false :
-                            (currentTumorType.getMainType().getName() == null ? false :
-                                StringUtils.containsIgnoreCase(currentTumorType.getMainType().getName(), keyword)));
+                                StringUtils.containsIgnoreCase(currentTumorType.getMainType(), keyword));
                 }
                 break;
             case "level":
-                match = currentTumorType == null ? false :
-                    (currentTumorType.getLevel() == null ? false :
+                try {
+                    Integer keywordAsInteger = Integer.parseInt(keyword);
+                    match = currentTumorType == null ? false :
                         (currentTumorType.getLevel() == null ? false :
-                            currentTumorType.getLevel().equals(keywordAsInteger)));
+                            (currentTumorType.getLevel() == null ? false :
+                                currentTumorType.getLevel().equals(keywordAsInteger)));
+                } catch (NumberFormatException e) {
+                    throw new InvalidQueryException("'" + keyword + "' is not a valid level.  Level must be an integer.");
+                }
                 break;
             default:
-                if (exactMatch) {
-                    match = currentTumorType.getCode() == null ? false : currentTumorType.getCode().equalsIgnoreCase(keyword);
-                } else {
-                    match = currentTumorType.getCode() == null ?
-                        false :
-                        StringUtils.containsIgnoreCase(currentTumorType.getCode(), keyword);
-                }
+                // we should never get here because we have already checked if this is a valid key
+                throw new InvalidQueryException(buildInvalidQueryTypeError(key));
         }
 
         if (match) {
-            TumorType tumorType = new TumorType();
-            tumorType.setTissue(currentTumorType.getTissue());
-            tumorType.setCode(currentTumorType.getCode());
-            tumorType.setName(currentTumorType.getName());
-            tumorType.setUMLS(currentTumorType.getUMLS());
-            tumorType.setNCI(currentTumorType.getNCI());
-            tumorType.setMainType(currentTumorType.getMainType());
-            tumorType.setColor(currentTumorType.getColor());
-            tumorType.setLevel(currentTumorType.getLevel());
-            tumorType.setParent(currentTumorType.getParent());
-
-            matchedTumorTypes.add(tumorType);
+            matchedTumorTypes.add(new TumorType(currentTumorType));
 
             if (includeParent) {
                 String code = currentTumorType.getParent();
@@ -454,25 +426,6 @@ public class TumorTypesUtil {
         return key;
     }
 
-    /**
-     * Parsing cell content into tumor type code and tumor type name.
-     *
-     * @param content One cell of each row.
-     * @return The map of current tumor type. It includes 'code' and 'name'.
-     */
-    private static HashMap<String, String> parseCodeName(String content) {
-        HashMap<String, String> result = new HashMap<>();
-
-        Pattern pattern = Pattern.compile("([^\\(]+)\\(([^\\)]+)\\)");
-
-        Matcher matcher = pattern.matcher(content);
-        if (matcher.matches()) {
-            result.put("name", matcher.group(1).trim());
-            result.put("code", matcher.group(2).trim());
-        }
-        return result;
-    }
-
     private static InputStream getInputStream(String relativePath) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext();
         Resource resource = applicationContext.getResource(relativePath);
@@ -484,15 +437,12 @@ public class TumorTypesUtil {
         return null;
     }
 
-    private static Integer convertStringToInteger(String string) {
-        if (string == null) {
-            return null;
-        }
-        try {
-            Integer integer = Integer.parseInt(string.trim());
-            return integer;
-        } catch (NumberFormatException e) {
-            return null;
-        }
+    private static String buildInvalidQueryTypeError(String queryType) {
+        StringBuilder errorMessageBuilder = new StringBuilder("'");
+        errorMessageBuilder.append(queryType);
+        errorMessageBuilder.append("' is not a valid query type.  Valid query types are: ");
+        errorMessageBuilder.append(StringUtils.join(TumorTypeKeys, ", "));
+        return errorMessageBuilder.toString();
     }
+
 }

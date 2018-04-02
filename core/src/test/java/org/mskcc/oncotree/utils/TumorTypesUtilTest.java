@@ -24,7 +24,6 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
@@ -115,26 +114,24 @@ public class TumorTypesUtilTest {
                     failureReport.append(makeMismatchMessage(oncoTreeCode, "name", returnedName, expectedName));
                     failureCount = failureCount + 1;
                 }
-                MainType expectedMainType = expectedTumorType.getMainType();
-                MainType returnedMainType = returnedTumorType.getMainType();
+                String expectedMainType = expectedTumorType.getMainType();
+                String returnedMainType = returnedTumorType.getMainType();
                 if (expectedMainType == null || returnedMainType == null) {
                     if (expectedMainType == null && returnedMainType != null) {
-                        String returnedMainTypeName = returnedMainType.getName();
-                        if (returnedMainTypeName != null && returnedMainTypeName.trim().length() != 0) {
+                        if (returnedMainType != null && returnedMainType.trim().length() != 0) {
                             failureReport.append(oncoTreeCode + " : expected MainType is null, and returned MainType is non-null\n");
                             failureCount = failureCount + 1;
                         }
                     }
                     if (returnedMainType == null && expectedMainType != null) {
-                        String expectedMainTypeName = expectedMainType.getName();
-                        if (expectedMainTypeName != null && expectedMainTypeName.trim().length() != 0) {
+                        if (expectedMainType != null && expectedMainType.trim().length() != 0) {
                             failureReport.append(oncoTreeCode + " : retunred MainType is null, and expected MainType is non-null\n");
                             failureCount = failureCount + 1;
                         }
                     }
                 } else {
-                    if (!testValuesMatch(expectedMainType.getName(), returnedMainType.getName())) {
-                        failureReport.append(makeMismatchMessage(oncoTreeCode, "mainType", returnedMainType.getName(), expectedMainType.getName()));
+                    if (!testValuesMatch(expectedMainType, returnedMainType)) {
+                        failureReport.append(makeMismatchMessage(oncoTreeCode, "mainType", returnedMainType, expectedMainType));
                         failureCount = failureCount + 1;
                     }
                 }

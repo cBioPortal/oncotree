@@ -19,7 +19,6 @@ package org.mskcc.oncotree.utils;
 
 import com.google.common.collect.Lists;
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
-import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.Version;
 
 import java.util.*;
@@ -30,8 +29,8 @@ import org.mskcc.oncotree.model.TumorType;
  */
 public class MainTypesUtil {
 
-    public static List<MainType> getMainTypesByTumorTypes(Set<TumorType> tumorTypes) {
-        Set<MainType> mainTypes = new HashSet<>();
+    public static List<String> getMainTypesByTumorTypes(Set<TumorType> tumorTypes) {
+        Set<String> mainTypes = new HashSet<>();
         // skip the root node, "TISSUE". Just add it's children
         for (TumorType tumorType : tumorTypes) {
             if (tumorType.getMainType() != null && tumorType.getParent() != null) {
