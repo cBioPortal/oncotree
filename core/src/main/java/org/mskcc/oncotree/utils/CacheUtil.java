@@ -5,12 +5,18 @@ import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 /**
  * Created by Hongxin on 2/25/16.
  */
 public class CacheUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(CacheUtil.class);
+
     public static Map<Version, List<MainType>> mainTypes = new HashMap<>();
     public static Map<Version, Map<String, TumorType>> tumorTypes = new HashMap<>();
 
@@ -34,9 +40,17 @@ public class CacheUtil {
     }
 
     public static Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidOncoTreeDataException {
+        logger.debug("getTumorTypesByVersion() -- looking for version '" + version.getVersion() + "' in cache");
+        if (logger.isDebugEnabled()) {
+            for (Version cachedVersion : tumorTypes.keySet()) {
+                logger.debug("getTumorTypesByVersion() -- tumorTypes cache contains '" + cachedVersion.getVersion() + "'");
+             }
+        }
         if (tumorTypes.containsKey(version)) {
+            logger.debug("getTumorTypesByVersion() -- found '" + version.getVersion() + "' in cache");
             return tumorTypes.get(version);
         } else {
+            logger.debug("getTumorTypesByVersion() -- did NOT find '" + version.getVersion() + "' in cache, getting now");
             tumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
             return tumorTypes.get(version);
         }

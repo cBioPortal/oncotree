@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by Hongxin on 5/23/16.
@@ -83,6 +84,26 @@ public class Version {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Version otherVersion = (Version) o;
+        return Objects.equals(version, otherVersion.version) &&
+            Objects.equals(description, otherVersion.description) &&
+            Objects.equals(graphURI, otherVersion.graphURI) &&
+            Objects.equals(visible, otherVersion.visible);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(version, description, graphURI, visible);
     }
 
 }
