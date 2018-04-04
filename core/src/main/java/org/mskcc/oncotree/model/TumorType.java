@@ -66,7 +66,7 @@ public class TumorType {
         newTumorType.tissue = this.tissue;
         newTumorType.children = new HashMap<String, TumorType>(this.children.size());
         for (Map.Entry<String, TumorType> entry : this.children.entrySet()) {
-            newTumorType.children.put(entry.getKey(), new TumorType(entry.getValue()));
+            newTumorType.children.put(entry.getKey(), entry.getValue().deepCopy());
         }
         newTumorType.parent = this.parent;
         newTumorType.deprecated = this.deprecated;
@@ -205,7 +205,11 @@ public class TumorType {
     }
 
     public void setChildren(Map<String, TumorType> children) {
-        this.children = children;
+        if (children == null) {
+            this.children = new HashMap<String, TumorType>();
+        } else {
+            this.children = children;
+        }
     }
 
     public void addChild(TumorType child) {
