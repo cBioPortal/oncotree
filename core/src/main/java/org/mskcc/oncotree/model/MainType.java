@@ -23,7 +23,12 @@ public class MainType  {
   public MainType(){}
 
   public MainType(String name) {
-      this.name = name;
+    this.name = name;
+  }
+
+  public MainType(MainType otherMainType) {
+    this.id = otherMainType.id;
+    this.name = otherMainType.name;
   }
 
   /**

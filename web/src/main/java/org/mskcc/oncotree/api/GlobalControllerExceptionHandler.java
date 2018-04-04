@@ -21,6 +21,8 @@ package org.mskcc.oncotree.api;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,6 +67,6 @@ class GlobalControllerExceptionHandler {
     public void defaultErrorHandler(Exception e) {
         // note our custom exceptions above already log errors
         // an unknown exception might not log anything so log it here
-        logger.error(e.toString());
+        logger.error(ExceptionUtils.getStackTrace(e));
     }
 }
