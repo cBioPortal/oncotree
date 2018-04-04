@@ -28,6 +28,56 @@ public class TumorType {
     private Integer level = null;
     private static final String UNKNOWN_ONCOTREE_NODE_LEVEL = "-1";
 
+    public TumorType() {}
+
+    public TumorType(TumorType otherTumorType) {
+        this.id = otherTumorType.id;
+        this.code = otherTumorType.code;
+        this.color = otherTumorType.color;
+        this.name = otherTumorType.name;
+        if (otherTumorType.mainType != null) {
+            this.mainType = new MainType(otherTumorType.mainType);
+        }
+        this.NCI = new ArrayList<String>(otherTumorType.NCI);
+        this.UMLS = new ArrayList<String>(otherTumorType.UMLS);
+        this.tissue = otherTumorType.tissue;
+        // shallow copy
+        this.children = new HashMap<String, TumorType>(otherTumorType.children);
+        this.parent = otherTumorType.parent;
+        this.deprecated = otherTumorType.deprecated;
+        this.history = new ArrayList<String>(otherTumorType.history);
+        if (otherTumorType.links != null) {
+            this.links = new Links(otherTumorType.links);
+        }
+        this.level = otherTumorType.level;
+    }
+
+    public TumorType deepCopy() {
+        TumorType newTumorType = new TumorType();
+        newTumorType.id = this.id;
+        newTumorType.code = this.code;
+        newTumorType.color = this.color;
+        newTumorType.name = this.name;
+        if (this.mainType != null) {
+            newTumorType.mainType = new MainType(this.mainType);
+        }
+        newTumorType.NCI = new ArrayList<String>(this.NCI);
+        newTumorType.UMLS = new ArrayList<String>(this.UMLS);
+        newTumorType.tissue = this.tissue;
+        newTumorType.children = new HashMap<String, TumorType>(this.children.size());
+        for (Map.Entry<String, TumorType> entry : this.children.entrySet()) {
+            newTumorType.children.put(entry.getKey(), new TumorType(entry.getValue()));
+        }
+        newTumorType.parent = this.parent;
+        newTumorType.deprecated = this.deprecated;
+        newTumorType.history = new ArrayList<String>(this.history);
+        if (this.links != null) {
+            newTumorType.links = new Links(this.links);
+        }
+        newTumorType.level = this.level;
+        return newTumorType;
+    }
+
     /**
      * the numarical identifier of tumor type.
      **/

@@ -48,12 +48,21 @@ public class CacheUtil {
         }
         if (tumorTypes.containsKey(version)) {
             logger.debug("getTumorTypesByVersion() -- found '" + version.getVersion() + "' in cache");
-            return tumorTypes.get(version);
+            return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
         } else {
             logger.debug("getTumorTypesByVersion() -- did NOT find '" + version.getVersion() + "' in cache, getting now");
             tumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
-            return tumorTypes.get(version);
+            return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
         }
+    }
+
+    private static Map<String, TumorType> getUnmodifiableTumorTypesByVersion(Map<String, TumorType> tumorTypeMap) {
+        // code is modifying the returned tumor types, make a copy of everything
+        Map<String, TumorType> unmodifiableTumorTypeMap = new HashMap<String, TumorType>(tumorTypeMap.size());
+        for (Map.Entry<String, TumorType> entry : tumorTypeMap.entrySet()) {
+            unmodifiableTumorTypeMap.put(entry.getKey(), entry.getValue().deepCopy());
+        }
+        return Collections.unmodifiableMap(unmodifiableTumorTypeMap);
     }
 
     public static List<MainType> getMainTypesByVersion(Version version) throws InvalidOncoTreeDataException {
