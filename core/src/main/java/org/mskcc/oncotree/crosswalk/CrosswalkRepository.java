@@ -54,6 +54,9 @@ public class CrosswalkRepository {
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
+            if (response.getBody().size() == 0) {
+                throw new CrossWalkException("DFSDFSDFSDF");
+            }
             return response.getBody();
         } catch (RestClientException e) {
             logger.error("queryCVS() -- caught RestClientException: " + e);
