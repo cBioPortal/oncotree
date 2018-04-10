@@ -18,10 +18,7 @@
 
 package org.mskcc.oncotree.crosswalk;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
-
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,9 +51,6 @@ public class CrosswalkRepository {
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
-            if (response.getBody().size() == 0) {
-                throw new CrossWalkException("DFSDFSDFSDF");
-            }
             return response.getBody();
         } catch (RestClientException e) {
             logger.error("queryCVS() -- caught RestClientException: " + e);
