@@ -24,8 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
+import org.mskcc.oncotree.crosswalk.CrosswalkException;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
+import org.mskcc.oncotree.error.OncotreeMappingsNotFound;
+import org.mskcc.oncotree.error.UnexpectedCrosswalkResponseException;
 import org.mskcc.oncotree.utils.ApiUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,12 +62,17 @@ public class OncotreeMappingsApi {
             String cleanConceptId = apiUtil.cleanArgument(conceptId);
             String cleanHistologyCode = apiUtil.cleanArgument(histologyCode);
             String cleanSiteCode = apiUtil.cleanArgument(siteCode);
+            MSKConcept mskConcept = new MSKConcept();
         if (!mappingParametersAreValid(cleanVocabularyId, cleanConceptId, cleanHistologyCode, cleanSiteCode)) {
             throw new InvalidOncotreeMappingsParameters("Your query parameters, vocabularyId: " + cleanVocabularyId +
                     ", conceptId: " + cleanConceptId + ", histologyCode: " + cleanHistologyCode +
                     ", siteCode: " + cleanSiteCode + " are not valid. Please refer to the documentation");
         }
-        MSKConcept mskConcept = crosswalkRepository.queryCVS(cleanVocabularyId, cleanConceptId, cleanHistologyCode, cleanSiteCode);
+        try {
+            mskConcept = crosswalkRepository.queryCVS(cleanVocabularyId, cleanConceptId, cleanHistologyCode, cleanSiteCode);
+        } catch (CrosswalkException e) {
+            throw new UnexpectedCrosswalkResponseException(e.getMessage());
+        }
         return extractOncotreeMappings(mskConcept);
     }
 
@@ -110,18 +118,22 @@ public class OncotreeMappingsApi {
     }
 
     private Iterable<String> extractOncotreeMappings(MSKConcept mskConcept) {
+        List<String> oncotreeCodes = null;
         if (mskConcept != null) {
             if (mskConcept.getCrosswalks() != null && mskConcept.getCrosswalks().size() > 0) {
                 if (mskConcept.getCrosswalks().containsKey("ONCOTREE")) {
                     logger.info("Oncotree mskConcept found for concept id " + mskConcept.getConceptIds().get(0));
-                    return mskConcept.getCrosswalks().get("ONCOTREE");
+                    oncotreeCodes = mskConcept.getCrosswalks().get("ONCOTREE");
                 }
             } else if (mskConcept.getOncotreeCodes() != null && mskConcept.getOncotreeCodes().size() > 0) {
                 logger.info("Oncotree mskConcept found for concept id " + mskConcept.getOncotreeCodes().toString());
-                return mskConcept.getOncotreeCodes();
+                oncotreeCodes = mskConcept.getOncotreeCodes();
             }
         }
-        return new ArrayList<String>();
+        if (oncotreeCodes == null || oncotreeCodes.isEmpty()) {
+            throw new OncotreeMappingsNotFound("There is no oncotree code mapped to the query");
+        }
+        return oncotreeCodes;
     }
 
 }

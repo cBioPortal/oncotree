@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
+import org.mskcc.oncotree.error.OncotreeMappingsNotFound;
+import org.mskcc.oncotree.error.UnexpectedCrosswalkResponseException;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
 import org.mskcc.oncotree.error.InvalidQueryException;
 import org.mskcc.oncotree.topbraid.TopBraidException;
@@ -60,6 +62,18 @@ class GlobalControllerExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
     @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
     public void handleInvalidOncotreeMappingsParameters() {
+        // nothing to do
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no oncotree code available for your request")
+    @ExceptionHandler(UnexpectedCrosswalkResponseException.class)
+    public void handleUnexpectedCrosswalkResponseException() {
+        // nothing to do
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No oncotree codes were mapped to your query")
+    @ExceptionHandler(OncotreeMappingsNotFound.class)
+    public void handleOncotreeMappingsNotFound() {
         // nothing to do
     }
 
