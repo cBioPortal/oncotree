@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2016-2018 Memorial Sloan-Kettering Cancer Center.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
+ * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
+ * documentation provided hereunder is on an "as is" basis, and
+ * Memorial Sloan-Kettering Cancer Center
+ * has no obligations to provide maintenance, support,
+ * updates, enhancements or modifications.  In no event shall
+ * Memorial Sloan-Kettering Cancer Center
+ * be liable to any party for direct, indirect, special,
+ * incidental or consequential damages, including lost profits, arising
+ * out of the use of this software and its documentation, even if
+ * Memorial Sloan-Kettering Cancer Center
+ * has been advised of the possibility of such damage.
+*/
 package org.mskcc.oncotree.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,85 +29,52 @@ import java.util.*;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorType {
 
-    private Integer id = null;
     private String code = null;
     private String color = null;
     private String name = null;
-    private MainType mainType = null;
-    private List<String> NCI = new ArrayList<String>();
-    private List<String> UMLS = new ArrayList<String>();
+    private String mainType = null;
+    private Map<String, List<String>> externalReferences = new HashMap<String, List<String>>();
     private String tissue = null;
     private Map<String, TumorType> children = new HashMap<String, TumorType>();
     private String parent = null;
-    private Boolean deprecated = false;
     private List<String> history = new ArrayList<String>();
-    private Links links = null;
     private Integer level = null;
     private static final String UNKNOWN_ONCOTREE_NODE_LEVEL = "-1";
 
     public TumorType() {}
 
     public TumorType(TumorType otherTumorType) {
-        this.id = otherTumorType.id;
         this.code = otherTumorType.code;
         this.color = otherTumorType.color;
         this.name = otherTumorType.name;
-        if (otherTumorType.mainType != null) {
-            this.mainType = new MainType(otherTumorType.mainType);
-        }
-        this.NCI = new ArrayList<String>(otherTumorType.NCI);
-        this.UMLS = new ArrayList<String>(otherTumorType.UMLS);
+        this.mainType = otherTumorType.mainType;
+        // shallow copy
+        this.externalReferences = new HashMap<String, List<String>>(otherTumorType.externalReferences);
         this.tissue = otherTumorType.tissue;
         // shallow copy
         this.children = new HashMap<String, TumorType>(otherTumorType.children);
         this.parent = otherTumorType.parent;
-        this.deprecated = otherTumorType.deprecated;
         this.history = new ArrayList<String>(otherTumorType.history);
-        if (otherTumorType.links != null) {
-            this.links = new Links(otherTumorType.links);
-        }
         this.level = otherTumorType.level;
     }
 
     public TumorType deepCopy() {
         TumorType newTumorType = new TumorType();
-        newTumorType.id = this.id;
         newTumorType.code = this.code;
         newTumorType.color = this.color;
         newTumorType.name = this.name;
-        if (this.mainType != null) {
-            newTumorType.mainType = new MainType(this.mainType);
-        }
-        newTumorType.NCI = new ArrayList<String>(this.NCI);
-        newTumorType.UMLS = new ArrayList<String>(this.UMLS);
+        newTumorType.mainType = this.mainType;
+        newTumorType.externalReferences = new HashMap<String, List<String>>(this.externalReferences);
         newTumorType.tissue = this.tissue;
         newTumorType.children = new HashMap<String, TumorType>(this.children.size());
         for (Map.Entry<String, TumorType> entry : this.children.entrySet()) {
             newTumorType.children.put(entry.getKey(), entry.getValue().deepCopy());
         }
         newTumorType.parent = this.parent;
-        newTumorType.deprecated = this.deprecated;
         newTumorType.history = new ArrayList<String>(this.history);
-        if (this.links != null) {
-            newTumorType.links = new Links(this.links);
-        }
         newTumorType.level = this.level;
         return newTumorType;
     }
-
-    /**
-     * the numarical identifier of tumor type.
-     **/
-    @ApiModelProperty(value = "the numarical identifier of tumor type.")
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 
     /**
      * Unique identifier representing OncoTree tumor types.
@@ -138,47 +122,41 @@ public class TumorType {
      **/
     @ApiModelProperty(value = "")
     @JsonProperty("mainType")
-    public MainType getMainType() {
+    public String getMainType() {
         return mainType;
     }
 
-    public void setMainType(MainType mainType) {
+    public void setMainType(String mainType) {
         this.mainType = mainType;
     }
 
 
     /**
-     * NCI Thesaurus Code(s).
+     * External references (e.g. NCI and UMLS)
      **/
-    @ApiModelProperty(value = "NCI Thesaurus Code(s).")
-    @JsonProperty("NCI")
-    public List<String> getNCI() {
-        return NCI;
+    @ApiModelProperty(value = "External references e.g. NCI Thesaurus or UMLS code(s).")
+    @JsonProperty("externalReferences")
+    public Map<String, List<String>> getExternalReferences() {
+        return externalReferences;
     }
 
-    public void setNCI(List<String> NCI) {
-        this.NCI = NCI;
+    public void setExternalReferences(Map<String, List<String>> externalReferences) {
+        this.externalReferences = externalReferences;
     }
 
-    public void addNCI(String NCI) {
-        this.NCI.add(NCI);
+    public void setExternalReference(String type, List<String> codes) {
+        if (codes == null) {
+            this.externalReferences.put(type, new ArrayList<String>());
+        } else {
+            this.externalReferences.put(type, codes);
+        }
     }
 
-    /**
-     * Concept Unique Identifier(s).
-     **/
-    @ApiModelProperty(value = "Concept Unique Identifier(s).")
-    @JsonProperty("UMLS")
-    public List<String> getUMLS() {
-        return UMLS;
-    }
-
-    public void setUMLS(List<String> UMLS) {
-        this.UMLS = UMLS;
-    }
-
-    public void addUMLS(String UMLS) {
-        this.UMLS.add(UMLS);
+    public void addExternalReference(String type, String code) {
+        if (!this.externalReferences.containsKey(type)) {
+            this.externalReferences.put(type, new ArrayList<String>());
+        }
+        this.externalReferences.get(type).add(code);
     }
 
     /**
@@ -220,7 +198,7 @@ public class TumorType {
     }
 
     /**
-     * The parent node id.
+     * The parent node code.
      **/
     @ApiModelProperty(value = "The parent node code.")
     @JsonProperty("parent")
@@ -232,21 +210,6 @@ public class TumorType {
         this.parent = parent;
     }
 
-
-    /**
-     * The indicater whether this code has been deprecated.
-     **/
-    @ApiModelProperty(value = "The indicater whether this code has been deprecated.")
-    @JsonProperty("deprecated")
-    public Boolean getDeprecated() {
-        return deprecated;
-    }
-
-    public void setDeprecated(Boolean deprecated) {
-        this.deprecated = deprecated;
-    }
-
-
     /**
      **/
     @ApiModelProperty(value = "")
@@ -257,19 +220,6 @@ public class TumorType {
 
     public void setHistory(List<String> history) {
         this.history = history;
-    }
-
-
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("links")
-    public Links getLinks() {
-        return links;
-    }
-
-    public void setLinks(Links links) {
-        this.links = links;
     }
 
     /**
@@ -293,44 +243,37 @@ public class TumorType {
             return false;
         }
         TumorType tumorType = (TumorType) o;
-        return Objects.equals(id, tumorType.id) &&
-            Objects.equals(code, tumorType.code) &&
+        return Objects.equals(code, tumorType.code) &&
             Objects.equals(color, tumorType.color) &&
             Objects.equals(name, tumorType.name) &&
             Objects.equals(mainType, tumorType.mainType) &&
-            Objects.equals(NCI, tumorType.NCI) &&
-            Objects.equals(UMLS, tumorType.UMLS) &&
+            Objects.equals(externalReferences, tumorType.externalReferences) &&
             Objects.equals(tissue, tumorType.tissue) &&
             Objects.equals(children, tumorType.children) &&
             Objects.equals(parent, tumorType.parent) &&
-            Objects.equals(deprecated, tumorType.deprecated) &&
-            Objects.equals(history, tumorType.history) &&
-            Objects.equals(links, tumorType.links);
+            Objects.equals(history, tumorType.history);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, color, name, mainType, NCI, UMLS, tissue, children, parent, deprecated, history, links);
+        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class TumorType {\n");
-
-        sb.append("  id: ").append(id).append("\n");
         sb.append("  code: ").append(code).append("\n");
         sb.append("  color: ").append(color).append("\n");
         sb.append("  name: ").append(name).append("\n");
         sb.append("  mainType: ").append(mainType).append("\n");
-        sb.append("  NCI: ").append(StringUtils.join(NCI, ",")).append("\n");
-        sb.append("  UMLS: ").append(StringUtils.join(UMLS, ",")).append("\n");
+        for (String type : externalReferences.keySet()) {
+            sb.append("  ").append(type).append(": ").append(StringUtils.join(externalReferences.get(type), ",")).append("\n");
+        }
         sb.append("  tissue: ").append(tissue).append("\n");
         sb.append("  children: ").append(children).append("\n");
         sb.append("  parent: ").append(parent).append("\n");
-        sb.append("  deprecated: ").append(deprecated).append("\n");
         sb.append("  history: ").append(history).append("\n");
-        sb.append("  links: ").append(links).append("\n");
         sb.append("}\n");
         return sb.toString();
     }

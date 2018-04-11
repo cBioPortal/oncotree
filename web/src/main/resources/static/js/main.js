@@ -32,11 +32,8 @@ $(document).ready(function(){
     function loadVersions(callback) {
       $.get('api/versions')
         .done(function(data) {
-          if (data instanceof Object
-            && data.hasOwnProperty('data')
-            && data.data instanceof Array) {
-            versions_ = data.data.reduce(function(acc, cur) {
-              //acc[cur.api_identifier] = cur;
+          if (data instanceof Array) { 
+            versions_ = data.reduce(function(acc, cur) {
               if (cur.visible) {
                 acc[cur.api_identifier] = cur;
               }
@@ -102,10 +99,8 @@ $(document).ready(function(){
         var _hash = '#/home';
         var _content = 'Lastest';
 
-        if (item !== 'realtime') {
-          _hash += '?version=' + item;
-          _content = item;
-        }
+        _hash += '?version=' + item;
+        _content = item;
         var option = '<option data-desc="' + versions_[item].description + '" class="item" hash="' + _hash + '">' + _content + '</option>';
         if (version_ === _content && _str.length > 0) {
             var tmp = _str[0];

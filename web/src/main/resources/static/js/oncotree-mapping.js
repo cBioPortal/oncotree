@@ -21,9 +21,8 @@ $(function (){
 		   dataType: 'json',
 		   success: function(data) {
 		        var content = '';
-		        var results = data['oncotreeCode'];
 		        
-		        if( results.length == 0 ){
+		        if( data.length == 0 ){
 		        	$("#mappings").val("No Mapping Oncotree Concepts Found")
 		        	
 		        	$("#mapping-api").empty();
@@ -38,8 +37,8 @@ $(function (){
 		        
 		        	return;
 		        }
-		        for( var i = 0; i < results.length; i++ ){
-		        	content += results[i] + '\n';
+		        for( var i = 0; i < data.length; i++ ){
+		        	content += data[i] + '\n';
 		        }
 		        
 		        $("#mappings").val(content);
