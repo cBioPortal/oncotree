@@ -19,9 +19,10 @@ package org.mskcc.oncotree.utils;
 
 import java.util.*;
 import javax.annotation.Resource;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.RunWith;
 import org.junit.Test;
-import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +45,13 @@ public class MainTypesUtilTest {
     @Resource(name="expectedTumorTypeMap")
     private Map<String, TumorType> expectedTumorTypeMap;
     @Resource(name="expectedMainTypeList")
-    private List<MainType> expectedMainTypeList;
+    private List<String> expectedMainTypeList;
 
     //TODO: move towards a more fine-grained test definition --- each condition being tested should be a single test function, and needed expected and actual data structures should be set up using the Before or BeforeClass annotation
 
     @Test
     public void testFullMainTypesListFromExpectedTumorTypes() {
-        List<MainType> returnedMainTypeList = mainTypesUtil.getMainTypesByTumorTypes(new HashSet<>(expectedTumorTypeMap.values()));
+        List<String> returnedMainTypeList = mainTypesUtil.getMainTypesByTumorTypes(new HashSet<>(expectedTumorTypeMap.values()));
 
         StringBuilder failureReport = new StringBuilder();
         int failureCount = 0;
@@ -58,18 +59,19 @@ public class MainTypesUtilTest {
             failureCount++;
             failureReport.append("Returned MainType list is of different length than the expected MainType list." +
             "\n\tReturned list length: " + String.valueOf(returnedMainTypeList.size()) +
-            "\n\tExpected list length: " + String.valueOf(expectedMainTypeList.size()) + "\n");
+            "\n\tExpected list length: " + String.valueOf(expectedMainTypeList.size()) +
+            "\n\tDifference is: " + StringUtils.join(CollectionUtils.disjunction(returnedMainTypeList, expectedMainTypeList), ", ") + "\n");
         }
-        for (MainType mainType : expectedMainTypeList) {
+        for (String mainType : expectedMainTypeList) {
             if (!returnedMainTypeList.contains(mainType)) {
                 failureCount++;
-                failureReport.append("MainType " + mainType.getName() + " missing in returned MainType list\n");
+                failureReport.append("MainType " + mainType + " missing in returned MainType list\n");
             }
         }
-        for (MainType mainType : returnedMainTypeList) {
+        for (String mainType : returnedMainTypeList) {
             if (!expectedMainTypeList.contains(mainType)) {
                 failureCount++;
-                failureReport.append("MainType " + mainType.getName() + " from returned MainType list not found in expected MainType list\n");
+                failureReport.append("MainType " + mainType + " from returned MainType list not found in expected MainType list\n");
             }
         }
         if (failureCount > 0) {

@@ -22,7 +22,6 @@ import org.mockito.Mockito;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.crosswalk.MSKConceptCache;
 import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
-import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.utils.VersionUtil;
@@ -110,7 +109,7 @@ public class OncotreeTestConfig {
     }
 
     @Bean
-    public List<MainType> expectedMainTypeList() throws Exception {
+    public List<String> expectedMainTypeList() throws Exception {
         return setupExpectedMainTypeList();
     }
 
@@ -192,12 +191,10 @@ public class OncotreeTestConfig {
             if (name != null && name.trim().length() > 0) {
                 nextType.setName(name.trim());
             }
-            MainType nextTypeMainType = new MainType();
             String mainType = rawTestValueSource[pos + 2];
             if (mainType != null && mainType.trim().length() > 0) {
-                nextTypeMainType.setName(mainType.trim());
+                nextType.setMainType(mainType.trim());
             }
-            nextType.setMainType(nextTypeMainType);
             String color = rawTestValueSource[pos + 3];
             if (color != null && color.trim().length() > 0) {
                 nextType.setColor(color.trim());
@@ -211,9 +208,9 @@ public class OncotreeTestConfig {
         return expectedTumorTypeMap;
     }
 
-    private List<MainType> setupExpectedMainTypeList() throws Exception {
-        Set<MainType> expectedMainTypeSet = new HashSet<>();
-        List<MainType> expectedMainTypeList = new ArrayList<>();
+    private List<String> setupExpectedMainTypeList() throws Exception {
+        Set<String> expectedMainTypeSet = new HashSet<>();
+        List<String> expectedMainTypeList = new ArrayList<>();
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -224,13 +221,11 @@ public class OncotreeTestConfig {
             throw new Exception("Error : no test cases defined in rawTestValueSource");
         }
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
-            MainType nextType = new MainType();
             String mainType = rawTestValueSource[pos + 2];
             String parentCode = rawTestValueSource[pos + 4];
             if (mainType != null && mainType.trim().length() > 0 && parentCode != null && parentCode.trim().length() > 0) {
-                nextType.setName(mainType);
+                expectedMainTypeSet.add(mainType);
             }
-            expectedMainTypeSet.add(nextType);
         }
         expectedMainTypeList.addAll(expectedMainTypeSet);
         return expectedMainTypeList;

@@ -69,12 +69,15 @@ var tree = (function () {
         if (childData.hasOwnProperty('color')) {
             childNode.color = childData.color;
         }
-        if (childData.hasOwnProperty('NCI')) {
-            childNode.nci = childData.NCI;
-        }
 
-        if (childData.hasOwnProperty('UMLS')) {
-            childNode.umls = childData.UMLS;
+        if (childData.hasOwnProperty('externalReferences')) {
+           if (childData.externalReferences.hasOwnProperty('NCI')) {
+               childNode.nci = childData.externalReferences.NCI;
+           }
+   
+           if (childData.externalReferences.hasOwnProperty('UMLS')) {
+               childNode.umls = childData.externalReferences.UMLS;
+           }
         }
 
         if (childData.hasOwnProperty('history')) {
@@ -104,7 +107,7 @@ var tree = (function () {
     }
 
     function initDataAndTree(version) {
-        var jsonUrl = 'api/tumorTypes?flat=false'
+        var jsonUrl = 'api/tumorTypes/tree?'
 
         if (version) {
           jsonUrl += '&version=' + version;
@@ -128,8 +131,8 @@ var tree = (function () {
             rootNode.name = 'Tissue';
             rootNode.children = []
 
-            getOncotreeCodeKeysSortedByName(oncotree_json.data.TISSUE.children).forEach(function (code) {
-                var childData = oncotree_json.data.TISSUE.children[code];
+            getOncotreeCodeKeysSortedByName(oncotree_json.TISSUE.children).forEach(function (code) {
+                var childData = oncotree_json.TISSUE.children[code];
                 // these nodes all belong at root of tree
                 process_children(rootNode, childData);
             });

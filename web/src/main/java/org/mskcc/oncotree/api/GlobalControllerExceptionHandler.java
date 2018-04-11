@@ -30,6 +30,7 @@ import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.error.OncotreeMappingsNotFound;
 import org.mskcc.oncotree.error.UnexpectedCrosswalkResponseException;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
+import org.mskcc.oncotree.error.InvalidQueryException;
 import org.mskcc.oncotree.topbraid.TopBraidException;
 
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ class GlobalControllerExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to connect to TopBraid")
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to TopBraid")
     @ExceptionHandler(TopBraidException.class)
     public void handleTopBraidException() {
         // nothing to do
@@ -58,7 +59,7 @@ class GlobalControllerExceptionHandler {
         // nothing to do
     }
 
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
     @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
     public void handleInvalidOncotreeMappingsParameters() {
         // nothing to do
@@ -74,6 +75,12 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(OncotreeMappingsNotFound.class)
     public void handleOncotreeMappingsNotFound() {
         // nothing to do
+    }
+
+    @ExceptionHandler
+    public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response) 
+        throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "An unknown error occured")

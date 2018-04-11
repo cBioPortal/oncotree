@@ -13,7 +13,6 @@ public class TumorTypeQuery {
 
     private String type = null;
     private String query = null;
-    private String queryId = null;
     private Boolean exactMatch = true;
 
     /**
@@ -28,7 +27,6 @@ public class TumorTypeQuery {
         this.type = type;
     }
 
-
     /**
      **/
     @ApiModelProperty(value = "")
@@ -40,20 +38,6 @@ public class TumorTypeQuery {
     public void setQuery(String query) {
         this.query = query;
     }
-
-
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("queryId")
-    public String getQueryId() {
-        return queryId;
-    }
-
-    public void setQueryId(String queryId) {
-        this.queryId = queryId;
-    }
-
 
     /**
      **/
@@ -77,23 +61,20 @@ public class TumorTypeQuery {
         }
         TumorTypeQuery tumorTypeQuery = (TumorTypeQuery) o;
         return Objects.equals(type, tumorTypeQuery.type) &&
-            Objects.equals(query, tumorTypeQuery.query) &&
-            Objects.equals(queryId, tumorTypeQuery.queryId);
+            Objects.equals(query, tumorTypeQuery.query);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, query, queryId);
+        return Objects.hash(type, query);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class TumorTypeQuery {\n");
-
         sb.append("  type: ").append(type).append("\n");
         sb.append("  query: ").append(query).append("\n");
-        sb.append("  queryId: ").append(queryId).append("\n");
         sb.append("}\n");
         return sb.toString();
     }
