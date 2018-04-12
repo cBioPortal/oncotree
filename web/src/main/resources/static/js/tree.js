@@ -60,8 +60,8 @@ var tree = (function () {
         childNode.name = childData.name + " (" + childData.code + ")";
         childNode.acronym = childData.code;
 
-        if (childData.hasOwnProperty('mainType') && childData.mainType != null && childData.mainType.hasOwnProperty('name') && childData.mainType.name !== '') {
-            childNode.mainType = childData.mainType.name;
+        if (childData.hasOwnProperty('mainType') && childData.mainType != null && childData.mainType !== '') {
+            childNode.mainType = childData.mainType;
         } else {
             childNode.mainType = 'Not Available';
         }
@@ -74,7 +74,6 @@ var tree = (function () {
            if (childData.externalReferences.hasOwnProperty('NCI')) {
                childNode.nci = childData.externalReferences.NCI;
            }
-   
            if (childData.externalReferences.hasOwnProperty('UMLS')) {
                childNode.umls = childData.externalReferences.UMLS;
            }
