@@ -26,11 +26,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
-import org.mskcc.oncotree.error.OncotreeMappingsNotFound;
-import org.mskcc.oncotree.error.UnexpectedCrosswalkResponseException;
-import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
-import org.mskcc.oncotree.error.InvalidQueryException;
+import org.mskcc.oncotree.error.*;
 import org.mskcc.oncotree.topbraid.TopBraidException;
 
 import org.springframework.http.HttpStatus;
@@ -49,33 +45,35 @@ class GlobalControllerExceptionHandler {
 
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to TopBraid")
     @ExceptionHandler(TopBraidException.class)
-    public void handleTopBraidException() {
-        // nothing to do
-    }
+    public void handleTopBraidException() {}
+
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to CVS")
+    @ExceptionHandler(CrosswalkServiceUnavailableException.class)
+    public void handleCrosswalkServiceUnavailableException() {}
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
     @ExceptionHandler(InvalidOncoTreeDataException.class)
-    public void handleInvalidOncoTreeDataException() {
-        // nothing to do
-    }
+    public void handleInvalidOncoTreeDataException() {}
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
     @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
-    public void handleInvalidOncotreeMappingsParameters() {
-        // nothing to do
-    }
+    public void handleInvalidOncotreeMappingsParameters() {}
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no oncotree code available for your request")
     @ExceptionHandler(UnexpectedCrosswalkResponseException.class)
-    public void handleUnexpectedCrosswalkResponseException() {
-        // nothing to do
-    }
+    public void handleUnexpectedCrosswalkResponseException() {}
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No oncotree codes were mapped to your query")
-    @ExceptionHandler(OncotreeMappingsNotFound.class)
-    public void handleOncotreeMappingsNotFound() {
-        // nothing to do
-    }
+    @ExceptionHandler({CrosswalkConceptNotFoundException.class, OncotreeMappingsNotFound.class})
+    public void handleOncotreeMappingsNotFound() {}
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No tumor types were mapped to your query")
+    @ExceptionHandler(TumorTypesNotFoundException.class)
+    public void handleTumorTypesNotFoundException() {}
+
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Supplied version not found")
+    @ExceptionHandler(InvalidVersionException.class)
+    public void handleInvalidVersionException() {}
 
     @ExceptionHandler
     public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response) 

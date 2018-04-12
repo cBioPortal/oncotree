@@ -18,6 +18,7 @@
 
 package org.mskcc.oncotree.crosswalk;
 
+import org.mskcc.oncotree.error.*;
 import java.util.*;
 import javax.annotation.PostConstruct;
 

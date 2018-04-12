@@ -19,12 +19,15 @@
 package org.mskcc.oncotree.crosswalk;
 
 import java.util.*;
+
+import org.mskcc.oncotree.error.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,14 +55,27 @@ public class CrosswalkRepository {
         try {
             ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
             return response.getBody();
-        } catch (RestClientException e) {
-            logger.error("queryCVS() -- caught RestClientException: " + e);
-            throw new CrosswalkException("Exception while getting data from CVS Service with: \n " +
-                "URI: " + crosswalkURL + "\n" +
+        } catch (HttpStatusCodeException e) {
+            logger.error("queryCVS() -- caught HttpStatusCodeException: " + e);
+            String errorString = "URI: " + crosswalkURL + "\n" +
                 "vocabularyId: " + vocabularyId + "\n" +
-                "conceptId: " + conceptId != null ? conceptId : "" + "\n" +
-                "histologyCode: " + histologyCode != null ? histologyCode : "" + "\n" +
-                "siteCode: " + siteCode != null ? siteCode : "" + "\n" , e);
+                "conceptId: " + conceptId + "\n" +
+                "histologyCode: " + histologyCode + "\n" +
+                "siteCode: " + siteCode + "\n";
+            if (e.getStatusCode().is4xxClientError()) {
+                throw new CrosswalkConceptNotFoundException("4xx Error while getting data from CVS Service with: \n" + errorString, e);
+            } else if (e.getStatusCode().is5xxServerError()) {
+                throw new CrosswalkServiceUnavailableException("5xx Error while getting data from CVS", e);
+            }
+            throw new UnexpectedCrosswalkResponseException("Exception while getting data from CVS Service with: \n" + errorString, e);
+        } catch (RestClientException e) {
+            logger.error("queryCVS() -- caught RestClientErrorException: " + e);
+            String errorString = "URI: " + crosswalkURL + "\n" +
+                "vocabularyId: " + vocabularyId + "\n" +
+                "conceptId: " + conceptId + "\n" +
+                "histologyCode: " + histologyCode + "\n" +
+                "siteCode: " + siteCode + "\n";
+            throw new UnexpectedCrosswalkResponseException("RestClientException while getting data from CVS Service" + errorString, e);
         }
     }
 }

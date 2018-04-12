@@ -18,13 +18,19 @@
 
 package org.mskcc.oncotree.error;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Avery Wang
  **/
-public class UnexpectedCrosswalkResponseException extends CrosswalkException {
+public class TumorTypesNotFoundException extends RuntimeException {
 
-    public UnexpectedCrosswalkResponseException(String message, Throwable cause) {
-        super(message, cause);
+    private static final Logger logger = LoggerFactory.getLogger(TumorTypesNotFoundException.class);
+
+    public TumorTypesNotFoundException(String message) {
+        super(message);
+        logger.error(message);
     }
 }
