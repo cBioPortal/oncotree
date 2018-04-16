@@ -26,6 +26,4 @@ function displayNews(news) {
 
 $(document).ready(function() {
     loadNews(displayNews);
-    $('#api-embed-dev').css('height', $(window).height() +'px');
-    $('#api-embed-dev').css('width', ($(window).width() - 500) +'px');
 });
