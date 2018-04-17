@@ -11,6 +11,7 @@ import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 import org.mskcc.oncotree.error.InvalidQueryException;
+import org.mskcc.oncotree.error.TumorTypesNotFoundException;
 import org.mskcc.oncotree.model.*;
 import org.mskcc.oncotree.utils.CacheUtil;
 import org.mskcc.oncotree.utils.TumorTypesUtil;
@@ -38,7 +39,11 @@ public class TumorTypesApi {
 
     @ApiOperation(value = "Return all available tumor types.", notes = "", response = TumorType.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Nested tumor types object.")})
+        @ApiResponse(code = 200, message = "Nested tumor types object."),
+        @ApiResponse(code = 404, message = "Could not find tumor types"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "/tree",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
@@ -54,7 +59,11 @@ public class TumorTypesApi {
 
     @ApiOperation(value = "Return all available tumor types as a list.", notes = "", response = TumorType.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Tumor Types list.")})
+        @ApiResponse(code = 200, message = "Tumor Types list."),
+        @ApiResponse(code = 404, message = "Could not find tumor types"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
@@ -73,7 +82,9 @@ public class TumorTypesApi {
     @ApiIgnore
     @ApiOperation(value = "Tumor Types", notes = "...", response = TumorType.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "An array of tumor types")})
+        @ApiResponse(code = 200, message = "An array of tumor types")
+        }
+    )
     @RequestMapping(value = "/search",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.POST)
@@ -100,7 +111,12 @@ public class TumorTypesApi {
 
     @ApiOperation(value = "Tumor Types", notes = "", response = TumorType.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "An array of tumor types")})
+        @ApiResponse(code = 200, message = "An array of tumor types"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 404, message = "Could not find tumor types"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "/search/{type}/{query}",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
@@ -136,6 +152,9 @@ public class TumorTypesApi {
                 }
             }
             matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
+        }
+        if (matchedTumorTypes.isEmpty()) {
+            throw new TumorTypesNotFoundException("No tumor types found matching supplied query");
         }
         return matchedTumorTypes;
     }

@@ -18,17 +18,18 @@
 
 package org.mskcc.oncotree.api;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
-import org.mskcc.oncotree.crosswalk.CrosswalkException;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
 import org.mskcc.oncotree.error.OncotreeMappingsNotFound;
-import org.mskcc.oncotree.error.UnexpectedCrosswalkResponseException;
 import org.mskcc.oncotree.utils.ApiUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,13 @@ public class OncotreeMappingsApi {
     private final static int MAX_SITE_CODE_ARG_LENGTH = 36;
     private static final Logger logger = LoggerFactory.getLogger(OncotreeMappingsApi.class);
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "An array of mapped oncotree codes"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 404, message = "Could not find oncotree mapping"), 
+        @ApiResponse(code = 503, message = "Required data source unavailable") 
+        }   
+    )
     @RequestMapping(value = "api/crosswalk", method = RequestMethod.GET)
     public Iterable<String> getMappings(
             @RequestParam(value="vocabularyId", required=false) String vocabularyId,
@@ -68,11 +76,7 @@ public class OncotreeMappingsApi {
                     ", conceptId: " + cleanConceptId + ", histologyCode: " + cleanHistologyCode +
                     ", siteCode: " + cleanSiteCode + " are not valid. Please refer to the documentation");
         }
-        try {
-            mskConcept = crosswalkRepository.queryCVS(cleanVocabularyId, cleanConceptId, cleanHistologyCode, cleanSiteCode);
-        } catch (CrosswalkException e) {
-            throw new UnexpectedCrosswalkResponseException(e.getMessage());
-        }
+        mskConcept = crosswalkRepository.queryCVS(cleanVocabularyId, cleanConceptId, cleanHistologyCode, cleanSiteCode);
         return extractOncotreeMappings(mskConcept);
     }
 

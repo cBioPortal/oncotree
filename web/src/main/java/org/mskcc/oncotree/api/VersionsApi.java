@@ -22,7 +22,10 @@ public class VersionsApi {
 
     @ApiOperation(value = "Versions", notes = "...", response = Version.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "List of available versions")})
+        @ApiResponse(code = 200, message = "List of available versions"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)

@@ -22,9 +22,9 @@ package org.mskcc.oncotree.error;
  *
  * @author Avery Wang
  **/
-public class UnexpectedCrosswalkResponseException extends CrosswalkException {
+public class CrosswalkServiceUnavailableException extends CrosswalkException {
 
-    public UnexpectedCrosswalkResponseException(String message, Throwable cause) {
+    public CrosswalkServiceUnavailableException(String message, Throwable cause) {
         super(message, cause);
-    }
+    }   
 }

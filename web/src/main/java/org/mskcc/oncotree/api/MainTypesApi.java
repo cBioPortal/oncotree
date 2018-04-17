@@ -45,9 +45,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Api(value = "/mainTypes", description = "the mainTypes API")
 public class MainTypesApi {
 
-    @ApiOperation(value = "Return all available main tumor types.", notes = "", response = String.class)
+    @ApiOperation(value = "Return all available main tumor types.", notes = "")
     @ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Nested tumor types object.")})
+        @ApiResponse(code = 200, message = "Nested tumor types object"),
+        @ApiResponse(code = 404, message = "Could not find maintypes"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "",
         produces = {"application/json"},
         method = RequestMethod.GET)

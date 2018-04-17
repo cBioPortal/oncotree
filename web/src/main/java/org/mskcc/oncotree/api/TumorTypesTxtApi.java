@@ -52,7 +52,11 @@ public class TumorTypesTxtApi {
     @Deprecated
     @ApiOperation(value = "Tumor Types in plain text format.", notes = "Return all available tumor types.", response = Void.class)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Tumor types text file.")})
+        @ApiResponse(code = 200, message = "Tumor types text file."),
+        @ApiResponse(code = 404, message = "Could not find tumor types text file"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
     @RequestMapping(value = "",
         produces = {TEXT_PLAIN_VALUE},
         method = RequestMethod.GET)

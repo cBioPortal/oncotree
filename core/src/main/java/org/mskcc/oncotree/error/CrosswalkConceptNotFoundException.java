@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -16,15 +16,15 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.crosswalk;
+package org.mskcc.oncotree.error;
 
 /**
  *
- * @author Manda Wilson
+ * @author Avery Wang
  **/
-public class CrosswalkException extends RuntimeException {
+public class CrosswalkConceptNotFoundException extends CrosswalkException {
 
-    public CrosswalkException(String message, Throwable cause) {
+    public CrosswalkConceptNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }   
 }

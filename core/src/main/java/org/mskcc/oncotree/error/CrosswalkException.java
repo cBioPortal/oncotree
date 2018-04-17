@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -18,13 +18,18 @@
 
 package org.mskcc.oncotree.error;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
- * @author Avery Wang
+ * @author Manda Wilson
  **/
-public class UnexpectedCrosswalkResponseException extends CrosswalkException {
+public class CrosswalkException extends RuntimeException {
 
-    public UnexpectedCrosswalkResponseException(String message, Throwable cause) {
+    private static final Logger logger = LoggerFactory.getLogger(CrosswalkException.class);
+
+    public CrosswalkException(String message, Throwable cause) {
         super(message, cause);
+        logger.error(message);
     }
 }
