@@ -218,13 +218,14 @@ var OutJS = (function() {
 	}
 
 	function backToTop() {
-		if ( 	($(window).height() + 100) < $(document).height() ||
+        // TODO this never really hides itself since we removed .affix({ offset: {top:100} });
+		if ( ($(window).height() + 100) < $(document).height() ||
 				($(window).width() + 50) < $(document).width() ) {
-		    $('#top-link-block').removeClass('hidden').affix({
-		        offset: {top:100}
-		    });
-		}else {
-			 $('#top-link-block').addClass('hidden');
+		    $('#top-link-block').removeClass('hidden');
+		    $('#top-link-block').addClass('fixed-bottom');
+		} else {
+		    $('#top-link-block').removeClass('fixed-bottom');
+			$('#top-link-block').addClass('hidden');
 		}
 	}
 	return {

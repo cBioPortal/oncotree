@@ -119,7 +119,7 @@ var tree = (function () {
                 return [d.y, d.x];
             });
 
-        vis = d3.select("#tree").append("svg:svg")
+        vis = d3.select("#tree-div").append("svg:svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2])
             .append("svg:g")
@@ -346,9 +346,9 @@ var tree = (function () {
 
                      //clipboard JS is not supported in Safari.
                     ((is_safari && !is_chrome) ?
-                        '<button style="margin-left: 5px;" class="btn btn-default btn-xs" ' +
+                        '<button style="margin-left: 5px;" class="btn btn-light btn-sm" ' +
                         ' disabled>"Copy" is not available in Safari</button>' :
-                        '<button style="margin-left: 5px;" class="clipboard-copy btn btn-default btn-xs" ' +
+                        '<button style="margin-left: 5px;" class="clipboard-copy btn btn-light btn-sm" ' +
                         'data-clipboard-text="' + d.acronym + '"  ' +
                         '>Copy</button>'
                     ) +
@@ -399,7 +399,7 @@ var tree = (function () {
             })
             .style("fill-opacity", 1e-6);
 
-        var clipboard = new Clipboard('.clipboard-copy.btn');
+        var clipboard = new ClipboardJS('.clipboard-copy.btn');
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
