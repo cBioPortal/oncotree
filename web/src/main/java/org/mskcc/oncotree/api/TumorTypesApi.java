@@ -121,7 +121,7 @@ public class TumorTypesApi {
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
     public Iterable<TumorType> tumorTypesSearchTypeQueryQueryGet(
-        @ApiParam(value = "Query type. It could be 'id', 'code', 'name', 'mainType', 'level', 'nci', 'umls' or 'color'.", required = true)
+        @ApiParam(value = "Query type. It could be 'code', 'name', 'mainType', 'level', 'nci', 'umls' or 'color'.", required = true)
         @PathVariable("type") String type,
         @ApiParam(value = "The query content", required = true)
         @PathVariable("query") String query,
