@@ -1,12 +1,12 @@
 ### News
-#### April 20, 2018
+#### April 23, 2018
  *   **New Web API Version Available**
      * A new version (v1.0.0) of the oncotree Web API is available. It can be explored here:
 http://oncotree.mskcc.org/swagger-ui.html <br> The previous version is still available, but is scheduled to be discontinued May 31, 2018
 You can continue to access the previous version (v0.0.1) in its original location summarized here: http://oncotree.mskcc.org/oncotree/swagger-ui.html
  *   **Details and Migration Guidance**
      * The base URL for accessing all API functionality is being simplified from http://oncotree.mskcc.org/oncotree/ to http://oncotree.mskcc.org/
-     * :small_red_triangle_down: The /api/tumor_types.txt endpoint is now deprecated. It is scheduled for deletion as part of the next API version release.
+     * <span class="glyphicon glyphicon-exclamation-sign alert-danger" aria-hidden="true"></span> The /api/tumor_types.txt endpoint is now deprecated. It is scheduled for deletion as part of the next API version release.
      * Most endpoint paths in the API remain the same and provide the same services. Exceptions are:
          * /api/tumorTypes used to accept a query parameter ("flat") which controlled the output format for receiving a tree representation or a flat representation of the full set of TumorTypes. Now this endpoint always returns a flat list of all TumorTypes and a new endpoint path (/api/tumorTypes/tree) is used to retrieve a tree representation of the oncotree. Previous requests which included "flat=false" should be adjusted to use the /api/tumorTypes/tree endpoint. Otherwise "flat=true" should be dropped from the request.
          * /api/tumorTypes used to accept a query parameter ("deprecated") which is no longer recognized. This parameter should be dropped from requests. Deprecated oncotree codes can instead be found in the history attribute of the response.
