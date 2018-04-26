@@ -309,8 +309,7 @@ public class TumorTypesUtil {
     }
 
     private static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
-                                                String key, String keyword, Boolean exactMatch, Boolean includeParent) 
-            throws InvalidQueryException {
+            String key, String keyword, Boolean exactMatch, Boolean includeParent) throws InvalidQueryException {
         Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
         Map<String, List<String>> externalReferences = currentTumorType.getExternalReferences();
@@ -395,7 +394,19 @@ public class TumorTypesUtil {
         }
 
         if (match) {
-            matchedTumorTypes.add(new TumorType(currentTumorType));
+            TumorType tumorType = new TumorType();
+            tumorType.setCode(currentTumorType.getCode());
+            tumorType.setColor(currentTumorType.getColor());
+            tumorType.setName(currentTumorType.getName());
+            tumorType.setMainType(currentTumorType.getMainType());
+            tumorType.setExternalReferences(currentTumorType.getExternalReferences());
+            tumorType.setTissue(currentTumorType.getTissue());
+            // the results of search operations are flat lists of TumorTypes .. no nested children so do not setChildren()
+            tumorType.setParent(currentTumorType.getParent());
+            tumorType.setHistory(currentTumorType.getHistory());
+            tumorType.setLevel(currentTumorType.getLevel());
+
+            matchedTumorTypes.add(tumorType);
 
             if (includeParent) {
                 String code = currentTumorType.getParent();
