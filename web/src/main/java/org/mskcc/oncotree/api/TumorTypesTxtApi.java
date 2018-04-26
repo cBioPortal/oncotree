@@ -41,7 +41,7 @@ public class TumorTypesTxtApi {
     ) {
         Map<String, TumorType> tumorTypes = new HashMap<>();
         Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        tumorTypes = CacheUtil.getOrResetTumorTypesByVersion(v);
+        tumorTypes = CacheUtil.getTumorTypesByVersion(v);
         InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream(tumorTypes);
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         return new ResponseEntity<>(inputStreamResource, HttpStatus.OK);

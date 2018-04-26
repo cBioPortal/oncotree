@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017-2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -17,32 +17,28 @@
 
 package org.mskcc.oncotree.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.*;
+import java.util.*;
 
-import com.univocity.parsers.tsv.TsvParser;
-import com.univocity.parsers.tsv.TsvParserSettings;
 import org.apache.commons.lang3.StringUtils;
+
+import org.mskcc.oncotree.crosswalk.MSKConceptCache;
+import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.model.MainType;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
-import org.mskcc.oncotree.crosswalk.MSKConceptCache;
-import org.mskcc.oncotree.crosswalk.MSKConcept;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.springframework.core.io.InputStreamResource;
 
 /**
  * Created by Hongxin on 2/25/16.
@@ -61,31 +57,13 @@ public class TumorTypesUtil {
     @Autowired
     public void setMSKConceptCache(MSKConceptCache property) { mskConceptCache = property; }
 
-    private static final String PROPERTY_FILE = "classpath:application.properties";
-    private static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
+    public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
     public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
-        Map<String, TumorType> tumorTypes = new HashMap<>();
         if (version != null) {
-            tumorTypes = loadFromRepository(version);
+            return loadFromRepository(version);
         }
-        return tumorTypes;
-    }
-
-    public static Properties getProperties() {
-        Properties properties = new Properties();
-        InputStream inputStream = getInputStream(PROPERTY_FILE);
-
-        try {
-            if (inputStream != null) {
-                properties.load(inputStream);
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return properties;
+        return new HashMap<>();
     }
 
     public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException {
@@ -195,7 +173,7 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    public static boolean hasNoParent(TumorType node) {
+    private static boolean hasNoParent(TumorType node) {
         String parentCode = node.getParent();
         if (parentCode == null) {
             return true;
@@ -322,7 +300,7 @@ public class TumorTypesUtil {
         return tumorType;
     }
 
-    public static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
+    private static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
                                                 String key, String keyword, Boolean exactMatch, Boolean includeParent) {
         Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
@@ -454,25 +432,6 @@ public class TumorTypesUtil {
         return key;
     }
 
-    /**
-     * Parsing cell content into tumor type code and tumor type name.
-     *
-     * @param content One cell of each row.
-     * @return The map of current tumor type. It includes 'code' and 'name'.
-     */
-    private static HashMap<String, String> parseCodeName(String content) {
-        HashMap<String, String> result = new HashMap<>();
-
-        Pattern pattern = Pattern.compile("([^\\(]+)\\(([^\\)]+)\\)");
-
-        Matcher matcher = pattern.matcher(content);
-        if (matcher.matches()) {
-            result.put("name", matcher.group(1).trim());
-            result.put("code", matcher.group(2).trim());
-        }
-        return result;
-    }
-
     private static InputStream getInputStream(String relativePath) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext();
         Resource resource = applicationContext.getResource(relativePath);
@@ -482,6 +441,14 @@ public class TumorTypesUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static String buildInvalidQueryTypeError(String queryType) {
+        StringBuilder errorMessageBuilder = new StringBuilder("'");
+        errorMessageBuilder.append(queryType);
+        errorMessageBuilder.append("' is not a valid query type.  Valid query types are: ");
+        errorMessageBuilder.append(StringUtils.join(TumorTypeKeys, ", "));
+        return errorMessageBuilder.toString();
     }
 
     private static Integer convertStringToInteger(String string) {

@@ -20,7 +20,8 @@ function displayNews(news) {
       var converter = new showdown.Converter(),
           text = news,
           html = converter.makeHtml(text);
-      $("#news").html(html);
+      var htmlwithwarning = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\"> <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button> <strong>Announcement:</strong> A new version of this website is available now at <a href=\"http://oncotree.mskcc.org/\" class=\"alert-link\">http://oncotree.mskcc.org/</a>. On May 31, 2018 this version of the website will no longer be available at this location. Please update your bookmarks accordingly. </div>" + html;
+      $("#news").html(htmlwithwarning);
   }
 }
 
