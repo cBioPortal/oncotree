@@ -51,7 +51,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
     ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
             "OncoTree API",
-            "OncoTree API definition from MSKCC",
+            "Warning : this version of the API will be discontinued on May 31, 2018.\n\nPlease migrate to v1.0.0 available now at http://oncotree.mskcc.org/swagger-ui.html",
             "0.0.1",
             "",
             "",
