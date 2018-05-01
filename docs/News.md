@@ -1,9 +1,10 @@
 ### News
 #### May 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_05_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_04_01*.
  *   **New nodes added:**
         * Primary CNS Melanocytic Tumors (PCNSMT)
         * Melanocytoma (MELC)
-  *   **Node reclassified**
+ *   **Node reclassified**
         * Primary CNS Melanoma (PCNSM) now is a child of Primary CNS Melanocytic Tumors (PCNSMT) [previously under: CNS/Brain].
 #### April 23, 2018
  *   **New Web API Version Available**
