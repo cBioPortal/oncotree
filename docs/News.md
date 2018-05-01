@@ -1,4 +1,10 @@
 ### News
+#### May 1, 2018
+ *   **New nodes added:**
+        * Primary CNS Melanocytic Tumors (PCNSMT)
+        * Melanocytoma (MELC)
+  *   **Node reclassified**
+        * Primary CNS Melanoma (PCNSM) now is a child of Primary CNS Melanocytic Tumors (PCNSMT) [previously under: CNS/Brain].
 #### April 23, 2018
  *   **New Web API Version Available**
      * A new version (v1.0.0) of the oncotree Web API is available. It can be explored here:
