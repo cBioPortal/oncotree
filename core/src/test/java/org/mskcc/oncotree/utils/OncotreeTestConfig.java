@@ -29,6 +29,7 @@ import org.mskcc.oncotree.utils.VersionUtil;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.topbraid.TopBraidException;
 import org.mskcc.oncotree.topbraid.TopBraidSessionConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -122,6 +123,15 @@ public class OncotreeTestConfig {
     @Bean
     public OncoTreeRepository oncoTreeRepository() {
         return Mockito.mock(OncoTreeRepository.class);
+    }
+
+    public static void resetWorkingRepository(OncoTreeRepository mockRepository) {
+        Mockito.reset(mockRepository);
+    }
+
+    public static void resetNotWorkingRepository(OncoTreeRepository mockRepository) {
+        Mockito.reset(mockRepository);
+        Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenThrow(new TopBraidException("faking a problem getting the topbraid data"));
     }
 
     @Bean
