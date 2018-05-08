@@ -28,9 +28,13 @@ import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.*;
 
@@ -55,6 +59,8 @@ public class TumorTypesUtilTest {
 
     @Before
     public void setupMockRepository() throws Exception {
+        OncotreeTestConfig config = new OncotreeTestConfig();
+        OncotreeTestConfig.resetWorkingRepository(mockRepository);
         Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
     }
 
@@ -213,5 +219,42 @@ public class TumorTypesUtilTest {
         if (failureCount > 0) {
             fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());
         }
+    }
+
+    @Test
+    public void validateCacheTest() throws Exception {
+        Calendar currentDate = Calendar.getInstance();
+
+        // test condition where cache is not stale
+        // set cache age to a valid age (current date - MAXIMUM_CACHE_AGE_IN_DAYS + 1)
+        // cache is not stale so resetCache should not be called -- cache age should remain the smae
+        currentDate.add(Calendar.DATE, -(CacheUtil.MAXIMUM_CACHE_AGE_IN_DAYS - 1));
+        Date validDateOfLastCacheRefresh = currentDate.getTime();
+        CacheUtil.setDateOfLastCacheRefresh(validDateOfLastCacheRefresh);
+        if (CacheUtil.cacheIsStale()) {
+            CacheUtil.resetCache();
+        }
+        assertThat(CacheUtil.getDateOfLastCacheRefresh().toString(), equalTo(validDateOfLastCacheRefresh.toString()));
+
+        // test condition where cache is stale
+        // set cache age to a valid age (current date - MAXIMUM_CACHE_AGE_IN_DAYS - 3)
+        // cache is stale so resetCache should be called -- cache age should change
+        // NOTE: we have already set the currentDate back to one day before the cache should expire
+        //   so we can just take this date and subtract 1 day
+        currentDate.add(Calendar.DATE, -1);
+        Date expiredDateOfLastCacheRefresh = currentDate.getTime();
+        CacheUtil.setDateOfLastCacheRefresh(expiredDateOfLastCacheRefresh);
+        if (CacheUtil.cacheIsStale()) {
+            CacheUtil.resetCache();
+        }
+        assertThat(CacheUtil.getDateOfLastCacheRefresh().toString(), not(equalTo(validDateOfLastCacheRefresh.toString())));
+    }
+
+    @Test(expected = FailedCacheRefreshException.class)
+    public void failedCacheRefreshTest() throws Exception {
+        // resetting cache with a broken repository should throw a FailedCacheRefreshException
+        OncotreeTestConfig config = new OncotreeTestConfig();
+        OncotreeTestConfig.resetNotWorkingRepository(mockRepository);
+        CacheUtil.resetCache();
     }
 }

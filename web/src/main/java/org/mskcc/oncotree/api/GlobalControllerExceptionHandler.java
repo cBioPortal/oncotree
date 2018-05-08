@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.error.*;
 import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -46,6 +47,10 @@ class GlobalControllerExceptionHandler {
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to TopBraid")
     @ExceptionHandler(TopBraidException.class)
     public void handleTopBraidException() {}
+
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to refresh metadata cache")
+    @ExceptionHandler(FailedCacheRefreshException.class)
+    public void handleFailedCacheRefreshException() {}
 
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to CVS")
     @ExceptionHandler(CrosswalkServiceUnavailableException.class)
