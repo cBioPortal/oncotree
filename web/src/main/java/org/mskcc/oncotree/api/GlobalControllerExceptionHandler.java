@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.error.InvalidOncotreeMappingsParameters;
 import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -46,9 +47,15 @@ class GlobalControllerExceptionHandler {
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to connect to TopBraid")
     @ExceptionHandler(TopBraidException.class)
-    public void handleTopBraidException() {
-        // nothing to do
-    }
+    public void handleTopBraidException() {}
+
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to refresh metadata cache")
+    @ExceptionHandler(FailedCacheRefreshException.class)
+    public void handleFailedCacheRefreshException() {}
+
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to CVS")
+    @ExceptionHandler(CrosswalkServiceUnavailableException.class)
+    public void handleCrosswalkServiceUnavailableException() {}
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
     @ExceptionHandler(InvalidOncoTreeDataException.class)
