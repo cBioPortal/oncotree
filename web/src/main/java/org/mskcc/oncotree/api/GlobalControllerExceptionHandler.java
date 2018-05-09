@@ -53,10 +53,6 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(FailedCacheRefreshException.class)
     public void handleFailedCacheRefreshException() {}
 
-    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to CVS")
-    @ExceptionHandler(CrosswalkServiceUnavailableException.class)
-    public void handleCrosswalkServiceUnavailableException() {}
-
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
     @ExceptionHandler(InvalidOncoTreeDataException.class)
     public void handleInvalidOncoTreeDataException() {
