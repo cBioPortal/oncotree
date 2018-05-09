@@ -17,23 +17,33 @@
 */
 package org.mskcc.oncotree.utils;
 
+import java.time.ZonedDateTime;
+import java.util.*;
+
 import javax.annotation.PostConstruct;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.mskcc.oncotree.error.InvalidVersionException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.mskcc.oncotree.utils.VersionUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-import java.util.*;
 
 /**
  * Created by Hongxin on 2/25/16.
@@ -45,30 +55,38 @@ public class CacheUtil {
     private static final Logger logger = LoggerFactory.getLogger(CacheUtil.class);
 
     private static Map<Version, Map<String, TumorType>> tumorTypes = null;
-    private static Date lastSuccessfullRefresh = null;
+    private static Date dateOfLastCacheRefresh = null;
+    public static final Integer MAXIMUM_CACHE_AGE_IN_DAYS = 3;
+
+    @Value("${slack.url}")
+    private String slackURL;
 
     @PostConstruct // call when constructed
-    @Scheduled(cron="0 0 11 * * *") // reset at 11am every day
+    @Scheduled(cron="0 */10 * * * *") // call every 10 minutes
     private void scheduleResetCache() {
         // TODO make sure we don't have two scheduled calls run simultaneously
-        try {
-            resetCache();
-        } catch (TopBraidException exception) {
-            // check to see if we should expire cache 
-            ZonedDateTime now = ZonedDateTime.now();
-            ZonedDateTime threeDaysAgo = now.plusDays(-3);
-            if (lastSuccessfullRefresh != null && lastSuccessfullRefresh.toInstant().isBefore(threeDaysAgo.toInstant())) {
-                logger.error("scheduleResetCache() -- failed to reset cache and cache is older than '" + threeDaysAgo + "' in cache");
-                expireCache();
-            } 
+        if (tumorTypes == null || cacheIsStale()) {
+            try {
+                resetCache();
+            } catch (FailedCacheRefreshException e) {
+                sendStaleCacheSlackNotification();
+            }
         }
     }
 
-    public static Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidVersionException, TopBraidException {
+    public static Date getDateOfLastCacheRefresh() {
+        return dateOfLastCacheRefresh;
+    }
+
+    public static void setDateOfLastCacheRefresh(Date date) {
+        dateOfLastCacheRefresh = date;
+    }
+
+    public static Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidVersionException, FailedCacheRefreshException {
         if (tumorTypes == null) {
             logger.error("getTumorTypesByVersion() -- called on expired cache");
-            throw new TopBraidException("Cache has expired, resets must have failed");
-        } 
+            throw new FailedCacheRefreshException("Cache has expired, resets must have failed");
+        }
         if (logger.isDebugEnabled()) {
             for (Version cachedVersion : tumorTypes.keySet()) {
                 logger.debug("getTumorTypesByVersion() -- tumorTypes cache contains '" + cachedVersion.getVersion() + "'");
@@ -93,7 +111,7 @@ public class CacheUtil {
         return Collections.unmodifiableMap(unmodifiableTumorTypeMap);
     }
 
-    public static void resetCache() throws TopBraidException {
+    public static void resetCache() throws FailedCacheRefreshException {
         logger.info("resetCache() -- refilling tumor types cache");
         tumorTypes = new HashMap<>();
         Map<Version, Map<String, TumorType>> latestTumorTypes = new HashMap<>();
@@ -101,25 +119,43 @@ public class CacheUtil {
             List<Version> versions = VersionUtil.getVersions();
         } catch (TopBraidException exception) {
             logger.error("resetCache() -- failed to pull versions from repository");
-            throw exception;
+            throw new FailedCacheRefreshException("Failed to refresh cache");
         }
         for (Version version : VersionUtil.getVersions()) {
             try {
                 latestTumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
             } catch (TopBraidException exception) {
                 logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
-                throw exception;
+                throw new FailedCacheRefreshException("Failed to refresh cache");
             }
         }
         logger.info("resetCache() -- successfully reset cache from repository");
         tumorTypes = latestTumorTypes;
-        lastSuccessfullRefresh = new Date();
+        dateOfLastCacheRefresh = new Date();
     }
 
-    private static void expireCache() {
-        logger.debug("expireCache() -- expiring cache");
-        tumorTypes = null;
-        lastSuccessfullRefresh = null;
+    public static boolean cacheIsStale() {
+        ZonedDateTime currentDate = ZonedDateTime.now();
+        ZonedDateTime dateOfCacheExpiration = currentDate.plusDays(- MAXIMUM_CACHE_AGE_IN_DAYS);
+        if (dateOfLastCacheRefresh == null || dateOfLastCacheRefresh.toInstant().isBefore(dateOfCacheExpiration.toInstant())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void sendStaleCacheSlackNotification() {
+        String payload = "payload={\"channel\": \"#msk-pipeline-logs\", \"username\": \"cbioportal_importer\", \"text\": \"*URGENT: Oncotree Error* - an attempt to refresh an outdated or null cache failed.\", \"icon_emoji\": \":rotating_light:\"}";
+        StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_FORM_URLENCODED);
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost request = new HttpPost(slackURL);
+        request.setEntity(entity);
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(request);
+        } catch (Exception e) {
+            logger.error("failed to send slack notification -- cache is outdated and failed to refresh");
+        }
     }
 
 }
