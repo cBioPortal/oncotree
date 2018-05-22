@@ -2,17 +2,18 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.css?05022016"/>
-    <link rel="stylesheet" type="text/css" href="css/jquery.qtip.min.css?05022016">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css?04182018"/>
+    <link type="text/css" rel="stylesheet" href="open-iconic/font/css/open-iconic-bootstrap.min.css?04182018"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.qtip.min.css?04182018">
     <link type="text/css" rel="stylesheet" href="css/style.css?05022016"/>
-    <script type="text/javascript" src="js/jquery-1.11.1.min.js?05022016"></script>
-    <script type="text/javascript" src="js/d3.v3.min.js?05022016"></script>
-    <script type="text/javascript" src="js/bootstrap.js?05022016"></script>
-    <script type="text/javascript" src="js/jquery.qtip.min.js?05022016"></script>
-    <script type="text/javascript" src="js/clipboard.min.js?05022016"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js?04182018"></script>
+    <script type="text/javascript" src="js/d3.v3.min.js?04182018"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js?04182018""></script>
+    <script type="text/javascript" src="js/jquery.qtip.min.js?04182018"></script>
+    <script type="text/javascript" src="js/clipboard.min.js?04182018"></script>
     <script type="text/javascript" src="js/showdown-1.8.6.min.js?02072018"></script>
-    <script type="text/javascript" src="js/main.js?02072018"></script>
     <script type="text/javascript" src="js/tree.js?02072018"></script>
+    <script type="text/javascript" src="js/main.js?02072018"></script>
     <script type="text/javascript" src="js/oncotree-mapping.js?02072018"></script>
     <script type="text/javascript" src="js/news.js?02072018"></script>
   </head>
@@ -37,7 +38,7 @@
       <!-- start of tabs content div -->
       <div class="tab-content">
         <!-- tree tab -->
-        <div class="tab-pane fade" id="tree" role="tabpanel">
+        <div class="tab-pane fade show active" id="tree" role="tabpanel">
           <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
               <h3>CMO Tumor Type Tree</h3>
@@ -63,29 +64,29 @@
                 <span id="searchRemoveIcon" class="form-control-feedback glyphicon glyphicon-remove-circle"></span>
                 <span id="searchResult" class="form-control-feedback result"></span>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default">Search</button>
+                  <button type="button" class="btn btn-light">Search</button>
                 </span>
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
               <div class="btn-group">
-                <button type="button" class="btn btn-default" id='expand-nodes-btn'>
-                  <span class="glyphicon glyphicon-resize-full"></span>
+                <button type="button" class="btn btn-light" id='expand-nodes-btn'>
+                  <span class="oi oi-fullscreen-enter"></span>
                 </button>
-                <button type="button" class="btn btn-default" id='collapse-nodes-btn'>
-                  <span class="glyphicon glyphicon-resize-small"></span>
+                <button type="button" class="btn btn-light" id='collapse-nodes-btn'>
+                  <span class="oi oi-fullscreen-exit"></span>
                 </button>
               </div>
             </div>
           </div>
-          <div id="tree"></div>
+          <div id="tree-div"></div>
           <div id="summary-duplicates" class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
             <b>Acronym crash:</b>
             <p id="" class="bg-danger"></p>
           </div>
           <span id="top-link-block" class="hidden">
             <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0, scrollLeft: 0},'slow');return false;">
-              <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
+              <span class="oi oi-chevron-top"></span> Back to Top
             </a>
           </span>
         </div>
