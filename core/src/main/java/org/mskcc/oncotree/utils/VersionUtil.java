@@ -16,15 +16,14 @@ import java.util.List;
 public class VersionUtil {
 
     public static final String DEFAULT_VERSION = "oncotree_latest_stable";
-    private static OncoTreeVersionRepository oncoTreeVersionRepository;
     @Autowired
-    public void setOncoTreeVersionRepository(OncoTreeVersionRepository property) { oncoTreeVersionRepository = property; }
+    private OncoTreeVersionRepository oncoTreeVersionRepository;
 
-    public static List<Version> getVersions() {
+    public List<Version> getVersions() {
         return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
-    public static Version getVersion(String version) throws InvalidVersionException {
+    public Version getVersion(String version) throws InvalidVersionException {
         if (version != null && version.trim() != "") {
             for (Version v : getVersions()) {
                 if (v.getVersion().equals(version)) {
@@ -37,7 +36,7 @@ public class VersionUtil {
         throw new InvalidVersionException("'" + version + "' is not a valid version.");
     }
 
-    public static Version getDefaultVersion() throws InvalidVersionException {
+    public Version getDefaultVersion() throws InvalidVersionException {
         // note we will throw an InvalidVersionException if this is not found in TopBraid
         return getVersion(DEFAULT_VERSION);
     }

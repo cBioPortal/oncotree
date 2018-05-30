@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponses;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.utils.VersionUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ import java.util.*;
 @Api(value = "/versions", description = "")
 public class VersionsApi {
 
+    @Autowired
+    private VersionUtil versionUtil;
+
     @ApiOperation(value = "Versions", notes = "...", response = Version.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "List of available versions"),
@@ -30,6 +34,6 @@ public class VersionsApi {
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
     public Iterable<Version> versionsGet() {
-        return VersionUtil.getVersions();
+        return versionUtil.getVersions();
     }
 }
