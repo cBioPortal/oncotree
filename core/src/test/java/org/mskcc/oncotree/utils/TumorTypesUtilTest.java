@@ -41,14 +41,14 @@ import static org.mockito.Matchers.*;
 @RunWith(SpringRunner.class)
 @Import(OncotreeTestConfig.class)
 public class TumorTypesUtilTest {
-    @Autowired
-    private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse;
     @Resource(name="mockVersion")
     private Version mockVersion;
     @Autowired
     private OncoTreeRepository mockRepository;
     @Autowired
     private TumorTypesUtil tumorTypesUtil;
+    @Autowired
+    private CacheUtil cacheUtil;
     @Resource(name="expectedTumorTypeMap")
     private Map<String, TumorType> expectedTumorTypeMap;
 
@@ -60,8 +60,7 @@ public class TumorTypesUtilTest {
     @Before
     public void setupMockRepository() throws Exception {
         OncotreeTestConfig config = new OncotreeTestConfig();
-        OncotreeTestConfig.resetWorkingRepository(mockRepository);
-        Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
+        config.resetWorkingRepository(mockRepository);
     }
 
     public String makeMismatchMessage(String oncoTreeCode, String fieldName, String gotValue, String expectedValue) {
@@ -230,11 +229,11 @@ public class TumorTypesUtilTest {
         // cache is not stale so resetCache should not be called -- cache age should remain the smae
         currentDate.add(Calendar.DATE, -(CacheUtil.MAXIMUM_CACHE_AGE_IN_DAYS - 1));
         Date validDateOfLastCacheRefresh = currentDate.getTime();
-        CacheUtil.setDateOfLastCacheRefresh(validDateOfLastCacheRefresh);
-        if (CacheUtil.cacheIsStale()) {
-            CacheUtil.resetCache();
+        cacheUtil.setDateOfLastCacheRefresh(validDateOfLastCacheRefresh);
+        if (cacheUtil.cacheIsStale()) {
+            cacheUtil.resetCache();
         }
-        assertThat(CacheUtil.getDateOfLastCacheRefresh().toString(), equalTo(validDateOfLastCacheRefresh.toString()));
+        assertThat(cacheUtil.getDateOfLastCacheRefresh().toString(), equalTo(validDateOfLastCacheRefresh.toString()));
 
         // test condition where cache is stale
         // set cache age to a valid age (current date - MAXIMUM_CACHE_AGE_IN_DAYS - 3)
@@ -243,18 +242,18 @@ public class TumorTypesUtilTest {
         //   so we can just take this date and subtract 1 day
         currentDate.add(Calendar.DATE, -1);
         Date expiredDateOfLastCacheRefresh = currentDate.getTime();
-        CacheUtil.setDateOfLastCacheRefresh(expiredDateOfLastCacheRefresh);
-        if (CacheUtil.cacheIsStale()) {
-            CacheUtil.resetCache();
+        cacheUtil.setDateOfLastCacheRefresh(expiredDateOfLastCacheRefresh);
+        if (cacheUtil.cacheIsStale()) {
+            cacheUtil.resetCache();
         }
-        assertThat(CacheUtil.getDateOfLastCacheRefresh().toString(), not(equalTo(validDateOfLastCacheRefresh.toString())));
+        assertThat(cacheUtil.getDateOfLastCacheRefresh().toString(), not(equalTo(validDateOfLastCacheRefresh.toString())));
     }
 
     @Test(expected = FailedCacheRefreshException.class)
     public void failedCacheRefreshTest() throws Exception {
         // resetting cache with a broken repository should throw a FailedCacheRefreshException
         OncotreeTestConfig config = new OncotreeTestConfig();
-        OncotreeTestConfig.resetNotWorkingRepository(mockRepository);
-        CacheUtil.resetCache();
+        config.resetNotWorkingRepository(mockRepository);
+        cacheUtil.resetCache();
     }
 }

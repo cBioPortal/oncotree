@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2016-2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -24,12 +24,15 @@ import org.mskcc.oncotree.model.Version;
 import java.util.*;
 import org.mskcc.oncotree.model.TumorType;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Created by Hongxin on 2/25/16.
  */
+@Component
 public class MainTypesUtil {
 
-    public static List<String> getMainTypesByTumorTypes(Set<TumorType> tumorTypes) {
+    public List<String> getMainTypesByTumorTypes(Set<TumorType> tumorTypes) {
         Set<String> mainTypes = new HashSet<>();
         // skip the root node, "TISSUE". Just add it's children
         for (TumorType tumorType : tumorTypes) {

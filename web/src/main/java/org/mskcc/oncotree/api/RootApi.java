@@ -10,12 +10,12 @@ import java.util.*;
 
 import org.mskcc.oncotree.model.*;
 import org.mskcc.oncotree.utils.CacheUtil;
-import org.mskcc.oncotree.utils.TumorTypesUtil;
 import org.mskcc.oncotree.utils.VersionUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +33,9 @@ public class RootApi {
 
     private static final Logger logger = LoggerFactory.getLogger(RootApi.class);
 
+    @Autowired
+    private CacheUtil cacheUtil;
+
     @ApiIgnore
     @ApiOperation(value = "Refresh cache.", notes = "", response = String.class)
     @ApiResponses(value = {
@@ -42,7 +45,7 @@ public class RootApi {
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
     public Map<String, String> refreshCache() {
-        CacheUtil.resetCache();
+        cacheUtil.resetCache();
         logger.debug("refreshCache() -- refreshCache endpoint successful");
         return Collections.singletonMap("response", "Success!");
     }

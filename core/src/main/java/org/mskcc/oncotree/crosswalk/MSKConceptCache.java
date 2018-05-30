@@ -53,8 +53,6 @@ public class MSKConceptCache {
     @Autowired
     private CrosswalkRepository crosswalkRepository;
 
-    // note we only @Autowire this so that it isn't
-    // null in the @PostConstruct call to resetCache()
     @Autowired
     private VersionUtil versionUtil;
 
@@ -73,7 +71,7 @@ public class MSKConceptCache {
         logger.info("resetCache() -- clearing Crosswalk MSKConcept cache and refilling");
         oncoTreeCodesToMSKConcepts.clear();
         // versions are ordered in ascending order by release date
-        for (Version version : VersionUtil.getVersions()) {
+        for (Version version : versionUtil.getVersions()) {
             List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
             for (OncoTreeNode node : oncoTreeNodes) {
                 MSKConcept mskConcept = getFromCrosswalkAndSave(node.getCode());

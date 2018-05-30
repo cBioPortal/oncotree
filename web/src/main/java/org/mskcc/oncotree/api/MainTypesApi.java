@@ -32,6 +32,7 @@ import org.mskcc.oncotree.utils.MainTypesUtil;
 import org.mskcc.oncotree.utils.TumorTypesUtil;
 import org.mskcc.oncotree.utils.VersionUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/api/mainTypes", produces = {APPLICATION_JSON_VALUE})
 @Api(value = "/mainTypes", description = "the mainTypes API")
 public class MainTypesApi {
+
+    @Autowired
+    private CacheUtil cacheUtil;
+
+    @Autowired
+    private MainTypesUtil mainTypesUtil;
+
+    @Autowired
+    private TumorTypesUtil tumorTypesUtil;
+
+    @Autowired
+    private VersionUtil versionUtil;
 
     @ApiOperation(value = "Return all available main tumor types.", notes = "")
     @ApiResponses(value = {
@@ -59,9 +72,9 @@ public class MainTypesApi {
         @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION  + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "version", required = false) String version
     ) {
-        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        Map<String, TumorType> tumorTypes = CacheUtil.getTumorTypesByVersion(v);
-        Set<TumorType> tumorTypesSet = TumorTypesUtil.flattenTumorTypes(tumorTypes, version);
-        return MainTypesUtil.getMainTypesByTumorTypes(tumorTypesSet);
+        Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
+        Map<String, TumorType> tumorTypes = cacheUtil.getTumorTypesByVersion(v);
+        Set<TumorType> tumorTypesSet = tumorTypesUtil.flattenTumorTypes(tumorTypes, version);
+        return mainTypesUtil.getMainTypesByTumorTypes(tumorTypesSet);
     }
 }

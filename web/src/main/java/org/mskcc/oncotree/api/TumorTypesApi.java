@@ -20,6 +20,7 @@ import org.mskcc.oncotree.utils.VersionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,15 @@ public class TumorTypesApi {
 
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesApi.class);
 
+    @Autowired
+    private CacheUtil cacheUtil;
+
+    @Autowired
+    private TumorTypesUtil tumorTypesUtil;
+
+    @Autowired
+    private VersionUtil versionUtil;
+
     @ApiOperation(value = "Return all available tumor types.", notes = "", response = TumorType.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Nested tumor types object."),
@@ -51,8 +61,8 @@ public class TumorTypesApi {
         @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "version", required = false) String version
     ) {
-        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        Map<String, TumorType> tumorTypes = CacheUtil.getTumorTypesByVersion(v);
+        Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
+        Map<String, TumorType> tumorTypes = cacheUtil.getTumorTypesByVersion(v);
         logger.debug("tumorTypesGetTree() -- returning " + tumorTypes.size() + " tumor types");
         return tumorTypes;
     }
@@ -72,9 +82,9 @@ public class TumorTypesApi {
         @RequestParam(value = "version", required = false) String version
     ) {
 
-        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        Map tumorTypes = CacheUtil.getTumorTypesByVersion(v);
-        Set tumorTypesSet = TumorTypesUtil.flattenTumorTypes(tumorTypes, null);
+        Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
+        Map tumorTypes = cacheUtil.getTumorTypesByVersion(v);
+        Set tumorTypesSet = tumorTypesUtil.flattenTumorTypes(tumorTypes, null);
         logger.debug("tumorTypesGet() -- returning " + tumorTypesSet.size() + " tumor types");
         return tumorTypesSet;
     }
@@ -93,16 +103,16 @@ public class TumorTypesApi {
         @ApiParam(value = "queries", required = true) @RequestBody TumorTypeQueries queries
     ) {
 
-        Version v = queries.getVersion() != null ? VersionUtil.getVersion(queries.getVersion()) : VersionUtil.getDefaultVersion();
+        Version v = queries.getVersion() != null ? versionUtil.getVersion(queries.getVersion()) : versionUtil.getDefaultVersion();
         List<List<TumorType>> tumorTypes = new ArrayList<>();
 
         // Cache in tumor types in case no data present
-        CacheUtil.getTumorTypesByVersion(v);
+        cacheUtil.getTumorTypesByVersion(v);
 
         // each query has a list of results
         for (TumorTypeQuery query : queries.getQueries()) {
             List<TumorType> matchedTumorTypes = new ArrayList<>();
-            matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v, false);
+            matchedTumorTypes = v == null ? new ArrayList<TumorType>() : tumorTypesUtil.findTumorTypesByVersion(query.getType(), query.getQuery(), query.getExactMatch(), v, false);
             tumorTypes.add(matchedTumorTypes);
         }
         return tumorTypes;
@@ -133,12 +143,12 @@ public class TumorTypesApi {
         @RequestParam(value = "levels", required = false, defaultValue = "1,2,3,4,5") String levels
     ) {
         List<TumorType> matchedTumorTypes = new ArrayList<>();
-        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
+        Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
 
         // Cache in tumor types in case no data present
-        CacheUtil.getTumorTypesByVersion(v);
+        cacheUtil.getTumorTypesByVersion(v);
 
-        matchedTumorTypes = v == null ? new ArrayList<TumorType>() : TumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v, false);
+        matchedTumorTypes = v == null ? new ArrayList<TumorType>() : tumorTypesUtil.findTumorTypesByVersion(type, query, exactMatch, v, false);
         // check that user did not do a "level" query, but is doing a "levels" filter
         if (!type.toLowerCase().equals("level") && !StringUtils.isBlank(levels)) {
             List<String> ls = Arrays.asList(levels.split(","));
@@ -151,7 +161,7 @@ public class TumorTypesApi {
                     throw new InvalidQueryException("'" + l + "' is not a valid level.  Level must be an integer.");
                 }
             }
-            matchedTumorTypes = TumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
+            matchedTumorTypes = tumorTypesUtil.filterTumorTypesByLevel(matchedTumorTypes, levelList);
         }
         if (matchedTumorTypes.isEmpty()) {
             throw new TumorTypesNotFoundException("No tumor types found matching supplied query");

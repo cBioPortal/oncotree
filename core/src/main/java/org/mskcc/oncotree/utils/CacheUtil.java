@@ -39,6 +39,7 @@ import org.mskcc.oncotree.utils.VersionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -55,8 +56,14 @@ public class CacheUtil {
     private static final Logger logger = LoggerFactory.getLogger(CacheUtil.class);
 
     private static Map<Version, Map<String, TumorType>> tumorTypes = null;
-    private static Date dateOfLastCacheRefresh = null;
+    private Date dateOfLastCacheRefresh = null;
     public static final Integer MAXIMUM_CACHE_AGE_IN_DAYS = 3;
+
+    @Autowired
+    private VersionUtil versionUtil;
+
+    @Autowired
+    private TumorTypesUtil tumorTypesUtil;
 
     @Value("${slack.url}")
     private String slackURL;
@@ -74,15 +81,15 @@ public class CacheUtil {
         }
     }
 
-    public static Date getDateOfLastCacheRefresh() {
+    public Date getDateOfLastCacheRefresh() {
         return dateOfLastCacheRefresh;
     }
 
-    public static void setDateOfLastCacheRefresh(Date date) {
+    public void setDateOfLastCacheRefresh(Date date) {
         dateOfLastCacheRefresh = date;
     }
 
-    public static Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidVersionException, FailedCacheRefreshException {
+    public Map<String, TumorType> getTumorTypesByVersion(Version version) throws InvalidVersionException, FailedCacheRefreshException {
         if (tumorTypes == null) {
             logger.error("getTumorTypesByVersion() -- called on expired cache");
             throw new FailedCacheRefreshException("Cache has expired, resets must have failed");
@@ -97,12 +104,12 @@ public class CacheUtil {
             return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
         } else {
             logger.debug("getTumorTypesByVersion() -- did NOT find '" + version.getVersion() + "' in cache, getting now");
-            tumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
+            tumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
             return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
         }
     }
 
-    private static Map<String, TumorType> getUnmodifiableTumorTypesByVersion(Map<String, TumorType> tumorTypeMap) {
+    private Map<String, TumorType> getUnmodifiableTumorTypesByVersion(Map<String, TumorType> tumorTypeMap) {
         // code is modifying the returned tumor types, make a copy of everything
         Map<String, TumorType> unmodifiableTumorTypeMap = new HashMap<String, TumorType>(tumorTypeMap.size());
         for (Map.Entry<String, TumorType> entry : tumorTypeMap.entrySet()) {
@@ -111,19 +118,19 @@ public class CacheUtil {
         return Collections.unmodifiableMap(unmodifiableTumorTypeMap);
     }
 
-    public static void resetCache() throws FailedCacheRefreshException {
+    public void resetCache() throws FailedCacheRefreshException {
         logger.info("resetCache() -- refilling tumor types cache");
         tumorTypes = new HashMap<>();
         Map<Version, Map<String, TumorType>> latestTumorTypes = new HashMap<>();
         try {
-            List<Version> versions = VersionUtil.getVersions();
+            List<Version> versions = versionUtil.getVersions();
         } catch (TopBraidException exception) {
             logger.error("resetCache() -- failed to pull versions from repository");
             throw new FailedCacheRefreshException("Failed to refresh cache");
         }
-        for (Version version : VersionUtil.getVersions()) {
+        for (Version version : versionUtil.getVersions()) {
             try {
-                latestTumorTypes.put(version, TumorTypesUtil.getTumorTypesByVersionFromRaw(version));
+                latestTumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
             } catch (TopBraidException exception) {
                 logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
                 throw new FailedCacheRefreshException("Failed to refresh cache");
@@ -134,7 +141,7 @@ public class CacheUtil {
         dateOfLastCacheRefresh = new Date();
     }
 
-    public static boolean cacheIsStale() {
+    public boolean cacheIsStale() {
         ZonedDateTime currentDate = ZonedDateTime.now();
         ZonedDateTime dateOfCacheExpiration = currentDate.plusDays(- MAXIMUM_CACHE_AGE_IN_DAYS);
         if (dateOfLastCacheRefresh == null || dateOfLastCacheRefresh.toInstant().isBefore(dateOfCacheExpiration.toInstant())) {

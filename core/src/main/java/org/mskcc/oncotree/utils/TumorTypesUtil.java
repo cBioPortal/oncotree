@@ -49,30 +49,31 @@ public class TumorTypesUtil {
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
     public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
 
-    private static OncoTreeRepository oncoTreeRepository;
     @Autowired
-    public void setOncoTreeRepository(OncoTreeRepository property) { oncoTreeRepository = property; }
+    private CacheUtil cacheUtil;
 
-    private static MSKConceptCache mskConceptCache;
     @Autowired
-    public void setMSKConceptCache(MSKConceptCache property) { mskConceptCache = property; }
+    private OncoTreeRepository oncoTreeRepository;
+
+    @Autowired
+    private MSKConceptCache mskConceptCache;
 
     public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
-    public static Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
+    public Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
         if (version != null) {
             return loadFromRepository(version);
         }
         return new HashMap<>();
     }
 
-    public static List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException, InvalidQueryException {
+    public List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException, InvalidQueryException {
         logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
         List<TumorType> tumorTypes = new ArrayList<>();
         key = normalizeTumorTypeKey(key);
         if (TumorTypeKeys.contains(key)) {
-            tumorTypes = findTumorType(CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
-                CacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
+            tumorTypes = findTumorType(cacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
+                cacheUtil.getTumorTypesByVersion(version).get("TISSUE"),
                 tumorTypes, key, keyword, exactMatch, includeParent);
         } else {
             throw new InvalidQueryException(buildInvalidQueryTypeError(key));
@@ -81,7 +82,7 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    public static List<TumorType> filterTumorTypesByLevel(List<TumorType> tumorTypes, List<Integer> levels) {
+    public List<TumorType> filterTumorTypesByLevel(List<TumorType> tumorTypes, List<Integer> levels) {
         List<TumorType> filtered = new ArrayList<>();
         if (tumorTypes != null && levels != null) {
             for (TumorType tumorType : tumorTypes) {
@@ -93,7 +94,7 @@ public class TumorTypesUtil {
         return filtered;
     }
 
-    public static InputStream getTumorTypeInputStream(Map<String, TumorType> tumorTypes) {
+    public InputStream getTumorTypeInputStream(Map<String, TumorType> tumorTypes) {
         String tsvAsString = getTsvFromTumorTypes(tumorTypes);
         try {
             return new ByteArrayInputStream(tsvAsString.getBytes("UTF-8"));
@@ -103,7 +104,7 @@ public class TumorTypesUtil {
         return null;
     }
 
-    private static String getTsvFromTumorTypes(Map<String, TumorType> tumorTypes) {
+    private String getTsvFromTumorTypes(Map<String, TumorType> tumorTypes) {
         List<String> rows = new ArrayList<>();
         for (String code : tumorTypes.keySet()) {
             TumorType tumorType = tumorTypes.get(code);
@@ -118,7 +119,7 @@ public class TumorTypesUtil {
         return StringUtils.join(rows, "\n") + "\n";
     }
 
-    private static void addTumorTypeToRows(TumorType tumorType, List<String> rows, List<String> parents) {
+    private void addTumorTypeToRows(TumorType tumorType, List<String> rows, List<String> parents) {
         List<String> row = new ArrayList<>();
         String oncotreeCode = StringUtils.defaultString(tumorType.getCode()).trim();
 
@@ -166,7 +167,7 @@ public class TumorTypesUtil {
         }
     }
 
-    public static Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
+    public Set<TumorType> flattenTumorTypes(Map<String, TumorType> nestedTumorTypes, String parent) {
         Set<TumorType> tumorTypes = new HashSet<>();
 
         Iterator<Map.Entry<String, TumorType>> it = nestedTumorTypes.entrySet().iterator();
@@ -185,7 +186,7 @@ public class TumorTypesUtil {
         return tumorTypes;
     }
 
-    private static boolean hasNoParent(TumorType node) {
+    private boolean hasNoParent(TumorType node) {
         String parentCode = node.getParent();
         if (parentCode == null) {
             return true;
@@ -196,7 +197,7 @@ public class TumorTypesUtil {
         return false;
     }
 
-    private static void validateOncoTreeOrThrowException(Set<String> rootNodeCodeSet, Set<String> duplicateCodeSet, Map<String, TumorType> allNodes) throws InvalidOncoTreeDataException {
+    private void validateOncoTreeOrThrowException(Set<String> rootNodeCodeSet, Set<String> duplicateCodeSet, Map<String, TumorType> allNodes) throws InvalidOncoTreeDataException {
         StringBuilder errorMessageBuilder = new StringBuilder();
         //check for one root node
         if (rootNodeCodeSet.size() == 0) {
@@ -232,7 +233,7 @@ public class TumorTypesUtil {
         }
     }
 
-    private static void setDepthAndTissue(TumorType tumorType, int depth, String tissue) {
+    private void setDepthAndTissue(TumorType tumorType, int depth, String tissue) {
         if (tumorType != null) {
             tumorType.setLevel(new Integer(depth));
             if (depth == 1) {
@@ -245,7 +246,7 @@ public class TumorTypesUtil {
         }
     }
 
-    private static Map<String, TumorType> loadFromRepository(Version version) throws InvalidOncoTreeDataException {
+    private Map<String, TumorType> loadFromRepository(Version version) throws InvalidOncoTreeDataException {
         List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
@@ -297,7 +298,7 @@ public class TumorTypesUtil {
         return allNodes;
     }
 
-    private static TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
+    private TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
         tumorType.setMainType(oncoTreeNode.getMainType());
@@ -308,7 +309,7 @@ public class TumorTypesUtil {
         return tumorType;
     }
 
-    private static List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
+    private List<TumorType> findTumorType(TumorType allTumorTypes, TumorType currentTumorType, List<TumorType> matchedTumorTypes,
             String key, String keyword, Boolean exactMatch, Boolean includeParent) throws InvalidQueryException {
         Map<String, TumorType> childrenTumorTypes = currentTumorType.getChildren();
         Boolean match = false;
@@ -431,13 +432,13 @@ public class TumorTypesUtil {
         return new ArrayList<>(new LinkedHashSet<>(matchedTumorTypes));
     }
 
-    private static String normalizeTumorTypeKey(String key) {
+    private String normalizeTumorTypeKey(String key) {
         key = key.toLowerCase();
         key.replaceAll("[^a-z]+", "");
         return key;
     }
 
-    private static InputStream getInputStream(String relativePath) {
+    private InputStream getInputStream(String relativePath) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext();
         Resource resource = applicationContext.getResource(relativePath);
         try {
@@ -448,7 +449,7 @@ public class TumorTypesUtil {
         return null;
     }
 
-    private static String buildInvalidQueryTypeError(String queryType) {
+    private String buildInvalidQueryTypeError(String queryType) {
         StringBuilder errorMessageBuilder = new StringBuilder("'");
         errorMessageBuilder.append(queryType);
         errorMessageBuilder.append("' is not a valid query type.  Valid query types are: ");

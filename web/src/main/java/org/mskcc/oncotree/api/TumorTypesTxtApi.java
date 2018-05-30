@@ -34,6 +34,7 @@ import org.mskcc.oncotree.utils.CacheUtil;
 import org.mskcc.oncotree.utils.TumorTypesUtil;
 import org.mskcc.oncotree.utils.VersionUtil;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
@@ -48,6 +49,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/api/tumor_types.txt", produces = {TEXT_PLAIN_VALUE})
 @Api(value = "/tumor_types.txt", description = "")
 public class TumorTypesTxtApi {
+
+    @Autowired
+    private VersionUtil versionUtil;
+
+    @Autowired
+    private TumorTypesUtil tumorTypesUtil;
+
+    @Autowired
+    private CacheUtil cacheUtil;
 
     @Deprecated
     @ApiOperation(value = "Tumor Types in plain text format.", notes = "Return all available tumor types.", response = Void.class)
@@ -65,9 +75,9 @@ public class TumorTypesTxtApi {
         @RequestParam(value = "version", required = false) String version
     ) {
         Map<String, TumorType> tumorTypes = new HashMap<>();
-        Version v = (version == null) ? VersionUtil.getDefaultVersion() : VersionUtil.getVersion(version);
-        tumorTypes = CacheUtil.getTumorTypesByVersion(v);
-        InputStream inputStream = TumorTypesUtil.getTumorTypeInputStream(tumorTypes);
+        Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
+        tumorTypes = cacheUtil.getTumorTypesByVersion(v);
+        InputStream inputStream = tumorTypesUtil.getTumorTypeInputStream(tumorTypes);
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
         return inputStreamResource;
     }

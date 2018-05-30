@@ -24,6 +24,7 @@ import org.mskcc.oncotree.crosswalk.MSKConceptCache;
 import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
+import org.mskcc.oncotree.utils.CacheUtil;
 import org.mskcc.oncotree.utils.VersionUtil;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
@@ -41,6 +42,8 @@ import static org.mockito.Matchers.*;
  */
 @Configuration
 public class OncotreeTestConfig {
+
+    private List<OncoTreeNode> oncoTreeRepositoryMockResponse = setupOncotreeRepositoryMockResponse();
 
     @Bean
     public OncoTreeVersionRepository oncoTreeVersionRepository() {
@@ -82,16 +85,16 @@ public class OncotreeTestConfig {
 
     @Bean
     public MSKConceptCache mskConceptCache() {
-        MSKConceptCache mskConceptCache = Mockito.mock(MSKConceptCache.class);
-        MSKConcept mskConcept = new MSKConcept();
-        mskConcept.setConceptIds(Arrays.asList("MSK00001", "MSK00002"));
-        Mockito.when(mskConceptCache.get(any(String.class))).thenReturn(mskConcept); 
-        return mskConceptCache;
+        return new MSKConceptCache();
     }
 
     @Bean
     public CrosswalkRepository crosswalkRepository() {
-        return Mockito.mock(CrosswalkRepository.class);
+        CrosswalkRepository repository = Mockito.mock(CrosswalkRepository.class);
+        MSKConcept mskConcept = new MSKConcept();
+        mskConcept.setConceptIds(Arrays.asList("MSK00001", "MSK00002"));
+        Mockito.when(repository.getByOncotreeCode(any(String.class))).thenReturn(mskConcept);
+        return repository;
     }
 
     @Bean
@@ -100,8 +103,8 @@ public class OncotreeTestConfig {
     }
 
     @Bean
-    public List<OncoTreeNode> oncoTreeRepositoryMockResponse() throws Exception {
-        return setupOncotreeRepositoryMockResponse();
+    public CacheUtil cacheUtil() {
+        return new CacheUtil();
     }
 
     @Bean
@@ -121,14 +124,17 @@ public class OncotreeTestConfig {
 
     @Bean
     public OncoTreeRepository oncoTreeRepository() {
-        return Mockito.mock(OncoTreeRepository.class);
+        OncoTreeRepository mockRepository = Mockito.mock(OncoTreeRepository.class);
+        Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
+        return mockRepository;
     }
 
-    public static void resetWorkingRepository(OncoTreeRepository mockRepository) {
+    public void resetWorkingRepository(OncoTreeRepository mockRepository) {
         Mockito.reset(mockRepository);
+        Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenReturn(oncoTreeRepositoryMockResponse);
     }
 
-    public static void resetNotWorkingRepository(OncoTreeRepository mockRepository) {
+    public void resetNotWorkingRepository(OncoTreeRepository mockRepository) {
         Mockito.reset(mockRepository);
         Mockito.when(mockRepository.getOncoTree(any(Version.class))).thenThrow(new TopBraidException("faking a problem getting the topbraid data"));
     }
@@ -155,17 +161,17 @@ public class OncotreeTestConfig {
         return mockVersion;
     }
 
-    private List<OncoTreeNode> setupOncotreeRepositoryMockResponse() throws Exception {
+    private List<OncoTreeNode> setupOncotreeRepositoryMockResponse() {
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 5;
         if (rawTestValueSource.length % valuesPerCase != 0) {
-            throw new Exception("Error : malformed rawTestValueSource");
+            throw new RuntimeException("Error : malformed rawTestValueSource");
         }
         final int caseCount = rawTestValueSource.length / valuesPerCase;
         if (caseCount < 1) {
-            throw new Exception("Error : no test cases defined in rawTestValueSource");
+            throw new RuntimeException("Error : no test cases defined in rawTestValueSource");
         }
-        List<OncoTreeNode> oncoTreeRepositoryMockResponse = new ArrayList<>();
+        List<OncoTreeNode> tmpOncoTreeRepositoryMockResponse = new ArrayList<>();
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             OncoTreeNode nextNode = new OncoTreeNode();
             nextNode.setCode(rawTestValueSource[pos]);
@@ -173,9 +179,9 @@ public class OncotreeTestConfig {
             nextNode.setMainType(rawTestValueSource[pos + 2]);
             nextNode.setColor(rawTestValueSource[pos + 3]);
             nextNode.setParentCode(rawTestValueSource[pos + 4]);
-            oncoTreeRepositoryMockResponse.add(nextNode);
+            tmpOncoTreeRepositoryMockResponse.add(nextNode);
         }
-        return oncoTreeRepositoryMockResponse;
+        return tmpOncoTreeRepositoryMockResponse;
     }
 
     private Map<String, TumorType> setupExpectedTumorTypeMap() throws Exception {
