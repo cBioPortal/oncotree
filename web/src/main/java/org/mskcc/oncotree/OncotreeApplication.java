@@ -5,20 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableSwagger2
 public class OncotreeApplication extends SpringBootServletInitializer {
 
     @Override
@@ -38,36 +29,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
                 registry.addMapping("/**");
             }
 
-            @Override
-            public void addViewControllers(final ViewControllerRegistry registry) {
-                super.addViewControllers(registry);
-                registry.addRedirectViewController("/oncotree-mappings/","/#/home?tab=mapping").setKeepQueryParams(true).setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-        
-            }
         };
-    }
-
-    @Bean
-    ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo(
-            "OncoTree API",
-            "Warning : this version of the API will be discontinued on May 31, 2018.\n\nPlease migrate to v1.0.0 available now at http://oncotree.mskcc.org/swagger-ui.html",
-            "0.0.1",
-            "",
-            "",
-            "",
-            "");
-        return apiInfo;
-    }
-
-    @Bean
-    public Docket customImplementation() {
-        return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("org.mskcc.oncotree.api"))
-            .build()
-            .useDefaultResponseMessages(false)
-            .apiInfo(apiInfo());
     }
 
 }
