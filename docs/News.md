@@ -1,4 +1,24 @@
 ### News
+#### June 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_06_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_05_01*.
+ *   **Blood and Lymph subtrees replaced with new Myeloid and Lymphoid subtrees:**
+        * 23 nodes in the previous Blood subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: BLOOD, BPDCN, HIST, LCH, ECD, LEUK, ALL, BALL, TALL, AMOL, AML, CLL, CML, CMML, HCL, LGLL, MM, MDS, MPN, ETC, MYF, PCV, SM
+        * 28 nodes in the previous Lymph subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: LYMPH, HL, CHL, NLPHL, NHL, BCL, BL, DLBCL, MALTL, FL, MCL, MZL, MBCL, NMZL, PCNSL, PEL, SLL, SMZL, WM, TNKL, CTCL, MYCF, SEZS, PTCL, ALCL, AITL, PTCLNOS, RD
+        * 122 nodes in the current Lymphoid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: LYMPH, LATL, LBGN, LNM, BLL, BLLRGA, BLLHYPER, BLLHYPO, BLLIAMP21, BLLETV6RUNX1, BLLTCF3PBX1, BLLIL3IGH, BLLBCRABL1, BLLKMT2A, BLLBCRABL1L, BLLNOS, HL, CHL, LDCHL, LRCHL, MCCHL, NSCHL, NLPHL, MBN, ALKLBCL, AHCD, BCLU, BPLL, BL, BLL11Q, CLLSLL, DLBCLCI, DLBCLNOS, ABC, GCB, EBVDLBCLNOS, EBVMCU, EP, FL, DFL, ISFN, GHCD, HHV8DLBCL, HCL, HGBCL, HGBCLMYCBCL2, IVBCL, LBLIRF4, LYG, LPL, WM, MCL, ISMCL, MZL, EMALT, NMZL, SMZL, MCBCL, MGUS, MGUSIGA, MGUSIGG, MGUSIGM, MIDD, MIDDA, MIDDO, MHCD, PTFL, PCM, PLBL, PCLBCLLT, PCFCL, PCNSL, PEL, PMBL, SPB, SBLU, HCL-V, SDRPL, THRLBCL, MTNN, ATLL, ANKL, ALCL, ALCLALKN, ALCLALKP, BIALCL, AITL, CLPDNK, EATL, ENKL, FTCL, HSTCL, HVLL, ITLPDGI, MEATL, MYCF, NPTLTFH, PTCL, PCATCL, PCLPD, LYP, PCALCL, PCSMTPLD, PCAECTCL, PCGDTCL, SS, SPTCL, SEBVTLC, TLGL, TPLL, NHL, PTLD, CHLPTLD, FHPTLD, IMPTLD, MPTLD, PHPTLD, PPTLD, RDD, TLL, ETPLL, NKCLL
+        * 101 nodes in the current Myeloid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: MYELOID, MATPL, MBGN, MNM, ALAL, AUL, MPALBCRABL1, MPALKMT2A, MPALBNOS, MPALTNOS, AML, AMLMRC, AMLRGA, AMLRBM15MKL1, AMLBCRABL1, AMLCEBPA, AMLNPM1, AMLRUNX1, AMLCBFBMYH11, AMLGATA2MECOM, AMLDEKNUP214, AMLRUNX1RUNX1T1, AMLMLLT3KMT2A, APLPMLRARA, AMLNOS, AM, AMLMD, AWM, ABL, AMKL, AMOL, AMML, APMF, PERL, MPRDS, MLADS, TAM, MS, TMN, TAML, TMDS, BPDCN, HDCN, JXG, ECD, FRCT, FDCS, HS, IDCT, IDCS, LCH, LCS, MCD, CMCD, MCSL, SM, ASM, ISM, SMMCL, SSM, SMAHN, MDS, MDSEB, MDSEB1, MDSEB2, MDSID5Q, MDSMD, MDSRS, MDSRSMD, MDSRSSLD, MDSSLD, MDSU, RCYC, MDS/MPN, aCML, CMML, CMML0, CMML1, CMML2, JMML, MDSMPNRST, MDSMPNU, MNGLP, MLNER, MLNFGFR1, MLNPCM1JAK2, MLNPDGFRA, MLNPDGFRB, MPN, CELNOS, CML, CMLBCRABL1, CNL, ET, ETMF, MPNU, PV, PVMF, PMF, PMFPES, PMFOFS
+ *   **Nodes reclassified**
+        * Adrenocortical Adenoma (ACA) MainType is now Adrenocortical Adenoma [previously: Adrenocortical Carcinoma]
+        * Ampulla of Vater (AMPULLA_OF_VATER) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
+        * Parathyroid Cancer (PTH) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
+        * Parathyroid Carcinoma (PTHC) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
+        * Follicular Dendritic Cell Sarcoma (FDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
+        * Interdigitating Dendritic Cell Sarcoma (IDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
+ *   **New nodes added:**
+        * Inverted Urothelial Papilloma (IUP)
+        * Urothelial Papilloma (UPA)
+        * Oncocytic Adenoma of the Thyroid (OAT)
+ *   **Character set simplification**
+        * Salivary Gland-Type Tumor of the Lung (SGTTL) used to contain a unicode character for a horizontal dash. This punctuation mark is now a hyphen.
 #### May 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_05_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_04_01*.
  *   **New nodes added:**
