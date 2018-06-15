@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>web</module>
-        <module>core</module>
     </modules>
 
     <name>OncoTree</name>

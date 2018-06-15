@@ -3,206 +3,28 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="css/bootstrap.css?05022016"/>
-    <link rel="stylesheet" type="text/css" href="css/jquery.qtip.min.css?05022016">
     <link type="text/css" rel="stylesheet" href="css/style.css?05022016"/>
     <script type="text/javascript" src="js/jquery-1.11.1.min.js?05022016"></script>
-    <script type="text/javascript" src="js/d3.v3.min.js?05022016"></script>
     <script type="text/javascript" src="js/bootstrap.js?05022016"></script>
-    <script type="text/javascript" src="js/jquery.qtip.min.js?05022016"></script>
     <script type="text/javascript" src="js/clipboard.min.js?05022016"></script>
     <script type="text/javascript" src="js/showdown-1.8.6.min.js?02072018"></script>
-    <script type="text/javascript" src="js/main.js?02072018"></script>
-    <script type="text/javascript" src="js/tree.js?02072018"></script>
-    <script type="text/javascript" src="js/oncotree-mapping.js?02072018"></script>
-    <script type="text/javascript" src="js/news.js?02072018"></script>
   </head>
   <body>
     <div id="body" class="container">
-      <!-- start of tabs nav div-->
-      <ul  class="nav nav-tabs" id="tabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" href="#tree" id="tree-tab" data-toggle="tab" role="tab" aria-controls="tree">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#mapping" id="mapping-tab" data-toggle="tab" role="tab" aria-controls="mapping">Mapping</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#news"  id="news-tab" data-toggle="tab" role="tab" aria-controls="news">News</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#api" id="api-tab" data-toggle="tab" role="tab" aria-controls="api">API</a>
-        </li>
-      </ul>
-      <!-- end of tabs nav div -->
-      <!-- start of tabs content div -->
-      <div class="tab-content">
-        <!-- tree tab -->
-        <div class="tab-pane fade" id="tree" role="tabpanel">
-          <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-              <h3>CMO Tumor Type Tree</h3>
-              <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Announcement:</strong> A new version of this website is available now at <a href="http://oncotree.mskcc.org/" class="alert-link">http://oncotree.mskcc.org/</a>. On May 31, 2018 this version of the website will no longer be available at this location. Please update your bookmarks accordingly.
-              </div>
-              <p>
-                If you cannot see the tree below in Internet Explorer, please use Firefox or Chrome.
-              </p>
-              <div class="alert alert-info" role="alert">
-                <p>
-                  <span>Oncotree verison currently displayed: </span>
-                  <span id="other-version">
-                    <select class="other-version-content"></select>
-                  </span>
-                </p>
-                <p><span id="summary-info"></span></p>
-                <p><span id='version-note'></span></p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-9 has-addon-feedback">
-              <div class="input-group" id='tumor_search'>
-                <input type="text" class="form-control" placeholder="Search Tumor Type" />
-                <span id="searchRemoveIcon" class="form-control-feedback glyphicon glyphicon-remove-circle"></span>
-                <span id="searchResult" class="form-control-feedback result"></span>
-                <span class="input-group-btn">
-                  <button type="button" class="btn btn-default">Search</button>
-                </span>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-              <div class="btn-group">
-                <button type="button" class="btn btn-default" id='expand-nodes-btn'>
-                  <span class="glyphicon glyphicon-resize-full"></span>
-                </button>
-                <button type="button" class="btn btn-default" id='collapse-nodes-btn'>
-                  <span class="glyphicon glyphicon-resize-small"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div id="tree"></div>
-          <div id="summary-duplicates" class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-            <b>Acronym crash:</b>
-            <p id="" class="bg-danger"></p>
-          </div>
-          <span id="top-link-block" class="hidden">
-            <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0, scrollLeft: 0},'slow');return false;">
-              <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
-            </a>
-          </span>
-        </div>
-
-        <!-- mapping tab -->
-        <div class="tab-pane fade" id='mapping' role="tabpanel">
-          <div class="row">
-            <div class="col-md-8">
-              <h3>Oncotree Mappings</h3>
-              <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Announcement:</strong> A new version of this website is available now at <a href="http://oncotree.mskcc.org/" class="alert-link">http://oncotree.mskcc.org/</a>. On May 31, 2018 this version of the website will no longer be available at this location. Please update your bookmarks accordingly.
-              </div>
-              <p>
-                You have the following two ways of getting mappings to Oncotree
-              </p>
-              <dl>
-                <dt>Via Vocabulary and a Concept IDs</dt>
-                <dd>Choose a vocabulary ID from the dropdown, e.g. ICD10, and input a concept ID, e.g. C92 (Acute Myeloid Leukemia )</dd>
-                </br>
-                <dt>Via ICDO Site and Histology Codes</dt>
-                <dd>Pick ICDO from the vocabulary dropdown, and enter a Histology Code, e.g. 8490/3, and a Site Code, e.g. C16.1</dd>
-              </dl>
-              <address>
-                <strong>If You have any questions contact </strong>
-                <a href="mailto:#">huergasi@mskcc.org</a>
-              </address>
-            </div>
-            <div class="col-md-4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-8">
-              <div class="well well-sm">
-                <form>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="vocabularyIdLabel">Vocabulary ID</label>
-                        <select id="vocabularyId" name="vocabularyId" class="form-control" required="required">
-                          <option value="ICDO" selected="">ICDO</option>
-                          <option value="ICD9CM">ICD9</option>
-                          <option value="ICD10CM">ICD10</option>
-                          <option value="LNC">LOINC</option>
-                          <option value="MSH">MeSH</option>
-                          <option value="NCI">NCI Thesaurus</option>
-                          <option value="OMOP">OMOP</option>
-                          <option value="RXNORM">RxNORM</option>
-                          <option value="SNOMEDCT_US">SNOMEDCT-US</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="conceptIdLabel">Concept ID</label>
-                        <input type="text" class="form-control" id="conceptId" placeholder="Enter Concept Id, e.g. C16" />
-                      </div>
-                      <div class="form-group">
-                        <label for="histologyCodeLabel">Histology Code</label>
-                        <input type="text" class="form-control" id="histologyCode" placeholder="Enter ICDO Histology Code, e.g. 8490/3" />
-                      </div>
-                      <div class="form-group">
-                        <label for="siteCodeLabel">Site Code</label>
-                        <input type="text" class="form-control" id="siteCode" placeholder="Enter ICDO Site Code, e.g. C16.1" />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="mappinsLabel">Oncotree Mappings</label>
-                        <textarea name="mappings" id="mappings" class="form-control" rows="9" cols="25"
-                            placeholder="The Oncotree codes (if any) that map to your code will show up here"></textarea>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <button type="submit" class="btn btn-primary pull-right" id="mappingsBtn">Get Mappings</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="row">
-                <div class="col-md-12">
-                  <div id="mapping-api"></div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div id="result">
-                  </div>
-                  <pre id="resJson" style="display: none;"></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div><!-- end mapping tab div -->
-
-        <!-- news tab -->
-        <div class="tab-pane fade" id='news' role="tabpanel">
-        </div>
-
-        <!-- api tab -->
-        <div class="tab-pane fade" id='api' role="tabpanel">
-          <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Announcement:</strong> A new version of this website is available now at <a href="http://oncotree.mskcc.org/" class="alert-link">http://oncotree.mskcc.org/</a>. On May 31, 2018 this version of the website will no longer be available at this location. Please update your bookmarks accordingly.
-          </div>
-          <div class="embed-responsive embed-responsive-16by9" style='margin: 30px' id='api-embed-dev'>
-            <iframe class="embed-responsive-item swagger-frame" src="swagger-ui.html"></iframe>
+      <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+          <h2>Oncotree</h2>
+          <div class="alert alert-warning" role="alert">
+            <p class="bg-warning">
+              <span class="glyphicon glyphicon-warning-sign bg-warning"> The oncotree website has moved to a new location:</span>
+              <a href="http://oncotree.mskcc.org">http://oncotree.mskcc.org</a>
+            </p>
+            <p class="bg-warning">
+              Please update your bookmarks to use this new location.
+            </p>
           </div>
         </div>
-
       </div>
-      <!-- end of tabs content div -->
-
     </div>
   </body>
 </html>

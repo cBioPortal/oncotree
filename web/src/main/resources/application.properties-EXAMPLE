@@ -1,14 +1,1 @@
-springfox.documentation.swagger.v2.path=/api-docs
-
 server.port=${port:38080}
-
-# for topbraid e.g. https://evn.mskcc.org/evn/tbl/sparql
-topbraid.url=
-topbraid.username=
-topbraid.password=
-
-# for crosswalk e.g. http://data.mskcc.org/ontologies/api/concept/crosswalk?vocabularyId={vocabularyId}&conceptId={conceptId}&histologyCode={histologyCode}&siteCode={siteCode}
-crosswalk.url=
-
-# for slack
-slack.url=
