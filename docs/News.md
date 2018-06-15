@@ -2,35 +2,35 @@
 #### June 15, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_15* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_01*.
  *   **Nodes reclassified**
-        * Mature B-Cell Neoplasms (MBN) and Mature T and NK Neoplasms (MTNN) and their subnodes were relocated to be under Non-Hodgkin Lymphoma (NHL).
-        * Rosai-Dorfman Disease (RDD) was relocated to be under Histiocytic and Dendritic Cell Neoplasms (HDCN). Previously RDD was under Lymphoid Neoplasm (LNM) in the Lymphoid category.
+     * Mature B-Cell Neoplasms (MBN) and Mature T and NK Neoplasms (MTNN) and their subnodes were relocated to be under Non-Hodgkin Lymphoma (NHL).
+     * Rosai-Dorfman Disease (RDD) was relocated to be under Histiocytic and Dendritic Cell Neoplasms (HDCN). Previously RDD was under Lymphoid Neoplasm (LNM) in the Lymphoid category.
 #### June 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_05_01*.
  *   **Blood and Lymph subtrees replaced with new Myeloid and Lymphoid subtrees:**
-        * 23 nodes in the previous Blood subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: BLOOD, BPDCN, HIST, LCH, ECD, LEUK, ALL, BALL, TALL, AMOL, AML, CLL, CML, CMML, HCL, LGLL, MM, MDS, MPN, ETC, MYF, PCV, SM
-        * 28 nodes in the previous Lymph subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: LYMPH, HL, CHL, NLPHL, NHL, BCL, BL, DLBCL, MALTL, FL, MCL, MZL, MBCL, NMZL, PCNSL, PEL, SLL, SMZL, WM, TNKL, CTCL, MYCF, SEZS, PTCL, ALCL, AITL, PTCLNOS, RD
-        * 122 nodes in the current Lymphoid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: LYMPH, LATL, LBGN, LNM, BLL, BLLRGA, BLLHYPER, BLLHYPO, BLLIAMP21, BLLETV6RUNX1, BLLTCF3PBX1, BLLIL3IGH, BLLBCRABL1, BLLKMT2A, BLLBCRABL1L, BLLNOS, HL, CHL, LDCHL, LRCHL, MCCHL, NSCHL, NLPHL, MBN, ALKLBCL, AHCD, BCLU, BPLL, BL, BLL11Q, CLLSLL, DLBCLCI, DLBCLNOS, ABC, GCB, EBVDLBCLNOS, EBVMCU, EP, FL, DFL, ISFN, GHCD, HHV8DLBCL, HCL, HGBCL, HGBCLMYCBCL2, IVBCL, LBLIRF4, LYG, LPL, WM, MCL, ISMCL, MZL, EMALT, NMZL, SMZL, MCBCL, MGUS, MGUSIGA, MGUSIGG, MGUSIGM, MIDD, MIDDA, MIDDO, MHCD, PTFL, PCM, PLBL, PCLBCLLT, PCFCL, PCNSL, PEL, PMBL, SPB, SBLU, HCL-V, SDRPL, THRLBCL, MTNN, ATLL, ANKL, ALCL, ALCLALKN, ALCLALKP, BIALCL, AITL, CLPDNK, EATL, ENKL, FTCL, HSTCL, HVLL, ITLPDGI, MEATL, MYCF, NPTLTFH, PTCL, PCATCL, PCLPD, LYP, PCALCL, PCSMTPLD, PCAECTCL, PCGDTCL, SS, SPTCL, SEBVTLC, TLGL, TPLL, NHL, PTLD, CHLPTLD, FHPTLD, IMPTLD, MPTLD, PHPTLD, PPTLD, RDD, TLL, ETPLL, NKCLL
-        * 101 nodes in the current Myeloid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: MYELOID, MATPL, MBGN, MNM, ALAL, AUL, MPALBCRABL1, MPALKMT2A, MPALBNOS, MPALTNOS, AML, AMLMRC, AMLRGA, AMLRBM15MKL1, AMLBCRABL1, AMLCEBPA, AMLNPM1, AMLRUNX1, AMLCBFBMYH11, AMLGATA2MECOM, AMLDEKNUP214, AMLRUNX1RUNX1T1, AMLMLLT3KMT2A, APLPMLRARA, AMLNOS, AM, AMLMD, AWM, ABL, AMKL, AMOL, AMML, APMF, PERL, MPRDS, MLADS, TAM, MS, TMN, TAML, TMDS, BPDCN, HDCN, JXG, ECD, FRCT, FDCS, HS, IDCT, IDCS, LCH, LCS, MCD, CMCD, MCSL, SM, ASM, ISM, SMMCL, SSM, SMAHN, MDS, MDSEB, MDSEB1, MDSEB2, MDSID5Q, MDSMD, MDSRS, MDSRSMD, MDSRSSLD, MDSSLD, MDSU, RCYC, MDS/MPN, aCML, CMML, CMML0, CMML1, CMML2, JMML, MDSMPNRST, MDSMPNU, MNGLP, MLNER, MLNFGFR1, MLNPCM1JAK2, MLNPDGFRA, MLNPDGFRB, MPN, CELNOS, CML, CMLBCRABL1, CNL, ET, ETMF, MPNU, PV, PVMF, PMF, PMFPES, PMFOFS
+     * 23 nodes in the previous Blood subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: BLOOD, BPDCN, HIST, LCH, ECD, LEUK, ALL, BALL, TALL, AMOL, AML, CLL, CML, CMML, HCL, LGLL, MM, MDS, MPN, ETC, MYF, PCV, SM
+     * 28 nodes in the previous Lymph subtree have been deleted or relocated/renamed. Affected oncotree codes from this tree: LYMPH, HL, CHL, NLPHL, NHL, BCL, BL, DLBCL, MALTL, FL, MCL, MZL, MBCL, NMZL, PCNSL, PEL, SLL, SMZL, WM, TNKL, CTCL, MYCF, SEZS, PTCL, ALCL, AITL, PTCLNOS, RD
+     * 122 nodes in the current Lymphoid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: LYMPH, LATL, LBGN, LNM, BLL, BLLRGA, BLLHYPER, BLLHYPO, BLLIAMP21, BLLETV6RUNX1, BLLTCF3PBX1, BLLIL3IGH, BLLBCRABL1, BLLKMT2A, BLLBCRABL1L, BLLNOS, HL, CHL, LDCHL, LRCHL, MCCHL, NSCHL, NLPHL, MBN, ALKLBCL, AHCD, BCLU, BPLL, BL, BLL11Q, CLLSLL, DLBCLCI, DLBCLNOS, ABC, GCB, EBVDLBCLNOS, EBVMCU, EP, FL, DFL, ISFN, GHCD, HHV8DLBCL, HCL, HGBCL, HGBCLMYCBCL2, IVBCL, LBLIRF4, LYG, LPL, WM, MCL, ISMCL, MZL, EMALT, NMZL, SMZL, MCBCL, MGUS, MGUSIGA, MGUSIGG, MGUSIGM, MIDD, MIDDA, MIDDO, MHCD, PTFL, PCM, PLBL, PCLBCLLT, PCFCL, PCNSL, PEL, PMBL, SPB, SBLU, HCL-V, SDRPL, THRLBCL, MTNN, ATLL, ANKL, ALCL, ALCLALKN, ALCLALKP, BIALCL, AITL, CLPDNK, EATL, ENKL, FTCL, HSTCL, HVLL, ITLPDGI, MEATL, MYCF, NPTLTFH, PTCL, PCATCL, PCLPD, LYP, PCALCL, PCSMTPLD, PCAECTCL, PCGDTCL, SS, SPTCL, SEBVTLC, TLGL, TPLL, NHL, PTLD, CHLPTLD, FHPTLD, IMPTLD, MPTLD, PHPTLD, PPTLD, RDD, TLL, ETPLL, NKCLL
+     * 101 nodes in the current Myeloid subtree have been added or relocated/renamed from previous subtrees. Oncotree codes in this new subtree are: MYELOID, MATPL, MBGN, MNM, ALAL, AUL, MPALBCRABL1, MPALKMT2A, MPALBNOS, MPALTNOS, AML, AMLMRC, AMLRGA, AMLRBM15MKL1, AMLBCRABL1, AMLCEBPA, AMLNPM1, AMLRUNX1, AMLCBFBMYH11, AMLGATA2MECOM, AMLDEKNUP214, AMLRUNX1RUNX1T1, AMLMLLT3KMT2A, APLPMLRARA, AMLNOS, AM, AMLMD, AWM, ABL, AMKL, AMOL, AMML, APMF, PERL, MPRDS, MLADS, TAM, MS, TMN, TAML, TMDS, BPDCN, HDCN, JXG, ECD, FRCT, FDCS, HS, IDCT, IDCS, LCH, LCS, MCD, CMCD, MCSL, SM, ASM, ISM, SMMCL, SSM, SMAHN, MDS, MDSEB, MDSEB1, MDSEB2, MDSID5Q, MDSMD, MDSRS, MDSRSMD, MDSRSSLD, MDSSLD, MDSU, RCYC, MDS/MPN, aCML, CMML, CMML0, CMML1, CMML2, JMML, MDSMPNRST, MDSMPNU, MNGLP, MLNER, MLNFGFR1, MLNPCM1JAK2, MLNPDGFRA, MLNPDGFRB, MPN, CELNOS, CML, CMLBCRABL1, CNL, ET, ETMF, MPNU, PV, PVMF, PMF, PMFPES, PMFOFS
  *   **Nodes reclassified**
-        * Adrenocortical Adenoma (ACA) MainType is now Adrenocortical Adenoma [previously: Adrenocortical Carcinoma]
-        * Ampulla of Vater (AMPULLA_OF_VATER) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
-        * Parathyroid Cancer (PTH) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
-        * Parathyroid Carcinoma (PTHC) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
-        * Follicular Dendritic Cell Sarcoma (FDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
-        * Interdigitating Dendritic Cell Sarcoma (IDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
+     * Adrenocortical Adenoma (ACA) MainType is now Adrenocortical Adenoma [previously: Adrenocortical Carcinoma]
+     * Ampulla of Vater (AMPULLA_OF_VATER) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
+     * Parathyroid Cancer (PTH) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
+     * Parathyroid Carcinoma (PTHC) MainType is now Parathyroid Cancer [previously: Head and Neck Cancer]
+     * Follicular Dendritic Cell Sarcoma (FDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
+     * Interdigitating Dendritic Cell Sarcoma (IDCS) was moved from the Soft Tissue subtree into the Myeloid subtree with direct parent Histiocytic and Dendritic Cell Neoplasms (HDCN)
  *   **New nodes added:**
-        * Inverted Urothelial Papilloma (IUP)
-        * Urothelial Papilloma (UPA)
-        * Oncocytic Adenoma of the Thyroid (OAT)
+     * Inverted Urothelial Papilloma (IUP)
+     * Urothelial Papilloma (UPA)
+     * Oncocytic Adenoma of the Thyroid (OAT)
  *   **Character set simplification**
-        * Salivary Gland-Type Tumor of the Lung (SGTTL) used to contain a unicode character for a horizontal dash. This punctuation mark is now a hyphen.
+     * Salivary Gland-Type Tumor of the Lung (SGTTL) used to contain a unicode character for a horizontal dash. This punctuation mark is now a hyphen.
 #### May 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_05_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_04_01*.
  *   **New nodes added:**
-        * Primary CNS Melanocytic Tumors (PCNSMT)
-        * Melanocytoma (MELC)
+     * Primary CNS Melanocytic Tumors (PCNSMT)
+     * Melanocytoma (MELC)
  *   **Node reclassified**
-        * Primary CNS Melanoma (PCNSM) now is a child of Primary CNS Melanocytic Tumors (PCNSMT) [previously under: CNS/Brain].
+     * Primary CNS Melanoma (PCNSM) now is a child of Primary CNS Melanocytic Tumors (PCNSMT) [previously under: CNS/Brain].
 #### April 23, 2018
  *   **New Web API Version Available**
      * A new version (v1.0.0) of the oncotree Web API is available. It can be explored here:
@@ -52,35 +52,35 @@ You can continue to access the previous version (v0.0.1) in its original locatio
 #### April 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_04_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_03_01*.
  *   **New nodes added:**
-        * Adamantinoma (ADMA)
-        * Tubular Adenoma of the Colon (TAC)
-        * Parathyroid Cancer (PTH)
-        * Parathyroid Carcinoma (PTHC)
-        * Renal Neuroendocrine Tumor (RNET)
+     * Adamantinoma (ADMA)
+     * Tubular Adenoma of the Colon (TAC)
+     * Parathyroid Cancer (PTH)
+     * Parathyroid Carcinoma (PTHC)
+     * Renal Neuroendocrine Tumor (RNET)
 #### March 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_03_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_02_01*.
  *   **New node added:**
-        * Ganglioneuroma (GN)
+     * Ganglioneuroma (GN)
  *   **Node reclassified**
-        * Rhabdoid Cancer (MRT) now has direct parent Kidney (KIDNEY) [previously: Wilms' Tumor (WT)] Main type is now "Rhabdoid Cancer" [previously: Wilms Tumor]
+     * Rhabdoid Cancer (MRT) now has direct parent Kidney (KIDNEY) [previously: Wilms' Tumor (WT)] Main type is now "Rhabdoid Cancer" [previously: Wilms Tumor]
 #### February 7, 2018
  *   **Oncotree format expanded to support deeper tree nodes**
-        * To support upcoming expansion of the oncotree, the 5 named levels of the oncotree {*Primary*, *Secondary*, *Tertiary*, *Quaternary*, *Quinternary*} have been dropped in favor of level numbers {1, 2, 3, 4, 5, ...}. Web API functions have been adjusted accordingly, and an API function which outputs a table format of the oncotree has been adjusted to output 7 levels of depth.
+     * To support upcoming expansion of the oncotree, the 5 named levels of the oncotree {*Primary*, *Secondary*, *Tertiary*, *Quaternary*, *Quinternary*} have been dropped in favor of level numbers {1, 2, 3, 4, 5, ...}. Web API functions have been adjusted accordingly, and an API function which outputs a table format of the oncotree has been adjusted to output 7 levels of depth.
  *   **Additional improvements to the website** :
-        * tab-style navigation
-        * more prominent version selection information
-        * a new **News** page
+     * tab-style navigation
+     * more prominent version selection information
+     * a new **News** page
 #### February 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_02_01* is now the latest stable release. The previous stable version is still accessible for use through version name *oncotree_2018_01_01*.
  *   **New nodes added:**
-        * Adenosquamous Carcinoma of the Gallbladder (GBASC)
-        * Gallbladder Adenocarcinoma, NOS (GBAD)
-        * Small Cell Gallbladder Carcinoma (SCGBC)
-        * Juvenile Secretory Carcinoma of the Breast (JSCB)
-        * Osteoclastic Giant Cell Tumor (OSGCT)
-        * Peritoneal Serous Carcinoma (PSEC)
+     * Adenosquamous Carcinoma of the Gallbladder (GBASC)
+     * Gallbladder Adenocarcinoma, NOS (GBAD)
+     * Small Cell Gallbladder Carcinoma (SCGBC)
+     * Juvenile Secretory Carcinoma of the Breast (JSCB)
+     * Osteoclastic Giant Cell Tumor (OSGCT)
+     * Peritoneal Serous Carcinoma (PSEC)
  *   **Nodes reclassified** [from: Embryonal Tumor, to: Peripheral Nervous System]:
-        * Ganglioneuroblastoma (GNBL)
-        * Neuroblastoma (NBL)
+     * Ganglioneuroblastoma (GNBL)
+     * Neuroblastoma (NBL)
  *   **Node with renamed oncotree code:**
-        * Spindle Cell Carcinoma of the Lung (SPCC) [previously: SpCC]
+     * Spindle Cell Carcinoma of the Lung (SPCC) [previously: SpCC]
