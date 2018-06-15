@@ -1,9 +1,9 @@
 ### News
 #### June 15, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_15* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_01*.
-*   **Nodes reclassified**
-    * Mature B-Cell Neoplasms (MBN) and Mature T and NK Neoplasms (MTNN) and their subnodes were relocated to be under Non-Hodgkin Lymphoma (NHL).
-    * Rosai-Dorfman Disease (RDD) was relocated to be under Histiocytic and Dendritic Cell Neoplasms (HDCN). Previously RDD was under Lymphoid Neoplasm (LNM) in the Lymphoid category.
+ *   **Nodes reclassified**
+        * Mature B-Cell Neoplasms (MBN) and Mature T and NK Neoplasms (MTNN) and their subnodes were relocated to be under Non-Hodgkin Lymphoma (NHL).
+        * Rosai-Dorfman Disease (RDD) was relocated to be under Histiocytic and Dendritic Cell Neoplasms (HDCN). Previously RDD was under Lymphoid Neoplasm (LNM) in the Lymphoid category.
 #### June 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_05_01*.
  *   **Blood and Lymph subtrees replaced with new Myeloid and Lymphoid subtrees:**
