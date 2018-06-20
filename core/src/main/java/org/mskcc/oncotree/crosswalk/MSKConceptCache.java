@@ -84,6 +84,11 @@ public class MSKConceptCache {
                 } else {
                     topBraidURIsToOncotreeCodes.put(node.getURI(), new HashSet<String>());
                 }
+                // TODO replace this hack for adding CLL to the history with something smarter
+                if (node.getURI().endsWith("ONC000369")) {
+                    mskConcept.addHistory("CLL");
+                    topBraidURIsToOncotreeCodes.get(node.getURI()).add("CLL");
+                }
                 // now save this as onoctree code history for this topbraid uri
                 topBraidURIsToOncotreeCodes.get(node.getURI()).add(node.getCode());
             }
