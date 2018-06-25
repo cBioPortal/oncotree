@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -68,11 +68,15 @@ public class MSKConceptCache {
     @PostConstruct // call when constructed
     @Scheduled(cron="0 0 3 * * SUN") // call every Sunday at 3am
     private void resetCache() {
+        final String STANDALONE_CLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000044";
+        final String FUSED_CLL_SLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000369";
         logger.info("resetCache() -- clearing Crosswalk MSKConcept cache and refilling");
         oncoTreeCodesToMSKConcepts.clear();
         // versions are ordered in ascending order by release date
         for (Version version : versionUtil.getVersions()) {
             List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+            MSKConcept fusedCllSllConceptCandidate = null;
+            MSKConcept standaloneCllConcept = null;
             for (OncoTreeNode node : oncoTreeNodes) {
                 MSKConcept mskConcept = getFromCrosswalkAndSave(node.getCode());
                 // get all codes defined so far for this topbraid uri and save in history
@@ -85,12 +89,22 @@ public class MSKConceptCache {
                     topBraidURIsToOncotreeCodes.put(node.getURI(), new HashSet<String>());
                 }
                 // TODO replace this hack for adding CLL to the history with something smarter
-                if (node.getURI().endsWith("ONC000369")) {
-                    mskConcept.addHistory("CLL");
-                    topBraidURIsToOncotreeCodes.get(node.getURI()).add("CLL");
+                switch (node.getURI()) {
+                case STANDALONE_CLL_URI:
+                    standaloneCllConcept = mskConcept;
+                    break;
+                case FUSED_CLL_SLL_URI:
+                    fusedCllSllConceptCandidate = mskConcept;
+                    break;
                 }
                 // now save this as onoctree code history for this topbraid uri
                 topBraidURIsToOncotreeCodes.get(node.getURI()).add(node.getCode());
+            }
+            // TODO replace this hack for adding CLL to the history with something smarter
+            if (standaloneCllConcept == null && fusedCllSllConceptCandidate != null) {
+                // only add CLL to the history when there is no standalone CLL node (ONC000044) in the current version
+                fusedCllSllConceptCandidate.addHistory("CLL");
+                topBraidURIsToOncotreeCodes.get(FUSED_CLL_SLL_URI).add("CLL");
             }
         }
     }
