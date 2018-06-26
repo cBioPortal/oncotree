@@ -174,6 +174,7 @@ public class OncotreeTestConfig {
         List<OncoTreeNode> tmpOncoTreeRepositoryMockResponse = new ArrayList<>();
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             OncoTreeNode nextNode = new OncoTreeNode();
+            nextNode.setURI("TESTURI");
             nextNode.setCode(rawTestValueSource[pos]);
             nextNode.setName(rawTestValueSource[pos + 1]);
             nextNode.setMainType(rawTestValueSource[pos + 2]);
