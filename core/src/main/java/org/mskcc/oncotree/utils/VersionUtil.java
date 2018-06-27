@@ -2,7 +2,6 @@ package org.mskcc.oncotree.utils;
 
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.error.InvalidVersionException;
-import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,11 +15,12 @@ import java.util.List;
 public class VersionUtil {
 
     public static final String DEFAULT_VERSION = "oncotree_latest_stable";
-    @Autowired
-    private OncoTreeVersionRepository oncoTreeVersionRepository;
 
+    @Autowired
+    private CacheUtil cacheUtil;
+    
     public List<Version> getVersions() {
-        return oncoTreeVersionRepository.getOncoTreeVersions();
+        return cacheUtil.getCachedVersions();
     }
 
     public Version getVersion(String version) throws InvalidVersionException {
