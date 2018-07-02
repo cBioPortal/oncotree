@@ -7,7 +7,6 @@ body {
   padding: 10px 20px;
 }
 
-
 #chart, #header, #footer {
   position: absolute;
   top: 0;
@@ -39,9 +38,9 @@ body {
 }
 
 #other-version .other-version-content .item {
-    margin-right: 10px;
-    text-decoration: underline;
-    cursor: pointer;
+  margin-right: 10px;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 rect {
@@ -118,33 +117,36 @@ a:hover {
 }
 
 .has-addon-feedback .form-control-feedback {
-    position: absolute;
-    top: 1px;
-    right: 70px;
-    display: block;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    text-align: center;
-    color: grey;
+  position: absolute;
+  top: 1px;
+  right: 70px;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: grey;
 }
 
 .has-addon-feedback .form-control-feedback.result {
-    right: 100px;
-    width: 80px;
-    z-index: 1;
-    text-align: right;
+  right: 100px;
+  width: 80px;
+  z-index: 1;
+  text-align: right;
 }
-
 
 .qtip-wide {
-    max-width: 600px;
-    white-space: nowrap;
+  max-width: 600px;
+  white-space: nowrap;
 }
 
+.small-text {
+  font-size: small;
+  white-space: nowrap;
+}
 
 a.qtip-link:link {
-    color: #0A5CC0;
-    background-color: transparent;
-    text-decoration: none;
+  color: #0A5CC0;
+  background-color: transparent;
+  text-decoration: none;
 }
