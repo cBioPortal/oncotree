@@ -1,4 +1,8 @@
 ### News
+#### July 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_07_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_15*.
+ *   **Node with renamed oncotree code**
+     * Atypical Chronic Myeloid Leukemia, BCR-ABL1- (ACML) [previously: aCML]
 #### June 15, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_15* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_01*.
  *   **Nodes reclassified**
