@@ -52,6 +52,21 @@ public class OncotreeTestConfig {
         return repository;
     }
 
+    public void resetVersionRepository(OncoTreeVersionRepository mockRepository) {
+        Mockito.reset(mockRepository);
+        Mockito.when(mockRepository.getOncoTreeVersions()).thenReturn(oncoTreeVersionRepositoryMockResponse());
+    }
+
+    public void resetAdditionalVersionRepository(OncoTreeVersionRepository mockRepository) {
+        Mockito.reset(mockRepository);
+        Mockito.when(mockRepository.getOncoTreeVersions()).thenReturn(oncoTreeAdditionalVersionRepositoryMockResponse());
+    }
+
+    public void resetNotWorkingVersionRepository(OncoTreeVersionRepository mockRepository) {
+        Mockito.reset(mockRepository);
+        Mockito.when(mockRepository.getOncoTreeVersions()).thenThrow(new TopBraidException("faking a problem getting the topbraid data"));
+    }
+
     @Bean
     public List<Version> oncoTreeVersionRepositoryMockResponse() {
         List<Version> oncoTreeVersionRepositoryMockResponse = new ArrayList<Version>();
@@ -77,6 +92,19 @@ public class OncotreeTestConfig {
         oncoTreeVersionRepositoryMockResponse.add(nextVersion);
         return oncoTreeVersionRepositoryMockResponse;
     }
+
+
+    @Bean
+    public List<Version> oncoTreeAdditionalVersionRepositoryMockResponse() {
+        List<Version> oncoTreeAdditionalVersionRepositoryMockResponse = new ArrayList<Version>(oncoTreeVersionRepositoryMockResponse());
+        Version nextVersion = new Version();
+        nextVersion.setVersion("test_version");
+        nextVersion.setGraphURI("urn:x-evn-master:test_version");
+        nextVersion.setDescription("This is just another test OncoTree version for testing cache updates");
+        oncoTreeAdditionalVersionRepositoryMockResponse.add(nextVersion);
+        return oncoTreeAdditionalVersionRepositoryMockResponse;
+    }
+
 
     @Bean
     public TopBraidSessionConfiguration topBraidSessionConfiguration() {

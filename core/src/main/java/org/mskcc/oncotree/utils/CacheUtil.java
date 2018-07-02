@@ -29,10 +29,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.HttpClientBuilder;
 
+import org.mskcc.oncotree.crosswalk.MSKConceptCache;
+import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidVersionException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.mskcc.oncotree.utils.VersionUtil;
 
@@ -60,7 +63,7 @@ public class CacheUtil {
     public static final Integer MAXIMUM_CACHE_AGE_IN_DAYS = 3;
 
     @Autowired
-    private VersionUtil versionUtil;
+    private OncoTreeVersionRepository oncoTreeVersionRepository;
 
     @Autowired
     private TumorTypesUtil tumorTypesUtil;
@@ -109,6 +112,14 @@ public class CacheUtil {
         }
     }
 
+    public  List<Version> getCachedVersions() {
+        if (tumorTypes == null) {
+            resetCache();
+        }
+        List<Version> cachedVersions = new ArrayList<>(tumorTypes.keySet());
+        return cachedVersions;
+    }
+
     private Map<String, TumorType> getUnmodifiableTumorTypesByVersion(Map<String, TumorType> tumorTypeMap) {
         // code is modifying the returned tumor types, make a copy of everything
         Map<String, TumorType> unmodifiableTumorTypeMap = new HashMap<String, TumorType>(tumorTypeMap.size());
@@ -120,15 +131,14 @@ public class CacheUtil {
 
     public void resetCache() throws FailedCacheRefreshException {
         logger.info("resetCache() -- refilling tumor types cache");
-        tumorTypes = new HashMap<>();
         Map<Version, Map<String, TumorType>> latestTumorTypes = new HashMap<>();
         try {
-            List<Version> versions = versionUtil.getVersions();
+            List<Version> versions = oncoTreeVersionRepository.getOncoTreeVersions();
         } catch (TopBraidException exception) {
             logger.error("resetCache() -- failed to pull versions from repository");
             throw new FailedCacheRefreshException("Failed to refresh cache");
         }
-        for (Version version : versionUtil.getVersions()) {
+        for (Version version : oncoTreeVersionRepository.getOncoTreeVersions()) {
             try {
                 latestTumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
             } catch (TopBraidException exception) {

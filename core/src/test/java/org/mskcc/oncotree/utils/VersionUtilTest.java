@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017-2018 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.mskcc.oncotree.error.InvalidVersionException;
+import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
 import org.mskcc.oncotree.model.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -35,8 +36,18 @@ import static org.mockito.Matchers.*;
 @RunWith(SpringRunner.class)
 @Import(OncotreeTestConfig.class)
 public class VersionUtilTest {
+
     @Resource(name="oncoTreeVersionRepositoryMockResponse")
     private List<Version> oncoTreeVersionRepositoryMockResponse;
+
+    @Resource(name="oncoTreeAdditionalVersionRepositoryMockResponse")
+    private List<Version> oncoTreeAdditionalVersionRepositoryMockResponse;
+
+    @Autowired
+    private OncoTreeVersionRepository oncoTreeVersionRepository;
+
+    @Autowired
+    private CacheUtil cacheUtil;
 
     @Autowired
     private VersionUtil versionUtil;
@@ -58,6 +69,9 @@ public class VersionUtilTest {
     @Before
     public void setupForTests() throws Exception {
         setupExpectedVersionMap();
+        OncotreeTestConfig config = new OncotreeTestConfig();
+        config.resetVersionRepository(oncoTreeVersionRepository);
+        cacheUtil.resetCache();
     }
 
     public String makeMismatchMessage(String versionName, String fieldName, String gotValue, String expectedValue) {
@@ -123,6 +137,43 @@ public class VersionUtilTest {
             failureReport.append("mismatch between returned version list (size:" + Integer.toString(returnedVersionMap.size()) +
                     ") and expected version list (size:" + Integer.toString(expectedVersionMap.size()) + ")");
             failureCount = failureCount + 1;
+        }
+        if (failureCount > 0) {
+            fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());
+        }
+        return;
+    }
+
+    /*
+     * Test that changes to TopBraid will not change VersionUtil
+     * Changes should only take effect after a cache refresh
+     * VersionUtil should only communicate with cache (not TopBraid repository) so OncoTree will be functional during TopBraid downtime
+     */
+    @Test
+    public void testVersionUtilCacheDependency() throws Exception {
+        OncotreeTestConfig config = new OncotreeTestConfig();
+        StringBuilder failureReport  = new StringBuilder();
+        int failureCount = 0;
+        List<Version> versionsFromUtil = versionUtil.getVersions();
+        // change OncoTreeVersionRepository to throw exception from Topbraid (mimic broken topbraid)
+        // cache is not refreshed (exception thrown instead) i.e if cache is stale and a cron-scheduled refresh occured when TopBraid was down
+        config.resetNotWorkingVersionRepository(oncoTreeVersionRepository);
+        try {
+            cacheUtil.resetCache();
+        } catch (FailedCacheRefreshException e) {
+            // Do nothing - exception should be thrown, cache is nulled out
+        }
+        int currentNumberOfVersions = versionUtil.getVersions().size();
+        if (currentNumberOfVersions != oncoTreeVersionRepositoryMockResponse.size()) {
+            failureReport.append("An invalid recache attempt was recognized by VersionUtil. Oncotree will fail during TopBraid downtime. Expected number of versions: " + String.valueOf(oncoTreeVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
+            failureCount = failureCount +1;
+        }
+        config.resetAdditionalVersionRepository(oncoTreeVersionRepository);
+        cacheUtil.resetCache();
+        currentNumberOfVersions = versionUtil.getVersions().size();
+        if (currentNumberOfVersions != oncoTreeAdditionalVersionRepositoryMockResponse.size()) {
+            failureReport.append("Changes to TopBraid repository were not recognized by VersionUtil after cache refresh. Expected number of versions: " + String.valueOf(oncoTreeAdditionalVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
+            failureCount = failureCount +1;
         }
         if (failureCount > 0) {
             fail(Integer.toString(failureCount) + " failed test conditions. Details follow... " + failureReport.toString());

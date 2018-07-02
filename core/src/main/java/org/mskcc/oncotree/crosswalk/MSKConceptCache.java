@@ -26,7 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
-import org.mskcc.oncotree.utils.VersionUtil;
+import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.mskcc.oncotree.model.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -54,7 +56,7 @@ public class MSKConceptCache {
     private CrosswalkRepository crosswalkRepository;
 
     @Autowired
-    private VersionUtil versionUtil;
+    private OncoTreeVersionRepository oncoTreeVersionRepository;
 
     public MSKConcept get(String oncoTreeCode) {
         if (oncoTreeCodesToMSKConcepts.containsKey(oncoTreeCode)) {
@@ -62,7 +64,10 @@ public class MSKConceptCache {
             return oncoTreeCodesToMSKConcepts.get(oncoTreeCode);
         }
         logger.debug("get(" + oncoTreeCode + ") -- NOT in cache, query crosswalk");
-        return getFromCrosswalkAndSave(oncoTreeCode);
+        MSKConcept concept = getFromCrosswalk(oncoTreeCode);
+        // save even if has no information in it
+        oncoTreeCodesToMSKConcepts.put(oncoTreeCode, concept);
+        return concept;
     }
 
     @PostConstruct // call when constructed
@@ -70,15 +75,29 @@ public class MSKConceptCache {
     private void resetCache() {
         final String STANDALONE_CLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000044";
         final String FUSED_CLL_SLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000369";
-        logger.info("resetCache() -- clearing Crosswalk MSKConcept cache and refilling");
-        oncoTreeCodesToMSKConcepts.clear();
+        logger.info("resetCache() -- attempting to refresh  Crosswalk MSKConcept cache");
+        HashMap<String, MSKConcept> latestOncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>(); 
+        List<Version> versions = new ArrayList<Version>();
+        try {
+            versions = oncoTreeVersionRepository.getOncoTreeVersions();
+        } catch (TopBraidException e) {
+            logger.error("resetCache() -- failed to pull versions from repository");
+            throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
+        } 
         // versions are ordered in ascending order by release date
-        for (Version version : versionUtil.getVersions()) {
-            List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+        for (Version version : versions) {
+            List<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
+            try {
+                oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+            } catch (TopBraidException e) {
+                logger.error("resetCache() -- failed to pull a versioned oncotree");
+                throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
+            }
             MSKConcept fusedCllSllConceptCandidate = null;
             MSKConcept standaloneCllConcept = null;
             for (OncoTreeNode node : oncoTreeNodes) {
-                MSKConcept mskConcept = getFromCrosswalkAndSave(node.getCode());
+                MSKConcept mskConcept = getFromCrosswalk(node.getCode());
+                latestOncoTreeCodesToMSKConcepts.put(node.getCode(), mskConcept);
                 // get all codes defined so far for this topbraid uri and save in history
                 if (topBraidURIsToOncotreeCodes.containsKey(node.getURI())) {
                     // do not add this code to the history, but add any others
@@ -107,21 +126,16 @@ public class MSKConceptCache {
                 topBraidURIsToOncotreeCodes.get(FUSED_CLL_SLL_URI).add("CLL");
             }
         }
+        oncoTreeCodesToMSKConcepts = latestOncoTreeCodesToMSKConcepts;
     }
-
-    private MSKConcept getFromCrosswalkAndSave(String oncoTreeCode) {
-        // only save if we have not seen before (UMLS/NCI info will not be different)
-        if (oncoTreeCodesToMSKConcepts.containsKey(oncoTreeCode)) {
-            return oncoTreeCodesToMSKConcepts.get(oncoTreeCode);
-        }
+    
+    private MSKConcept getFromCrosswalk(String oncoTreeCode) {
         MSKConcept concept = new MSKConcept();
         try {
             concept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         } catch (CrosswalkException e) {
             // do nothing
         }
-        // save even if has no information in it
-        oncoTreeCodesToMSKConcepts.put(oncoTreeCode, concept);
         return concept;
     }
 }
