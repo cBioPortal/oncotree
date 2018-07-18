@@ -5,10 +5,11 @@
 
     <groupId>org.mskcc.oncotree</groupId>
     <artifactId>web</artifactId>
-    <packaging>war</packaging>
+    <packaging>${packaging.type}</packaging>
 
     <name>OncoTree Web</name>
     <description>The web module for OncoTree</description>
+    <url>https://github.com/cBioPortal/oncotree/</url>
 
     <parent>
         <groupId>org.mskcc.oncotree</groupId>
@@ -23,6 +24,25 @@
         <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
         <oncotree.core.version>0.0.1-SNAPSHOT</oncotree.core.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>war</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <packaging.type>war</packaging.type>
+            </properties>
+        </profile>
+        <profile>
+            <id>jar</id>
+            <properties>
+                <packaging.type>jar</packaging.type>
+                <start-class>org.mskcc.oncotree.OncotreeApplication</start-class>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <finalName>oncotree</finalName>
@@ -45,6 +65,18 @@
                 <configuration>
                     <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.5.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

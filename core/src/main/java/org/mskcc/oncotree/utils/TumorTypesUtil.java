@@ -280,7 +280,7 @@ public class TumorTypesUtil {
                         tumorType.addExternalReference("UMLS", mskConceptId.replace("MSK", "C"));
                     }
                 }
-                tumorType.setHistory(new ArrayList(mskConcept.getHistory()));
+                tumorType.setHistory(new ArrayList<String>(mskConcept.getHistory()));
             }
             if (rootNodeCodeSet.contains(thisNodeCode)) {
                 continue; //root node has no parent
