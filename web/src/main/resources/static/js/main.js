@@ -1,13 +1,13 @@
 
 $(document).ready(function(){
 	"use strict";
-    var version_ = '';
-    var versions_ = {};
+    var displayed_version = '';
+    var available_versions = {};
     var location_ = window.location.href;
 
     loadVersions(function() {
       checkURL();
-      tree.init(version_);
+      tree.init(displayed_version);
       initVersionsLink();
       initEvents();
       OutJS.backToTop();
@@ -33,12 +33,13 @@ $(document).ready(function(){
       $.get('api/versions')
         .done(function(data) {
           if (data instanceof Array) { 
-            versions_ = data.reduce(function(acc, cur) {
-              if (cur.visible) {
+            available_versions = data.reduce(
+              function(acc, cur) {
                 acc[cur.api_identifier] = cur;
-              }
-              return acc;
-            }, {});
+                return acc;
+              },
+              {}
+            );
           }
         })
         .fail(function() {
@@ -49,6 +50,7 @@ $(document).ready(function(){
         }
       })
     }
+
     function initEvents() {
     	$('#tumor_search button').click(function() {
 	        OutJS.search();
@@ -94,25 +96,36 @@ $(document).ready(function(){
     }
 
     function initVersionsLink() {
-      var _str = [];
-      Object.keys(versions_).sort().forEach(function(item) {
-        var _hash = '#/home';
-        var _content = 'Lastest';
-
-        _hash += '?version=' + item;
-        _content = item;
-        var option = '<option data-desc="' + versions_[item].description + '" class="item" hash="' + _hash + '">' + _content + '</option>';
-        if (version_ === _content && _str.length > 0) {
-            var tmp = _str[0];
-            _str[0] = option;
-            _str.push(tmp);
-        }
-        else {
-            _str.push(option);
-        }
-      });
-      $('#other-version .other-version-content').html(_str.join(''));
-      $('#version-note').append($("#other-version .other-version-content :selected").data("desc"));
+      var option_list_html = [];
+      var sorted_version_list = Object.keys(available_versions);
+      sorted_version_list.sort(
+          function(a,b) {
+            if (available_versions[a].visible && !available_versions[b].visible) {
+              return -1;
+            }
+            if (available_versions[b].visible && !available_versions[a].visible) {
+              return 1;
+            }
+            return available_versions[b].release_date.localeCompare(available_versions[a].release_date);
+          });
+      var previous_version_was_visible = false;
+      sorted_version_list.forEach(
+        function(item) {
+          var _hash = '#/home?version=' + item;
+          var selected_attribute = '';
+          if (displayed_version === item) {
+            selected_attribute = ' selected';
+          }
+          var option = '<option data-desc="' + available_versions[item].description + '" class="item" hash="' + _hash + '" ' + selected_attribute + '>' + item + '</option>';
+          var this_item_is_visible = available_versions[item].visible;
+          if (!this_item_is_visible && previous_version_was_visible) {
+            option_list_html.push('<option class="item" hash="disabled" disabled>' + '&HorizontalLine;'.repeat(10) + '</option>')
+          }
+          option_list_html.push(option);
+          previous_version_was_visible = this_item_is_visible;
+        });
+      $('#other-version .other-version-content').html(option_list_html.join(''));
+      $('#oncotree-version-note').append($("#other-version .other-version-content :selected").data("desc"));
       $('#other-version .other-version-content').change(function() {
         var _hash = $(this)[0].selectedOptions[0].attributes['hash'].value;
         window.location.hash = _hash;
@@ -163,14 +176,14 @@ $(document).ready(function(){
         }, {});
 
         if (parameters.hasOwnProperty('version') && parameters.version.val) {
-          for (var _version in versions_) {
+          for (var _version in available_versions) {
             if (_version === parameters.version.val) {
-              version_ = _version;
+              displayed_version = _version;
             }
           }
           var _hash = '/home';
-          if (version_) {
-            _hash += '?version=' + version_;
+          if (displayed_version) {
+            _hash += '?version=' + displayed_version;
           }
           window.location.hash = _hash;
         }
@@ -181,7 +194,7 @@ $(document).ready(function(){
           $('#tabs a[href="#tree"]').tab('show');
         }
       } else {
-        version_ = 'oncotree_latest_stable';
+        displayed_version = 'oncotree_latest_stable';
         // default tab is tree
         $('#tabs a[href="#tree"]').tab('show');
         window.location.hash = '/home';
