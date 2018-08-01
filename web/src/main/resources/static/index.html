@@ -50,14 +50,12 @@
                 If you cannot see the tree below in Internet Explorer, please use Firefox or Chrome.
               </p>
               <div class="alert alert-info" role="alert">
-                <p>
-                  <span>OncoTree verison currently displayed: </span>
-                  <span id="other-version">
-                    <select class="other-version-content"></select>
-                  </span>
-                </p>
-                <p><span id="summary-info"></span></p>
-                <p><span id='version-note'></span></p>
+                <span>Currently displaying : </span>
+                <span id="other-version">
+                  <select class="other-version-content"></select>
+                </span>
+                <div><span id="oncotree-version-statistics"></span></div>
+                <div><span id='oncotree-version-note'></span></div>
               </div>
             </div>
           </div>
@@ -85,8 +83,12 @@
           </div>
           <div id="tree-div"></div>
           <div id="summary-duplicates" class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-            <b>Acronym crash:</b>
-            <p id="" class="bg-danger"></p>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>Oncotree Definitions Not Yet Available.</strong> The definitions containing the oncotree nodes, annotations, and relationships have not yet been loaded. This information is normally immediately available for display, but sometimes after a web server restart it can take up to 3 minutes for the data to be organized in the webserver. If you are seeing this message for longer than that, then a more serious problem is preventing the oncotree website from functioning properly and we apologize for the inconvenience this causes.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
           </div>
           <span id="top-link-block" class="hidden">
             <a href="#top" class="well well-sm"  onclick="$('html,body').animate({scrollTop:0, scrollLeft: 0},'slow');return false;">

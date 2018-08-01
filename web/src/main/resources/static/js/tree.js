@@ -32,7 +32,7 @@ var tree = (function () {
 
     function UniqueTreeNodeDatum() {
         this.name = '';
-        this.acronym = '';
+        this.code = '';
         this.mainType = '';
         this.color = '';
         this.nci = [];
@@ -58,7 +58,7 @@ var tree = (function () {
         // childData is always for a new unique node
         var childNode = new UniqueTreeNodeDatum();
         childNode.name = childData.name + " (" + childData.code + ")";
-        childNode.acronym = childData.code;
+        childNode.code = childData.code;
 
         if (childData.hasOwnProperty('mainType') && childData.mainType != null && childData.mainType !== '') {
             childNode.mainType = childData.mainType;
@@ -84,10 +84,10 @@ var tree = (function () {
         }
 
         // save code and name to check for duplicate codes later
-        if (!oncotreeCodesToNames.hasOwnProperty(childNode.acronym)) {
-            oncotreeCodesToNames[childNode.acronym] = [];
+        if (!oncotreeCodesToNames.hasOwnProperty(childNode.code)) {
+            oncotreeCodesToNames[childNode.code] = [];
         }
-        oncotreeCodesToNames[childNode.acronym].push(childNode.name);
+        oncotreeCodesToNames[childNode.code].push(childNode.name);
 
         // add new node to children list of parentNode
         parentNode.children.push(childNode);
@@ -149,7 +149,7 @@ var tree = (function () {
             } else {
                 $('#summary-duplicates').css('display', 'none');
             }
-            $("#summary-info").text(function () {
+            $("#oncotree-version-statistics").text(function () {
                 return "Includes " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + ".";
             });
         });
@@ -171,13 +171,6 @@ var tree = (function () {
         root.y0 = 0;
         // Initialize the display to show a few nodes.
         root.children.forEach(toggleAll);
-        // toggle(root.children[1]);
-        // toggle(root.children[2]);
-        // toggle(root.children[5]);
-        // toggle(root.children[5].children[0]);
-        // toggle(root.children[8]);
-        // toggle(root.children[8].children[0]);
-        // toggle(root.children[15]);
         update(root);
         numOfTissues = root.children.length;
         root.children.forEach(searchLeaf);
@@ -342,14 +335,14 @@ var tree = (function () {
                     umls_links.push(getUMLSLink(""));
                 }
 
-                _qtipContent += '<b>Code:</b> ' + d.acronym +
+                _qtipContent += '<b>Code:</b> ' + d.code +
 
                      //clipboard JS is not supported in Safari.
                     ((is_safari && !is_chrome) ?
                         '<button style="margin-left: 5px;" class="btn btn-light btn-sm" ' +
                         ' disabled>"Copy" is not available in Safari</button>' :
                         '<button style="margin-left: 5px;" class="clipboard-copy btn btn-light btn-sm" ' +
-                        'data-clipboard-text="' + d.acronym + '"  ' +
+                        'data-clipboard-text="' + d.code + '"  ' +
                         '>Copy</button>'
                     ) +
                     '<br/>';
