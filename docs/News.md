@@ -1,4 +1,17 @@
 ### News
+#### August 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_08_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_07_01*.
+ *   **New nodes added:**
+     * Angiomatoid Fibrous Histiocytoma (AFH)
+     * Clear Cell Sarcoma of Kidney (CCSK)
+     * Ewing Sarcoma of Soft Tissue (ESST)
+     * Extra Gonadal Germ Cell Tumor (EGCT)
+     * Infantile Fibrosarcoma (IFS)
+     * Malignant Glomus Tumor (MGST)
+     * Malignant Rhabdoid Tumor of the Liver (MRTL)
+     * Myofibromatosis (IMS)
+     * Sialoblastoma (SBL)
+     * Undifferentiated Embryonal Sarcoma of the Liver (UESL)
 #### July 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_07_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_15*.
  *   **Node with renamed oncotree code**
