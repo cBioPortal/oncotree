@@ -16,7 +16,7 @@ REQUIRED_HEADERS = ["ONCOTREE_CODE", "CANCER_TYPE", "CANCER_TYPE_DETAILED"]
 # exits if one of the columns has empty value
 def get_required_columns(oncotree_code_converter_output):
     with open(oncotree_code_converter_output) as file:
-        dictreader = csv.DictReader(csvfile, delimiter = "\t")
+        dictreader = csv.DictReader(file, delimiter = "\t")
         to_return = {header : [] for header in REQUIRED_HEADERS}
         for line in dictreader:
             for header in REQUIRED_HEADERS:
