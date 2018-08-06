@@ -83,8 +83,8 @@ public class TumorTypesApi {
     ) {
 
         Version v = (version == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(version);
-        Map tumorTypes = cacheUtil.getTumorTypesByVersion(v);
-        Set tumorTypesSet = tumorTypesUtil.flattenTumorTypes(tumorTypes, null);
+        Map<String, TumorType> tumorTypes = cacheUtil.getTumorTypesByVersion(v);
+        Set<TumorType> tumorTypesSet = tumorTypesUtil.flattenTumorTypes(tumorTypes, null);
         logger.debug("tumorTypesGet() -- returning " + tumorTypesSet.size() + " tumor types");
         return tumorTypesSet;
     }
