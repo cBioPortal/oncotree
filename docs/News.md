@@ -1,4 +1,14 @@
 ### News
+#### September 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_09_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_08_01*.
+ *   **Nodes with adjusted History:**
+     * Myeloid Neoplasm (MNM) previous code: LEUK
+     * B-Lymphoblastic Leukemia/Lymphoma (BLL) previous code: BALL
+     * T-Lymphoblastic Leukemia/Lymphoma (TLL) previous code: TALL
+     * Essential Thrombocythemia (ET) previous code: ETC
+     * Polycythemia Vera (PV) previous code: PCV
+     * Diffuse Large B-Cell Lymphoma, NOS (DLBCLNOS) previous code: DLBCL
+     * Sezary Syndrome (SS) previous code: SEZS
 #### August 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_08_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_07_01*.
  *   **New nodes added:**
