@@ -1,4 +1,12 @@
 ### News
+#### November 1, 2018
+ *   **New Stable Release** Oncotree version *oncotree_2018_11_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_09_01*.
+ *   **New nodes added:**
+     * Gastrointestinal Neuroendocrine Tumors of the Esophagus/Stomach (GINETES)
+     * High-Grade Neuroendocrine Carcinoma of the Esophagus (HGNEE)
+     * High-Grade Neuroendocrine Carcinoma of the Stomach (HGNES)
+ *   **Nodes reclassified:**
+     * Well-Differentiated Neuroendocrine Tumors of the Stomach (SWDNET) is now a child of Gastrointestinal Neuroendocrine Tumors of the Esophagus/Stomach (GINETES) [previously under: Bowel (BOWEL)]. 
 #### September 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_09_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_08_01*.
  *   **Nodes with adjusted History:**
