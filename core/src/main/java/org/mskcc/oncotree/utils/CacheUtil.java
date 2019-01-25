@@ -32,6 +32,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.mskcc.oncotree.crosswalk.MSKConceptCache;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 import org.mskcc.oncotree.error.InvalidVersionException;
+import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.TopBraidException;
@@ -71,6 +72,9 @@ public class CacheUtil {
     @Value("${slack.url}")
     private String slackURL;
 
+    @Value("${required.oncotree.version:oncotree_latest_stable}")
+    private String requiredOncotreeVersion;
+ 
     @PostConstruct // call when constructed
     @Scheduled(cron="0 */10 * * * *") // call every 10 minutes
     private void scheduleResetCache() {
@@ -79,7 +83,7 @@ public class CacheUtil {
             try {
                 resetCache();
             } catch (FailedCacheRefreshException e) {
-                sendStaleCacheSlackNotification();
+                sendSlackNotification("*URGENT: Oncotree Error* - an attempt to refresh an outdated or null cache failed.");
             }
         }
     }
@@ -132,6 +136,7 @@ public class CacheUtil {
     public void resetCache() throws FailedCacheRefreshException {
         logger.info("resetCache() -- refilling tumor types cache");
         Map<Version, Map<String, TumorType>> latestTumorTypes = new HashMap<>();
+        List<String> failedVersions = new ArrayList<String>();
         try {
             List<Version> versions = oncoTreeVersionRepository.getOncoTreeVersions();
         } catch (TopBraidException exception) {
@@ -141,10 +146,20 @@ public class CacheUtil {
         for (Version version : oncoTreeVersionRepository.getOncoTreeVersions()) {
             try {
                 latestTumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
-            } catch (TopBraidException exception) {
+            } catch (TopBraidException | InvalidOncoTreeDataException exception) {
                 logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
-                throw new FailedCacheRefreshException("Failed to refresh cache");
+                failedVersions.add(version.getVersion());
+                if (version.equals(requiredOncotreeVersion)) {
+                    throw new FailedCacheRefreshException("Failed to refresh cache");
+                }
             }
+        }
+        if (latestTumorTypes.keySet().size() == 0) {
+            logger.error("resetCache() -- failed to pull a single valid oncotree version");
+            throw new FailedCacheRefreshException("Failed to refresh cache");
+        }
+        if (failedVersions.size() > 0) {
+            sendSlackNotification("Oncotree successfully recached `" + requiredOncotreeVersion + "`, but ran into issues with the following versions: " + String.join(", ", failedVersions));
         }
         logger.info("resetCache() -- successfully reset cache from repository");
         tumorTypes = latestTumorTypes;
@@ -161,8 +176,8 @@ public class CacheUtil {
         }
     }
 
-    private void sendStaleCacheSlackNotification() {
-        String payload = "payload={\"channel\": \"#msk-pipeline-logs\", \"username\": \"cbioportal_importer\", \"text\": \"*URGENT: Oncotree Error* - an attempt to refresh an outdated or null cache failed.\", \"icon_emoji\": \":rotating_light:\"}";
+    private void sendSlackNotification(String message) {
+        String payload = "payload={\"channel\": \"#msk-pipeline-logs\", \"username\": \"cbioportal_importer\", \"text\": \"" + message + "\", \"icon_emoji\": \":rotating_light:\"}";
         StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_FORM_URLENCODED);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(slackURL);

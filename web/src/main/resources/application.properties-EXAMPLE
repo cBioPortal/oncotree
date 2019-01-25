@@ -12,3 +12,6 @@ crosswalk.url=
 
 # for slack
 slack.url=
+
+# required oncotree version for startup/recache
+required.oncotree.version=oncotree_latest_stable
