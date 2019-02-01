@@ -1,8 +1,4 @@
 ### News
-#### February 1, 2019
- *   **New Stable Release** Oncotree version *oncotree_2019_02_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_11_01*.
- *   **New node added:**
-     * Leiomyoma (LH)
 #### November 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_11_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_09_01*.
  *   **New nodes added:**
