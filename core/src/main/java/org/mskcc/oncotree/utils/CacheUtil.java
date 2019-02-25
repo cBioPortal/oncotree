@@ -110,9 +110,9 @@ public class CacheUtil {
             logger.debug("getTumorTypesByVersion() -- found '" + version.getVersion() + "' in cache");
             return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
         } else {
-            logger.debug("getTumorTypesByVersion() -- did NOT find '" + version.getVersion() + "' in cache, getting now");
-            tumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
-            return getUnmodifiableTumorTypesByVersion(tumorTypes.get(version));
+            // TODO how would we even get here if we have been given a Version object? all known Versions are cached
+            logger.debug("getTumorTypesByVersion() -- did NOT find '" + version.getVersion() + "' in cache, throwing exception");
+            throw new FailedCacheRefreshException("Unknown version '" + version.getVersion() + "'");
         }
     }
 
@@ -143,9 +143,12 @@ public class CacheUtil {
             logger.error("resetCache() -- failed to pull versions from repository");
             throw new FailedCacheRefreshException("Failed to refresh cache");
         }
+        // use this to store and look up previous oncoTree codes
+        HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes = new HashMap<String, ArrayList<String>>();
+        // versions are ascending by release date
         for (Version version : oncoTreeVersionRepository.getOncoTreeVersions()) {
             try {
-                latestTumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version));
+                latestTumorTypes.put(version, tumorTypesUtil.getTumorTypesByVersionFromRaw(version, topBraidURIsToOncotreeCodes));
             } catch (TopBraidException | InvalidOncoTreeDataException exception) {
                 logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
                 failedVersions.add(version.getVersion());
