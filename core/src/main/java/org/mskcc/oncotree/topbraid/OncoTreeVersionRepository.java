@@ -41,7 +41,7 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
     private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
         "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
         "WHERE { " +
-        "   GRAPH <urn:x-evn-master:oncotree_version> { " +
+        "   GRAPH <urn:x-evn-master:oncotree_version_testing> { " +
         "       ?s oncotree-version:graph_uri ?graph_uri. " +
         "       ?s oncotree-version:api_identifier ?api_identifier. " +
         "       ?s oncotree-version:release_date ?release_date. " +
