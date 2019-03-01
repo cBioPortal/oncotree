@@ -1,4 +1,15 @@
 ### News
+#### March 1, 2019
+ *   **New Stable Release** Oncotree version *oncotree_2019_03_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_02_01*.
+ *   **New node added:**
+     * NUT Carcinoma of the Lung (NUTCL)
+ *   **Node with renamed oncotree code:**
+     * Monomorphic Epitheliotropic Intestinal T-Cell Lymphoma (MEITL) [previously: MEATL]
+ *   **Node with renamed oncotree code and updated name:**
+     * Germ Cell Tumor with Somatic-Type Malignancy (GCTSTM) [previously: Teratoma with Malignant Transformation (TMT)]
+ *   **Cross-version oncotree code mapping tool coming soon**
+     * Development of a tool to map oncotree codes between different versions of oncotree is nearing completion.
+     * <span class="glyphicon glyphicon-exclamation-sign alert-danger" aria-hidden="true"></span> Related to this, users of the oncotree Web API should be aware that we will soon be adding two additional properties to the output schema returned by the api/tumorTypes endpoints. The properties "precursors" and "revocations" will be added alongside the "history" property (having the same type: an array of strings). These will help distinguish the kinds of possible relationships to oncotree nodes in prior versions of oncotree. We expect this new schema to be backwards compatible, but if your language or tools requires an exactly matching JSON schema you will need to make adjustments.
 #### February 1, 2019
  *   **New Stable Release** Oncotree version *oncotree_2019_02_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_11_01*.
  *   **New node added:**
@@ -36,7 +47,7 @@
      * Undifferentiated Embryonal Sarcoma of the Liver (UESL)
 #### July 1, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_07_01* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_15*.
- *   **Node with renamed oncotree code**
+ *   **Node with renamed oncotree code:**
      * Atypical Chronic Myeloid Leukemia, BCR-ABL1- (ACML) [previously: aCML]
 #### June 15, 2018
  *   **New Stable Release** Oncotree version *oncotree_2018_06_15* is now the latest stable release. The previous stable version is still accessible through the oncotree web API by requesting version *oncotree_2018_06_01*.
