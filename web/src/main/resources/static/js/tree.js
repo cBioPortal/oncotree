@@ -81,7 +81,7 @@ var tree = (function () {
         }
 
         if (childData.hasOwnProperty('history')) {
-            childNode.history = childData.history.join();
+            childNode.direct_history = childData.history.join();
         }
         if (childData.hasOwnProperty('revocations')) {
             childNode.indirect_history = childData.revocations.join();
