@@ -37,7 +37,8 @@ var tree = (function () {
         this.color = '';
         this.nci = [];
         this.umls = [];
-        this.history = ''; // comma delimited string
+        this.direct_history = ''; // comma delimited string
+        this.indirect_history = ''; // comma delimited string
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -81,6 +82,15 @@ var tree = (function () {
 
         if (childData.hasOwnProperty('history')) {
             childNode.history = childData.history.join();
+        }
+        if (childData.hasOwnProperty('revocations')) {
+            childNode.indirect_history = childData.revocations.join();
+        }
+        if (childData.hasOwnProperty('precursors')) {
+            if (childNode.indirect_history != '') {
+                childNode.indirect_history += ",";
+            }
+            childNode.indirect_history += childData.precursors.join();
         }
 
         // save code and name to check for duplicate codes later
@@ -351,8 +361,11 @@ var tree = (function () {
                 _qtipContent += '<b>NCI:</b> ' + nci_links.join(",") + '<br/>';
                 _qtipContent += '<b>UMLS:</b> ' + umls_links.join(",") + '<br/>';
                 _qtipContent += '<b>Color:</b> ' + (d.color||'LightBlue') + '<br/>';
-                if (typeof d.history !== 'undefined' && d.history != '') {
-                    _qtipContent += '<b>Previous codes:</b> ' + d.history  + '<br/>';
+                if (typeof d.direct_history !== 'undefined' && d.direct_history != '') {
+                    _qtipContent += '<b>Previous codes:</b> ' + d.direct_history  + '<br/>';
+                }
+                if (typeof d.indirect_history !== 'undefined' && d.indirect_history != '') {
+                    _qtipContent += '<b>Related codes:</b> ' + d.indirect_history  + '<br/>';
                 }
                 $(this).qtip({
                     content:{text: _qtipContent},
