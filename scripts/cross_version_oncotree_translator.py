@@ -78,7 +78,7 @@ def convert_to_target_oncotree_code(source_oncotree_code, source_oncotree, targe
         return source_oncotree_code
         #sys.exit(1)
     source_oncotree_node = source_oncotree[source_oncotree_code]
-    is_backwards_mapping_bool = False
+    is_backwards_mapping_bool = True
     # get a set of possible codes that source code has been mapped to
     possible_target_oncotree_nodes = get_possible_target_oncotree_nodes(source_oncotree_node, source_oncotree, target_oncotree, is_backwards_mapping_bool)
     # resolve set of codes (cannot use possible_target_oncotree_nodes anymore)
