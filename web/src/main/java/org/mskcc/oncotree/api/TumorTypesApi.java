@@ -101,7 +101,7 @@ public class TumorTypesApi {
     @RequestMapping(value = "/translate",
         produces = {APPLICATION_JSON_VALUE},
         method = RequestMethod.GET)
-    public TumorType translateGet(
+    public List<TumorType> translateGet(
         @ApiParam(value = "The source version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "sourceVersion", required = true) String sourceVersion,
         @ApiParam(value = "The target version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
@@ -115,15 +115,15 @@ public class TumorTypesApi {
         Version sourceV = versionUtil.getVersion(sourceVersion);
         Version targetV = (targetVersion == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(targetVersion);
         // TODO put in TumorTypesUtil
-        Map<String, TumorType> sourceTumorTypes = cacheUtil.getTumorTypesByVersion(sourceV);
-        Map<String, TumorType> targetTumorTypes = cacheUtil.getTumorTypesByVersion(targetV);
-        Set<TumorType> sourceTumorTypesSet = tumorTypesUtil.flattenTumorTypes(sourceTumorTypes, null);
-        Set<TumorType> targetTumorTypesSet = tumorTypesUtil.flattenTumorTypes(targetTumorTypes, null);
+        Map<String, TumorType> allSourceTumorTypes = cacheUtil.getTumorTypesByVersion(sourceV);
+        Map<String, TumorType> allTargetTumorTypes = cacheUtil.getTumorTypesByVersion(targetV);
+        Set<TumorType> allSourceTumorTypesSet = tumorTypesUtil.flattenTumorTypes(allSourceTumorTypes, null);
+        Set<TumorType> allTargetTumorTypesSet = tumorTypesUtil.flattenTumorTypes(allTargetTumorTypes, null);
 
         // find tumor type by code
-        TumorType targetTumorType = null;
+        List<TumorType> targetTumorTypes = new ArrayList<TumorType>();
         TumorType sourceTumorType = null;
-        for (TumorType source : sourceTumorTypesSet) {
+        for (TumorType source : allSourceTumorTypesSet) {
             if (source.getCode().equals(sourceCode)) {
                 sourceTumorType = source;
                 break;
@@ -135,20 +135,22 @@ public class TumorTypesApi {
 
         // if source and target version are the same don't bother with lookup
         if (sourceV.equals(targetV)) {
-            targetTumorType = sourceTumorType;
+            targetTumorTypes.add(sourceTumorType);
         } else {
-            for (TumorType target : targetTumorTypesSet) {
+            for (TumorType target : allTargetTumorTypesSet) {
                 if (target.getUri().equals(sourceTumorType.getUri())) {
-                    targetTumorType = target;
-                    break;
+                    targetTumorTypes.add(target);
+                    // TODO remove? break;
+                } else {
+
                 }
             }
-            if (targetTumorType == null) {
+            if (targetTumorTypes.size() == 0) {
                 throw new TumorTypesNotFoundException("No tumor type matching '" + sourceCode + "' in '" + sourceV.getVersion() + "' found in version '" + targetV.getVersion() + "'");
             }
         }
-        logger.debug("translateGet() -- returning '" + targetTumorType.getCode() + "' tumor type");
-        return targetTumorType;
+        logger.debug("translateGet() -- returning '" + targetTumorTypes.size() + "' tumor types");
+        return targetTumorTypes;
     }
 
     @ApiIgnore
