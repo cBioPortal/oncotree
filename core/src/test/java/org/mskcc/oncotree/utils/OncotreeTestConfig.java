@@ -235,9 +235,9 @@ public class OncotreeTestConfig {
                 newOncotreeNode.setCode("SS");
             }
 
-            // add rescinds 
+            // add revocations 
             if ("URMM".equals(newOncotreeNode.getCode())) {
-                newOncotreeNode.setRescinds("ONC000503");
+                newOncotreeNode.setRevocations("ONC000503");
             }
 
             tmpOncoTreeRepositoryMockResponseHistoryChange.add(newOncotreeNode);

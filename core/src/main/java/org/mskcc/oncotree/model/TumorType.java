@@ -39,7 +39,7 @@ public class TumorType {
     private String parent = null;
     private List<String> history = new ArrayList<String>();
     private Integer level = null;
-    private List<String> rescinds = new ArrayList<String>();
+    private List<String> revocations = new ArrayList<String>();
     private List<String> precursors = new ArrayList<String>();
     private static final String UNKNOWN_ONCOTREE_NODE_LEVEL = "-1";
 
@@ -57,7 +57,7 @@ public class TumorType {
         this.children = new HashMap<String, TumorType>(otherTumorType.children);
         this.parent = otherTumorType.parent;
         this.history = new ArrayList<String>(otherTumorType.history);
-        this.rescinds = new ArrayList<String>(otherTumorType.rescinds);
+        this.revocations = new ArrayList<String>(otherTumorType.revocations);
         this.precursors = new ArrayList<String>(otherTumorType.precursors);
         this.level = otherTumorType.level;
     }
@@ -76,7 +76,7 @@ public class TumorType {
         }
         newTumorType.parent = this.parent;
         newTumorType.history = new ArrayList<String>(this.history);
-        newTumorType.rescinds = new ArrayList<String>(this.rescinds);
+        newTumorType.revocations = new ArrayList<String>(this.revocations);
         newTumorType.precursors = new ArrayList<String>(this.precursors);
         newTumorType.level = this.level;
         return newTumorType;
@@ -231,21 +231,21 @@ public class TumorType {
     /**
      **/
     @ApiModelProperty(value = "")
-    @JsonProperty("rescinds")
-    public List<String> getRescinds() {
-        return rescinds;
+    @JsonProperty("revocations")
+    public List<String> getRevocations() {
+        return revocations;
     }
 
     /**
     *
     * @param oncotreeCode
     */
-    public void addRescinds(String oncotreeCode) {
-        this.rescinds.add(oncotreeCode);
+    public void addRevocations(String oncotreeCode) {
+        this.revocations.add(oncotreeCode);
     }
 
-    public void setRescinds(List<String> rescinds) {
-        this.rescinds = rescinds;
+    public void setRevocations(List<String> revocations) {
+        this.revocations = revocations;
     }
 
     /**
@@ -298,13 +298,13 @@ public class TumorType {
             Objects.equals(children, tumorType.children) &&
             Objects.equals(parent, tumorType.parent) &&
             Objects.equals(history, tumorType.history) &&
-            Objects.equals(rescinds, tumorType.rescinds) &&
+            Objects.equals(revocations, tumorType.revocations) &&
             Objects.equals(precursors, tumorType.precursors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history, rescinds, precursors);
+        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history, revocations, precursors);
     }
 
     @Override
@@ -322,7 +322,7 @@ public class TumorType {
         sb.append("  children: ").append(children).append("\n");
         sb.append("  parent: ").append(parent).append("\n");
         sb.append("  history: ").append(history).append("\n");
-        sb.append("  rescinds: ").append(rescinds).append("\n");
+        sb.append("  revocations: ").append(revocations).append("\n");
         sb.append("  precursors: ").append(precursors).append("\n");
         sb.append("}\n");
         return sb.toString();

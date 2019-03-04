@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "mainType",
     "color",
     "parentCode",
-    "rescinds",
+    "revocations",
     "precursors"
 })
 public class OncoTreeNode {
@@ -63,8 +63,8 @@ public class OncoTreeNode {
     @JsonProperty("parentCode")
     private String parentCode;
 
-    @JsonProperty("rescinds")
-    private List<String> rescinds = new ArrayList<String>();
+    @JsonProperty("revocations")
+    private List<String> revocations = new ArrayList<String>();
 
     @JsonProperty("precursors")
     private List<String> precursors = new ArrayList<String>();
@@ -82,7 +82,7 @@ public class OncoTreeNode {
         this.color = otherOncoTreeNode.color;
         this.parentCode = otherOncoTreeNode.parentCode;
         // shallow copies
-        this.rescinds = new ArrayList<String>(otherOncoTreeNode.rescinds);
+        this.revocations = new ArrayList<String>(otherOncoTreeNode.revocations);
         this.precursors = new ArrayList<String>(otherOncoTreeNode.precursors);
         this.additionalProperties = new HashMap<String, Object>(otherOncoTreeNode.additionalProperties);
     }
@@ -147,15 +147,15 @@ public class OncoTreeNode {
         this.parentCode = parentCode;
     }
 
-    @JsonProperty("rescinds")
-    public List<String> getRescinds() {
-        return rescinds;
+    @JsonProperty("revocations")
+    public List<String> getRevocations() {
+        return revocations;
     }
 
-    @JsonProperty("rescinds")
-    public void setRescinds(String rescinds) {
-        if (rescinds != null) {
-            this.rescinds = Arrays.asList(rescinds.split("\\s+"));
+    @JsonProperty("revocations")
+    public void setRevocations(String revocations) {
+        if (revocations != null) {
+            this.revocations = Arrays.asList(revocations.split("\\s+"));
         }
     }
 

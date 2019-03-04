@@ -141,10 +141,10 @@ public class CacheUtilTest {
         }
     }
 
-    private void assertNoRescindsInChildren(Map<String, TumorType> tumorTypes) {
+    private void assertNoRevocationsInChildren(Map<String, TumorType> tumorTypes) {
         for(TumorType tumorType: tumorTypes.values()) {
-            assertEquals("Node " + tumorType.getCode() + " name: " + tumorType.getName() + " has rescinds", 0, tumorType.getRescinds().size());
-            assertNoRescindsInChildren(tumorType.getChildren());
+            assertEquals("Node " + tumorType.getCode() + " name: " + tumorType.getName() + " has revocations", 0, tumorType.getRevocations().size());
+            assertNoRevocationsInChildren(tumorType.getChildren());
         }
     }
 
@@ -170,19 +170,19 @@ public class CacheUtilTest {
         return foundHistory;
     }
 
-    private Boolean assertRescindsInChildren(Map<String, TumorType> tumorTypes, Boolean foundRescinds) {
+    private Boolean assertRevocationsInChildren(Map<String, TumorType> tumorTypes, Boolean foundRevocations) {
         for(TumorType tumorType: tumorTypes.values()) {
             if ("URMM".equals(tumorType.getCode())) {
-                assertEquals("URMM rescinds size", 1, tumorType.getRescinds().size());
-                assertEquals("GMUCM", tumorType.getRescinds().get(0));
-                foundRescinds = Boolean.TRUE;
-                // do not return because we want to check no other rescinds
+                assertEquals("URMM revocations size", 1, tumorType.getRevocations().size());
+                assertEquals("GMUCM", tumorType.getRevocations().get(0));
+                foundRevocations = Boolean.TRUE;
+                // do not return because we want to check no other revocations
             } else {
-                assertEquals(0, tumorType.getRescinds().size());
+                assertEquals(0, tumorType.getRevocations().size());
             }
-            foundRescinds = assertRescindsInChildren(tumorType.getChildren(), foundRescinds);
+            foundRevocations = assertRevocationsInChildren(tumorType.getChildren(), foundRevocations);
         }
-        return foundRescinds;
+        return foundRevocations;
     }
 
     private Boolean assertPrecursorsInChildren(Map<String, TumorType> tumorTypes, Boolean foundPrecursors) {
@@ -211,9 +211,9 @@ public class CacheUtilTest {
         assertEquals("TISSUE", rootTumorType.getCode());
         assertEquals(32, rootTumorType.getChildren().size());
 
-        // legacy version should have no history, no rescinds, no precursors
+        // legacy version should have no history, no revocations, no precursors
         assertNoHistoryInChildren(rootTumorType.getChildren());
-        assertNoRescindsInChildren(rootTumorType.getChildren());
+        assertNoRevocationsInChildren(rootTumorType.getChildren());
         assertNoPrecursorsInChildren(rootTumorType.getChildren());
 
         returnedTumorTypes = cacheUtil.getTumorTypesByVersion(latestVersion);
@@ -223,10 +223,10 @@ public class CacheUtilTest {
         foundHistory = assertHistoryInChildren(returnedTumorTypes, foundHistory);
         assertTrue("Failed to find history for 'SS'", foundHistory);
 
-        // test rescinds in latest version
-        Boolean foundRescinds = Boolean.FALSE;
-        foundRescinds = assertRescindsInChildren(returnedTumorTypes, foundRescinds);
-        assertTrue("Failed to find rescinds for 'URMM'", foundRescinds);
+        // test revocations in latest version
+        Boolean foundRevocations = Boolean.FALSE;
+        foundRevocations = assertRevocationsInChildren(returnedTumorTypes, foundRevocations);
+        assertTrue("Failed to find revocations for 'URMM'", foundRevocations);
 
         // test precursors in latest version
         Boolean foundPrecursors = Boolean.FALSE;
