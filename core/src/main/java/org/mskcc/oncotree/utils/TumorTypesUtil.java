@@ -47,7 +47,7 @@ import org.springframework.stereotype.Component;
 public class TumorTypesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
-    public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory\trescinds\tprecursors";
+    public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory\trevocations\tprecursors";
     private static final String TOPBRAID_BASE_URI = "http://data.mskcc.org/ontologies/oncotree/";
 
     @Autowired
@@ -154,7 +154,7 @@ public class TumorTypesUtil {
             row.add("");
         }
         row.add(StringUtils.defaultString(StringUtils.join(tumorType.getHistory(), ",")));
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getRescinds(), ",")));
+        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getRevocations(), ",")));
         row.add(StringUtils.defaultString(StringUtils.join(tumorType.getPrecursors(), ",")));
         rows.add(StringUtils.join(row, "\t"));
 
@@ -276,16 +276,16 @@ public class TumorTypesUtil {
             } else {
                 topBraidURIsToOncotreeCodes.put(thisNode.getURI(), new ArrayList<String>());
             }
-            for (String topBraidURI : thisNode.getRescinds()) {
+            for (String topBraidURI : thisNode.getRevocations()) {
                 String fullTopBraidURI = TOPBRAID_BASE_URI + topBraidURI;
                 if (topBraidURIsToOncotreeCodes.containsKey(fullTopBraidURI)) {
                     ArrayList<String> nodeHistory = topBraidURIsToOncotreeCodes.get(fullTopBraidURI);
                     // last node is most recent for this URI
-                    tumorType.addRescinds(nodeHistory.get(nodeHistory.size() - 1));
+                    tumorType.addRevocations(nodeHistory.get(nodeHistory.size() - 1));
                 }
                 else {
-                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in rescinds field for topBraidURI " + thisNode.getURI());
-                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in rescinds field for topBraidURI " + thisNode.getURI());
+                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
+                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
                 }
             }
             for (String topBraidURI : thisNode.getPrecursors()) {
@@ -344,7 +344,7 @@ public class TumorTypesUtil {
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
         tumorType.setParent(oncoTreeNode.getParentCode());
-        // do not copy history, rescinds, or precursors
+        // do not copy history, revocations, or precursors
         return tumorType;
     }
 
@@ -444,7 +444,7 @@ public class TumorTypesUtil {
             // the results of search operations are flat lists of TumorTypes .. no nested children so do not setChildren()
             tumorType.setParent(currentTumorType.getParent());
             tumorType.setHistory(currentTumorType.getHistory());
-            tumorType.setRescinds(currentTumorType.getRescinds());
+            tumorType.setRevocations(currentTumorType.getRevocations());
             tumorType.setPrecursors(currentTumorType.getPrecursors());
             tumorType.setLevel(currentTumorType.getLevel());
 
