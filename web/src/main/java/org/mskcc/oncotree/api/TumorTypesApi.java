@@ -89,6 +89,68 @@ public class TumorTypesApi {
         return tumorTypesSet;
     }
 
+    // TODO add this @ApiIgnore
+    @ApiOperation(value = "Translates the source version code into the equivalent code in target version.", notes = "", response = TumorType.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Tumor Type."),
+        @ApiResponse(code = 400, message = "Bad request for versions and/or source code"),
+        @ApiResponse(code = 404, message = "Could not find source code in target version"),
+        @ApiResponse(code = 503, message = "Required data source unavailable")
+        }
+    )
+    @RequestMapping(value = "/translate",
+        produces = {APPLICATION_JSON_VALUE},
+        method = RequestMethod.GET)
+    public TumorType translateGet(
+        @ApiParam(value = "The source version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
+        @RequestParam(value = "sourceVersion", required = true) String sourceVersion,
+        @ApiParam(value = "The target version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
+        @RequestParam(value = "targetVersion", required = false) String targetVersion,
+        @ApiParam(value = "The code of the source tumor type.")
+        @RequestParam(value = "sourceCode", required = true) String sourceCode
+    ) {
+        if (StringUtils.isEmpty(sourceCode)) {
+            throw new InvalidQueryException("'sourceCode' is a required parameter");
+        }
+        Version sourceV = versionUtil.getVersion(sourceVersion);
+        Version targetV = (targetVersion == null) ? versionUtil.getDefaultVersion() : versionUtil.getVersion(targetVersion);
+        // TODO put in TumorTypesUtil
+        Map<String, TumorType> sourceTumorTypes = cacheUtil.getTumorTypesByVersion(sourceV);
+        Map<String, TumorType> targetTumorTypes = cacheUtil.getTumorTypesByVersion(targetV);
+        Set<TumorType> sourceTumorTypesSet = tumorTypesUtil.flattenTumorTypes(sourceTumorTypes, null);
+        Set<TumorType> targetTumorTypesSet = tumorTypesUtil.flattenTumorTypes(targetTumorTypes, null);
+
+        // find tumor type by code
+        TumorType targetTumorType = null;
+        TumorType sourceTumorType = null;
+        for (TumorType source : sourceTumorTypesSet) {
+            if (source.getCode().equals(sourceCode)) {
+                sourceTumorType = source;
+                break;
+            }
+        }
+        if (sourceTumorType == null) {
+            throw new InvalidQueryException("No tumor type matching '" + sourceCode + "' in version '" + sourceV.getVersion() + "' found");
+        }
+
+        // if source and target version are the same don't bother with lookup
+        if (sourceV.equals(targetV)) {
+            targetTumorType = sourceTumorType;
+        } else {
+            for (TumorType target : targetTumorTypesSet) {
+                if (target.getUri().equals(sourceTumorType.getUri())) {
+                    targetTumorType = target;
+                    break;
+                }
+            }
+            if (targetTumorType == null) {
+                throw new TumorTypesNotFoundException("No tumor type matching '" + sourceCode + "' in '" + sourceV.getVersion() + "' found in version '" + targetV.getVersion() + "'");
+            }
+        }
+        logger.debug("translateGet() -- returning '" + targetTumorType.getCode() + "' tumor type");
+        return targetTumorType;
+    }
+
     @ApiIgnore
     @ApiOperation(value = "Tumor Types", notes = "...", response = TumorType.class)
     @ApiResponses(value = {
