@@ -256,7 +256,7 @@ public class TumorTypesUtil {
         HashSet<String> duplicateCodeSet = new HashSet<>();
         // construct basic nodes
         for (OncoTreeNode thisNode : oncoTreeNodes) {
-            logger.debug("OncoTreeNode: code='" + thisNode.getCode() + "', name='" + thisNode.getName() + "'");
+            logger.debug("OncoTreeNode: uri='" + thisNode.getURI() + "', code='" + thisNode.getCode() + "', name='" + thisNode.getName() + "'");
             TumorType tumorType = initTumorType(thisNode, version);
             String thisNodeCode = tumorType.getCode();
             if (allNodes.containsKey(thisNodeCode)) {
@@ -339,6 +339,7 @@ public class TumorTypesUtil {
     private TumorType initTumorType(OncoTreeNode oncoTreeNode, Version version) throws InvalidOncoTreeDataException {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
+        tumorType.setUri(oncoTreeNode.getURI());
         tumorType.setMainType(oncoTreeNode.getMainType());
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
@@ -435,6 +436,7 @@ public class TumorTypesUtil {
 
         if (match) {
             TumorType tumorType = new TumorType();
+            tumorType.setUri(currentTumorType.getUri());
             tumorType.setCode(currentTumorType.getCode());
             tumorType.setColor(currentTumorType.getColor());
             tumorType.setName(currentTumorType.getName());
