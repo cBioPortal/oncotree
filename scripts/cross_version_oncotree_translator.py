@@ -170,6 +170,10 @@ def main():
         print >> sys.stderr, "Error: Input file (%s) can not be found" % (input_file)
         sys.exit(1)
 
+    if source_version == target_version:
+        print >> sys.stderr, "Error: Source oncotree version (%s) and target oncotree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
+        sys.exit(1)
+
     source_index, target_index = get_oncotree_version_indexes(source_version, target_version)
 
     if source_index == -1:
