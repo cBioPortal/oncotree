@@ -15,59 +15,45 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
         cls.latest_version = cls.get_latest_version()
 
     def test_convert_to_target_oncotree_code_forwards_history(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("SEZS", self.original_version, self.latest_version, False)
-        expected_oncotree_codes = ["SS"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("SEZS", ["SS"], False)
 
     def test_convert_to_target_oncotree_code_forwards_revocations(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("PTCL", self.original_version, self.latest_version, False)
-        expected_oncotree_codes = ["PTCL"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
-       
-        self.fail("TODO add another test")
+        self.run_convert_to_target_oncotree_code_test("PTCL", ["PTCL"], False)
+
+    def test_convert_to_target_oncotree_code_forwards_revocations2(self):
+        self.run_convert_to_target_oncotree_code_test("PTCLNOS", ["PTCL"], False)
+
+    def test_convert_to_target_oncotree_code_forwards_revocations3(self):
+        self.run_convert_to_target_oncotree_code_test("GMUCM", ["URMM"], False)
 
     def test_convert_to_target_oncotree_code_forwards_precursors(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("CTCL", self.original_version, self.latest_version, False)
-        expected_oncotree_codes = ["MYCF"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
-       
+        self.run_convert_to_target_oncotree_code_test("CTCL", ["MYCF"], False)
+
     def test_convert_to_target_oncotree_code_forwards_precursors_and_revocations(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("BALL", self.original_version, self.latest_version, False)
-        expected_oncotree_codes = ["BLL"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("BALL", ["BLL"], False)
 
     def test_convert_to_target_oncotree_code_backwards_history(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("SS", self.latest_version, self.original_version, False)
-        expected_oncotree_codes = ["SEZS"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("SS", ["SEZS"], True)
 
+    # in this test, we see that the revoked parent node (PTCL) is not chosen as a valid backwards mapping. Only the history (PTCLNOS) of the test node (PTCL) is considered valid
     def test_convert_to_target_oncotree_code_backwards_revocations(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("PTCL", self.latest_version, self.original_version, False)
-        expected_oncotree_codes = ["PTCLNOS"]
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("PTCL", ["PTCLNOS"], True)
        
-        self.fail("TODO add another test")
+    def test_convert_to_target_oncotree_code_backwards_revocations2(self):
+        self.run_convert_to_target_oncotree_code_test("URMM", [], True)
 
     def test_convert_to_target_oncotree_code_backwards_precursors(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("MYCF", self.latest_version, self.original_version, False)
-        expected_oncotree_codes = ["CTCL"] # TODO convert to sets, order doesn't matter?, otherwise make sure order is right
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("MYCF", ["CTCL"], True)
+
+# TODO convert to sets, order doesn't matter?, otherwise make sure order is right --- add at least one test where the expected return is a list of codes -- test various orders
        
     def test_convert_to_target_oncotree_code_backwards_precursors_and_revocations(self):
-        actual_oncotree_codes = convert_to_target_oncotree_code("BLL", self.latest_version, self.original_version, False)
-        expected_oncotree_codes = ["BALL"] # TODO order?
-        self.assertEqual(expected_oncotree_codes, actual_oncotree_codes)
+        self.run_convert_to_target_oncotree_code_test("BLL", ["BALL"], True)
 
-    # TODO maybe throw exceptions?
-    #def test_convert_to_target_oncotree_code_exception(self):
-    #    source_code = "BLAH"
-    #    source_oncotree = self.original_version
-    #    target_oncotree = self.latest_version
-
-    #    with self.assertRaises(Exception) as context:
-    #        convert_to_target_oncotree_code(source_code, self.original_version, self.latest_version)
-
-    #    self.assertTrue('This is broken' in context.exception)
+    def run_convert_to_target_oncotree_code_test(self, test_oncotree_code, expected_oncotree_code_list, is_backwards_mapping):
+        expected_output = resolve_possible_target_oncotree_codes(test_oncotree_code, expected_oncotree_codes, {}, {}, False)
+        actual_output = convert_to_target_oncotree_code(test_oncotree_code, self.latest_version, self.original_version, False, is_backwards_mapping)
+        self.assertEqual(expected_output, actual_output)
 
     @classmethod
     def get_original_version(cls):
@@ -77,7 +63,8 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
             "SEZS" : {"code": "SEZS", "parent": "CTCL", "revocations": [], "precursors": [], "history": []},
             "PTCL" : {"code": "PTCL", "parent": "TNKL", "revocations": [], "precursors": [], "history": []},
             "PTCLNOS" : {"code": "PTCLNOS", "parent": "PTCL", "revocations": [], "precursors": [], "history": []},
-            "CTCL" : {"code": "CTCL", "parent": "TNKL", "revocations": [], "precursors": [], "history": []}
+            "CTCL" : {"code": "CTCL", "parent": "TNKL", "revocations": [], "precursors": [], "history": []},
+            "GMUCM" : {"code": "GMUCM", "parent": "MEL", "revocations": [], "precursors": [], "history": []}
         }
 
     @classmethod
@@ -86,12 +73,10 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
             "BLL" : {"code": "BLL", "parent": "LNM", "revocations": ["ALL"], "precursors": ["BALL"], "history": []},
             "SS" : {"code": "SS", "parent": "MTNN", "revocations": [], "precursors": [], "history": ["SEZS"]},
             "PTCL" : {"code": "PTCL", "parent": "MTNN", "revocations": ["PTCL"], "precursors": [], "history": ["PTCLNOS"]},
-            "MYCF" : {"code": "MYCF", "parent": "MTNN", "revocations": [], "precursors": ["CTCL"], "history": []}
-        }
+            "MYCF" : {"code": "MYCF", "parent": "MTNN", "revocations": [], "precursors": ["CTCL"], "history": []},
+            "URMM" : {"code": "URMM", "parent": "BLADDER", "revocations": ["GMUCM"], "precursors": [], "history": []}
 
-    # TODO delete if we don't ever need
-    #@classmethod
-    #def tearDownClass(cls):
+        }
 
 if __name__ == '__main__':
     unittest.main()
