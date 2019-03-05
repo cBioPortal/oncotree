@@ -39,8 +39,18 @@ def load_oncotree_version(oncotree_version_name):
         new_node["revocations"] = json_oncotree_node["revocations"]
         new_node["history"] = json_oncotree_node["history"]
         new_node["code"] = json_oncotree_node["code"]
+        new_node["children"] = []
         oncotree_nodes[json_oncotree_node["code"]] = new_node
+    # second pass, add in children
+    for oncotree_node in oncotree_nodes.values():
+        try:
+            oncotree_nodes[oncotree_node["parent"]]["children"].append(oncotree_node["code"])
+        except:
+            continue
+    for oncotree_node in oncotree_nodes.values():
+        print oncotree_node["code"] + "|\t" + ','.join(oncotree_node["children"])
     return oncotree_nodes
+
 #--------------------------------------------------------------
 def get_header(file):
     header = []
@@ -94,11 +104,21 @@ def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target
     if len(possible_target_oncotree_nodes) == 1:
         return possible_target_oncotree_nodes.pop()
     if not auto_mapping_enabled:
+        # 0 possible target codes
         if len(possible_target_oncotree_nodes) == 0:
-            return "Oncotree Code (%s) needs to be manually mapped" % source_oncotree_code
-        return "Choose from: " + ", ".join(possible_target_oncotree_nodes)
-    return "Complex algorithm incoming"
+            target_code = "A"
+            return "Closest parent %s:" % target_code
+        # more than once possible target code
+        return "Resolve from following: " + ", ".join(possible_target_oncotree_nodes)
+    else:
+        # no distinct choice, have to find closest common parent
+        target_code = "A"
+        return target_code
 
+#def find_closest_common_parent_code(source_oncotree_code, possible_target_oncotree_nodes, source_oncotree, target_oncotree):
+    # case where there are 0 possible target oncotree nodes
+#    if not possible_target_oncotree_nodes:
+#        source_oncotree_code_children = find[
 #--------------------------------------------------------------
 def get_possible_target_oncotree_nodes(source_oncotree_node, source_oncotree, target_oncotree, is_backwards_mapping):
     possible_target_oncotree_codes = set()
