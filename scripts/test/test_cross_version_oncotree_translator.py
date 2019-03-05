@@ -51,8 +51,10 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
         self.run_convert_to_target_oncotree_code_test("BLL", ["BALL"], True)
 
     def run_convert_to_target_oncotree_code_test(self, test_oncotree_code, expected_oncotree_code_list, is_backwards_mapping):
-        expected_output = resolve_possible_target_oncotree_codes(test_oncotree_code, expected_oncotree_codes, {}, {}, False)
-        actual_output = convert_to_target_oncotree_code(test_oncotree_code, self.latest_version, self.original_version, False, is_backwards_mapping)
+        source_version = self.original_version if not is_backwards_mapping else self.latest_version
+        target_version = self.latest_version if not is_backwards_mapping else self.original_version
+        expected_output = resolve_possible_target_oncotree_codes(test_oncotree_code, expected_oncotree_code_list, {}, {}, False)
+        actual_output = convert_to_target_oncotree_code(test_oncotree_code, source_version, target_version, False, is_backwards_mapping)
         self.assertEqual(expected_output, actual_output)
 
     @classmethod
