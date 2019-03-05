@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -41,7 +41,7 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
     private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
         "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
         "WHERE { " +
-        "   GRAPH <urn:x-evn-master:oncotree_version_testing> { " +
+        "   GRAPH <urn:x-evn-master:oncotree_version> { " +
         "       ?s oncotree-version:graph_uri ?graph_uri. " +
         "       ?s oncotree-version:api_identifier ?api_identifier. " +
         "       ?s oncotree-version:release_date ?release_date. " +

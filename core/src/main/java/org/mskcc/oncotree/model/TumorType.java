@@ -17,7 +17,6 @@
 */
 package org.mskcc.oncotree.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,7 +29,6 @@ import java.util.*;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorType {
 
-    private String uri = null;
     private String code = null;
     private String color = null;
     private String name = null;
@@ -48,7 +46,6 @@ public class TumorType {
     public TumorType() {}
 
     public TumorType(TumorType otherTumorType) {
-        this.uri = otherTumorType.uri;
         this.code = otherTumorType.code;
         this.color = otherTumorType.color;
         this.name = otherTumorType.name;
@@ -67,7 +64,6 @@ public class TumorType {
 
     public TumorType deepCopy() {
         TumorType newTumorType = new TumorType();
-        newTumorType.uri = this.uri;
         newTumorType.code = this.code;
         newTumorType.color = this.color;
         newTumorType.name = this.name;
@@ -84,15 +80,6 @@ public class TumorType {
         newTumorType.precursors = new ArrayList<String>(this.precursors);
         newTumorType.level = this.level;
         return newTumorType;
-    }
-
-    @JsonIgnore
-    public String getUri() {
-        return this.uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     /**
