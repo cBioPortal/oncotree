@@ -55,17 +55,20 @@ def load_input_file(input_file):
     header = get_header(input_file)
     headers_processed = False
     input_file_mapped_list = []
+    header_and_comment_lines = {}
 
     with open(input_file) as data_file:
-        for line in data_file.readlines():
+        for line_number, line in enumerate(data_file):
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
+                header_and_comment_lines[line_number] = line
                 continue
             if not headers_processed:
                 headers_processed = True
+                header_and_comment_lines[line_number] = line
                 continue
             data = dict(zip(header, map(str.strip, line.split('\t'))))
             input_file_mapped_list.append(data)
-    return input_file_mapped_list, header
+    return input_file_mapped_list, header, header_and_comment_lines
 #--------------------------------------------------------------
 def translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping):
     for record in input_file_mapped_list:
@@ -143,12 +146,17 @@ def find_oncotree_codes_where_im_history(source_oncotree_code, target_oncotree):
 def find_oncotree_codes_where_im_revocation(source_oncotree_code, target_oncotree):
     return [target_oncotree_code for target_oncotree_code, target_oncotree_node in target_oncotree.items() if source_oncotree_code in target_oncotree_node["revocations"]]
 
-def write_to_output_file(translated_input_file_mapped_list, output_file, header):
+def write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines):
+    line_num = 0
     with open(output_file, "w") as f:
-        f.write('\t'.join(header) + "\n")
+        line_num += 1
         for record in translated_input_file_mapped_list:
+            while line_num in header_and_comment_lines:
+                f.write(header_and_comment_lines[line_num])
+                line_num += 1
             formatted_data = map(lambda x: record.get(x,''), header)
             f.write('\t'.join(formatted_data) + '\n')
+            line_num += 1
 
 #--------------------------------------------------------------
 def main():
@@ -185,11 +193,11 @@ def main():
 
     is_backwards_mapping = target_index < source_index
 
-    input_file_mapped_list, header = load_input_file(input_file)
+    input_file_mapped_list, header, header_and_comment_lines = load_input_file(input_file)
     source_oncotree = load_oncotree_version(source_version)
     target_oncotree = load_oncotree_version(target_version)
     translated_input_file_mapped_list = translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping)
-    write_to_output_file(translated_input_file_mapped_list, output_file, header)
+    write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines)
 
 if __name__ == '__main__':
    main()
