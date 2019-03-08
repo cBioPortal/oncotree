@@ -21,10 +21,8 @@ import requests
 import sys
 import re
 
-#ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
-ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/sheridan-oncotree/#/home?version="
-#ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
-ONCOTREE_API_URL_BASE_DEFAULT = "http://dashi-dev.cbio.mskcc.org:8080/sheridan-oncotree/api/"
+ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
+ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
 ONCOTREE_VERSION_ENDPOINT = "versions"
 ONCOTREE_TUMORTYPES_ENDPOINT = "tumorTypes"
 VERSION_API_IDENTIFIER_FIELD = "api_identifier"
@@ -47,17 +45,41 @@ NEIGHBORS_FIELD = "neighbors"
 IS_LOGGED_FLAG = "logged"
 
 #--------------------------------------------------------------
-def get_oncotree_version_indexes(source_oncotree_version_name, target_oncotree_version_name, oncotree_api_url_base):
-    oncotree_version_endpoint = oncotree_api_url_base + ONCOTREE_VERSION_ENDPOINT
-    response = requests.get(oncotree_version_endpoint)
+def fetch_oncotree_versions(oncotree_api_url_base):
+    # fetch available onctree versions from api
+    oncotree_version_endpoint_url = oncotree_api_url_base + ONCOTREE_VERSION_ENDPOINT
+    response = requests.get(oncotree_version_endpoint_url)
     if response.status_code != 200:
         print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve oncotree versions." % (response.status_code)
         sys.exit(1)
+    return response.json()
+
+#--------------------------------------------------------------
+def validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version):
+    valid_version_identifiers = [version[VERSION_API_IDENTIFIER_FIELD] for version in oncotree_versions_list]
+    if not source_version in valid_version_identifiers:
+        print >> sys.stderr, "ERROR: Source version (%s) is not a valid oncotree version" % (source_version)
+        sys.exit(1)
+    if not target_version in valid_version_identifiers:
+        print >> sys.stderr, "ERROR: Source version (%s) is not a valid oncotree version" % (target_version)
+        sys.exit(1)
+
+#--------------------------------------------------------------
+def validate_and_fetch_oncotree_version_indexes(source_version, target_version, oncotree_api_url_base):
+    if source_oncotree_version_name == target_oncotree_version_name:
+        print >> sys.stderr, "Error: Source oncotree version (%s) and target oncotree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
+    oncotree_versions_list = fetch_oncotree_versions(oncotree_api_url_base)
+
+    # validate source and target versions
+    validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version)
+
+    # return indexes of source and target versions from available oncotree versions
     source_oncotree_version_index, target_oncotree_version_index = -1, -1
     for index, version in enumerate(sorted(response.json(), key = lambda k: k[VERSION_RELEASE_DATE_FIELD])):
         if version[VERSION_API_IDENTIFIER_FIELD] == source_oncotree_version_name:
+
             source_oncotree_version_index = index
-        if version[VERSION_API_IDENTIFIER_FIELD] == target_oncotree_version_name:
+        if version[VERSION_API_IDENTIFIER_FIELD] == target_version:
             target_oncotree_version_index = index
     return source_oncotree_version_index, target_oncotree_version_index
 
@@ -99,11 +121,11 @@ def get_header(file):
 # Takes a data_clinical_sample.txt file
 # Saves header/commented lines as strings {row number: row}
 # Additional processing to add ONCOTREE_CODE_OPTIONS column
-def load_input_file(input_file):
-    header = get_header(input_file)
+def load_source_file(source_file):
+    header = get_header(source_file)
     header_length = len(header)
     headers_processed = False
-    input_file_mapped_list = []
+    source_file_mapped_list = []
     header_and_comment_lines = {}
     header_line_number = 0
 
@@ -111,7 +133,7 @@ def load_input_file(input_file):
         print >> sys.stderr, "ERROR: Input file is missing column 'ONCOTREE_CODE'."
         sys.exit(1)
         
-    with open(input_file) as data_file:
+    with open(source_file) as data_file:
         for line_number, line in enumerate(data_file):
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
                 header_and_comment_lines[line_number] = line
@@ -125,7 +147,7 @@ def load_input_file(input_file):
                 print >> sys.stderr, "ERROR: Current row has a different number of columns than header row: %s" % line  
                 sys.exit(1)
             data = dict(zip(header, map(str.strip, line.split('\t'))))
-            input_file_mapped_list.append(data)
+            source_file_mapped_list.append(data)
 
     # This column has to be added after since zip was functioning on index
     new_oncotree_code_index = header.index("ONCOTREE_CODE") + 1
@@ -136,7 +158,7 @@ def load_input_file(input_file):
         header_and_comment_lines[line_number] = add_new_column(header_and_comment_lines[line_number], new_oncotree_code_index, "")
     header_and_comment_lines[header_line_number] = add_new_column(header_and_comment_lines[header_line_number], new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
     # TODO: do the same thing for commented out lines inserted in random points throughout file (will have to make same changes for writing out records)
-    return input_file_mapped_list, header, header_and_comment_lines
+    return source_file_mapped_list, header, header_and_comment_lines
 
 #--------------------------------------------------------------
 def add_new_column(row, new_column_index, column_name):
@@ -172,8 +194,8 @@ def remove_new_column(row, new_column_index):
 # Attempts to translate "ONCOTREE_CODE" value to target version equivalent
 # Codes which map successfully (direct mapping w/o ambiguity or possible children) are placed in ONCOTREE_CODE column (ONCOTREE_CODE_OPTIONS empty)
 # Codes which map ambiguously (no/possible mappings and/or new children) are placed in ONCOTREE_CODE_OPTIONS (ONCOTREE_CODE empty)
-def translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping):
-    for record in input_file_mapped_list:
+def translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping):
+    for record in source_file_mapped_list:
         source_oncotree_code = record["ONCOTREE_CODE"]
         # initialize summary log for oncotree code
         if source_oncotree_code not in GLOBAL_LOG_MAP:
@@ -190,7 +212,7 @@ def translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_onc
         else:
             record["ONCOTREE_CODE"] = ""
             record["ONCOTREE_CODE_OPTIONS"] = translated_oncotree_code
-    return input_file_mapped_list
+    return source_file_mapped_list
 
 #--------------------------------------------------------------
 # Given a "source" oncotree code, return a string which can be in the following:
@@ -397,10 +419,10 @@ def get_earliest_common_parent(min_length, lists_of_all_ancestors):
     return oncotree_code
 
 #--------------------------------------------------------------
-def write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines):
+def write_to_target_file(translated_source_file_mapped_list, target_file, header, header_and_comment_lines):
     all_easily_resolved = True
     oncotree_code_options_index = header.index("ONCOTREE_CODE_OPTIONS")
-    for record in translated_input_file_mapped_list:
+    for record in translated_source_file_mapped_list:
         if record["ONCOTREE_CODE_OPTIONS"]:
             all_easily_resolved = False
             break
@@ -410,8 +432,8 @@ def write_to_output_file(translated_input_file_mapped_list, output_file, header,
             header_and_comment_lines[line_number] = remove_new_column(header_and_comment_lines[line_number], oncotree_code_options_index) 
     
     line_num = 0
-    with open(output_file, "w") as f:
-        for record in translated_input_file_mapped_list:
+    with open(target_file, "w") as f:
+        for record in translated_source_file_mapped_list:
             while line_num in header_and_comment_lines:
                 f.write(header_and_comment_lines[line_num])
                 line_num += 1
@@ -439,7 +461,7 @@ def sort_by_resolution_method(oncotree_code, logged_code):
         return "4" + oncotree_code
 
 #--------------------------------------------------------------
-def write_summary_file(output_file, source_version, target_version):
+def write_summary_file(target_file, source_version, target_version):
     oncotree_url = ONCOTREE_WEBSITE_URL + target_version
     # Break logged nodes into subcategories and sort (alphabetically and resolution type)
     # For each category, codes with more granular codes introduced are shown first
@@ -447,7 +469,7 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-    html_summary_file = os.path.splitext(output_file)[0] + "_summary.html"
+    html_summary_file = os.path.splitext(target_file)[0] + "_summary.html"
     with open(html_summary_file, "w") as f:
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
@@ -487,21 +509,27 @@ def write_summary_file(output_file, source_version, target_version):
             if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
                 f.write("*Warning: Target version has introduced more granular nodes.<br />\n")
                 f.write("You may want to examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br /></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
-
     print >> sys.stdout, "Oncotree version conversion completed. Mapping summary HTML file written out to %s" % (html_summary_file)
+
+def usage(parser, message):
+    if message:
+        print >> sys.stderr, message
+    print >> sys.stderr, parser.print_help()
+    sys.exit(1)
+
 #--------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--auto-mapping-enabled", help = "enable automatic resolution of ambiguous mappings", action = "store_true")
-    parser.add_argument("-i", "--input-file", help = "source file provided by user", required = True)
+    parser.add_argument("-i", "--source-file", help = "source file provided by user", required = True)
     parser.add_argument("-o", "--output-file", help = "destination file to write out new file contents", required = True)
     parser.add_argument("-s", "--source-version", help = "current oncotree version used in the source file", required = True)
     parser.add_argument("-t", "--target-version", help = "oncotree version to be mapped to in the destination file", required = True)
     parser.add_argument("-u", "--oncotree-url", required = False, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
-    input_file = args.input_file
-    output_file = args.output_file
+    source_file = args.source_file
+    target_file = args.target_file
     source_version = args.source_version
     target_version = args.target_version
     oncotree_url = args.oncotree_url
@@ -510,30 +538,21 @@ def main():
     if oncotree_url:
         oncotree_api_url_base = oncotree_url
 
-    if not os.path.isfile(input_file):
-        print >> sys.stderr, "Error: Input file (%s) can not be found" % (input_file)
+    if not source_file or not target_file or not source_version or not target_version:
+        usage(parse, "Error: missing arguments")
+
+    if not os.path.isfile(source_file):
+        print >> sys.stderr, "Error: Input file (%s) can not be found" % (source_file)
         sys.exit(1)
 
-    if source_version == target_version:
-        print >> sys.stderr, "Error: Source oncotree version (%s) and target oncotree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
-        sys.exit(1)
-
-    source_index, target_index = get_oncotree_version_indexes(source_version, target_version, oncotree_api_url_base)
-
-    if source_index == -1:
-        print >> sys.stderr, "ERROR: Source version (%s) is not a valid oncotree version" % (source_version)
-        sys.exit(1)
-    if target_index == -1:
-        print >> sys.stderr, "ERROR: Target version (%s) is not a valid oncotree version" % (target_version)
-        sys.exit(1)
-
-    is_backwards_mapping = target_index < source_index
-    input_file_mapped_list, header, header_and_comment_lines = load_input_file(input_file)
+    source_index, target_index = validate_and_fetch_oncotree_version_indexes(source_version, target_version, oncotree_api_url_base)
+    is_backwards_mapping = target_index < source_index # determines directionality of source - target oncotree mapping
+    source_file_mapped_list, header, header_and_comment_lines = load_source_file(source_file)
     source_oncotree = load_oncotree_version(source_version, oncotree_api_url_base)
     target_oncotree = load_oncotree_version(target_version, oncotree_api_url_base)
-    translated_input_file_mapped_list = translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping)
-    write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines)
-    write_summary_file(output_file, source_version, target_version)
+    translated_source_file_mapped_list = translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping)
+    write_to_target_file(translated_source_file_mapped_list, target_file, header, header_and_comment_lines)
+    write_summary_file(target_file, source_version, target_version)
 
 if __name__ == '__main__':
    main()
