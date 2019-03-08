@@ -4,6 +4,7 @@ import os
 import requests
 import sys
 
+ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
 #ONCOTREE_API_URL_BASE = "http://oncotree.mskcc.org/api/"
 ONCOTREE_API_URL_BASE = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/api/"
 ONCOTREE_VERSION_ENDPOINT = ONCOTREE_API_URL_BASE + "versions"
@@ -11,7 +12,21 @@ ONCOTREE_TUMORTYPES_ENDPOINT = ONCOTREE_API_URL_BASE + "tumorTypes"
 VERSION_API_IDENTIFIER_FIELD = "api_identifier"
 METADATA_HEADER_PREFIX = "#"
 
+# field names used for navigating tumor types
+CHILDREN_CODES_FIELD = "children"
+HISTORY_FIELD = "history"
+ONCOTREE_CODE_FIELD = "code"
+PARENT_CODE_FIELD = "parent"
+PRECURSORS_FIELD = "precursors"
+REVOCATIONS_FIELD = "revocations"
+
+# logging fields
 GLOBAL_LOG_MAP = {}
+CLOSEST_COMMON_PARENT_FIELD = "closest_common_parent"
+CHOICES_FIELD = "choices"
+NEIGHBORS_FIELD = "neighbors"
+IS_LOGGED_FLAG = "logged"
+
 #--------------------------------------------------------------
 def get_oncotree_version_indexes(source_oncotree_version_name, target_oncotree_version_name):
     response = requests.get(ONCOTREE_VERSION_ENDPOINT)
@@ -24,7 +39,6 @@ def get_oncotree_version_indexes(source_oncotree_version_name, target_oncotree_v
             source_oncotree_version_index = index
         if version[VERSION_API_IDENTIFIER_FIELD] == target_oncotree_version_name:
             target_oncotree_version_index = index
-
     return source_oncotree_version_index, target_oncotree_version_index
 
 #--------------------------------------------------------------
@@ -36,17 +50,17 @@ def load_oncotree_version(oncotree_version_name):
         sys.exit(1)
     for json_oncotree_node in response.json():
         new_node = {}
-        new_node["parent"] = json_oncotree_node["parent"]
-        new_node["precursors"] = json_oncotree_node["precursors"]
-        new_node["revocations"] = json_oncotree_node["revocations"]
-        new_node["history"] = json_oncotree_node["history"]
-        new_node["code"] = json_oncotree_node["code"]
-        new_node["children"] = []
-        oncotree_nodes[json_oncotree_node["code"]] = new_node
+        new_node[PARENT_CODE_FIELD] = json_oncotree_node[PARENT_CODE_FIELD]
+        new_node[PRECURSORS_FIELD] = json_oncotree_node[PRECURSORS_FIELD]
+        new_node[REVOCATIONS_FIELD] = json_oncotree_node[REVOCATIONS_FIELD]
+        new_node[HISTORY_FIELD] = json_oncotree_node[HISTORY_FIELD]
+        new_node[ONCOTREE_CODE_FIELD] = json_oncotree_node[ONCOTREE_CODE_FIELD]
+        new_node[CHILDREN_CODES_FIELD] = []
+        oncotree_nodes[json_oncotree_node[ONCOTREE_CODE_FIELD]] = new_node
     # second pass, add in children
     for oncotree_node in oncotree_nodes.values():
         try:
-            oncotree_nodes[oncotree_node["parent"]]["children"].append(oncotree_node["code"])
+            oncotree_nodes[oncotree_node[PARENT_CODE_FIELD]][CHILDREN_CODES_FIELD].append(oncotree_node[ONCOTREE_CODE_FIELD])
         except:
             continue
     return oncotree_nodes
@@ -61,12 +75,19 @@ def get_header(file):
                 break
     return header
 #--------------------------------------------------------------
+# Takes a data_clinical_sample.txt file
+# Saves header/commented lines as strings {row number: row}
+# Additional processing to add ONCOTREE_CODE_OPTIONS column
 def load_input_file(input_file):
     header = get_header(input_file)
     headers_processed = False
     input_file_mapped_list = []
     header_and_comment_lines = {}
+    header_line_number = 0
 
+    new_oncotree_code_index = header.index("ONCOTREE_CODE") + 1
+    header.insert(new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
+    
     with open(input_file) as data_file:
         for line_number, line in enumerate(data_file):
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
@@ -74,55 +95,99 @@ def load_input_file(input_file):
                 continue
             if not headers_processed:
                 headers_processed = True
+                header_line_number = line_number
                 header_and_comment_lines[line_number] = line
                 continue
             data = dict(zip(header, map(str.strip, line.split('\t'))))
             input_file_mapped_list.append(data)
+   
+    # add new column (ONCOTREE_CODE_OPTIONS)
+    for line_number in range(header_line_number):
+        header_and_comment_lines[line_number] = add_new_column(header_and_comment_lines[line_number], new_oncotree_code_index, "")
+    header_and_comment_lines[header_line_number] = add_new_column(header_and_comment_lines[header_line_number], new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
     return input_file_mapped_list, header, header_and_comment_lines
+
 #--------------------------------------------------------------
-# given list of dictionaries (each index being a record) - replace the ONCOTREE_CODE value with translated code
-def translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping):
+def add_new_column(row, new_column_index, column_name):
+    updated_row = row.split('\t')
+    # row is just a sentence (not a tab-delimited string), skip adding
+    if len(updated_row) < (new_column_index - 1):
+        return row
+    column_added_at_end = len(updated_row) == new_column_index
+    # column is being added at the end, add a return character and remove from previous last column
+    if column_added_at_end:
+        updated_row[new_column_index -1] = updated_row[new_column_index - 1].rstrip()
+        updated_row.insert(new_column_index, column_name + "\n")
+    else:
+        updated_row.insert(new_column_index, column_name)
+    return '\t'.join(updated_row)
+
+#--------------------------------------------------------------
+# Uses a list of dictionaries, each dictionary represents a record/row
+# Attempts to translate "ONCOTREE_CODE" value to target version equivalent
+# Codes which map successfully (direct mapping w/o ambiguity or possible children) are placed in ONCOTREE_CODE column (ONCOTREE_CODE_OPTIONS empty)
+# Codes which map ambiguously (no/possible mappings and/or new children) are placed in ONCOTREE_CODE_OPTIONS (ONCOTREE_CODE empty)
+def translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping):
     for record in input_file_mapped_list:
         source_oncotree_code = record["ONCOTREE_CODE"]
-        record["ONCOTREE_CODE"] = convert_to_target_oncotree_code(source_oncotree_code, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping)
+        # initialize summary log for oncotree code
+        if source_oncotree_code not in GLOBAL_LOG_MAP:
+            GLOBAL_LOG_MAP[source_oncotree_code] = {
+                NEIGHBORS_FIELD : [], 
+                CHOICES_FIELD : [], 
+                CLOSEST_COMMON_PARENT_FIELD : "",
+                IS_LOGGED_FLAG : False
+            }
+        translated_oncotree_code, is_easily_resolved  = get_oncotree_code_options(source_oncotree_code, source_oncotree, target_oncotree, is_backwards_mapping)
+        if is_easily_resolved:
+            record["ONCOTREE_CODE"]  = translated_oncotree_code
+            record["ONCOTREE_CODE_OPTIONS"] = ""
+        else:
+            record["ONCOTREE_CODE"] = ""
+            record["ONCOTREE_CODE_OPTIONS"] = translated_oncotree_code
     return input_file_mapped_list
 
 #--------------------------------------------------------------
-# convert a signle oncotree code to its "target" version equivalent
-def convert_to_target_oncotree_code(source_oncotree_code, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping):
+# Given a "source" oncotree code, return a string which can be in the following:
+# 1) single code (single mapping, no children), True
+# 2) single code but with children (single mapping, new children), False
+# 3) multiple directly mapped options (w/ or w/o children), False
+# 4) multiple related options (closest parents/children, don't include children), False
+def get_oncotree_code_options(source_oncotree_code, source_oncotree, target_oncotree, is_backwards_mapping):
     if source_oncotree_code in ["N/A", "", "NA"]:
-        return source_oncotree_code
+        return source_oncotree_code, True
     if source_oncotree_code not in source_oncotree:
         #print >> sys.stderr, "ERROR: Oncotree code (%s) can not be found in source oncotree. Please verify source version." % (source_oncotree_code)
-        return source_oncotree_code
+        return source_oncotree_code, True
         #sys.exit(1)
     source_oncotree_node = source_oncotree[source_oncotree_code]
-    # get a set of possible codes that source code has been mapped to
+    # get a set of possible codes that source code has been directly mapped to
     possible_target_oncotree_codes = get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is_backwards_mapping)
     # resolve set of codes (cannot use possible_target_oncotree_nodes anymore)
-    target_oncotree_code = resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping)
-    return target_oncotree_code
+    target_oncotree_code, is_easily_resolved = resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, is_backwards_mapping)
+    return target_oncotree_code, is_easily_resolved
 
 #--------------------------------------------------------------
-# given a single oncotree node and mapping direction - return a set with oncotree codes which mapped succesfully (from target version)
+# Given a "source" oncotree code, return a set of directly mappable "target" oncotree codes (though history, precursors, revocations)
+# Rules for determining set diff based on mapping direction
 def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is_backwards_mapping):
     possible_target_oncotree_codes = set()
-    source_oncotree_code = source_oncotree_node["code"]
+    source_oncotree_code = source_oncotree_node[ONCOTREE_CODE_FIELD]
     if is_backwards_mapping:        
         # Backwards mapping
         # codes in history is in the target version (Same URI - different name)
-        possible_target_oncotree_codes.update(get_past_oncotree_codes_for_related_codes(source_oncotree_node, target_oncotree, "history"))
+        possible_target_oncotree_codes.update(get_past_oncotree_codes_for_related_codes(source_oncotree_node, target_oncotree, HISTORY_FIELD))
         if not possible_target_oncotree_codes: # history overrides current code when history is present (e.g PTCLNOS)
             if source_oncotree_code in target_oncotree:
                 possible_target_oncotree_codes.add(source_oncotree_code)
         # codes in precusors is in the target version
-        possible_target_oncotree_codes.update(get_past_oncotree_codes_for_related_codes(source_oncotree_node, target_oncotree, "precursors"))
+        possible_target_oncotree_codes.update(get_past_oncotree_codes_for_related_codes(source_oncotree_node, target_oncotree, PRECURSORS_FIELD))
         # skip checking codes in revocations - invalid codes which should not be considered 
         return possible_target_oncotree_codes
     else:
         # Forwards mapping
         # codes where source code is in history (this should at most be 1 node - because its the same URI)
-        future_codes = get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, "history")
+        future_codes = get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, HISTORY_FIELD)
         if len(future_codes) > 1:
             print >> sys.stderr, "ERROR: Future oncotree has multiple codes with code %s in history" % (source_oncotree_code)
             sys.exit(1)
@@ -130,11 +195,11 @@ def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is
             possible_target_oncotree_codes.update(future_codes)
             return possible_target_oncotree_codes
         # codes where source code is in precursor (this can be more than 1, but can not intersect with revocations)
-        possible_target_oncotree_codes.update(get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, "precursor"))
+        possible_target_oncotree_codes.update(get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, PRECURSORS_FIELD))
         if len(possible_target_oncotree_codes) > 0:
             return possible_target_oncotree_codes
         # codes where source code is in revocations (this can be more than 1) 
-        possible_target_oncotree_codes.update(get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, "revocations"))
+        possible_target_oncotree_codes.update(get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, REVOCATIONS_FIELD))
         if len(possible_target_oncotree_codes) > 0:
             return possible_target_oncotree_codes
         # at this point, no matches - check if source code exists in future oncotree
@@ -157,78 +222,98 @@ def get_future_related_oncotree_codes_for_source_code(source_oncotree_code, targ
     return [future_oncotree_code for future_oncotree_code, future_oncotree_node in target_oncotree.items() if source_oncotree_code in future_oncotree_node[field]]
 
 #--------------------------------------------------------------
-# given a set of oncotree code(s), return a string which formatting/contents are determined by whether auto mapping is enabled
-# auto mapping means set will resolve to a single oncotree code
-# no auto mapping means users will be presented with list of options to resolve
-def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping):
-    if source_oncotree_code not in GLOBAL_LOG_MAP:
-        GLOBAL_LOG_MAP[source_oncotree_code] = {
-            "target_code": "", 
-            "valid_related_oncotree_codes" : [], 
-            "mappable_target_oncotree_codes" : [], 
-            "closest_common_parent" : ""
-        }
-    source_oncotree_code_log = GLOBAL_LOG_MAP[source_oncotree_code]
+# Given a set of oncotree codes, return a formatted string with following info (if available):
+# 1a) (== 1 choice) directly mapped target oncotree code
+# 1b) (>1 choices) possible choices
+# 1c) (0 choices) neighborhood/related codes
+# 2) whether or not there are children
+#
+# * Presence of children not checked for cases with 0 choices
+#   since returned "options" are already in the general neighborhood
+# * Additionally, if children are available, log the closest common parent for summary report
+def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, is_backwards_mapping):
+    number_of_new_children = 0 
+    # skip calculating number of children for case with no direct mappings
+    if len(possible_target_oncotree_codes) != 0:
+        number_of_new_children = get_number_of_new_children(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree)
+    # is easily resolved if only one option with no children
+    is_easily_resolved = (len(possible_target_oncotree_codes) == 1 and not number_of_new_children)   
+    
+    if is_easily_resolved:
+        oncotree_code_options = possible_target_oncotree_codes.pop()
+        if source_oncotree_code != oncotree_code_options and not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
+                GLOBAL_LOG_MAP[source_oncotree_code][CHOICES_FIELD].append(oncotree_code_options)
+                GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG] = True
+        # log if oncotree code has changed
+        return oncotree_code_options, is_easily_resolved
 
-    if len(possible_target_oncotree_codes) == 1:
-        target_code = possible_target_oncotree_codes.pop()
-        if source_oncotree_code != target_code:
-            if not source_oncotree_code_log["target_code"]:
-                source_oncotree_code_log["target_code"] = target_code
-        return target_code
-    if not auto_mapping_enabled:
-        # 0 possible target codes
-        if len(possible_target_oncotree_codes) == 0:
-            target_code = find_closest_common_parent_code(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, is_backwards_mapping)
-            return "Closest parent: %s" % target_code
-        # more than once possible target code
-        return "Candidates: " + ", ".join(possible_target_oncotree_codes)
+    # case with 0 direct mappings, return neighborhood + log common parent 
+    if len(possible_target_oncotree_codes) == 0:
+        neighboring_target_oncotree_codes = get_neighboring_target_oncotree_codes([source_oncotree_code], source_oncotree, target_oncotree, True, is_backwards_mapping)
+        oncotree_code_options = format_oncotree_code_options(source_oncotree_code, "Neighborhood: " + ','.join(neighboring_target_oncotree_codes), number_of_new_children)
+        closest_common_parent = get_closest_common_parent(neighboring_target_oncotree_codes, target_oncotree)
+        if not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
+            GLOBAL_LOG_MAP[source_oncotree_code][NEIGHBORS_FIELD].extend(neighboring_target_oncotree_codes)
+            GLOBAL_LOG_MAP[source_oncotree_code][CLOSEST_COMMON_PARENT_FIELD]=closest_common_parent
     else:
-        # no distinct choice, have to find closest common parent
-        target_code = find_closest_common_parent_code(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, is_backwards_mapping)
-        return target_code
+        oncotree_code_options = format_oncotree_code_options(source_oncotree_code, "{%s}" % ','.join(possible_target_oncotree_codes), number_of_new_children)
+        if not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
+            GLOBAL_LOG_MAP[source_oncotree_code][CHOICES_FIELD].extend(possible_target_oncotree_codes)
+            if number_of_new_children:
+                closest_common_parent = get_closest_common_parent(possible_target_oncotree_codes, target_oncotree)
+                GLOBAL_LOG_MAP[source_oncotree_code][CLOSEST_COMMON_PARENT_FIELD] = closest_common_parent
+    GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG] = True
+    return oncotree_code_options, is_easily_resolved
 
 #--------------------------------------------------------------
-# decides between cases where there are multiple possible mappings or no possible mappings
-def find_closest_common_parent_code(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree, is_backwards_mapping):
-    # case where there are 0 possible target oncotree nodes
-    source_oncotree_code_log = GLOBAL_LOG_MAP[source_oncotree_code]
-    if not possible_target_oncotree_codes:
-        # find valid related oncotree nodes (i.e parents/children which map successfully to something in the target version)
-        possible_related_target_oncotree_codes = get_valid_related_oncotree_codes([source_oncotree_code], source_oncotree, target_oncotree, True, is_backwards_mapping)
-        if not source_oncotree_code_log["valid_related_oncotree_codes"]:
-            source_oncotree_code_log["valid_related_oncotree_codes"] = possible_related_target_oncotree_codes
-        # log: source_oncotree_code had no direct mapping (relatives used to find parent: possible_related_target_oncotree_codes -> get_closest_common_parent(....)
-        closest_common_parent = get_closest_common_parent(possible_related_target_oncotree_codes, target_oncotree)
-    else: # case where there are already a defined set of possible target oncotree nodes but we want to return one - find closest common parent of provided set
-        if not source_oncotree_code_log["mappable_target_oncotree_codes"]:
-            source_oncotree_code_log["mappable_target_oncotree_codes"] = possible_target_oncotree_codes
-        closest_common_parent = get_closest_common_parent(possible_target_oncotree_codes, target_oncotree)
-        # log: source_oncotree_code had multiple possible mappings (possible_target_oncotree_codes - resolved to one parent - get_closest-common_parent)
-    if not source_oncotree_code_log["closest_common_parent"]:
-        source_oncotree_code_log["closest_common_parent"] = closest_common_parent
-    return closest_common_parent
+def format_oncotree_code_options(source_oncotree_code, oncotree_code_options, number_of_new_children):
+    to_return = "%s -> %s" % (source_oncotree_code, oncotree_code_options)
+    if number_of_new_children:
+        to_return = to_return + ", more granular choices introduced"
+    return to_return
 
 #--------------------------------------------------------------
 # returns codes (in target version) which succesfully mapped from relatives
-def get_valid_related_oncotree_codes(source_oncotree_codes, source_oncotree, target_oncotree, include_children, is_backwards_mapping):
+def get_neighboring_target_oncotree_codes(source_oncotree_codes, source_oncotree, target_oncotree, include_children, is_backwards_mapping):
     immediate_relatives = set()
     immediate_relatives_in_target_oncotree = set()
     # collect codes which are directly related (parents + children) in first iteration, just parents in second+ iteration
     for source_oncotree_code in source_oncotree_codes:
-        if source_oncotree[source_oncotree_code]["parent"]:
-           immediate_relatives.add(source_oncotree[source_oncotree_code]["parent"])
-        if source_oncotree[source_oncotree_code]["children"] and include_children:
-            immediate_relatives.update(source_oncotree[source_oncotree_code]["children"]) 
+        if source_oncotree[source_oncotree_code][PARENT_CODE_FIELD]:
+           immediate_relatives.add(source_oncotree[source_oncotree_code][PARENT_CODE_FIELD])
+        if source_oncotree[source_oncotree_code][CHILDREN_CODES_FIELD] and include_children:
+            immediate_relatives.update(source_oncotree[source_oncotree_code][CHILDREN_CODES_FIELD]) 
    
     for source_oncotree_code in source_oncotree_codes: 
         immediate_relatives_in_target_oncotree.update(get_possible_target_oncotree_codes(source_oncotree[source_oncotree_code], target_oncotree, is_backwards_mapping))
     
     # no immediate relative could be mapped backwards - try again with expanded search
     if not immediate_relatives_in_target_oncotree:
-       return get_valid_related_oncotree_codes(immediate_relatives, source_oncotree, target_oncotree, False, is_backwards_mapping) 
+       return get_neighboring_target_oncotree_codes(immediate_relatives, source_oncotree, target_oncotree, False, is_backwards_mapping) 
     else: # at least one code was mapped successfully backwards
        return immediate_relatives_in_target_oncotree  
+
+#--------------------------------------------------------------
+# Returns number of new children (number of target children codes not in list of source children codes)
+def get_number_of_new_children(source_oncotree_code, possible_target_oncotree_codes, source_oncotree, target_oncotree):
+    children_in_source = []
+    children_in_target = []
+    children_in_source = set(get_children([source_oncotree_code], children_in_source, source_oncotree))
+    children_in_target = set(get_children(possible_target_oncotree_codes, children_in_target, target_oncotree))
+    number_of_new_children = len(children_in_target - children_in_source)
+    return number_of_new_children
+    
+#--------------------------------------------------------------
+# Recusively builds of all children codes under a set of given onctoree codes
+def get_children(oncotree_codes, all_children_codes, target_oncotree):
+    children = []
+    for oncotree_code in oncotree_codes:
+        children.extend(target_oncotree[oncotree_code][CHILDREN_CODES_FIELD])
+    if children:
+        all_children_codes.extend(children)
+        return get_children(children, all_children_codes, target_oncotree)
+    else:
+        return all_children_codes
 
 #--------------------------------------------------------------
 # get the common parent (furthest down the tree) for a set of oncotree_codes
@@ -246,8 +331,8 @@ def get_closest_common_parent(possible_target_oncotree_codes, target_oncotree):
 #--------------------------------------------------------------
 # used to construct list of ancestors - if parent exists, insert at beginning, and call again at a higher level
 def get_ancestors(oncotree_code, oncotree_code_ancestors, target_oncotree):
-    if target_oncotree[oncotree_code]["parent"]:
-        parent_oncotree_code = target_oncotree[oncotree_code]["parent"]
+    if target_oncotree[oncotree_code][PARENT_CODE_FIELD]:
+        parent_oncotree_code = target_oncotree[oncotree_code][PARENT_CODE_FIELD]
         oncotree_code_ancestors.insert(0, parent_oncotree_code)
         return get_ancestors(parent_oncotree_code, oncotree_code_ancestors, target_oncotree)
     else:
@@ -279,6 +364,68 @@ def write_to_output_file(translated_input_file_mapped_list, output_file, header,
             line_num += 1
 
 #--------------------------------------------------------------
+# sorts logging map based on resolution type
+# (e.g show unmappable nodes before ambiguous nodes
+def sort_by_resolution_method(oncotree_code, logged_code):
+    # no direct mappings first
+    if logged_code[NEIGHBORS_FIELD]:
+        return "0" + oncotree_code
+    # has multiple possible choices and has children
+    elif len(logged_code[CHOICES_FIELD]) > 1 and logged_code[CLOSEST_COMMON_PARENT_FIELD]:
+        return "1" + oncotree_code
+    # has multiple possible choices and has no children
+    elif len(logged_code[CHOICES_FIELD]) > 1 and not logged_code[CLOSEST_COMMON_PARENT_FIELD]:
+        return "2" + oncotree_code
+    # has one choice and has children
+    elif len(logged_code[CHOICES_FIELD]) == 1 and logged_code[CLOSEST_COMMON_PARENT_FIELD]:
+        return "3" + oncotree_code
+    else:
+        return "4" + oncotree_code
+
+#--------------------------------------------------------------
+def write_summary_file(output_file, source_version, target_version):
+    oncotree_url = ONCOTREE_WEBSITE_URL + target_version
+    # Break logged nodes into subcategories and sort (alphabetically and resolution type)
+    # For each category, codes with more granular codes introduced are shown first    
+    unmappable_codes = sorted([unmappable_code for unmappable_code, unmappable_node in GLOBAL_LOG_MAP.items() if unmappable_node[NEIGHBORS_FIELD]])
+    ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
+    resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
+
+    with open(output_file + ".log", "w") as f:
+        # General info
+        f.write("Mapping Summary\nSource Version: %s\nTarget Version: %s\n" % (source_version, target_version))
+        f.write("\n** 'Closest shared parent node' refers to the most granular node available which shares ancestry with a set of nodes.\n")
+        f.write("** All resolutions should be made through this version of the oncotree: %s\n" % (oncotree_url))
+        f.write("\n===============================================================================================\n")
+        
+        # Unmappable codes - printed first since they MUST be resolved with manual tree exploration 
+        f.write("The following codes could not be mapped to a code in the target version and require additional resolution:\n")
+        for oncotree_code in unmappable_codes:
+            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
+            f.write("\tClosest Neighbors: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][NEIGHBORS_FIELD]))
+            f.write("\tTo resolve, please refer to closest shared parent node %s and its descendants.\n" % GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD])
+        f.write("\n===============================================================================================\n")
+        
+        # Ambiguous codes - printed second since they MUST be resolved but already provide choices
+        f.write("The following codes mapped to multiple codes in the target version. Please select from provided choices:\n")
+        for oncotree_code in ambiguous_codes: 
+            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
+            f.write("\tChoices: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
+            if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
+                f.write("\t*Warning: Target version has introduced more granular nodes.\n") 
+                f.write("\t          You may want to examine the closest shared parent node %s and its descendants.\n" % (GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]))
+        f.write("\n===============================================================================================\n")
+        
+        # Directly mapped codes - no action required, might want to explore more granular choices
+        f.write("The following codes mapped to exactly one node.\n")
+        for oncotree_code in resolved_codes:
+            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
+            f.write("\tNew Code: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
+            if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
+                f.write("\t*Warning: Target version has introduced more granular nodes.\n") 
+                f.write("\t          You may want to examine the closest shared parent node %s and its descendants.\n" % (GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]))
+        
+#--------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-a", "--auto-mapping-enabled", help = "enable automatic resolution of ambiguous mappings", action = "store_true")
@@ -288,7 +435,6 @@ def main():
     parser.add_argument("-t", "--target-version", help = "oncotree version to be mapped to in the destination file", required = True)
     args = parser.parse_args()
 
-    auto_mapping_enabled = args.auto_mapping_enabled
     input_file = args.input_file
     output_file = args.output_file
     source_version = args.source_version
@@ -312,25 +458,12 @@ def main():
         sys.exit(1)
 
     is_backwards_mapping = target_index < source_index
-
     input_file_mapped_list, header, header_and_comment_lines = load_input_file(input_file)
     source_oncotree = load_oncotree_version(source_version)
     target_oncotree = load_oncotree_version(target_version)
-    translated_input_file_mapped_list = translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, auto_mapping_enabled, is_backwards_mapping)
+    translated_input_file_mapped_list = translate_oncotree_codes(input_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping)
     write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines)
-
-    for logged_code in GLOBAL_LOG_MAP:
-        test = GLOBAL_LOG_MAP[logged_code]
-        if test["target_code"]:
-            print "\nONCOTREE_CODE (%s)\n===================" % logged_code
-            print "Translated to target oncotree code: %s" % test["target_code"]
-        if test["closest_common_parent"]:
-            print "\nONCOTREE_CODE (%s)\n===================" % logged_code
-            if test["valid_related_oncotree_codes"]:
-                print "Unable to directly map to the target oncotree version, find closest parents based on: %s" % ', '.join(test["valid_related_oncotree_codes"]) 
-            if test["mappable_target_oncotree_codes"]:
-                print "Mapped to multiple codes in target oncotree version, find closest parents based on: %s" % ', '.join(test["mappable_target_oncotree_codes"])
-            print "Resolved to closest shared parent: %s" % test["closest_common_parent"]
+    write_summary_file(output_file, source_version, target_version)
 
 if __name__ == '__main__':
    main()
