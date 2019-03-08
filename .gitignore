@@ -6,3 +6,6 @@ mvnw.cmd
 *.iml
 application.properties
 logback.xml
+*.pyc
+*.DS_Store
+

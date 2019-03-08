@@ -65,12 +65,19 @@
                 <configuration>
                     <webResources>
                         <resource>
-                            <!-- this is relative to the pom.xml directory -->
+                            <!-- this is relative to the web/pom.xml directory -->
                             <directory>../scripts</directory>
                             <targetPath>WEB-INF/classes/static/downloads</targetPath>
                             <includes>
-                                <!-- TODO change filename from cross_version_oncotree_translator.py to convert_oncotree_version.py -->
-                                <include>**/cross_version_oncotree_translator.py</include>
+                                <include>**/oncotree_to_oncotree.py</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <!-- this is relative to the web/pom.xml directory -->
+                            <directory>../docs/images</directory>
+                            <targetPath>WEB-INF/classes/static/images</targetPath>
+                            <includes>
+                                <include>**/*.png</include>
                             </includes>
                         </resource>
                     </webResources>

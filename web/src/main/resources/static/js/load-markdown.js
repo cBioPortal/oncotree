@@ -25,7 +25,7 @@ function displayMarkdown(data, label, flavor, divId) {
 
 $(document).ready(function() {
     var newsURL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/News.md";
-    var oncotreeVersionConverterURL = "https://raw.githubusercontent.com/ao508/oncotree/oncotree-docs/docs/OncoTree-Version-Converter.md";
+    var oncotreeMappingToolURL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/OncoTree-Mapping-Tool.md";
     loadMarkdown(displayMarkdown, newsURL, "news", "github", "#news");
-    loadMarkdown(displayMarkdown, oncotreeVersionConverterURL, "Oncotree Version Converter documentation", "github", "#oncotree-version-converter");
+    loadMarkdown(displayMarkdown, oncotreeMappingToolURL, "Oncotree Mapping tool documentation", "github", "#oncotree-mapping-tool");
 });

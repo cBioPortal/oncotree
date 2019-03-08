@@ -5,7 +5,7 @@
 
 import unittest
 
-from cross_version_oncotree_translator import *
+from oncotree_to_oncotree import *
 
 class TestCrossVersionOncotreeTranslator(unittest.TestCase):
 
