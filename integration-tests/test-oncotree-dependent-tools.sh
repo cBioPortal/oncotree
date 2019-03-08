@@ -8,6 +8,7 @@ TESTING_DIRECTORY_TEMP=$(mktemp -d $TESTING_DIRECTORY/pr-integration.XXXXXX)
 ROOT_WORKSPACE=`pwd`
 CMO_PIPELINES_DIRECTORY=$ROOT_WORKSPACE/cmo-pipelines
 ONCOTREE_DIRECTORY=$ROOT_WORKSPACE/oncotree
+ONCOTREE_SCRIPTS_DIRECTORY=$ONCOTREE_DIRECTORY/scripts
 
 ONCOTREE_JAR=$ONCOTREE_DIRECTORY/web/target/oncotree.jar
 IMPORT_SCRIPTS_DIRECTORY=$CMO_PIPELINES_DIRECTORY/import-scripts
@@ -19,6 +20,7 @@ APPLICATION_PROPERTIES=application.properties
 ONCOTREE_CODE_CONVERTER_TEST_SUCCESS=0
 FAKE_ONCOTREE_VERSION_TEST_SUCCESS=0
 ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS=0
+ONCOTREE_VERSION_MAPPER_TEST_SUCCESS=0
 
 # will be automatically called when script exits
 # provided $ONCOTREE_PORT is defined, will find process number for process on that port and kill it
@@ -124,6 +126,19 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
         echo "call to test ONCOTREE resulted in unexpected output -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
         ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS=1
+    fi
+
+    # this test is data dependent (will fail if versions are changed in topbraid history) 
+    EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT=$INTEGRATION_TEST_DIRECTORY/default_oncotree_file_converted.txt
+    TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version.txt
+    TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version_output.txt
+    cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_MAPPER_FILENAME
+    python $ONCOTREE_SCRIPTS_DIRECTORY/cross_version_oncotree_translator.py -u "$ONCOTREE_URL/api/" -s oncotree_2019_03_01 -t oncotree_2018_05_01 -i $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME -o $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
+    diff $EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
+    if [ $? -gt 0 ] ; then
+        echo "cross_version_oncotree_translator.py output differs from expected output"
+    else
+        ONCOTREE_VERSION_MAPPER_TEST_SUCCESS=1
     fi
 fi
 
