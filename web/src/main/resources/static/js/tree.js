@@ -22,6 +22,8 @@ var tree = (function () {
     var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
     var is_safari = navigator.userAgent.indexOf("Safari") > -1;
 
+    var treeBuildComplete = false; // set to true after child elements have all been constructed in DOM
+
     function getNCILink(nciCode) {
         return (typeof nciCode !== 'undefined' && nciCode != '') ? '<a class="qtip-link" href="' + nci_base_uri + nciCode + '" target="_blank">' + nciCode + '</a>' : 'Not Available';
     }
@@ -174,6 +176,7 @@ var tree = (function () {
         update(root);
         numOfTissues = root.children.length;
         root.children.forEach(searchLeaf);
+        treeBuildComplete = true;
     }
 
     function update(source) {
@@ -544,6 +547,10 @@ var tree = (function () {
         }
     }
 
+    function readyForSearch() {
+      return treeBuildComplete;
+    }
+
     function searchByNodeName(searchKey) {
         searchResult.length = 0;
         root.children.forEach(toggleAll);
@@ -630,6 +637,7 @@ var tree = (function () {
     return {
         init: initDataAndTree,
         expand: expandWithArray,
+        readyForSearch: readyForSearch,
         search: searchByNodeName,
         expandAll: expandAll,
         collapseAll: collapseAll,
