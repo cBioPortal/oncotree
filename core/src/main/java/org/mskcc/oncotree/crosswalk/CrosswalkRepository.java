@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -25,8 +25,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -44,6 +46,9 @@ public class CrosswalkRepository {
     @Value("${crosswalk.url}")
     private String crosswalkURL;
 
+    @Value("${crosswalk.disable_cvs_querying:false}")
+    private Boolean DISABLE_CVS_QUERYING;
+
     public MSKConcept getByOncotreeCode(String oncotreeCode)
             throws CrosswalkException {
         return queryCVS("ONCOTREE", oncotreeCode, null, null);
@@ -51,6 +56,9 @@ public class CrosswalkRepository {
 
     public MSKConcept queryCVS(String vocabularyId, String conceptId, String histologyCode, String siteCode)
             throws CrosswalkException {
+        if (DISABLE_CVS_QUERYING) {
+            throw new CrosswalkServiceUnavailableException("CVS server queries have been disabled (crosswalk.disable_cvs_querying set to true)", new HttpServerErrorException(HttpStatus.SERVICE_UNAVAILABLE));
+        }
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
