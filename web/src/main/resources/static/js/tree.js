@@ -37,8 +37,8 @@ var tree = (function () {
         this.color = '';
         this.nci = [];
         this.umls = [];
-        this.direct_history = ''; // comma delimited string
-        this.indirect_history = ''; // comma delimited string
+        this.history = ''; // comma delimited string
+        this.hasRevocations = false;
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -81,16 +81,25 @@ var tree = (function () {
         }
 
         if (childData.hasOwnProperty('history')) {
-            childNode.direct_history = childData.history.join();
+            childNode.history = childData.history.join();
         }
         if (childData.hasOwnProperty('revocations')) {
-            childNode.indirect_history = childData.revocations.join();
+            childData.revocations.forEach(function(revocation) {
+                // set here rather than after childData.hasOwnProperty because revocations property is always there
+                childNode.hasRevocations = true;
+                if (childNode.history != '') {
+                    childNode.history += ",";
+                }
+                childNode.history += "<text style=\"color: red;\">" + revocation + "<sup>*</sup></text>";
+            });
         }
         if (childData.hasOwnProperty('precursors')) {
-            if (childNode.indirect_history != '') {
-                childNode.indirect_history += ",";
-            }
-            childNode.indirect_history += childData.precursors.join();
+            childData.precursors.forEach(function(precursor) {
+                if (childNode.history != '') {
+                    childNode.history += ",";
+                }
+                childNode.history += precursor;
+            });
         }
 
         // save code and name to check for duplicate codes later
@@ -361,11 +370,11 @@ var tree = (function () {
                 _qtipContent += '<b>NCI:</b> ' + nci_links.join(",") + '<br/>';
                 _qtipContent += '<b>UMLS:</b> ' + umls_links.join(",") + '<br/>';
                 _qtipContent += '<b>Color:</b> ' + (d.color||'LightBlue') + '<br/>';
-                if (typeof d.direct_history !== 'undefined' && d.direct_history != '') {
-                    _qtipContent += '<b>Previous codes:</b> ' + d.direct_history  + '<br/>';
-                }
-                if (typeof d.indirect_history !== 'undefined' && d.indirect_history != '') {
-                    _qtipContent += '<b>Related codes:</b> ' + d.indirect_history  + '<br/>';
+                if (typeof d.history !== 'undefined' && d.history != '') {
+                    _qtipContent += '<b>Previous codes:</b> ' + d.history  + '<br/>';
+                    if (typeof d.hasRevocations !== 'undefined' && d.hasRevocations) {
+                        _qtipContent += '<text style="padding-left: 5px;">* Use of codes shown in red is discouraged.</text>';
+                    }
                 }
                 $(this).qtip({
                     content:{text: _qtipContent},
