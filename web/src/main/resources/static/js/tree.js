@@ -87,18 +87,20 @@ var tree = (function () {
         }
         if (childData.hasOwnProperty('revocations')) {
             childData.revocations.forEach(function(revocation) {
-                // set here rather than after childData.hasOwnProperty because revocations property is always there
-                childNode.hasRevocations = true;
-                if (childNode.history != '') {
-                    childNode.history += ",";
+                if (revocation !== childNode.code) { // do not show your own code in Previous Codes (e.g. PTCL)
+                    // set here rather than after childData.hasOwnProperty because revocations property is always there
+                    childNode.hasRevocations = true;
+                    if (childNode.history != '') {
+                        childNode.history += ", ";
+                    }
+                   childNode.history += "<text style=\"color: red;\">" + revocation + "<sup>*</sup></text>";
                 }
-                childNode.history += "<text style=\"color: red;\">" + revocation + "<sup>*</sup></text>";
             });
         }
         if (childData.hasOwnProperty('precursors')) {
             childData.precursors.forEach(function(precursor) {
                 if (childNode.history != '') {
-                    childNode.history += ",";
+                    childNode.history += ", ";
                 }
                 childNode.history += precursor;
             });
@@ -376,7 +378,7 @@ var tree = (function () {
                 if (typeof d.history !== 'undefined' && d.history != '') {
                     _qtipContent += '<b>Previous codes:</b> ' + d.history  + '<br/>';
                     if (typeof d.hasRevocations !== 'undefined' && d.hasRevocations) {
-                        _qtipContent += '<text style="padding-left: 5px;">* Use of codes shown in red is discouraged.</text>';
+                        _qtipContent += '<text style="padding-left: 5px;">* Use of codes shown in red is now discouraged.</text>';
                     }
                 }
                 $(this).qtip({
