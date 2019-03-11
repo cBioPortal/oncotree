@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import org.mskcc.oncotree.crosswalk.MSKConceptCache;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
@@ -47,7 +48,7 @@ import org.springframework.stereotype.Component;
 public class TumorTypesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
-    public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory\trevocations\tprecursors";
+    public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
     private static final String TOPBRAID_BASE_URI = "http://data.mskcc.org/ontologies/oncotree/";
 
     @Autowired
@@ -153,9 +154,13 @@ public class TumorTypesUtil {
         } else {
             row.add("");
         }
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getHistory(), ",")));
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getRevocations(), ",")));
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getPrecursors(), ",")));
+        // add revocations and precursors to history column
+        List<String> combinedHistory = new ArrayList<String>();
+        combinedHistory.addAll(tumorType.getHistory());
+        combinedHistory.addAll(tumorType.getRevocations());
+        combinedHistory.addAll(tumorType.getPrecursors());
+        row.add(StringUtils.defaultString(StringUtils.join(combinedHistory, ",")));
+
         rows.add(StringUtils.join(row, "\t"));
 
         // Prepare for next recursive call
