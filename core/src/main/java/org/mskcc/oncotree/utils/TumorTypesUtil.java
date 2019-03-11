@@ -159,6 +159,7 @@ public class TumorTypesUtil {
         combinedHistory.addAll(tumorType.getHistory());
         combinedHistory.addAll(tumorType.getRevocations());
         combinedHistory.addAll(tumorType.getPrecursors());
+        combinedHistory.removeAll(Collections.singletonList(tumorType.getCode())); // do not display a code in its own history (e.g. PTCL)
         row.add(StringUtils.defaultString(StringUtils.join(combinedHistory, ",")));
 
         rows.add(StringUtils.join(row, "\t"));
