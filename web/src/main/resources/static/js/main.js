@@ -3,7 +3,7 @@
 $(document).ready(function(){
     var AVAILABLE_TABS = {
           tree : 0,
-          // mapping : 0,
+          mapping : 0,
           news : 0,
           api : 0
         };
@@ -30,9 +30,9 @@ $(document).ready(function(){
       $('#tree-tab').click(function (e) {
         window.location.hash = "/home";
       })
-      // $('#mapping-tab').click(function (e) {
-      //   window.location.hash = "/home?tab=mapping";
-      // })
+      $('#mapping-tab').click(function (e) {
+         window.location.hash = "/home?tab=mapping";
+      })
       $('#news-tab').click(function (e) {
         window.location.hash = "/home?tab=news";
       })
