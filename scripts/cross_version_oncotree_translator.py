@@ -1,3 +1,19 @@
+# Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
+# 
+# This library is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
+# MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
+# documentation provided hereunder is on an "as is" basis, and
+# Memorial Sloan-Kettering Cancer Center
+# has no obligations to provide maintenance, support,
+# updates, enhancements or modifications.  In no event shall
+# Memorial Sloan-Kettering Cancer Center
+# be liable to any party for direct, indirect, special,
+# incidental or consequential damages, including lost profits, arising
+# out of the use of this software and its documentation, even if
+# Memorial Sloan-Kettering Cancer Center
+# has been advised of the possibility of such damage.
+
 import argparse
 import csv
 import os
@@ -5,7 +21,9 @@ import requests
 import sys
 
 ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
+#ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/#/home?version="
 ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
+#ONCOTREE_API_URL_BASE_DEFAULT = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/api/"
 ONCOTREE_VERSION_ENDPOINT = "versions"
 ONCOTREE_TUMORTYPES_ENDPOINT = "tumorTypes"
 VERSION_API_IDENTIFIER_FIELD = "api_identifier"
@@ -393,39 +411,40 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-    with open(output_file + ".log", "w") as f:
+    with open(output_file + ".html", "w") as f:
         # General info
-        f.write("Mapping Summary\nSource Version: %s\nTarget Version: %s\n" % (source_version, target_version))
-        f.write("\n** 'Closest shared parent node' refers to the most granular node available which shares ancestry with a set of nodes.\n")
-        f.write("** All resolutions should be made through this version of the oncotree: %s\n" % (oncotree_url))
-        f.write("\n===============================================================================================\n")
+        f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
+        f.write("<h1>Mapping Summary</h1>\n<p><b>Source Version</b>: %s<br />\n<b>Target Version</b>: %s<br /><br />\n" % (source_version, target_version))
+        f.write("<b>*</b>Closest shared parent node refers to the most granular node available which shares ancestry with a set of nodes.<br />\n")
+        f.write("<b>*</b>All resolutions should be made through <a href=\"%s\">this version</a> of the oncotree.</p>\n" % (oncotree_url))
 
         # Unmappable codes - printed first since they MUST be resolved with manual tree exploration
-        f.write("The following codes could not be mapped to a code in the target version and require additional resolution:\n")
+        if unmappable_codes:
+            f.write("<h3>The following codes could not be mapped to a code in the target version and require additional resolution:</h3>\n")
         for oncotree_code in unmappable_codes:
-            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
-            f.write("\tClosest Neighbors: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][NEIGHBORS_FIELD]))
-            f.write("\tTo resolve, please refer to closest shared parent node %s and its descendants.\n" % GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD])
-        f.write("\n===============================================================================================\n")
+            f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
+            f.write("<b>Closest Neighbors</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][NEIGHBORS_FIELD]))
+            f.write("To resolve, please refer to closest shared parent node %s and its descendants <a href=\"%s\">here</a><br /></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
 
         # Ambiguous codes - printed second since they MUST be resolved but already provide choices
-        f.write("The following codes mapped to multiple codes in the target version. Please select from provided choices:\n")
+        if ambiguous_codes:
+            f.write("<h3>The following codes mapped to multiple codes in the target version. Please select from provided choices:</h3>\n")
         for oncotree_code in ambiguous_codes:
-            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
-            f.write("\tChoices: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
+            f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
+            f.write("<b>Choices</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
             if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
-                f.write("\t*Warning: Target version has introduced more granular nodes.\n")
-                f.write("\t          You may want to examine the closest shared parent node %s and its descendants.\n" % (GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]))
-        f.write("\n===============================================================================================\n")
-
+                f.write("*Warning: Target version has introduced more granular nodes.<br />\n")
+                f.write("You may want to examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br /></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
+        
         # Directly mapped codes - no action required, might want to explore more granular choices
-        f.write("The following codes mapped to exactly one node.\n")
+        if resolved_codes:
+            f.write("<h3>The following codes mapped to exactly one node:</h3>\n")
         for oncotree_code in resolved_codes:
-            f.write("\n\tOriginal Code: %s\n" % (oncotree_code))
-            f.write("\tNew Code: %s\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
+            f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
+            f.write("<b>New Code</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
             if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
-                f.write("\t*Warning: Target version has introduced more granular nodes.\n")
-                f.write("\t          You may want to examine the closest shared parent node %s and its descendants.\n" % (GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]))
+                f.write("*Warning: Target version has introduced more granular nodes.<br />\n")
+                f.write("You may want to examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br /></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
 
 #--------------------------------------------------------------
 def main():
