@@ -20,13 +20,14 @@ import os
 import requests
 import sys
 
-ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
-#ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/#/home?version="
-ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
-#ONCOTREE_API_URL_BASE_DEFAULT = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/api/"
+#ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
+ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/sheridan-oncotree/#/home?version="
+#ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
+ONCOTREE_API_URL_BASE_DEFAULT = "http://dashi-dev.cbio.mskcc.org:8080/sheridan-oncotree/api/"
 ONCOTREE_VERSION_ENDPOINT = "versions"
 ONCOTREE_TUMORTYPES_ENDPOINT = "tumorTypes"
 VERSION_API_IDENTIFIER_FIELD = "api_identifier"
+VERSION_RELEASE_DATE_FIELD = "release_date"
 METADATA_HEADER_PREFIX = "#"
 
 # field names used for navigating tumor types
@@ -52,7 +53,7 @@ def get_oncotree_version_indexes(source_oncotree_version_name, target_oncotree_v
         print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve oncotree versions." % (response.status_code)
         sys.exit(1)
     source_oncotree_version_index, target_oncotree_version_index = -1, -1
-    for index, version in enumerate(response.json()):
+    for index, version in enumerate(sorted(response.json(), key = lambda k: k[VERSION_RELEASE_DATE_FIELD])):
         if version[VERSION_API_IDENTIFIER_FIELD] == source_oncotree_version_name:
             source_oncotree_version_index = index
         if version[VERSION_API_IDENTIFIER_FIELD] == target_oncotree_version_name:
@@ -99,14 +100,16 @@ def get_header(file):
 # Additional processing to add ONCOTREE_CODE_OPTIONS column
 def load_input_file(input_file):
     header = get_header(input_file)
+    header_length = len(header)
     headers_processed = False
     input_file_mapped_list = []
     header_and_comment_lines = {}
     header_line_number = 0
 
-    new_oncotree_code_index = header.index("ONCOTREE_CODE") + 1
-    header.insert(new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
-
+    if "ONCOTREE_CODE" not in header:
+        print >> sys.stderr, "ERROR: Input file is missing column 'ONCOTREE_CODE'."
+        sys.exit(1)
+        
     with open(input_file) as data_file:
         for line_number, line in enumerate(data_file):
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
@@ -117,13 +120,21 @@ def load_input_file(input_file):
                 header_line_number = line_number
                 header_and_comment_lines[line_number] = line
                 continue
+            if len(line.split('\t')) != header_length:
+                print >> sys.stderr, "ERROR: Current row has a different number of columns than header row: %s" % line  
+                sys.exit(1)
             data = dict(zip(header, map(str.strip, line.split('\t'))))
             input_file_mapped_list.append(data)
+
+    # This column has to be added after since zip was functioning on index
+    new_oncotree_code_index = header.index("ONCOTREE_CODE") + 1
+    header.insert(new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
 
     # add new column (ONCOTREE_CODE_OPTIONS)
     for line_number in range(header_line_number):
         header_and_comment_lines[line_number] = add_new_column(header_and_comment_lines[line_number], new_oncotree_code_index, "")
     header_and_comment_lines[header_line_number] = add_new_column(header_and_comment_lines[header_line_number], new_oncotree_code_index, "ONCOTREE_CODE_OPTIONS")
+    # TODO: do the same thing for commented out lines inserted in random points throughout file (will have to make same changes for writing out records)
     return input_file_mapped_list, header, header_and_comment_lines
 
 #--------------------------------------------------------------
@@ -140,6 +151,20 @@ def add_new_column(row, new_column_index, column_name):
     else:
         updated_row.insert(new_column_index, column_name)
     return '\t'.join(updated_row)
+
+#--------------------------------------------------------------
+def remove_new_column(row, new_column_index):
+    updated_row = row.split('\t')
+    if len(updated_row) < new_column_index:
+        return row
+    column_removed_at_end = (len(updated_row) - 1) == new_column_index
+    # column was added at the end, remove new column and add return character back
+    if column_removed_at_end:
+        updated_row[new_column_index - 1] = updated_row[new_column_index - 1] + "\n"
+        del updated_row[new_column_index]
+    else:
+        del updated_row[new_column_index]
+    return '\t'.join(updated_row)        
 
 #--------------------------------------------------------------
 # Uses a list of dictionaries, each dictionary represents a record/row
@@ -176,9 +201,8 @@ def get_oncotree_code_options(source_oncotree_code, source_oncotree, target_onco
     if source_oncotree_code in ["N/A", "", "NA"]:
         return source_oncotree_code, True
     if source_oncotree_code not in source_oncotree:
-        #print >> sys.stderr, "ERROR: Oncotree code (%s) can not be found in source oncotree. Please verify source version." % (source_oncotree_code)
-        return source_oncotree_code, True
-        #sys.exit(1)
+        print >> sys.stderr, "ERROR: Oncotree code (%s) can not be found in source oncotree. Please verify source version." % (source_oncotree_code)
+        sys.exit(1)
     source_oncotree_node = source_oncotree[source_oncotree_code]
     # get a set of possible codes that source code has been directly mapped to
     possible_target_oncotree_codes = get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is_backwards_mapping)
@@ -273,7 +297,7 @@ def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target
         closest_common_parent = get_closest_common_parent(neighboring_target_oncotree_codes, target_oncotree)
         if not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
             GLOBAL_LOG_MAP[source_oncotree_code][NEIGHBORS_FIELD].extend(neighboring_target_oncotree_codes)
-            GLOBAL_LOG_MAP[source_oncotree_code][CLOSEST_COMMON_PARENT_FIELD]=closest_common_parent
+            GLOBAL_LOG_MAP[source_oncotree_code][CLOSEST_COMMON_PARENT_FIELD] = closest_common_parent
     else:
         oncotree_code_options = format_oncotree_code_options(source_oncotree_code, "{%s}" % ','.join(possible_target_oncotree_codes), number_of_new_children)
         if not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
@@ -339,7 +363,7 @@ def get_children(oncotree_codes, all_children_codes, target_oncotree):
 # get the common parent (furthest down the tree) for a set of oncotree_codes
 def get_closest_common_parent(possible_target_oncotree_codes, target_oncotree):
     oncotree_code_to_ancestors_mapping = {}
-    # for every possible target oncotree code - construct and ordered list of ancestors
+    # for every possible target oncotree code - construct an ordered list of ancestors
     for oncotree_code in possible_target_oncotree_codes:
         oncotree_code_ancestors = [oncotree_code]
         oncotree_code_to_ancestors_mapping[oncotree_code] = get_ancestors(oncotree_code, oncotree_code_ancestors, target_oncotree)
@@ -363,9 +387,9 @@ def get_earliest_common_parent(min_length, lists_of_all_ancestors):
     # set reference code as the code at index (min_length - 1) for first list in lists_of_all_ancestors
     oncotree_code = lists_of_all_ancestors[0][min_length - 1]
     # skip first list in lists_of_all_ancestors
-    for l in lists_of_all_ancestors[1:]:
+    for list_of_ancestors in lists_of_all_ancestors[1:]:
         if min_length > 0:
-            if l[min_length - 1] != oncotree_code:
+            if list_of_ancestors[min_length - 1] != oncotree_code:
                 # at first mismatch, decrement min_length to move earlier in the list
                 min_length -= 1
                 return get_earliest_common_parent(min_length, lists_of_all_ancestors)
@@ -373,6 +397,17 @@ def get_earliest_common_parent(min_length, lists_of_all_ancestors):
 
 #--------------------------------------------------------------
 def write_to_output_file(translated_input_file_mapped_list, output_file, header, header_and_comment_lines):
+    all_easily_resolved = True
+    oncotree_code_options_index = header.index("ONCOTREE_CODE_OPTIONS")
+    for record in translated_input_file_mapped_list:
+        if record["ONCOTREE_CODE_OPTIONS"]:
+            all_easily_resolved = False
+            break
+    if all_easily_resolved:
+        header.remove("ONCOTREE_CODE_OPTIONS")
+        for line_number in range(len(header_and_comment_lines)):
+            header_and_comment_lines[line_number] = remove_new_column(header_and_comment_lines[line_number], oncotree_code_options_index) 
+    
     line_num = 0
     with open(output_file, "w") as f:
         for record in translated_input_file_mapped_list:
@@ -411,7 +446,7 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-    with open(output_file + ".html", "w") as f:
+    with open(output_file + "_summary.html", "w") as f:
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
         f.write("<h1>Mapping Summary</h1>\n<p><b>Source Version</b>: %s<br />\n<b>Target Version</b>: %s<br /><br />\n" % (source_version, target_version))
