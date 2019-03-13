@@ -19,6 +19,7 @@ import csv
 import os
 import requests
 import sys
+import re
 
 #ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
 ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/sheridan-oncotree/#/home?version="
@@ -446,16 +447,22 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-    with open(output_file + "_summary.html", "w") as f:
+
+    with open(re.sub("\.[^.]+$", "_summary.html", output_file), "w") as f:
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
-        f.write("<h1>Mapping Summary</h1>\n<p><b>Source Version</b>: %s<br />\n<b>Target Version</b>: %s<br /><br />\n" % (source_version, target_version))
-        f.write("<b>*</b>Closest shared parent node refers to the most granular node available which shares ancestry with a set of nodes.<br />\n")
-        f.write("<b>*</b>All resolutions should be made through <a href=\"%s\">this version</a> of the oncotree.</p>\n" % (oncotree_url))
+        f.write("<h1>Mapping Summary</h1>\n")
+        #f.write("<p><b>Source Version</b>: %s<br />\n<b>Target Version</b>: <a href=\"%s\">%s</a> *<i>All resolutions should be made with this version</i><br /><br />\n" % (source_version, oncotree_url, target_version))
+        f.write("<p>Mapped <b>%s</b> to <b>%s</b><br />" % (source_version, target_version))
+        f.write("All resolutions should be made with version: <b><a href=\"%s\">%s</a></b>\n" % (oncotree_url, target_version))
+        f.write("<h4>Contents</h4>");
+        f.write("<ul><li><a href=\"#not_mapped_header\">Codes that could not be mapped to a code</a> (action required)</li>\n")
+        f.write("<li><a href=\"#mapped_to_multiple_header\">Codes mapped to multiple codes</a> (action required)</li>\n")
+        f.write("<li><a href=\"#mapped_header\">Codes mapped to exactly one code</a> (please review)</li></ul><br />\n")
 
         # Unmappable codes - printed first since they MUST be resolved with manual tree exploration
         if unmappable_codes:
-            f.write("<h3>The following codes could not be mapped to a code in the target version and require additional resolution:</h3>\n")
+            f.write("<hr/><h3 id=\"not_mapped_header\">The following codes could not be mapped to a code in the target version and require additional resolution:</h3>\n")
         for oncotree_code in unmappable_codes:
             f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
             f.write("<b>Closest Neighbors</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][NEIGHBORS_FIELD]))
@@ -463,7 +470,7 @@ def write_summary_file(output_file, source_version, target_version):
 
         # Ambiguous codes - printed second since they MUST be resolved but already provide choices
         if ambiguous_codes:
-            f.write("<h3>The following codes mapped to multiple codes in the target version. Please select from provided choices:</h3>\n")
+            f.write("<hr/><h3 id=\"mapped_to_multiple_header\">The following codes mapped to multiple codes in the target version. Please select from provided choices:</h3>\n")
         for oncotree_code in ambiguous_codes:
             f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
             f.write("<b>Choices</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
@@ -473,7 +480,7 @@ def write_summary_file(output_file, source_version, target_version):
         
         # Directly mapped codes - no action required, might want to explore more granular choices
         if resolved_codes:
-            f.write("<h3>The following codes mapped to exactly one node:</h3>\n")
+            f.write("<hr/><h3 id=\"mapped_header\">The following codes mapped to exactly one code:</h3>\n")
         for oncotree_code in resolved_codes:
             f.write("<p><b>Original Code</b>: %s<br />\n" % (oncotree_code))
             f.write("<b>New Code</b>: %s<br />\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
@@ -489,7 +496,7 @@ def main():
     parser.add_argument("-o", "--output-file", help = "destination file to write out new file contents", required = True)
     parser.add_argument("-s", "--source-version", help = "current oncotree version used in the source file", required = True)
     parser.add_argument("-t", "--target-version", help = "oncotree version to be mapped to in the destination file", required = True)
-    parser.add_argument("-u", "--oncotree-url", help = "oncotree instance url", required = False)
+    parser.add_argument("-u", "--oncotree-url", required = False, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     input_file = args.input_file
