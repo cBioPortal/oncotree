@@ -454,7 +454,7 @@ def main():
     parser.add_argument("-o", "--output-file", help = "destination file to write out new file contents", required = True)
     parser.add_argument("-s", "--source-version", help = "current oncotree version used in the source file", required = True)
     parser.add_argument("-t", "--target-version", help = "oncotree version to be mapped to in the destination file", required = True)
-    parser.add_argument("-u", "--oncotree-url", help = "oncotree instance url", required = False)
+    parser.add_argument("-u", "--oncotree-url", required = False, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
     input_file = args.input_file
