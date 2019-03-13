@@ -447,8 +447,8 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-
-    with open(re.sub("\.[^.]+$", "_summary.html", output_file), "w") as f:
+    html_summary_file = os.path.splitext(output_file)[0] + "_summary.html"
+    with open(html_summary_file, "w") as f:
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
         f.write("<h1>Mapping Summary</h1>\n")
@@ -488,6 +488,7 @@ def write_summary_file(output_file, source_version, target_version):
                 f.write("*Warning: Target version has introduced more granular nodes.<br />\n")
                 f.write("You may want to examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br /></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
 
+    print >> sys.stdout, "Oncotree version conversion completed. Mapping summary HTML file written out to %s" % (html_summary_file)
 #--------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser()
