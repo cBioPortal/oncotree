@@ -14,10 +14,7 @@
     <script type="text/javascript" src="js/showdown-1.8.6.min.js?02072018"></script>
     <script type="text/javascript" src="js/tree.js?02072018"></script>
     <script type="text/javascript" src="js/main.js?02072018"></script>
-    <!-- DISABLE oncotree-mappings
-    <script type="text/javascript" src="js/oncotree-mapping.js?02072018"></script>
-    -->
-    <script type="text/javascript" src="js/news.js?02072018"></script>
+    <script type="text/javascript" src="js/load-markdown.js?03132019"></script>
   </head>
   <body>
     <div id="body" class="container">
@@ -105,15 +102,12 @@
           <div class="row">
             <div class="col-md-12">
               <div class="card bg-light mb-3">
-                <div class="card-header">
-                  <h5>Oncotree Version Converter</h5>
-                </div>
                 <div class="card-body">
-                  <p>The OncoTree Version Converter was developed to facilitate forwards- and backwards-mapping of OncoTree codes between OncoTree release versions.</p>
                   <p>
                     <!-- TODO change filename from cross_version_oncotree_translator.py to convert_oncotree_version.py -->
-                    <a class="btn btn-primary btn-sm" href="downloads/cross_version_oncotree_translator.py" role="button" download>Download</a> <a class="btn btn-primary btn-sm" href="http://github.com/cBioPortal/oncotree/blob/master/docs/OncoTree-Version-Converter.md" target="_blank">Documentation</a>
+                    <a class="btn btn-primary btn-sm" href="downloads/cross_version_oncotree_translator.py" role="button" download>Download OncoTree Version Converter Tool</a>
                   </p>
+                  <div id='oncotree-version-converter'/>
                 </div>
               </div>
             </div>
