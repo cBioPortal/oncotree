@@ -19,6 +19,7 @@ import csv
 import os
 import requests
 import sys
+import re
 
 ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
 #ONCOTREE_WEBSITE_URL = "http://dashi-dev.cbio.mskcc.org:8080/manda-oncotree/#/home?version="
@@ -411,7 +412,7 @@ def write_summary_file(output_file, source_version, target_version):
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
     resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
-    with open(output_file + ".html", "w") as f:
+    with open(re.sub("\.[^.]+$", "_summary.html", output_file), "w") as f:
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
         f.write("<h1>Mapping Summary</h1>\n<p><b>Source Version</b>: %s<br />\n<b>Target Version</b>: %s<br /><br />\n" % (source_version, target_version))
