@@ -1,4 +1,8 @@
 ### News
+#### March 14, 2019
+ *   **oncotree-to-oncotree code mapping tool available**
+     * A python program is now available for download under the webpage tab labeled "Mapping Tools". This tool will rewrite oncotree codes in a tabular clinical data file, mapping from one version of oncotree to another. When additional guidance is necessary, the program will insert a column containing options and comments next to the ONCOTREE_CODE column. After selecting an appropriate oncotree code for cases which require action, this extra column can be deleted to produce a fully re-mapped clinical data file. More details about this tool and how to use it are available under the "Mapping Tools" tab.
+     * The oncotree-to-oncotree mapping tool relies on an expanded model of oncotree node history. This is reflected in the Web API schema for Tumor Types, which now has added properties called "precursors" and "revocations". Using these properties, and the existing "history" property, the tool is able to make proper mappings across oncotree versions, and give suggestions when no clear mapping is available. It is also reflected in the main tree visualization of oncotree, where a combination of these properties (when set) will be displayed in the pop-up information box with label "Previous Codes".
 #### March 1, 2019
  *   **New Stable Release** Oncotree version *oncotree_2019_03_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_02_01*.
  *   **New node added:**
