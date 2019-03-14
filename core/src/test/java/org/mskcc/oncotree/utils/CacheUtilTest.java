@@ -45,8 +45,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import static org.mockito.Matchers.*;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 
 /**
@@ -61,6 +60,12 @@ public class CacheUtilTest {
     
     @Resource(name="oncoTreeAdditionalVersionRepositoryMockResponse")
     private List<Version> oncoTreeAdditionalVersionRepositoryMockResponse;
+
+    @Resource(name="legacyVersion")
+    private Version legacyVersion;
+
+    @Resource(name="latestVersion")
+    private Version latestVersion;
     
     @Autowired
     private OncoTreeVersionRepository oncoTreeVersionRepository;
@@ -128,4 +133,105 @@ public class CacheUtilTest {
         config.resetNotWorkingVersionRepository(oncoTreeVersionRepository);
         cacheUtil.resetCache();
     }   
+
+    private void assertNoHistoryInChildren(Map<String, TumorType> tumorTypes) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            assertEquals("Node " + tumorType.getCode() + " name: " + tumorType.getName() + " has history", 0, tumorType.getHistory().size());
+            assertNoHistoryInChildren(tumorType.getChildren());
+        }
+    }
+
+    private void assertNoRevocationsInChildren(Map<String, TumorType> tumorTypes) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            assertEquals("Node " + tumorType.getCode() + " name: " + tumorType.getName() + " has revocations", 0, tumorType.getRevocations().size());
+            assertNoRevocationsInChildren(tumorType.getChildren());
+        }
+    }
+
+    private void assertNoPrecursorsInChildren(Map<String, TumorType> tumorTypes) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            assertEquals("Node " + tumorType.getCode() + " name: " + tumorType.getName() + " has precursors", 0, tumorType.getPrecursors().size());
+            assertNoPrecursorsInChildren(tumorType.getChildren());
+        }
+    }
+
+    private Boolean assertHistoryInChildren(Map<String, TumorType> tumorTypes, Boolean foundHistory) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            if ("SS".equals(tumorType.getCode())) {
+                assertEquals(1, tumorType.getHistory().size());
+                assertEquals("SEZS", tumorType.getHistory().get(0));
+                foundHistory = Boolean.TRUE;
+                // do not return because we want to check no other history
+            } else {
+                assertEquals(0, tumorType.getHistory().size());
+            }
+            foundHistory = assertHistoryInChildren(tumorType.getChildren(), foundHistory);
+        }
+        return foundHistory;
+    }
+
+    private Boolean assertRevocationsInChildren(Map<String, TumorType> tumorTypes, Boolean foundRevocations) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            if ("URMM".equals(tumorType.getCode())) {
+                assertEquals("URMM revocations size", 1, tumorType.getRevocations().size());
+                assertEquals("GMUCM", tumorType.getRevocations().get(0));
+                foundRevocations = Boolean.TRUE;
+                // do not return because we want to check no other revocations
+            } else {
+                assertEquals(0, tumorType.getRevocations().size());
+            }
+            foundRevocations = assertRevocationsInChildren(tumorType.getChildren(), foundRevocations);
+        }
+        return foundRevocations;
+    }
+
+    private Boolean assertPrecursorsInChildren(Map<String, TumorType> tumorTypes, Boolean foundPrecursors) {
+        for(TumorType tumorType: tumorTypes.values()) {
+            if ("CLLSLL".equals(tumorType.getCode())) {
+                assertEquals("'CLLSLL' precursors size", 2, tumorType.getPrecursors().size());
+                assertTrue("Expected 'CLL' to be precursor to 'CLLSLL'", tumorType.getPrecursors().contains("CLL"));
+                assertTrue("Expected 'SLL' to be precursor to 'CLLSLL'", tumorType.getPrecursors().contains("SLL"));
+                foundPrecursors = Boolean.TRUE;
+                // do not return because we want to check no other precursors
+            } else {
+                assertEquals(0, tumorType.getPrecursors().size());
+            }
+            foundPrecursors = assertPrecursorsInChildren(tumorType.getChildren(), foundPrecursors);
+        }
+        return foundPrecursors;
+    }
+
+    @Test
+    public void testGetTumorTypesByVersion() {
+        Map<String, TumorType> returnedTumorTypes = cacheUtil.getTumorTypesByVersion(legacyVersion);
+        // there is only one node in returnedTumorTypes, and it is the TISSUE node, everything else is a child of that node
+        String rootTumorTypeCode = returnedTumorTypes.keySet().iterator().next();
+        TumorType rootTumorType = returnedTumorTypes.get(rootTumorTypeCode);
+        assertEquals("TISSUE", rootTumorTypeCode);
+        assertEquals("TISSUE", rootTumorType.getCode());
+        assertEquals(32, rootTumorType.getChildren().size());
+
+        // legacy version should have no history, no revocations, no precursors
+        assertNoHistoryInChildren(rootTumorType.getChildren());
+        assertNoRevocationsInChildren(rootTumorType.getChildren());
+        assertNoPrecursorsInChildren(rootTumorType.getChildren());
+
+        returnedTumorTypes = cacheUtil.getTumorTypesByVersion(latestVersion);
+
+        // test latest version has a history in one node
+        Boolean foundHistory = Boolean.FALSE;
+        foundHistory = assertHistoryInChildren(returnedTumorTypes, foundHistory);
+        assertTrue("Failed to find history for 'SS'", foundHistory);
+
+        // test revocations in latest version
+        Boolean foundRevocations = Boolean.FALSE;
+        foundRevocations = assertRevocationsInChildren(returnedTumorTypes, foundRevocations);
+        assertTrue("Failed to find revocations for 'URMM'", foundRevocations);
+
+        // test precursors in latest version
+        Boolean foundPrecursors = Boolean.FALSE;
+        foundPrecursors = assertPrecursorsInChildren(returnedTumorTypes, foundPrecursors);
+        assertTrue("Failed to find precursors for 'CLLSLL'", foundPrecursors);
+    }
+
 }

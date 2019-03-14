@@ -14,10 +14,7 @@
     <script type="text/javascript" src="js/showdown-1.8.6.min.js?02072018"></script>
     <script type="text/javascript" src="js/tree.js?02072018"></script>
     <script type="text/javascript" src="js/main.js?02072018"></script>
-    <!-- DISABLE oncotree-mappings
-    <script type="text/javascript" src="js/oncotree-mapping.js?02072018"></script>
-    -->
-    <script type="text/javascript" src="js/news.js?02072018"></script>
+    <script type="text/javascript" src="js/load-markdown.js?03132019"></script>
   </head>
   <body>
     <div id="body" class="container">
@@ -26,11 +23,9 @@
         <li class="nav-item">
           <a class="nav-link active" href="#tree" id="tree-tab" data-toggle="tab" role="tab" aria-controls="tree">Home</a>
         </li>
-        <!-- DISABLE oncotree-mappings
         <li class="nav-item">
-          <a class="nav-link" href="#mapping" id="mapping-tab" data-toggle="tab" role="tab" aria-controls="mapping">Mapping</a>
+          <a class="nav-link" href="#mapping" id="mapping-tab" data-toggle="tab" role="tab" aria-controls="mapping">Mapping Tools</a>
         </li>
-        -->
         <li class="nav-item">
           <a class="nav-link" href="#news"  id="news-tab" data-toggle="tab" role="tab" aria-controls="news">News</a>
         </li>
@@ -98,107 +93,22 @@
         </div>
 
         <!-- mapping tab -->
-        <!-- DISABLE oncotree-mappings
         <div class="tab-pane fade" id='mapping' role="tabpanel">
           <div class="row">
             <div class="col-md-12">
-              <h3>OncoTree Mappings</h3>
-              <p>Retrieve mappings between OncoTree codes and other disease classification vocabularies</p>
+              <h3>Mapping Tools</h3>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="card bg-light mb-3">
-                <div class="card-header">
-                  <h5>Query</h5>
-                </div>
                 <div class="card-body">
-                  <p>You have two ways to query mappings to OncoTree</p>
-                  <dl>
-                    <dt>Via Vocabulary and a Concept IDs</dt>
-                    <dd>Choose a vocabulary ID from the dropdown, e.g. ICD10, and input a concept ID, e.g. C92.0 (Acute myeloblastic leukemia)</dd>
-                    </br>
-                    <dt>Via ICDO Site and Histology Codes</dt>
-                    <dd>Pick ICDO from the vocabulary dropdown, and enter a Histology Code, e.g. 8490/3, and a Site Code, e.g. C16.1</dd>
-                  </dl>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <form>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="vocabularyIdLabel">Vocabulary ID</label>
-                              <select id="vocabularyId" name="vocabularyId" class="form-control" required="required">
-                                <option value="ICDO" selected="">ICDO</option>
-                                <option value="ICD9CM">ICD9</option>
-                                <option value="ICD10CM">ICD10</option>
-                                <option value="LNC">LOINC</option>
-                                <option value="MSH">MeSH</option>
-                                <option value="NCI">NCI Thesaurus</option>
-                                <option value="OMOP">OMOP</option>
-                                <option value="RXNORM">RxNORM</option>
-                                <option value="SNOMEDCT_US">SNOMEDCT-US</option>
-                              </select>
-                            </div>
-                            <div class="form-group">
-                              <label for="conceptIdLabel">Concept ID</label>
-                              <input type="text" class="form-control" id="conceptId" placeholder="Enter Concept Id, e.g. C16" />
-                            </div>
-                            <div class="form-group">
-                              <label for="histologyCodeLabel">Histology Code</label>
-                              <input type="text" class="form-control" id="histologyCode" placeholder="Enter ICDO Histology Code, e.g. 8490/3" />
-                            </div>
-                            <div class="form-group">
-                              <label for="siteCodeLabel">Site Code</label>
-                              <input type="text" class="form-control" id="siteCode" placeholder="Enter ICDO Site Code, e.g. C16.1" />
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <button class="btn btn-primary btn-sm pull-right" id="mappingsBtn">Get Mappings</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="mappinsLabel">OncoTree Mappings</label>
-                        <textarea name="mappings" id="mappings" class="form-control" rows="9" cols="25"
-                            placeholder="The OncoTree codes (if any) that map to your code will show up here"></textarea>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div id="mapping-api"></div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div id="result">
-                          </div>
-                          <pre id="resJson" style="display: none;"></pre>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card bg-light mb-3">
-                <div class="card-header">
-                  <h5>Download</h5>
-                </div>
-                <div class="card-body">
-                  <a class="btn btn-primary btn-sm" href="download/oncotree_2018_06_15_ICD-O-3_map.txt" target="_blank" role="button">Download</a> Mappings between ICD-O-3 histcode/sitecode pairs and oncotree_2018_06_15 codes
+                  <div id='oncotree-mapping-tool'/>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        -->
         <!-- end mapping tab div -->
 
         <!-- news tab -->

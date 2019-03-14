@@ -1,4 +1,4 @@
-/** Copyright (c) 2017-2018 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import org.mskcc.oncotree.crosswalk.MSKConceptCache;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
@@ -48,6 +49,7 @@ public class TumorTypesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
     public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
+    private static final String TOPBRAID_BASE_URI = "http://data.mskcc.org/ontologies/oncotree/";
 
     @Autowired
     private CacheUtil cacheUtil;
@@ -60,9 +62,9 @@ public class TumorTypesUtil {
 
     public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
 
-    public Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version) throws InvalidOncoTreeDataException {
+    public Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
         if (version != null) {
-            return loadFromRepository(version);
+            return loadFromRepository(version, topBraidURIsToOncotreeCodes);
         }
         return new HashMap<>();
     }
@@ -152,7 +154,14 @@ public class TumorTypesUtil {
         } else {
             row.add("");
         }
-        row.add(StringUtils.defaultString(StringUtils.join(tumorType.getHistory(), ",")));
+        // add revocations and precursors to history column
+        List<String> combinedHistory = new ArrayList<String>();
+        combinedHistory.addAll(tumorType.getHistory());
+        combinedHistory.addAll(tumorType.getRevocations());
+        combinedHistory.addAll(tumorType.getPrecursors());
+        combinedHistory.removeAll(Collections.singletonList(tumorType.getCode())); // do not display a code in its own history (e.g. PTCL)
+        row.add(StringUtils.defaultString(StringUtils.join(combinedHistory, ",")));
+
         rows.add(StringUtils.join(row, "\t"));
 
         // Prepare for next recursive call
@@ -246,7 +255,7 @@ public class TumorTypesUtil {
         }
     }
 
-    private Map<String, TumorType> loadFromRepository(Version version) throws InvalidOncoTreeDataException {
+    private Map<String, TumorType> loadFromRepository(Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
         List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
@@ -263,6 +272,42 @@ public class TumorTypesUtil {
             if (hasNoParent(tumorType)) {
                 rootNodeCodeSet.add(thisNodeCode);
             }
+
+            // get all codes defined so far for this topbraid uri and save in history
+            if (topBraidURIsToOncotreeCodes.containsKey(thisNode.getURI())) {
+                // do not add this code to the history, but add any others
+                HashSet<String> allButThisNode = new HashSet<String>(topBraidURIsToOncotreeCodes.get(thisNode.getURI()));
+                allButThisNode.remove(thisNode.getCode());
+                tumorType.setHistory(new ArrayList<String>(allButThisNode));
+            } else {
+                topBraidURIsToOncotreeCodes.put(thisNode.getURI(), new ArrayList<String>());
+            }
+            for (String topBraidURI : thisNode.getRevocations()) {
+                String fullTopBraidURI = TOPBRAID_BASE_URI + topBraidURI;
+                if (topBraidURIsToOncotreeCodes.containsKey(fullTopBraidURI)) {
+                    ArrayList<String> nodeHistory = topBraidURIsToOncotreeCodes.get(fullTopBraidURI);
+                    // last node is most recent for this URI
+                    tumorType.addRevocations(nodeHistory.get(nodeHistory.size() - 1));
+                }
+                else {
+                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
+                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
+                }
+            }
+            for (String topBraidURI : thisNode.getPrecursors()) {
+                String fullTopBraidURI = TOPBRAID_BASE_URI + topBraidURI;
+                if (topBraidURIsToOncotreeCodes.containsKey(fullTopBraidURI)) {
+                    ArrayList<String> nodeHistory = topBraidURIsToOncotreeCodes.get(fullTopBraidURI);
+                    // last node is most recent for this URI
+                    tumorType.addPrecursors(nodeHistory.get(nodeHistory.size() - 1));
+                }
+                else {
+                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in precursors field for topBraidURI " + thisNode.getURI());
+                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in precursors field for topBraidURI " + thisNode.getURI());
+                }
+            }
+            // now save this as onoctree code history for this topbraid uri
+            topBraidURIsToOncotreeCodes.get(thisNode.getURI()).add(thisNode.getCode());
         }
         validateOncoTreeOrThrowException(rootNodeCodeSet, duplicateCodeSet, allNodes);
         // fill in children property, based on parent
@@ -280,7 +325,6 @@ public class TumorTypesUtil {
                         tumorType.addExternalReference("UMLS", mskConceptId.replace("MSK", "C"));
                     }
                 }
-                tumorType.setHistory(new ArrayList<String>(mskConcept.getHistory()));
             }
             if (rootNodeCodeSet.contains(thisNodeCode)) {
                 continue; //root node has no parent
@@ -306,6 +350,7 @@ public class TumorTypesUtil {
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
         tumorType.setParent(oncoTreeNode.getParentCode());
+        // do not copy history, revocations, or precursors
         return tumorType;
     }
 
@@ -405,6 +450,8 @@ public class TumorTypesUtil {
             // the results of search operations are flat lists of TumorTypes .. no nested children so do not setChildren()
             tumorType.setParent(currentTumorType.getParent());
             tumorType.setHistory(currentTumorType.getHistory());
+            tumorType.setRevocations(currentTumorType.getRevocations());
+            tumorType.setPrecursors(currentTumorType.getPrecursors());
             tumorType.setLevel(currentTumorType.getLevel());
 
             matchedTumorTypes.add(tumorType);

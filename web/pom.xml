@@ -63,6 +63,24 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the web/pom.xml directory -->
+                            <directory>../scripts</directory>
+                            <targetPath>WEB-INF/classes/static/downloads</targetPath>
+                            <includes>
+                                <include>**/oncotree_to_oncotree.py</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <!-- this is relative to the web/pom.xml directory -->
+                            <directory>../docs/images</directory>
+                            <targetPath>WEB-INF/classes/static/images</targetPath>
+                            <includes>
+                                <include>**/*.png</include>
+                            </includes>
+                        </resource>
+                    </webResources>
                     <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
                 </configuration>
             </plugin>

@@ -20,7 +20,10 @@ package org.mskcc.oncotree.topbraid;
  * @author Manda Wilson
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -36,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "name",
     "mainType",
     "color",
-    "parentCode"
+    "parentCode",
+    "revocations",
+    "precursors"
 })
 public class OncoTreeNode {
 
@@ -58,8 +63,29 @@ public class OncoTreeNode {
     @JsonProperty("parentCode")
     private String parentCode;
 
+    @JsonProperty("revocations")
+    private List<String> revocations = new ArrayList<String>();
+
+    @JsonProperty("precursors")
+    private List<String> precursors = new ArrayList<String>();
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public OncoTreeNode() {}
+
+    public OncoTreeNode(OncoTreeNode otherOncoTreeNode) {
+        this.uri = otherOncoTreeNode.uri;
+        this.code = otherOncoTreeNode.code;
+        this.name = otherOncoTreeNode.name;
+        this.mainType = otherOncoTreeNode.mainType;
+        this.color = otherOncoTreeNode.color;
+        this.parentCode = otherOncoTreeNode.parentCode;
+        // shallow copies
+        this.revocations = new ArrayList<String>(otherOncoTreeNode.revocations);
+        this.precursors = new ArrayList<String>(otherOncoTreeNode.precursors);
+        this.additionalProperties = new HashMap<String, Object>(otherOncoTreeNode.additionalProperties);
+    }
 
     @JsonProperty("uri")
     public String getURI() {
@@ -119,6 +145,30 @@ public class OncoTreeNode {
     @JsonProperty("parentCode")
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
+    }
+
+    @JsonProperty("revocations")
+    public List<String> getRevocations() {
+        return revocations;
+    }
+
+    @JsonProperty("revocations")
+    public void setRevocations(String revocations) {
+        if (revocations != null) {
+            this.revocations = Arrays.asList(revocations.split("\\s+"));
+        }
+    }
+
+    @JsonProperty("precursors")
+    public List<String> getPrecursors() {
+        return precursors;
+    }
+
+    @JsonProperty("precursors")
+    public void setPrecursors(String precursors) {
+        if (precursors != null) {
+            this.precursors = Arrays.asList(precursors.split("\\s+"));
+        }
     }
 
     @JsonAnyGetter

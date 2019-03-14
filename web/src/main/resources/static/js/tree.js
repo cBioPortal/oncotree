@@ -22,6 +22,8 @@ var tree = (function () {
     var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
     var is_safari = navigator.userAgent.indexOf("Safari") > -1;
 
+    var treeBuildComplete = false; // set to true after child elements have all been constructed in DOM
+
     function getNCILink(nciCode) {
         return (typeof nciCode !== 'undefined' && nciCode != '') ? '<a class="qtip-link" href="' + nci_base_uri + nciCode + '" target="_blank">' + nciCode + '</a>' : 'Not Available';
     }
@@ -38,6 +40,7 @@ var tree = (function () {
         this.nci = [];
         this.umls = [];
         this.history = ''; // comma delimited string
+        this.hasRevocations = false;
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -81,6 +84,26 @@ var tree = (function () {
 
         if (childData.hasOwnProperty('history')) {
             childNode.history = childData.history.join();
+        }
+        if (childData.hasOwnProperty('revocations')) {
+            childData.revocations.forEach(function(revocation) {
+                if (revocation !== childNode.code) { // do not show your own code in Previous Codes (e.g. PTCL)
+                    // set here rather than after childData.hasOwnProperty because revocations property is always there
+                    childNode.hasRevocations = true;
+                    if (childNode.history != '') {
+                        childNode.history += ", ";
+                    }
+                   childNode.history += "<text style=\"color: red;\">" + revocation + "<sup>*</sup></text>";
+                }
+            });
+        }
+        if (childData.hasOwnProperty('precursors')) {
+            childData.precursors.forEach(function(precursor) {
+                if (childNode.history != '') {
+                    childNode.history += ", ";
+                }
+                childNode.history += precursor;
+            });
         }
 
         // save code and name to check for duplicate codes later
@@ -174,6 +197,7 @@ var tree = (function () {
         update(root);
         numOfTissues = root.children.length;
         root.children.forEach(searchLeaf);
+        treeBuildComplete = true;
     }
 
     function update(source) {
@@ -346,13 +370,16 @@ var tree = (function () {
                         '>Copy</button>'
                     ) +
                     '<br/>';
-                _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)/gi, '') + '<br/>';
+                _qtipContent += '<b>Name:</b> ' + d.name.replace(/\(\w+\)$/gi, '') + '<br/>';
                 _qtipContent += '<b>Main type:</b> ' + d.mainType + '<br/>';
                 _qtipContent += '<b>NCI:</b> ' + nci_links.join(",") + '<br/>';
                 _qtipContent += '<b>UMLS:</b> ' + umls_links.join(",") + '<br/>';
                 _qtipContent += '<b>Color:</b> ' + (d.color||'LightBlue') + '<br/>';
                 if (typeof d.history !== 'undefined' && d.history != '') {
                     _qtipContent += '<b>Previous codes:</b> ' + d.history  + '<br/>';
+                    if (typeof d.hasRevocations !== 'undefined' && d.hasRevocations) {
+                        _qtipContent += '<text style="padding-left: 5px;">* Use of codes shown in red is now discouraged.</text>';
+                    }
                 }
                 $(this).qtip({
                     content:{text: _qtipContent},
@@ -544,6 +571,10 @@ var tree = (function () {
         }
     }
 
+    function readyForSearch() {
+      return treeBuildComplete;
+    }
+
     function searchByNodeName(searchKey) {
         searchResult.length = 0;
         root.children.forEach(toggleAll);
@@ -630,6 +661,7 @@ var tree = (function () {
     return {
         init: initDataAndTree,
         expand: expandWithArray,
+        readyForSearch: readyForSearch,
         search: searchByNodeName,
         expandAll: expandAll,
         collapseAll: collapseAll,

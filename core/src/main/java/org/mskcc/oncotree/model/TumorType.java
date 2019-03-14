@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2016-2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -39,6 +39,8 @@ public class TumorType {
     private String parent = null;
     private List<String> history = new ArrayList<String>();
     private Integer level = null;
+    private List<String> revocations = new ArrayList<String>();
+    private List<String> precursors = new ArrayList<String>();
     private static final String UNKNOWN_ONCOTREE_NODE_LEVEL = "-1";
 
     public TumorType() {}
@@ -55,6 +57,8 @@ public class TumorType {
         this.children = new HashMap<String, TumorType>(otherTumorType.children);
         this.parent = otherTumorType.parent;
         this.history = new ArrayList<String>(otherTumorType.history);
+        this.revocations = new ArrayList<String>(otherTumorType.revocations);
+        this.precursors = new ArrayList<String>(otherTumorType.precursors);
         this.level = otherTumorType.level;
     }
 
@@ -72,6 +76,8 @@ public class TumorType {
         }
         newTumorType.parent = this.parent;
         newTumorType.history = new ArrayList<String>(this.history);
+        newTumorType.revocations = new ArrayList<String>(this.revocations);
+        newTumorType.precursors = new ArrayList<String>(this.precursors);
         newTumorType.level = this.level;
         return newTumorType;
     }
@@ -224,6 +230,46 @@ public class TumorType {
 
     /**
      **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("revocations")
+    public List<String> getRevocations() {
+        return revocations;
+    }
+
+    /**
+    *
+    * @param oncotreeCode
+    */
+    public void addRevocations(String oncotreeCode) {
+        this.revocations.add(oncotreeCode);
+    }
+
+    public void setRevocations(List<String> revocations) {
+        this.revocations = revocations;
+    }
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("precursors")
+    public List<String> getPrecursors() {
+        return precursors;
+    }
+
+    /**
+    *
+    * @param oncotreeCode
+    */
+    public void addPrecursors(String oncotreeCode) {
+        this.precursors.add(oncotreeCode);
+    }
+
+    public void setPrecursors(List<String> precursors) {
+        this.precursors = precursors;
+    }
+
+    /**
+     **/
     @ApiModelProperty(value = UNKNOWN_ONCOTREE_NODE_LEVEL)
     @JsonProperty("level")
     public Integer getLevel() {
@@ -251,12 +297,14 @@ public class TumorType {
             Objects.equals(tissue, tumorType.tissue) &&
             Objects.equals(children, tumorType.children) &&
             Objects.equals(parent, tumorType.parent) &&
-            Objects.equals(history, tumorType.history);
+            Objects.equals(history, tumorType.history) &&
+            Objects.equals(revocations, tumorType.revocations) &&
+            Objects.equals(precursors, tumorType.precursors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history);
+        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history, revocations, precursors);
     }
 
     @Override
@@ -274,6 +322,8 @@ public class TumorType {
         sb.append("  children: ").append(children).append("\n");
         sb.append("  parent: ").append(parent).append("\n");
         sb.append("  history: ").append(history).append("\n");
+        sb.append("  revocations: ").append(revocations).append("\n");
+        sb.append("  precursors: ").append(precursors).append("\n");
         sb.append("}\n");
         return sb.toString();
     }

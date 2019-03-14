@@ -41,8 +41,8 @@ import static org.mockito.Matchers.*;
 @RunWith(SpringRunner.class)
 @Import(OncotreeTestConfig.class)
 public class TumorTypesUtilTest {
-    @Resource(name="mockVersion")
-    private Version mockVersion;
+    @Resource(name="legacyVersion")
+    private Version legacyVersion;
     @Autowired
     private OncoTreeRepository mockRepository;
     @Autowired
@@ -68,7 +68,7 @@ public class TumorTypesUtilTest {
     }
 
     public Set<TumorType> simulateFullTumorTypeApiResponse() throws Exception {
-        Map<String, TumorType> tumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(mockVersion);
+        Map<String, TumorType> tumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(legacyVersion, new HashMap<String, ArrayList<String>>());
         Set<TumorType> tumorTypeSet = tumorTypesUtil.flattenTumorTypes(tumorTypeMap, null);
         return tumorTypeSet;
     }
@@ -184,7 +184,7 @@ public class TumorTypesUtilTest {
     public void testFullTumorTypesTxt() throws Exception {
         int failureCount = 0;
         StringBuilder failureReport  = new StringBuilder();
-        Map<String, TumorType> returnedTumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(mockVersion);
+        Map<String, TumorType> returnedTumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(legacyVersion, new HashMap<String, ArrayList<String>>());
         InputStream tumorTypeTxtInputStream = tumorTypesUtil.getTumorTypeInputStream(returnedTumorTypeMap);
         BufferedReader returnedSheetReader = new BufferedReader(new InputStreamReader(tumorTypeTxtInputStream));
         //check that header is present and matches

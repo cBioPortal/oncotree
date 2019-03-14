@@ -10,6 +10,7 @@
     <modules>
         <module>web</module>
         <module>core</module>
+        <module>scripts</module>
     </modules>
 
     <name>OncoTree</name>

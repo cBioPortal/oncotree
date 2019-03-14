@@ -46,8 +46,6 @@ public class MSKConceptCache {
 
     private static final Logger logger = LoggerFactory.getLogger(MSKConceptCache.class);
     private static HashMap<String, MSKConcept> oncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
-    // use this to store and look up previous oncoTree codes
-    private static HashMap<String, HashSet<String>> topBraidURIsToOncotreeCodes = new HashMap<String, HashSet<String>>();
 
     @Autowired
     private OncoTreeRepository oncoTreeRepository;
@@ -73,8 +71,6 @@ public class MSKConceptCache {
     @PostConstruct // call when constructed
     @Scheduled(cron="0 0 3 * * SUN") // call every Sunday at 3am
     private void resetCache() {
-        final String STANDALONE_CLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000044";
-        final String FUSED_CLL_SLL_URI = "http://data.mskcc.org/ontologies/oncotree/ONC000369";
         logger.info("resetCache() -- attempting to refresh  Crosswalk MSKConcept cache");
         HashMap<String, MSKConcept> latestOncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>(); 
         List<Version> versions = new ArrayList<Version>();
@@ -93,37 +89,9 @@ public class MSKConceptCache {
                 logger.error("resetCache() -- failed to pull a versioned oncotree");
                 throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
             }
-            MSKConcept fusedCllSllConceptCandidate = null;
-            MSKConcept standaloneCllConcept = null;
             for (OncoTreeNode node : oncoTreeNodes) {
                 MSKConcept mskConcept = getFromCrosswalk(node.getCode());
                 latestOncoTreeCodesToMSKConcepts.put(node.getCode(), mskConcept);
-                // get all codes defined so far for this topbraid uri and save in history
-                if (topBraidURIsToOncotreeCodes.containsKey(node.getURI())) {
-                    // do not add this code to the history, but add any others
-                    HashSet<String> allButThisNode = new HashSet<String>(topBraidURIsToOncotreeCodes.get(node.getURI()));
-                    allButThisNode.remove(node.getCode());
-                    mskConcept.addHistory(allButThisNode);
-                } else {
-                    topBraidURIsToOncotreeCodes.put(node.getURI(), new HashSet<String>());
-                }
-                // TODO replace this hack for adding CLL to the history with something smarter
-                switch (node.getURI()) {
-                case STANDALONE_CLL_URI:
-                    standaloneCllConcept = mskConcept;
-                    break;
-                case FUSED_CLL_SLL_URI:
-                    fusedCllSllConceptCandidate = mskConcept;
-                    break;
-                }
-                // now save this as onoctree code history for this topbraid uri
-                topBraidURIsToOncotreeCodes.get(node.getURI()).add(node.getCode());
-            }
-            // TODO replace this hack for adding CLL to the history with something smarter
-            if (standaloneCllConcept == null && fusedCllSllConceptCandidate != null) {
-                // only add CLL to the history when there is no standalone CLL node (ONC000044) in the current version
-                fusedCllSllConceptCandidate.addHistory("CLL");
-                topBraidURIsToOncotreeCodes.get(FUSED_CLL_SLL_URI).add("CLL");
             }
         }
         oncoTreeCodesToMSKConcepts = latestOncoTreeCodesToMSKConcepts;
