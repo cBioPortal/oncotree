@@ -28,6 +28,16 @@ python <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/f
 
 The list of OncoTree versions available are viewable [here](http://oncotree.mskcc.org/api/versions) on the dropdown menu [OncoTree home page](http://oncotree.mskcc.org/#/home).
 
+## [Output](#output)
+
+ The OncoTree Mapper Tool will add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if a direct mapping was not available.
+
+ **Example 1: Schema describing the revocation of OncoTree node ALL in a later OncoTree release version.**
+
+![Example 1](http://oncotree.mskcc.org/images/example_1.png)
+
+> In `oncotree_2018_05_01`, `ALL` had two children: `TALL` and `BALL`. On release `oncotree_2018_06_01`, the ALL node was discontinued and the `TALL` node was renamed `TLL` and the `BALL` node was renamed `BLL`.
+
 ## [OncoTree History Modeling](#oncotree-history-modeling)
 
 ### Background
@@ -51,14 +61,3 @@ The **history** describes a list of OncoTree codes which used to be called `X` b
 ***
 
 A **revocation** represents OncoTree codes for which the current OncoTree node _was_ a part of the meaning of but the OncoTree codes have since been revoked from the current OncoTree release version. One such example of this type of case is shown in the Example 1 schema below.
-
-
-## Output
-
- The OncoTree Mapper Tool will add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if a direct mapping was not available.
-
- **Example 1: Schema describing the revocation of OncoTree node ALL in a later OncoTree release version.**
-
-![Example 1](http://oncotree.mskcc.org/images/example_1.png)
-
-> In `oncotree_2018_05_01`, `ALL` had two children: `TALL` and `BALL`. On release `oncotree_2018_06_01`, the ALL node was discontinued and the `TALL` node was renamed `TLL` and the `BALL` node was renamed `BLL`.
