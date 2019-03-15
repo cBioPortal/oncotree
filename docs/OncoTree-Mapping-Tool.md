@@ -35,15 +35,17 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
  **1. Ambiguous Direct Mappings**  
  Ambiguous direct mappings occur when an oncotree code maps to multiple codes in a different version. The `ONCOTREE_SUGGESTIONS` column will format the output with they key word **Choices** as follow:
  
- _'Source Code' -> **Choices** {'Code 1', 'Code 2', 'Code 3'}_  
+ > _'Source Code' -> **Choices** {'Code 1', 'Code 2', 'Code 3'}_  
  
  **Example: Schema describing the revocation of OncoTree node ALL in a later OncoTree release version.**
 
 ![Example 1](http://oncotree.mskcc.org/images/example_1.png)
 
-> In `oncotree_2018_05_01`, `ALL` had two children: `TALL` and `BALL`. On release `oncotree_2018_06_01`, the ALL node was discontinued and the `TALL` node was renamed `TLL` and the `BALL` node was renamed `BLL`. The `ONCOTREE_SUGGESTIONS` column would be shown as follows:
+> In `oncotree_2018_05_01`, `ALL` had two children: `TALL` and `BALL`. On release `oncotree_2018_06_01`, the ALL node was discontinued and the `TALL` node was renamed `TLL` and the `BALL` node was renamed `BLL`. 
 
-_ALL -> Choices {TLL, BLL}_
+**The `ONCOTREE_SUGGESTIONS` column would be shown as follows:**  
+
+> _ALL -> Choices {TLL, BLL}_
 
 ## [OncoTree History Modeling](#oncotree-history-modeling)
 
