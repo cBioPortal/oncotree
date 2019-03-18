@@ -32,7 +32,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 
  The OncoTree Mapper Tool will add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if a direct mapping was not available. The `ONCOTREE_SUGGESTIONS` column formats its suggestions differently depending on the mapping results. Possible suggestion formats and corresponding examples are shown below.
  
- **1. Ambiguous Direct Mappings**  
+ ### Ambiguous Direct Mappings 
  Ambiguous direct mappings occur when an oncotree code maps to multiple codes in a different version. The `ONCOTREE_SUGGESTIONS` column formats the output with they key word **Choices** as follows:
  
  > _'Source Code' -> **Choices** {'Code 1', 'Code 2', 'Code 3', ...}_  
@@ -47,12 +47,12 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 
 > _ALL -> Choices {TLL, BLL}_
   
-**2. No Direct Mappings**  
+### No Direct Mappings   
  No direct mappings occur when the source oncotree code is unrelated to any oncotree code in  the target version. One such possibility is mapping a newly introduced oncotree code backwards in time. In this case, the tool finds the closest set of **neighbors** (e.g parents and children) which are mappable in the target version. The `ONCOTREE_SUGGESTIONS` column returns the set with the keyword **Neighbors** as follows:  
  
  > _'Source Code' -> **Neighbors** {'Code 1', 'Code 2', 'Code 3', ...}_  
  
- **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped.**
+ **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped backwards.**
 
 ![Example 1](http://oncotree.mskcc.org/images/example_1.png)
 
@@ -62,20 +62,18 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 
 > _ALL -> Neighbors {TLL, BLL}_
 
-**3. Invalid Source OncoTree Code**  
+### Invalid Source OncoTree Code  
  An invalid souce OncoTree Code means the provided code cannot be found in the source version. In such a case, mapping cannot be attempted and the `ONCOTREE_SUGGESTSIONS` column displays the following:  
  
  > _'Source Code' -> ???, Oncotee code not in source oncotree version 
  
- **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped.**
+### More Granular Nodes Introduced
+In certain cases, the target version can also introduce nodes with more specfic descriptions. When this occurs, the tool will add the string `more granular choices introduced` to the existing text in the `ONCOTREE_SUGGESTIONS` column as follows:  
+  
+> _'Source Code' -> Choices {'Code 1', 'Code 2'}, **more granular choices introduced**_
 
-![Example 1](http://oncotree.mskcc.org/images/example_1.png)
+ **Example: Schema describing a case where OncoTree node <__placeholder__> is mapped to a node with more granular children**
 
-> In `oncotree_2018_06_01`, `ALL` was added to the oncotree. Because `ALL` did not exist in previous verison `oncotree_2018_03_01` and did not replace any existing node, its neighbors are used as closest possible mappings.
-
-**The `ONCOTREE_SUGGESTIONS` column would be shown as follows:**  
-
-> _ALL -> Neighbors {TLL, BLL}_
 
 ## [OncoTree History Modeling](#oncotree-history-modeling)
 
