@@ -54,7 +54,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
  
  **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped backwards.**
 
-![Example 1](http://oncotree.mskcc.org/images/example_1.png)
+![Example 1](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/example_2.png)
 
 > In `oncotree_2018_06_01`, `ALL` was added to the oncotree. Because `ALL` did not exist in previous verison `oncotree_2018_03_01` and did not replace any existing node, its neighbors are used as closest possible mappings.
 
