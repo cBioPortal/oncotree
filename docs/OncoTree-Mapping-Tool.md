@@ -56,11 +56,11 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 
 ![Example 1](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/example_2.png)
 
-> In `oncotree_2018_06_01`, `ALL` was added to the oncotree. Because `ALL` did not exist in previous verison `oncotree_2018_03_01` and did not replace any existing node, its neighbors are used as closest possible mappings.
+> In `oncotree_2019_03_01`, `UPA` was added to the oncotree as a child node of `BLADDER`. Because `UPA` did not exist in previous verison `oncotree_2018_03_01` and did not replace any existing node, the tool uses the closest mappable neighbor. In this case, the parent node `BLADDER` is returned as the closest match.
 
 **The `ONCOTREE_SUGGESTIONS` column would be shown as follows:**  
 
-> _ALL -> Neighbors {TLL, BLL}_
+> _UPA -> Neighbors {BLADDER}_
 
 ### 3. More Granular Nodes Introduced
 In certain cases, the target version can also introduce nodes with more specfic descriptions. When this occurs, the tool will add the string `more granular choices introduced` to the existing text in the `ONCOTREE_SUGGESTIONS` column as follows:  
