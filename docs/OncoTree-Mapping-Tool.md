@@ -1,6 +1,6 @@
 # OncoTree to OncoTree Mapping Tool
 
-The OncoTree Mapping tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. Instructions for running the tool can be found below in the [Running the tool](#running-the-tool) section. Background information on the Oncotree history modeling and examples of use cases can be found in the [OncoTree History Modeling](#oncotree-history-modeling) section.
+The OncoTree Mapping tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. Instructions for running the tool can be found below in the [Running the tool](#running-the-tool) section. Background information on the Oncotree history modeling and examples of use cases can be found in the [OncoTree History Modeling](#oncotree-history-modeling) section. Additional resources such as sample input, output, and mapping summary files can be found in the [Additional Resources](#additional-resources) sections.
 
 ## [Setting up and downloading the tool](#setting-up-and-downloading-the-tool)
 
@@ -9,7 +9,6 @@ Follow this link to download the script: [**oncotree_to_oncotree.py**](http://on
 The OncoTree Mapping tool was written in `python`. To use the tool, please install the following python module if it is not already installed:
 
 - [requests](http://docs.python-requests.org/en/v2.7.0/user/install/)
-
 
 ## [Running the tool](#running-the-tool)
 
@@ -104,3 +103,6 @@ The **history** describes a list of OncoTree codes which used to be called `X` b
 ***
 
 A **revocation** represents OncoTree codes for which the current OncoTree node _was_ a part of the meaning of but the OncoTree codes have since been revoked from the current OncoTree release version. One such example of this type of case is shown in the Example 1 schema below.
+
+## [Additional Resources](#additional-resources)
+- [sample input file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test.txt)
