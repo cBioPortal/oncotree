@@ -52,7 +52,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
  
  > _'Source Code' -> **Neighbors** {'Code 1', 'Code 2', 'Code 3', ...}_  
  
- **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped backwards.**
+ **Example: Schema describing a case where new OncoTree node UPA cannot be directly mapped backwards.**
 
 ![Example 1](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/example_2.png)
 
