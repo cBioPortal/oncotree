@@ -80,28 +80,57 @@ $(document).ready(function(){
       sorted_version_list.forEach(
         function(item) {
           var _hash = '#/home?version=' + item;
-          var selected_attribute = '';
+          var selected_class = '';
           if (displayed_version === item) {
-            selected_attribute = ' selected';
+            selected_class = ' active';
           }
-          var option = '<option data-desc="' + available_versions[item].description + '" class="item" hash="' + _hash + '" ' + selected_attribute + '>' + item + '</option>';
+          var option = '<li><a href="#" class="dropdown-item' + selected_class + '" data-desc="' + available_versions[item].description + '"  hash="' + _hash + '">' + item + '</a></li>';
           var this_item_is_visible = available_versions[item].visible;
           if (!this_item_is_visible && previous_version_was_visible) {
-            option_list_html.push('<option class="item" hash="disabled" disabled>' + '&HorizontalLine;'.repeat(10) + '</option>')
+            option_list_html.push('<li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">More</a><ul class="dropdown-menu">');
           }
           option_list_html.push(option);
           previous_version_was_visible = this_item_is_visible;
         });
+        option_list_html.push('</li></ul>'); // end submenu
+     
       $('#other-version .other-version-content').html(option_list_html.join(''));
-      $('#oncotree-version-note').append($("#other-version .other-version-content :selected").data("desc"));
-      $('#other-version .other-version-content').change(function() {
-        var _hash = $(this)[0].selectedOptions[0].attributes['hash'].value;
+      $('#oncotree-version-label').append($("#other-version .other-version-content .active").text());
+      $('#oncotree-version-note').append($("#other-version .other-version-content .active").data("desc"));
+      $('#other-version .dropdown-item').not('.dropdown-toggle').click(function() {
+        var _hash = $(this)[0].attributes['hash'].value;
         window.location.hash = _hash;
         window.location.reload();
       })
     }
 
     function initEvents() {
+      // submenu JS and CSS comes from here:
+      // https://stackoverflow.com/questions/18023493/bootstrap-dropdown-sub-menu-missing/18024991
+      $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+        if (!$(this).next().hasClass('show')) {
+          $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+        }
+        var $subMenu = $(this).next(".dropdown-menu");
+        $subMenu.toggleClass('show');
+        $(this).parents('dropdown.show').on('hidden.bs.dropdown', function(e) {
+          $('.dropdown-submenu .show').removeClass("show");
+        });
+        return false;
+      });
+      $('.dropdown a.dropdown-toggle').first().on('click', function(e) {
+        // TODO maybe close the submenu when the main menu loses focus,
+        //   e.g. if you click on another part of the page,
+        //   but do not close it if it loses focus because you clicked on
+        //   the submenu
+
+        // when you click on the main menu and you are about to close it
+        // make sure submenu is closed too
+        if ($(this).next().hasClass('show')) { // main menu is about to have show removed
+          $(this).next().children('.dropdown-submenu').first().children('.dropdown-menu .show').first().removeClass("show");
+        }
+        return true;
+      });
       $('#tumor_search button').click(function() {
         OutJS.search();
       });

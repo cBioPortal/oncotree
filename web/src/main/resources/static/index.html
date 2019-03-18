@@ -2,13 +2,14 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css?04182018"/>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css?03132019"/>
     <link type="text/css" rel="stylesheet" href="open-iconic/font/css/open-iconic-bootstrap.min.css?04182018"/>
     <link rel="stylesheet" type="text/css" href="css/jquery.qtip.min.css?04182018">
-    <link type="text/css" rel="stylesheet" href="css/style.css?05022016"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css?03182019"/>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js?04182018"></script>
     <script type="text/javascript" src="js/d3.v3.min.js?04182018"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js?04182018""></script>
+    <script type="text/javascript" src="js/popper.min.js?03132019""></script>
+    <script type="text/javascript" src="js/bootstrap.min.js?03132019""></script>
     <script type="text/javascript" src="js/jquery.qtip.min.js?04182018"></script>
     <script type="text/javascript" src="js/clipboard.min.js?04182018"></script>
     <script type="text/javascript" src="js/showdown-1.8.6.min.js?02072018"></script>
@@ -39,38 +40,48 @@
         <!-- tree tab -->
         <div class="tab-pane fade show active" id="tree" role="tabpanel">
           <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+            <!-- lg is for large desktop, md is medium, sm is tablet, xs is phone
+            each div.col-lg-x should in .row should add up to 12, etc.,
+            use < 12 if you don't want 12 - x empty columns  -->
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
               <h3>CMO Tumor Type Tree</h3>
               <p>
                 If you cannot see the tree below in Internet Explorer, please use Firefox or Chrome.
               </p>
               <div class="alert alert-info" role="alert">
-                <span>Currently displaying : </span>
-                <span id="other-version">
-                  <select class="other-version-content"></select>
-                </span>
+                <h4 class="alert-heading">
+                    Displaying: <span id="oncotree-version-label"></span>
+                </h4>
                 <div><span id="oncotree-version-statistics"></span></div>
+                <hr>
                 <div><span id='oncotree-version-note'></span></div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-4 col-md-5 col-sm-6 col-xs-9 has-addon-feedback">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+              <div class="dropdown" id="other-version">
+                <a href="#" class="btn btn-outline-secondary dropdown-toggle" id="versionMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change Oncotree version</a>
+                <ul class="other-version-content dropdown-menu" aria-labelledby="versionMenuButton">
+                </ul>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-5 has-addon-feedback">
               <div class="input-group" id='tumor_search'>
                 <input type="text" class="form-control" placeholder="Search Tumor Type" />
                 <span id="searchRemoveIcon" class="form-control-feedback glyphicon glyphicon-remove-circle"></span>
                 <span id="searchResult" class="form-control-feedback result"></span>
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-light">Search</button>
+                  <button type="button" class="btn btn-outline-secondary">Search</button>
                 </span>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div class="col-lg-5 col-md-4 col-sm-3 col-xs-3">
               <div class="btn-group">
-                <button type="button" class="btn btn-light" id='expand-nodes-btn'>
+                <button type="button" class="btn btn-outline-secondary" id='expand-nodes-btn'>
                   <span class="oi oi-fullscreen-enter"></span>
                 </button>
-                <button type="button" class="btn btn-light" id='collapse-nodes-btn'>
+                <button type="button" class="btn btn-outline-secondary" id='collapse-nodes-btn'>
                   <span class="oi oi-fullscreen-exit"></span>
                 </button>
               </div>
