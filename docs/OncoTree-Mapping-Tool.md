@@ -29,7 +29,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 
 ## [Output](#output)
 
- The OncoTree Mapper Tool will add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if a direct mapping was not available. The `ONCOTREE_SUGGESTIONS` column formats its suggestions differently depending on the mapping results. Possible suggestion formats and corresponding examples are shown below.
+ The OncoTree Mapper Tool will automatically replace the value in the `ONCOTREE_CODE` column with the mapped code if available. The tool will also add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if a direct mapping was not available. The `ONCOTREE_SUGGESTIONS` column formats its suggestions differently depending on the mapping results. Possible suggestion formats and corresponding examples are shown below.
  
  ### 1. Ambiguous Direct Mappings 
  Ambiguous direct mappings occur when an oncotree code maps to multiple codes in a different version. The `ONCOTREE_SUGGESTIONS` column formats the output as follows:
@@ -106,3 +106,5 @@ A **revocation** represents OncoTree codes for which the current OncoTree node _
 
 ## [Additional Resources](#additional-resources)
 - [sample input file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test.txt)
+- [sample output file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test_remapped.txt)
+- [sample mapping summary report](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test_remapped.html)
