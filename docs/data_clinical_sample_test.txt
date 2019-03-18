@@ -1,0 +1,19 @@
+PATIENT_ID	SAMPLE_ID	AGE_AT_SEQ_REPORT	ONCOTREE_CODE	SAMPLE_TYPE	AGE_AT_SEQ_REPORT_DAYS	SAMPLE_TYPE_DETAILED	SEQ_YEAR
+P1	S1	41	ALL	Not Applicable or Heme	15125	Not applicable or hematologic malignancy	2015
+P2	S2	60	BALL	Not Applicable or Heme	22052	Not applicable or hematologic malignancy	2014
+P3	S3	<18	TALL	Not Applicable or Heme	<6570	Not applicable or hematologic malignancy	2015
+P4	S4	71	PTCL	Primary	25933	Primary tumor	2015
+P5	S5	64	PTCLNOS	Primary	23550	Primary tumor	2017
+P6	S6	36	UPA	Primary	13514	Primary tumor	2016
+P7	S7	63	SpCC	Primary	23016	Primary tumor	2016
+P8	S8	63	MCL	Primary	23011	Primary tumor	2015
+P9	S9	73	HGNEE	Metastasis	27028	Metastasis site unspecified	2015
+P10	S10	52		Primary	18993	Primary tumor	2016
+P11	S11	77	NA	Not Applicable or Heme	28457	Not applicable or hematologic malignancy	2017
+P12	S12	87	TNKL	Primary	32001	Primary tumor	2014
+P13	S13	79	HIST	Metastasis	28855	Metastasis site unspecified	2015
+P14	S14	53	SLL	Primary	19532	Primary tumor	2015
+P15	S15	69	CLL	Primary	25349	Primary tumor	2013
+P16	S16	65	LEUK	Not Applicable or Heme	23982	Not applicable or hematologic malignancy	2013
+P17	S17	66	CTCL	Primary	24192	Primary tumor	2014
+P18	S18	66	RBL	Primary	13418	Primary tumor	2017
