@@ -107,4 +107,4 @@ A **revocation** represents OncoTree codes for which the current OncoTree node _
 ## [Additional Resources](#additional-resources)
 - [sample input file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test.txt)
 - [sample output file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test_remapped.txt)
-- [sample mapping summary report](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test_remapped.html)
+- [sample mapping summary report](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test_remapped_summary.html)
