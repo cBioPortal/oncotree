@@ -54,7 +54,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
  
  **Example: Schema describing a case where new OncoTree node <__placeholder__> cannot be directly mapped backwards.**
 
-![Example 1](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/example_2.png)
+![Example 1](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/example_3.png)
 
 > In `oncotree_2019_03_01`, `UPA` was added to the oncotree as a child node of `BLADDER`. Because `UPA` did not exist in previous verison `oncotree_2018_05_01` and did not replace any existing node, the tool uses the surrounding nodes when mapping backwards. In this case, the parent node `BLADDER` is returned as the closest match.
 
