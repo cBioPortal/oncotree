@@ -137,7 +137,7 @@ Source OncoTree code `ALL` maps directly to codes `BLL` and `TLL`. Users should 
 Searching by source code, the following information can be found in the summary file:
 ![ALL-example](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/ALL-example.png)  
 The summary file provides a link to the closest shared parent node `LNM`; users can choose more granular nodes by referencing the provided tree:
-![ALL-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/ALL-tree.png) 
+![LNM-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/LNM-tree.png) 
 
 
 
