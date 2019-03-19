@@ -135,6 +135,10 @@ Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and plac
 Source OncoTree code `ALL` maps directly to codes `BLL` and `TLL`. Users should place either `BLL` or `TLL` in the `ONCOTRE_CODE`column. The `ONCOTREE_CODE_OPTIONS` column also notes that more granular choices were introduced; as such, users can use the summary file for additional guidance. 
 
 Searching by source code, the following information can be found in the summary file:
+![ALL-example](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/ALL-example.png)  
+The summary file provides a link to the closest shared parent node `LNM`; users can choose more granular nodes by referencing the provided tree:
+![ALL-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/ALL-tree.png) 
+
 
 
 
