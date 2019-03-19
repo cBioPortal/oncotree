@@ -99,6 +99,12 @@ Run the following command from the commandline:
 `python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01`  
   
 The tool will output two files: `data_clinical_sample_test_remapped.txt` and `data_clinical_sample_remapped_summary.html`.
+All columns from the input file will be preserved; the tables below only examine the `ONCOTREE_CODE` and `ONCOTREE_CODE_OPTIONS` columns.
+  
+ **Sample 1**  
+|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS| 
+|:--------|:-------------:|:----------------------:|
+|S1       |	              |ALL -> {BLL,TLL}, more granular choices introduced|
 
 
 ### [Additional Resources](#additional-resources)
