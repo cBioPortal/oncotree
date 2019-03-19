@@ -1,4 +1,4 @@
-## [OncoTree History Modeling](#oncotree-history-modeling)
+# OncoTree History Modeling
 
 ### Background
 
