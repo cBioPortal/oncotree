@@ -86,7 +86,7 @@ In certain cases, the target version can also introduce nodes with more specfic 
  
 ### [Tutorial](#tutorial)
 #### Step 1 
-Download the sample data_clinical_sample.txt file from the [Additional Resources](additional-resources) section.
+Download the sample data_clinical_sample.txt file from the [Additional Resources](#additional-resources) section.
 #### Step 2
 Download oncotree_to_oncotree.py from [here](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py).
 #### Step 3 
