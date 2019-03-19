@@ -29,6 +29,7 @@ VERSION_API_IDENTIFIER_FIELD = "api_identifier"
 VERSION_RELEASE_DATE_FIELD = "release_date"
 METADATA_HEADER_PREFIX = "#"
 PASSTHROUGH_ONCOTREE_CODE_LIST = ["NA"] # These codes will be passed through the converter without examination or alteration
+TOOL_VERSION_NUMBER = "1.1"
 
 # field names used for navigating tumor types
 CHILDREN_CODES_FIELD = "children"
@@ -476,7 +477,8 @@ def write_summary_file(target_file, source_version, target_version):
     # For each category, codes with more granular codes introduced are shown first
     unmappable_codes = sorted([unmappable_code for unmappable_code, unmappable_node in GLOBAL_LOG_MAP.items() if unmappable_node[NEIGHBORS_FIELD]])
     ambiguous_codes = sorted([ambiguous_code for ambiguous_code, ambiguous_node in GLOBAL_LOG_MAP.items() if len(ambiguous_node[CHOICES_FIELD]) > 1], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
-    resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1 and not ("???" in resolved_node[CHOICES_FIELD]) ], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
+    partially_resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1 and resolved_node[CLOSEST_COMMON_PARENT_FIELD] and ("???" not in resolved_node[CHOICES_FIELD])], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
+    completely_resolved_codes = sorted([resolved_code for resolved_code, resolved_node in GLOBAL_LOG_MAP.items() if len(resolved_node[CHOICES_FIELD]) == 1 and not resolved_node[CLOSEST_COMMON_PARENT_FIELD] and ("???" not in resolved_node[CHOICES_FIELD])])
     unrecognized_codes = sorted([unrecognized_code for unrecognized_code, unrecognized_node in GLOBAL_LOG_MAP.items() if ("???" in unrecognized_node[CHOICES_FIELD]) ], key = lambda k: sort_by_resolution_method(k, GLOBAL_LOG_MAP[k]))
 
     html_summary_file = os.path.splitext(target_file)[0] + "_summary.html"
@@ -484,8 +486,8 @@ def write_summary_file(target_file, source_version, target_version):
         # General info
         f.write("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<title>Mapping Summary</title>\n<meta charset=\"UTF-8\">\n<style>\nbody {font-family:Arial; line-height:1.4}\n\n</style>\n</head><body>\n")
         f.write("<h1>Mapping Summary</h1>\n")
-        #f.write("<p><b>Source Version</b>: %s<br>\n<b>Target Version</b>: <a href=\"%s\">%s</a> *<i>All resolutions should be made with this version</i><br><br>\n" % (source_version, oncotree_url, target_version))
-        f.write("<p>Mapped <b>%s</b> to <b>%s</b><br>" % (source_version, target_version))
+        f.write("<p>Tool version: <b>v.%s</b><br>" % (TOOL_VERSION_NUMBER))
+        f.write("Mapped <b>%s</b> to <b>%s</b><br>" % (source_version, target_version))
         f.write("All resolutions should be made with version: <b><a href=\"%s\">%s</a></b>\n" % (oncotree_url, target_version))
         f.write("<h3>Contents</h3><ul>\n");
         if unrecognized_codes:
@@ -494,8 +496,10 @@ def write_summary_file(target_file, source_version, target_version):
             f.write("<li><a href=\"#not_mapped_header\">Codes that could not be mapped to a code</a> (action required)</li>\n")
         if ambiguous_codes:
             f.write("<li><a href=\"#mapped_to_multiple_header\">Codes mapped to multiple codes</a> (action required)</li>\n")
-        if resolved_codes:
-            f.write("<li><a href=\"#mapped_header\">Codes mapped to exactly one code</a> (please review)</li>\n")
+        if partially_resolved_codes:
+            f.write("<li><a href=\"#partially_mapped_header\">Codes mapped to exactly one code, more granular codes introduced</a> (please review)</li>\n")
+        if completely_resolved_codes:
+            f.write("<li><a href=\"#completely_mapped_header\">Codes mapped to exactly one code</a> (no action necessary)</li>\n")
         f.write("</ul>&nbsp;\n&nbsp;\n")
         # Unrecognized codes - action required, but not guidance. Just list them
         if unrecognized_codes:
@@ -520,14 +524,20 @@ def write_summary_file(target_file, source_version, target_version):
                 f.write("*Warning: Target version has introduced more granular nodes.<br>\n")
                 f.write("You can examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
         # Directly mapped codes - no action required, might want to explore more granular choices
-        if resolved_codes:
-            f.write("<hr><h2 id=\"mapped_header\">The following codes mapped to exactly one code:</h2>\n")
-        for oncotree_code in resolved_codes:
+        if partially_resolved_codes:
+            f.write("<hr><h2 id=\"partially_mapped_header\">The following codes mapped to exactly one code but more granular codes have been introduced:</h2>\n")
+        for oncotree_code in partially_resolved_codes:
             f.write("<p><b>Original Code</b>: %s<br>\n" % (oncotree_code))
             f.write("<b>New Code</b>: %s<br>\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
             if GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]:
                 f.write("*Warning: Target version has introduced more granular nodes.<br>\n")
                 f.write("You can examine the closest shared parent node %s and its descendants <a href=\"%s\">here</a><br></p>\n" % ((GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD]), (oncotree_url + "&search_term=(" + GLOBAL_LOG_MAP[oncotree_code][CLOSEST_COMMON_PARENT_FIELD] + ")")))
+        # Directly mapped codes - no action required, might want to explore more granular choices
+        if completely_resolved_codes:
+            f.write("<hr><h2 id=\"completely_mapped_header\">The following codes mapped to exactly one code:</h2>\n")
+        for oncotree_code in completely_resolved_codes:
+            f.write("<p><b>Original Code</b>: %s<br>\n" % (oncotree_code))
+            f.write("<b>New Code</b>: %s<br>\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
     print >> sys.stdout, "Mapping summary HTML file written out to %s" % (html_summary_file)
 
 def usage(parser, message):
