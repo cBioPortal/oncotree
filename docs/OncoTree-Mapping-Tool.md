@@ -102,7 +102,8 @@ The tool will output two files: `data_clinical_sample_test_remapped.txt` and `da
 All columns from the input file will be preserved; the tables below only examine the `ONCOTREE_CODE` and `ONCOTREE_CODE_OPTIONS` columns.
   
  **Sample 1**  
-|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS| 
+
+|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
 |S1       |	              |ALL -> {BLL,TLL}, more granular choices introduced|
 
