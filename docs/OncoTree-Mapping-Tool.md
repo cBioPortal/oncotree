@@ -32,7 +32,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
  The OncoTree Mapper Tool will automatically replace the value in the `ONCOTREE_CODE` column with the mapped code if available. The tool will also add a new column called `ONCOTREE_SUGGESTIONS` containing suggestions for OncoTree codes if one or more nodes could not be direclty mapped. The `ONCOTREE_SUGGESTIONS` column formats its suggestions differently depending on the mapping results. Possible suggestion formats and corresponding examples are shown below.
  
  ### 1. Unambiguous Direct Mappings
- Unambiguous direct mappings occur when an oncotree code maps directly to a single code in the target version. In this case, the `ONCOTREE_SUGGESTIONS` column will be left blank, and the mapped code will be automatically placed in the `ONCOTREE_CODE` column. Unambiguous direct mappings are checked for addition of more granular nodes; to see how this may affect the `ONCOTREE_SUGGESTIONS` column formatting, please refer to the section on [More Granular Nodes Introduced](#3-more-granular-nodes-introduced).
+ Unambiguous direct mappings occur when an oncotree code maps directly to a single code in the target version. In this case, the `ONCOTREE_SUGGESTIONS` column will be left blank, and the mapped code will be automatically placed in the `ONCOTREE_CODE` column. Unambiguous direct mappings are checked for addition of more granular nodes; to see how this may affect the `ONCOTREE_SUGGESTIONS` column formatting, please refer to the section on [More Granular Nodes Introduced](#4-more-granular-nodes-introduced).
 
 ### 2. Ambiguous Direct Mappings 
  Ambiguous direct mappings occur when an oncotree code maps to multiple codes in the target version. The `ONCOTREE_SUGGESTIONS` column formats the output as follows:
@@ -46,9 +46,11 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 > In `oncotree_2018_05_01`, `ALL` had two children: `TALL` and `BALL`. On release `oncotree_2018_06_01`, the ALL node was discontinued and the `TALL` node was renamed `TLL` and the `BALL` node was renamed `BLL`. 
 
 **The `ONCOTREE_SUGGESTIONS` column would be shown as follows:**  
-> _ALL -> {TLL, BLL}_
-  
-### 2. No Direct Mappings   
+> _ALL -> {TLL, BLL}_  
+
+Ambiguous direct mappings are also checked for addition of more granular nodes; to see how this may affect the `ONCOTREE_SUGGESTIONS` column formatting, please refer to the section on [More Granular Nodes Introduced](#3-more-granular-nodes-introduced).
+
+### 3. No Direct Mappings   
  No direct mappings occur when the source oncotree code is unrelated to any oncotree code in  the target version. One such possibility is mapping a newly introduced oncotree code backwards in time. In this case, the tool finds the closest set of **neighbors** (e.g parents and children) which are mappable in the target version. The `ONCOTREE_SUGGESTIONS` column returns the set with the keyword **Neighbors** as follows:  
  
  > _'Source Code' -> **Neighbors** {'Code 1', 'Code 2', 'Code 3', ...}_  
@@ -62,7 +64,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 **The `ONCOTREE_SUGGESTIONS` column would be shown as follows:**  
 > _UPA -> Neighbors {BLADDER}_
 
-### 3. More Granular Nodes Introduced
+### 4. More Granular Nodes Introduced
 In certain cases, the target version can also introduce nodes with more specfic descriptions. When this occurs, the tool will add the string `more granular choices introduced` to the existing text in the `ONCOTREE_SUGGESTIONS` column as follows:  
   
 > _'Source Code' -> {'Code 1', ...}, **more granular choices introduced**_  
@@ -76,7 +78,7 @@ In certain cases, the target version can also introduce nodes with more specfic 
 **The `ONCOTREE_SUGGESTIONS` column would be shown as follows:** 
 > _TALL -> {TLL}, more granular choices introduced_  
 
-### 4. Invalid Source OncoTree Code  
+### 5. Invalid Source OncoTree Code  
  An invalid souce OncoTree Code means the provided code cannot be found in the source version. In such a case, mapping cannot be attempted and the `ONCOTREE_SUGGESTSIONS` column displays the following:  
  
  > _'Source Code' -> ???, Oncotee code not in source oncotree version_ 
