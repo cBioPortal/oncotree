@@ -87,7 +87,8 @@ In certain cases, the target version can also introduce nodes with more specfic 
 ### [Tutorial](#tutorial)
 #### Step 1: Download the sample data_clinical_sample.txt file from the [Additional Resources](additional-resources) section.
 #### Step 2: Download oncotree_to_oncotree.py from [here](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py).
-#### Step 3:asdfa  
+#### Step 3: Run the following command from the commandline:
+> python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01
 
 
 ### [Additional Resources](#additional-resources)
