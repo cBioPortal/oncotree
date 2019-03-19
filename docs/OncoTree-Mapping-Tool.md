@@ -98,14 +98,44 @@ Run the following command from the commandline:
   
 `python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01`  
   
-The tool will output two files: `data_clinical_sample_test_remapped.txt` and `data_clinical_sample_remapped_summary.html`.
-All columns from the input file will be preserved; the tables below only examine the `ONCOTREE_CODE` and `ONCOTREE_CODE_OPTIONS` columns.
-  
+The tool will output two files: `data_clinical_sample_test_remapped.txt` and `data_clinical_sample_remapped_summary.html`.  
+##### Step 4
+Examine `data_clinical_sample_test_remapped.txt`, file contents should be as follows:  
+
+|PATIENT_ID|SAMPLE_ID|AGE_AT_SEQ_REPORT|ONCOTREE_CODE|ONCOTREE_CODE_OPTIONS|...|
+|-------|-------|-------|-------|-------|-------|
+|P1|S1|41||ALL -> {BLL,TLL}, more granular choices introduced|...|
+|P2|S2|60||BALL -> {BLL}, more granular choices introduced|...|
+|P3|S3|<18||TALL -> {TLL}, more granular choices introduced|...|
+|P4|S4|71|PTCL||...|
+|P5|S5|64|PTCL||...| 
+|P6|S6|36||CHL -> {CHL}, more granular choices introduced|...|
+|P7|S7|63||SpCC -> ???, Oncotee code not in source oncotree version|...|
+|P8|S8|63||MCL -> {MCL}, more granular choices introduced|...|
+|P9|S9|73||HGNEE -> ???, Oncotee code not in source oncotree version|...|
+|P10|S10|52||ONCOTREE_CODE column blank : use a valid oncotree code or "NA"|...| 
+|P11|S11|77|NA||...|   
+|P12|S12|87||TNKL -> {MTNN}, more granular choices introduced|...|
+|P13|S13|79||HIST -> {HDCN}, more granular choices introduced|...| 
+|P14|S14|53|CLLSLL||...|
+|P15|S15|69|CLLSLL||...|
+|P16|S16|65||LEUK -> {MNM}, more granular choices introduced|...|
+|P17|S17|66|MYCF||...|
+|P18|S18|66|RBL||...|                                              
+ 
+##### Step 5
+Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`.
+
  **Sample 1**  
 
 |SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
 |S1       |	              |ALL -> {BLL,TLL}, more granular choices introduced|
+
+Source OncoTree code `ALL` maps directly to codes `BLL` and `TLL`. Users should place either `BLL` or `TLL` in the `ONCOTRE_CODE`column. The `ONCOTREE_CODE_OPTIONS` column also notes that more granular choices were introduced; as such, users can use the summary file for additional guidance. 
+
+Searching by source code, the following information can be found in the summary file:
+
 
 
 ### [Additional Resources](#additional-resources)
