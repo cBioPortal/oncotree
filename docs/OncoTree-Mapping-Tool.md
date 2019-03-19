@@ -85,13 +85,20 @@ In certain cases, the target version can also introduce nodes with more specfic 
  > _'Source Code' -> ???, Oncotee code not in source oncotree version_ 
  
 ### [Tutorial](#tutorial)
-#### Step 1 
-Download the sample data_clinical_sample.txt file from the [Additional Resources](#additional-resources) section.
-#### Step 2
+The following tutorial will guide the user through using the **oncotree_to_oncotree.py** tool. The tutorial will go through the expected output to highlight specific mapping cases. Additionally, the tutorial will cross-reference the output with the generated mapping summary to demonstrate how it can be used to aid in manual selection of unresolved nodes. 
+  
+All files used in this tutorial (both input and expected output) can be found in the [Additional Resources](#additional-resources) section. 
+
+##### Step 1 
+Download the sample input file (data_clinical_sample_test.txt) file from the [Additional Resources](#additional-resources) section.
+##### Step 2
 Download oncotree_to_oncotree.py from [here](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py).
-#### Step 3 
+##### Step 3 
 Run the following command from the commandline:  
-`python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01`
+  
+`python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01`  
+  
+The tool will output two files: `data_clinical_sample_test_remapped.txt` and `data_clinical_sample_remapped_summary.html`.
 
 
 ### [Additional Resources](#additional-resources)
