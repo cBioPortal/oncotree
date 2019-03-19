@@ -68,18 +68,22 @@ ONCOTREE_PORT=`find_free_port`
 TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS=3
 ONCOTREE_DEPLOYMENT_SUCCESS=0
 CURRENT_WAIT_TIME=0
-MAXIMUM_WAIT_TIME=600
+MAXIMUM_WAIT_TIME=600 # 600 seconds (10 min) - as of 3/19/2019 takes 381.809 to start up
 if [ $ONCOTREE_PORT -gt 0 ] ; then
+    echo "Starting 'java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &'" 
     java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &
-
-    # maximum time to wait for oncotree to deploy 2 minutes
-    # every 10 seconds check if job is still running
+    # maximum time to wait for oncotree to deploy (MAXIMUM_WAIT_TIME/60) minutes
+    # every TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS seconds check if job is still running
     # attempt to hit endpoint - successful return code indicated ONCOTREE has started up
     ONCOTREE_URL="http://dashi-dev.cbio.mskcc.org:$ONCOTREE_PORT"
     while [ $ONCOTREE_DEPLOYMENT_SUCCESS -eq 0 ] ; do
-        CURRENT_WAIT_TIME=$(($CURRENT_WAIT_TIME + 10))
-        JOB_RUNNING=`jobs | grep "oncotree.jar" | grep "Running"`
-        if [ -z $JOB_RUNNING ] ; then
+        # try sleeping here, checking without a sleep seems to not find the job
+        sleep $TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS
+        CURRENT_WAIT_TIME=$(($CURRENT_WAIT_TIME + $TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS))
+        JOB_RUNNING=`ps -f -u jenkins | grep "oncotree.jar"`
+        echo "Status of all jenkins jobs in ps matching oncotree.jar: $JOB_RUNNING"
+        # -z is testing if the string is empty, if it is not empty the job is running
+        if [ ! -z "$JOB_RUNNING" ] ; then
             curl --fail -X GET --header 'Accept: */*' $ONCOTREE_URL
             if [ $? -eq 0 ] ; then
                 ONCOTREE_DEPLOYMENT_SUCCESS=1
@@ -92,8 +96,8 @@ if [ $ONCOTREE_PORT -gt 0 ] ; then
 
         if [ $CURRENT_WAIT_TIME -gt $MAXIMUM_WAIT_TIME ] ; then
             echo "ONCOTREE is inaccessible (after a 10 min wait time)... canceling tests"
+            break
         fi
-        sleep $TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS
     done
 fi
 
@@ -132,11 +136,11 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT=$INTEGRATION_TEST_DIRECTORY/default_oncotree_file_converted.txt
     TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version.txt
     TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version_output.txt
-    cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_MAPPER_FILENAME
-    python $ONCOTREE_SCRIPTS_DIRECTORY/cross_version_oncotree_translator.py -u "$ONCOTREE_URL/api/" -s oncotree_2019_03_01 -t oncotree_2018_05_01 -i $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME -o $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
+    cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME
+    python $ONCOTREE_SCRIPTS_DIRECTORY/oncotree_to_oncotree.py -u "$ONCOTREE_URL/api/" -s oncotree_2019_03_01 -t oncotree_2018_05_01 -i $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME -o $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
     diff $EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
     if [ $? -gt 0 ] ; then
-        echo "cross_version_oncotree_translator.py output differs from expected output"
+        echo "oncotree_to_oncotree.py output differs from expected output"
     else
         ONCOTREE_VERSION_MAPPER_TEST_SUCCESS=1
     fi
@@ -144,8 +148,8 @@ fi
 
 rm -rf $TESTING_DIRECTORY_TEMP
 
-# all three tests must pass for integration test to succeed
-if [[ $ONCOTREE_CODE_CONVERTER_TEST_SUCCESS -eq 0 || $FAKE_ONCOTREE_VERSION_TEST_SUCCESS -eq 0 || $ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS -eq 0 ]] ; then
+# all four tests must pass for integration test to succeed
+if [[ $ONCOTREE_CODE_CONVERTER_TEST_SUCCESS -eq 0 || $FAKE_ONCOTREE_VERSION_TEST_SUCCESS -eq 0 || $ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS -eq 0 || $ONCOTREE_VERSION_MAPPER_TEST_SUCCESS -eq 0 ]] ; then
     echo "Integration tests for ONCOTREE failed"
     exit 1
 fi
