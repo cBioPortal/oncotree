@@ -37,7 +37,7 @@ The list of OncoTree versions available are viewable [here](http://oncotree.mskc
 ### 2. Ambiguous Direct Mappings 
  Ambiguous direct mappings occur when an oncotree code maps to multiple codes in the target version. The `ONCOTREE_SUGGESTIONS` column formats the output as follows:
  
- > _'Source Code' -> {'Code 1', 'Code 2', 'Code 3', ...}_  
+ > 'Source Code' -> {'Code 1', 'Code 2', 'Code 3', ...} &emsp; e.g. _ALL -> {TLL, BLL}_
  
  **Example: Schema describing the revocation of OncoTree node ALL is mapped to multiple nodes.**
 
@@ -53,7 +53,7 @@ Ambiguous direct mappings are also checked for addition of more granular nodes; 
 ### 3. No Direct Mappings   
  No direct mappings occur when the source oncotree code is unrelated to any oncotree code in  the target version. One such possibility is mapping a newly introduced oncotree code backwards in time. In this case, the tool finds the closest set of **neighbors** (e.g parents and children) which are mappable in the target version. The `ONCOTREE_SUGGESTIONS` column returns the set with the keyword **Neighbors** as follows:  
  
- > _'Source Code' -> **Neighbors** {'Code 1', 'Code 2', 'Code 3', ...}_  
+ > 'Source Code' -> **Neighbors** {'Code 1', 'Code 2', 'Code 3', ...} &emsp; e.g. _UPA -> Neighbors {BLADDER}_
  
  **Example: Schema describing a case where new OncoTree node UPA cannot be directly mapped backwards to a node.**
 
@@ -67,7 +67,7 @@ Ambiguous direct mappings are also checked for addition of more granular nodes; 
 ### 4. More Granular Nodes Introduced
 In certain cases, the target version can also introduce nodes with more specfic descriptions. When this occurs, the tool will add the string `more granular choices introduced` to the existing text in the `ONCOTREE_SUGGESTIONS` column as follows:  
   
-> _'Source Code' -> {'Code 1', ...}, **more granular choices introduced**_  
+> _'Source Code' -> {'Code 1', ...}, **more granular choices introduced**_ &emsp; e.g. _TALL -> {TLL}, more granular choices introduced_ 
 
  **Example: Schema describing a case where OncoTree node TALL is mapped to a node with more granular children**  
  
