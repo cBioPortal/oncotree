@@ -67,7 +67,8 @@ Ambiguous direct mappings are also checked for addition of more granular nodes; 
 ### 4. More Granular Nodes Introduced
 In certain cases, the target version can also introduce nodes with more specfic descriptions. When this occurs, the tool will add the string `more granular choices introduced` to the existing text in the `ONCOTREE_SUGGESTIONS` column as follows:  
   
-> _'Source Code' -> {'Code 1', ...}, **more granular choices introduced**_ &emsp; e.g. _TALL -> {TLL}, more granular choices introduced_ 
+> _'Source Code' -> {'Code 1', ...}, **more granular choices introduced**_  
+> e.g. _TALL -> {TLL}, more granular choices introduced_ 
 
  **Example: Schema describing a case where OncoTree node TALL is mapped to a node with more granular children**  
  
