@@ -18,7 +18,7 @@ Users may submit their OncoTree related questions to the [OncoTree Users Google 
 The OncoTree Mapping Tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. To learn more about the OncoTree Converter tool, please refer to the [OncoTree Mapping documentation](/docs/OncoTree-Mapping-Tool.md).
 
 ## OncoTree History Modeling
-The OncoTree is an evolving ontology and as such has gone through several iterations since its conception to improve the standardization of cancer type diagnoses from a clinical perspective. As such, some nodes on the OncoTree possess a complex revision history whereas others have a much more simple revision history. To read more about how revision history is modeled, please refer to the [OncoTree History Modeling documentation](/docs/OncoTree-History-Modeling.md)
+The OncoTree is an evolving ontology and as such has gone through several iterations since its conception to improve the standardization of cancer type diagnoses from a clinical perspective. As such, some nodes on the OncoTree possess a complex revision history whereas others have a much more simple revision history.
 
 ## OncoTree API
 
