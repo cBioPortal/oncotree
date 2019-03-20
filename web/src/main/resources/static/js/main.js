@@ -108,27 +108,14 @@ $(document).ready(function(){
       // submenu JS and CSS comes from here:
       // https://stackoverflow.com/questions/18023493/bootstrap-dropdown-sub-menu-missing/18024991
       $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-        if (!$(this).next().hasClass('show')) {
-          $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-        }
         var $subMenu = $(this).next(".dropdown-menu");
         $subMenu.toggleClass('show');
-        $(this).parents('dropdown.show').on('hidden.bs.dropdown', function(e) {
-          $('.dropdown-submenu .show').removeClass("show");
-        });
         return false;
       });
       $('.dropdown a.dropdown-toggle').first().on('click', function(e) {
-        // TODO maybe close the submenu when the main menu loses focus,
-        //   e.g. if you click on another part of the page,
-        //   but do not close it if it loses focus because you clicked on
-        //   the submenu
-
-        // when you click on the main menu and you are about to close it
-        // make sure submenu is closed too
-        if ($(this).next().hasClass('show')) { // main menu is about to have show removed
-          $(this).next().children('.dropdown-submenu').first().children('.dropdown-menu .show').first().removeClass("show");
-        }
+        // when you click on the main menu
+        // make sure submenu is closed
+        $(this).next().children('.dropdown-submenu').first().children('.dropdown-menu').first().removeClass("show");
         return true;
       });
       $('#tumor_search button').click(function() {
