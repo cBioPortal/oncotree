@@ -164,7 +164,7 @@ No additional resolution is needed; the previous OncoTree code was already autom
 Source OncoTree code `HGNEE` was not found in the source OncoTree version and therefore could not be mapped. Users can either reassign a new source OncoTree code (and rerun the script) or remove the sample.  
 
 ##### Step 6
-After filling in the `ONCOTREE_CODE` column, use an editor (e.g. Microsoft Excel, vim, etc.) to trim off the `ONCOTREE_CODE_OPTIONS` column. The resulting file will be a new `data_clinical_sample.txt` file with mapped oncotree codes and ready for import. Final output is shown below: 
+After filling in the `ONCOTREE_CODE` column, use an editor (e.g. Microsoft Excel, vim, etc.) to trim off the `ONCOTREE_CODE_OPTIONS` column. The resulting file will be a new `data_clinical_sample.txt` file with all codes mapped to the target version. Final output is shown below: 
 
 |PATIENT_ID|SAMPLE_ID|AGE_AT_SEQ_REPORT|ONCOTREE_CODE|...| 
 |-------|-------|-------|-------|-------|
