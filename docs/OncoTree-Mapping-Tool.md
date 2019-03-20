@@ -124,7 +124,7 @@ Examine `data_clinical_sample_test_remapped.txt`, file contents should be as fol
 |P18|S18|66|RBL||...|                                              
  
 ##### Step 5
-Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`. Repeat for all rows in the output file. Several exapmles are shown below.  
+Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`. Repeat for all rows in the output file. Several examples are shown below.  
 
  **Sample 1**  
 
