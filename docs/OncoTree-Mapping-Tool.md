@@ -89,17 +89,17 @@ The following tutorial will guide the user through using the **oncotree_to_oncot
   
 All files used in this tutorial (both input and expected output) can be found in the [Additional Resources](#additional-resources) section. 
 
-##### Step 1 
+#### Step 1 
 Download the sample input file (data_clinical_sample_test.txt) file from the [Additional Resources](#additional-resources) section.
-##### Step 2
+#### Step 2
 Download oncotree_to_oncotree.py from [here](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py).
-##### Step 3 
+#### Step 3 
 Run the following command from the commandline:  
   
 `python oncotree_to_oncotree.py -i data_clinical_sample_test.txt -o data_clinical_sample_test_remapped.txt -s oncotree_2018_03_01 -t oncotree_2019_03_01`  
   
 The tool will output two files: `data_clinical_sample_test_remapped.txt` and `data_clinical_sample_remapped_summary.html`.  
-##### Step 4
+#### Step 4
 Examine `data_clinical_sample_test_remapped.txt`, file contents should be as follows:  
 
 |PATIENT_ID|SAMPLE_ID|AGE_AT_SEQ_REPORT|ONCOTREE_CODE|ONCOTREE_CODE_OPTIONS|...|
@@ -123,7 +123,7 @@ Examine `data_clinical_sample_test_remapped.txt`, file contents should be as fol
 |P17|S17|66|MYCF||...|
 |P18|S18|66|RBL||...|                                              
  
-##### Step 5
+#### Step 5
 Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`. Repeat for all rows in the output file. Several examples are shown below.  
 
  ###### Sample 1  
@@ -163,7 +163,7 @@ No additional resolution is needed; the previous OncoTree code was already autom
   
 Source OncoTree code `HGNEE` was not found in the source OncoTree version and therefore could not be mapped. Users can either reassign a new source OncoTree code (and rerun the script) or remove the sample.  
 
-##### Step 6
+#### Step 6
 After filling in the `ONCOTREE_CODE` column, use an editor (e.g. Microsoft Excel, vim, etc.) to trim off the `ONCOTREE_CODE_OPTIONS` column. The resulting file will be a new `data_clinical_sample.txt` file with all codes mapped to the target version. Final output is shown below: 
 
 |PATIENT_ID|SAMPLE_ID|AGE_AT_SEQ_REPORT|ONCOTREE_CODE|...| 
