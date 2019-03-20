@@ -124,7 +124,7 @@ Examine `data_clinical_sample_test_remapped.txt`, file contents should be as fol
 |P18|S18|66|RBL||...|                                              
  
 ##### Step 5
-Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`.
+Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`. Repeat for all rows in the output file. Several exapmles are shown below.  
 
  **Sample 1**  
 
@@ -137,10 +137,54 @@ Source OncoTree code `ALL` maps directly to codes `BLL` and `TLL`. Users should 
 Searching by source code, the following information can be found in the summary file:
 ![ALL-example](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/ALL-example.png)  
 The summary file provides a link to the closest shared parent node `LNM`; users can choose more granular nodes by referencing the provided tree:
-![LNM-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/LNM-tree.png) 
+![LNM-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/LNM-tree.png)  
 
+**Sample 2**  
 
+|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
+|:--------|:-------------:|:----------------------:|
+|S1       |	              |BALL -> {BLL}, more granular choices introduced|
+  
+Source OncoTree code `BALL` maps directly to `BLL`. Users should place `BLL` in the `ONCOTREE_CODE` column. However, similar to sample 1, the `ONCOTREE_CODE_OPTIONS` indicates there are more granular choices available. Users can follow the same steps as above and use the summary file to select a more granular node.
+ 
+**Sample 4**  
 
+|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
+|:--------|:-------------:|:----------------------:|
+|S4       |	PTCL          |                        |  
+  
+No additional resolution is needed; the previous OncoTree code was already automatically mapped to PTCL and placed in the `ONCOTREE_CODE` column. `ONCOTREE_CODE_OPTIONS` is empty because no manual selections were necessary.  
+
+**Sample 9**  
+
+|SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
+|:--------|:-------------:|:----------------------:|
+|S4       |	              |HGNEE -> ???, Oncotee code not in source oncotree version|  
+  
+Source OncoTree code `HGNEE` was not found in the source OncoTree version and therefore could not be mapped. Users can either reassign a new source OncoTree code (and rerun the script) or remove the sample.  
+
+##### Step 6
+After filling in the `ONCOTREE_CODE` column, use an editor (e.g. Microsoft Excel, vim, etc.) to trim off the `ONCOTREE_CODE_OPTIONS` column. The resulting file will be a new `data_clinical_sample.txt` file with mapped oncotree codes and ready for import. Final output is shown below: 
+
+|PATIENT_ID|SAMPLE_ID|AGE_AT_SEQ_REPORT|ONCOTREE_CODE|...| 
+|-------|-------|-------|-------|-------|
+|P1|S1|41|BLL|...|
+|P2|S2|60|BLL|...|
+|P3|S3|<18|TLL|...|
+|P4|S4|71|PTCL|...|
+|P5|S5|64|PTCL|...|
+|P6|S6|36|CHL|...|
+|P7|S7|63|SPCC|...|
+|P8|S8|63|MCL|...|
+|P10|S10|52|NA|...|
+|P11|S11|77|NA...|   
+|P12|S12|87|MTNN|...|
+|P13|S13|79|HDCN|...| 
+|P14|S14|53|CLLSLL|...|
+|P15|S15|69|CLLSLL|...|
+|P16|S16|65|MNM|...|
+|P17|S17|66|MYCF|...|
+|P18|S18|66|RBL|...| 
 
 ### [Additional Resources](#additional-resources)
 - [sample input file](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/data_clinical_sample_test.txt)
