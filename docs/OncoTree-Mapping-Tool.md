@@ -126,7 +126,7 @@ Examine `data_clinical_sample_test_remapped.txt`, file contents should be as fol
 ##### Step 5
 Using values in the `ONCOTREE_CODE_OPTIONS` as a guide, manually select and place an OncoTree Code in the `ONCOTREE_CODE` column. For additional information, refer to the summary file `data_clinical_sample_remapped_summary.html`. Repeat for all rows in the output file. Several examples are shown below.  
 
- **Sample 1**  
+ ###### Sample 1  
 
 |SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
@@ -139,7 +139,7 @@ Searching by source code, the following information can be found in the summary 
 The summary file provides a link to the closest shared parent node `LNM`; users can choose more granular nodes by referencing the provided tree:
 ![LNM-tree](https://raw.githubusercontent.com/averyniceday/oncotree/doc-expansion/docs/images/LNM-tree.png)  
 
-**Sample 2**  
+###### Sample 2  
 
 |SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
@@ -147,7 +147,7 @@ The summary file provides a link to the closest shared parent node `LNM`; users 
   
 Source OncoTree code `BALL` maps directly to `BLL`. Users should place `BLL` in the `ONCOTREE_CODE` column. However, similar to sample 1, the `ONCOTREE_CODE_OPTIONS` indicates there are more granular choices available. Users can follow the same steps as above and use the summary file to select a more granular node.
  
-**Sample 4**  
+###### Sample 4  
 
 |SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
@@ -155,7 +155,7 @@ Source OncoTree code `BALL` maps directly to `BLL`. Users should place `BLL` in 
   
 No additional resolution is needed; the previous OncoTree code was already automatically mapped to PTCL and placed in the `ONCOTREE_CODE` column. `ONCOTREE_CODE_OPTIONS` is empty because no manual selections were necessary.  
 
-**Sample 9**  
+###### Sample 9 
 
 |SAMPLE_ID|ONCOTREE_CODE  |ONCOTREE_CODE_OPTIONS|
 |:--------|:-------------:|:----------------------:|
