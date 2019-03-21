@@ -64,11 +64,11 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
     public void handleInvalidOncotreeMappingsParameters() {}
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no oncotree code available for your request")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no OncoTree code available for your request")
     @ExceptionHandler(UnexpectedCrosswalkResponseException.class)
     public void handleUnexpectedCrosswalkResponseException() {}
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No oncotree codes were mapped to your query")
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No OncoTree codes were mapped to your query")
     @ExceptionHandler({CrosswalkConceptNotFoundException.class, OncotreeMappingsNotFound.class})
     public void handleOncotreeMappingsNotFound() {}
 

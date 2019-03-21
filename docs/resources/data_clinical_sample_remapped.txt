@@ -5,10 +5,10 @@ P3	S3	<18		TALL -> {TLL}, more granular choices introduced	Not Applicable or Hem
 P4	S4	71	PTCL		Primary	25933	Primary tumor	2015
 P5	S5	64	PTCL		Primary	23550	Primary tumor	2017
 P6	S6	36		CHL -> {CHL}, more granular choices introduced	Primary	13514	Primary tumor	2016
-P7	S7	63	SPCC		Primary	23016	Primary tumor	2016
+P7	S7	63		SpCC -> ???, OncoTree code not in source OncoTree version	Primary	23016	Primary tumor	2016
 P8	S8	63		MCL -> {MCL}, more granular choices introduced	Primary	23011	Primary tumor	2015
-P9	S9	73		HGNEE -> ???, Oncotee code not in source oncotree version	Metastasis	27028	Metastasis site unspecified	2015
-P10	S10	52		ONCOTREE_CODE column blank : use a valid oncotree code or "NA"	Primary	18993	Primary tumor	2016
+P9	S9	73		HGNEE -> ???, OncoTree code not in source OncoTree version	Metastasis	27028	Metastasis site unspecified	2015
+P10	S10	52		ONCOTREE_CODE column blank : use a valid OncoTree code or "NA"	Primary	18993	Primary tumor	2016
 P11	S11	77	NA		Not Applicable or Heme	28457	Not applicable or hematologic malignancy	2017
 P12	S12	87		TNKL -> {MTNN}, more granular choices introduced	Primary	32001	Primary tumor	2014
 P13	S13	79		HIST -> {HDCN}, more granular choices introduced	Metastasis	28855	Metastasis site unspecified	2015

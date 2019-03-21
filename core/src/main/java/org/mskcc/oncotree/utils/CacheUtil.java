@@ -83,7 +83,7 @@ public class CacheUtil {
             try {
                 resetCache();
             } catch (FailedCacheRefreshException e) {
-                sendSlackNotification("*URGENT: Oncotree Error* - an attempt to refresh an outdated or null cache failed.");
+                sendSlackNotification("*URGENT: OncoTree Error* - an attempt to refresh an outdated or null cache failed.");
             }
         }
     }
@@ -158,11 +158,11 @@ public class CacheUtil {
             }
         }
         if (latestTumorTypes.keySet().size() == 0) {
-            logger.error("resetCache() -- failed to pull a single valid oncotree version");
+            logger.error("resetCache() -- failed to pull a single valid OncoTree version");
             throw new FailedCacheRefreshException("Failed to refresh cache");
         }
         if (failedVersions.size() > 0) {
-            sendSlackNotification("Oncotree successfully recached `" + requiredOncotreeVersion + "`, but ran into issues with the following versions: " + String.join(", ", failedVersions));
+            sendSlackNotification("OncoTree successfully recached `" + requiredOncotreeVersion + "`, but ran into issues with the following versions: " + String.join(", ", failedVersions));
         }
         logger.info("resetCache() -- successfully reset cache from repository");
         tumorTypes = latestTumorTypes;

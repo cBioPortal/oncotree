@@ -15,5 +15,5 @@ crosswalk.disable_cvs_querying=false
 # for slack
 slack.url=
 
-# required oncotree version for startup/recache
+# required OncoTree version for startup/recache
 required.oncotree.version=oncotree_latest_stable

@@ -4,7 +4,7 @@ P2	S2	60	BALL	Not Applicable or Heme	22052	Not applicable or hematologic maligna
 P3	S3	<18	TALL	Not Applicable or Heme	<6570	Not applicable or hematologic malignancy	2015
 P4	S4	71	PTCL	Primary	25933	Primary tumor	2015
 P5	S5	64	PTCLNOS	Primary	23550	Primary tumor	2017
-P6	S6	36	UPA	Primary	13514	Primary tumor	2016
+P6	S6	36	CHL	Primary	13514	Primary tumor	2016
 P7	S7	63	SpCC	Primary	23016	Primary tumor	2016
 P8	S8	63	MCL	Primary	23011	Primary tumor	2015
 P9	S9	73	HGNEE	Metastasis	27028	Metastasis site unspecified	2015

@@ -125,10 +125,10 @@ public class TumorTypesUtil {
         List<String> row = new ArrayList<>();
         String oncotreeCode = StringUtils.defaultString(tumorType.getCode()).trim();
 
-        // if parents.size() > 6 at this point, this means that the oncotree cannot be represented in our expected format as there are
+        // if parents.size() > 6 at this point, this means that the OncoTree cannot be represented in our expected format as there are
         // only 7 levels of headers. Abort the attemp to render the spreadsheet and throw an exception.
         if (parents.size() > 7) {
-            throw new RuntimeException("Oncotree depth for code " + oncotreeCode + " exceeds max representation. Depth cannot be > 7");
+            throw new RuntimeException("OncoTree depth for code " + oncotreeCode + " exceeds max representation. Depth cannot be > 7");
         }
 
         String displayName = StringUtils.defaultString(tumorType.getName()).trim() + " (" + oncotreeCode + ")";
@@ -217,9 +217,9 @@ public class TumorTypesUtil {
                 errorMessageBuilder.append("\t\t" + code + "\n");
             }
         }
-        //check for no duplicated oncotree codes
+        //check for no duplicated OncoTree codes
         if (duplicateCodeSet.size() > 0) {
-            errorMessageBuilder.append("\tduplication : oncotree has more than one node containing each of the following OncoTree codes:\n");
+            errorMessageBuilder.append("\tduplication : OncoTree has more than one node containing each of the following OncoTree codes:\n");
             for (String code : duplicateCodeSet) {
                 errorMessageBuilder.append("\t\t" + code + "\n");
             }
@@ -238,7 +238,7 @@ public class TumorTypesUtil {
             }
         }
         if (errorMessageBuilder.length() > 0) {
-            throw new InvalidOncoTreeDataException("Invalid oncotree received:\n" + errorMessageBuilder.toString());
+            throw new InvalidOncoTreeDataException("Invalid OncoTree received:\n" + errorMessageBuilder.toString());
         }
     }
 
