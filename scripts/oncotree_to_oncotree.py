@@ -52,7 +52,7 @@ def fetch_oncotree_versions(oncotree_api_url_base):
     oncotree_version_endpoint_url = oncotree_api_url_base + ONCOTREE_VERSION_ENDPOINT
     response = requests.get(oncotree_version_endpoint_url)
     if response.status_code != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve oncotree versions." % (response.status_code)
+        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree versions." % (response.status_code)
         sys.exit(1)
     return response.json()
 
@@ -60,22 +60,22 @@ def fetch_oncotree_versions(oncotree_api_url_base):
 def validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version):
     valid_version_identifiers = [version[VERSION_API_IDENTIFIER_FIELD] for version in oncotree_versions_list]
     if not source_version in valid_version_identifiers:
-        print >> sys.stderr, "ERROR: Source version (%s) is not a valid oncotree version" % (source_version)
+        print >> sys.stderr, "ERROR: Source version (%s) is not a valid OncoTree version" % (source_version)
         sys.exit(1)
     if not target_version in valid_version_identifiers:
-        print >> sys.stderr, "ERROR: Source version (%s) is not a valid oncotree version" % (target_version)
+        print >> sys.stderr, "ERROR: Source version (%s) is not a valid OncoTree version" % (target_version)
         sys.exit(1)
 
 #--------------------------------------------------------------
 def validate_and_fetch_oncotree_version_release_dates(source_version, target_version, oncotree_api_url_base):
     if source_version == target_version:
-        print >> sys.stderr, "Error: Source oncotree version (%s) and target oncotree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
+        print >> sys.stderr, "Error: Source OncoTree version (%s) and target OncoTree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
     oncotree_versions_list = fetch_oncotree_versions(oncotree_api_url_base)
 
     # validate source and target versions
     validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version)
 
-    # return release dates of source and target versions from available oncotree versions
+    # return release dates of source and target versions from available OncoTree versions
     source_oncotree_version_release_date = -1
     target_oncotree_version_release_date = -1
     for version in oncotree_versions_list:
@@ -91,7 +91,7 @@ def load_oncotree_version(oncotree_version_name, oncotree_api_url_base):
     oncotree_tumortypes_endpoint = oncotree_api_url_base + ONCOTREE_TUMORTYPES_ENDPOINT + "?version=" + oncotree_version_name
     response = requests.get(oncotree_tumortypes_endpoint)
     if response.status_code != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve oncotree version %s." % (response.status_code, oncotree_version_name)
+        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree version %s." % (response.status_code, oncotree_version_name)
         sys.exit(1)
     for json_oncotree_node in response.json():
         new_node = {}
@@ -202,7 +202,7 @@ def remove_new_column(row, new_column_index):
 def translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping):
     for record in source_file_mapped_list:
         source_oncotree_code = record["ONCOTREE_CODE"]
-        # initialize summary log for oncotree code
+        # initialize summary log for OncoTree code
         if source_oncotree_code not in GLOBAL_LOG_MAP:
             GLOBAL_LOG_MAP[source_oncotree_code] = {
                 NEIGHBORS_FIELD : [],
@@ -220,7 +220,7 @@ def translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_on
     return source_file_mapped_list
 
 #--------------------------------------------------------------
-# Given a "source" oncotree code, return a string which can be in the following:
+# Given a "source" OncoTree code, return a string which can be in the following:
 # 1) single code (single mapping, no children), True
 # 2) single code but with children (single mapping, new children), False
 # 3) multiple directly mapped options (w/ or w/o children), False
@@ -232,9 +232,9 @@ def get_oncotree_code_options(source_oncotree_code, source_oncotree, target_onco
         GLOBAL_LOG_MAP[source_oncotree_code][CHOICES_FIELD] = ["???"]
         GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG] = True
         if len(source_oncotree_code) == 0:
-            return "ONCOTREE_CODE column blank : use a valid oncotree code or \"NA\"", False
+            return "ONCOTREE_CODE column blank : use a valid OncoTree code or \"NA\"", False
         else:
-            return ("%s -> ???, Oncotee code not in source oncotree version" % (source_oncotree_code)), False
+            return ("%s -> ???, OncoTree code not in source OncoTree version" % (source_oncotree_code)), False
     source_oncotree_node = source_oncotree[source_oncotree_code]
     # get a set of possible codes that source code has been directly mapped to
     possible_target_oncotree_codes = get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is_backwards_mapping)
@@ -243,7 +243,7 @@ def get_oncotree_code_options(source_oncotree_code, source_oncotree, target_onco
     return target_oncotree_code, is_easily_resolved
 
 #--------------------------------------------------------------
-# Given a "source" oncotree code, return a set of directly mappable "target" oncotree codes (though history, precursors, revocations)
+# Given a "source" OncoTree code, return a set of directly mappable "target" OncoTree codes (though history, precursors, revocations)
 # Rules for determining set diff based on mapping direction
 def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is_backwards_mapping):
     possible_target_oncotree_codes = set()
@@ -264,7 +264,7 @@ def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is
         # codes where source code is in history (this should at most be 1 node - because its the same URI)
         future_codes = get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, HISTORY_FIELD)
         if len(future_codes) > 1:
-            print >> sys.stderr, "ERROR: Future oncotree has multiple codes with code %s in history" % (source_oncotree_code)
+            print >> sys.stderr, "ERROR: Future OncoTree has multiple codes with code %s in history" % (source_oncotree_code)
             sys.exit(1)
         if len(future_codes) == 1:
             possible_target_oncotree_codes.update(future_codes)
@@ -277,28 +277,28 @@ def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is
         possible_target_oncotree_codes.update(get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, REVOCATIONS_FIELD))
         if len(possible_target_oncotree_codes) > 0:
             return possible_target_oncotree_codes
-        # at this point, no matches - check if source code exists in future oncotree
+        # at this point, no matches - check if source code exists in future OncoTree
         if source_oncotree_code in target_oncotree:
             possible_target_oncotree_codes.add(source_oncotree_code)
         return possible_target_oncotree_codes
 
 #--------------------------------------------------------------
 # exclusively for mapping in backward direction
-# looking through 'related nodes (history, precursors)', return if found in target (past) oncotree
+# looking through 'related nodes (history, precursors)', return if found in target (past) OncoTree
 # i.e SLLCLL (SLL precusor, CLL precursor) -> SLL, CLL
 def get_past_oncotree_codes_for_related_codes(source_oncotree_node, target_oncotree, field):
     return [past_oncotree_code for past_oncotree_code in source_oncotree_node[field] if past_oncotree_code in target_oncotree]
 
 #--------------------------------------------------------------
 # exclusively for mapping in forward direction
-# returns codes where source code is related in target (future) oncotree
+# returns codes where source code is related in target (future) OncoTree
 # i.e ALL -> BLL (ALL revocation), TLL (ALL revocation)
 def get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, field):
     return [future_oncotree_code for future_oncotree_code, future_oncotree_node in target_oncotree.items() if source_oncotree_code in future_oncotree_node[field]]
 
 #--------------------------------------------------------------
-# Given a set of oncotree codes, return a formatted string with following info (if available):
-# 1a) (== 1 choice) directly mapped target oncotree code
+# Given a set of OncoTree codes, return a formatted string with following info (if available):
+# 1a) (== 1 choice) directly mapped target OncoTree code
 # 1b) (>1 choices) possible choices
 # 1c) (0 choices) neighborhood/related codes
 # 2) whether or not there are children
@@ -319,7 +319,7 @@ def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target
         if source_oncotree_code != oncotree_code_options and not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
                 GLOBAL_LOG_MAP[source_oncotree_code][CHOICES_FIELD].append(oncotree_code_options)
                 GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG] = True
-        # log if oncotree code has changed
+        # log if OncoTree code has changed
         return oncotree_code_options, is_easily_resolved
 
     # case with 0 direct mappings, return neighborhood + log common parent
@@ -395,7 +395,7 @@ def get_children(oncotree_codes, all_children_codes, target_oncotree):
 # get the common parent (furthest down the tree) for a set of oncotree_codes
 def get_closest_common_parent(possible_target_oncotree_codes, target_oncotree):
     oncotree_code_to_ancestors_mapping = {}
-    # for every possible target oncotree code - construct an ordered list of ancestors
+    # for every possible target OncoTree code - construct an ordered list of ancestors
     for oncotree_code in possible_target_oncotree_codes:
         oncotree_code_ancestors = [oncotree_code]
         oncotree_code_to_ancestors_mapping[oncotree_code] = get_ancestors(oncotree_code, oncotree_code_ancestors, target_oncotree)
@@ -491,7 +491,7 @@ def write_summary_file(target_file, source_version, target_version):
         f.write("All resolutions should be made with version: <b><a href=\"%s\">%s</a></b>\n" % (oncotree_url, target_version))
         f.write("<h3>Contents</h3><ul>\n");
         if unrecognized_codes:
-            f.write("<li><a href=\"#unrecognized_header\">Codes which were not present in source oncotree version</a> (action required)</li>\n")
+            f.write("<li><a href=\"#unrecognized_header\">Codes which were not present in source OncoTree version</a> (action required)</li>\n")
         if unmappable_codes:
             f.write("<li><a href=\"#not_mapped_header\">Codes that could not be mapped to a code</a> (action required)</li>\n")
         if ambiguous_codes:
@@ -503,7 +503,7 @@ def write_summary_file(target_file, source_version, target_version):
         f.write("</ul>&nbsp;\n&nbsp;\n")
         # Unrecognized codes - action required, but not guidance. Just list them
         if unrecognized_codes:
-            f.write("<hr><h2 id=\"unrecognized_header\">The following codes were not present in the source oncotree version:</h2>\n")
+            f.write("<hr><h2 id=\"unrecognized_header\">The following codes were not present in the source OncoTree version:</h2>\n")
         for oncotree_code in unrecognized_codes:
             f.write("<p><b>Original Code</b>: %s<br>\n" % ("&lt;blank&gt;" if len(oncotree_code) == 0 else oncotree_code))
             f.write("<b>New Code cannot be determined\n")
@@ -552,8 +552,8 @@ def main():
     parser.add_argument("-a", "--auto-mapping-enabled", help = "enable automatic resolution of ambiguous mappings", action = "store_true")
     parser.add_argument("-i", "--source-file", help = "source file provided by user", required = True)
     parser.add_argument("-o", "--target-file", help = "destination file to write out new file contents", required = True)
-    parser.add_argument("-s", "--source-version", help = "current oncotree version used in the source file", required = True)
-    parser.add_argument("-t", "--target-version", help = "oncotree version to be mapped to in the destination file", required = True)
+    parser.add_argument("-s", "--source-version", help = "current OncoTree version used in the source file", required = True)
+    parser.add_argument("-t", "--target-version", help = "OncoTree version to be mapped to in the destination file", required = True)
     parser.add_argument("-u", "--oncotree-url", required = False, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
@@ -575,14 +575,14 @@ def main():
         sys.exit(1)
 
     source_oncotree_version_release_date, target_oncotree_version_release_date = validate_and_fetch_oncotree_version_release_dates(source_version, target_version, oncotree_api_url_base)
-    is_backwards_mapping = target_oncotree_version_release_date < source_oncotree_version_release_date # determines directionality of source - target oncotree mapping
+    is_backwards_mapping = target_oncotree_version_release_date < source_oncotree_version_release_date # determines directionality of source - target OncoTree mapping
     source_file_mapped_list, header, header_and_comment_lines = load_source_file(source_file)
     source_oncotree = load_oncotree_version(source_version, oncotree_api_url_base)
     target_oncotree = load_oncotree_version(target_version, oncotree_api_url_base)
     translated_source_file_mapped_list = translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping)
     write_to_target_file(translated_source_file_mapped_list, target_file, header, header_and_comment_lines)
     write_summary_file(target_file, source_version, target_version)
-    print >> sys.stdout, "Oncotree version conversion completed."
+    print >> sys.stdout, "OncoTree version conversion completed."
 
 if __name__ == '__main__':
    main()

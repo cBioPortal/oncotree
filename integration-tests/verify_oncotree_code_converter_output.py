@@ -38,5 +38,5 @@ def get_required_columns(oncotree_code_converter_output):
 columns_to_check = get_required_columns(oncotree_code_converter_output)
 for column_name, column_values in columns_to_check.items():
     if all([True if column_value == "NA" else False for column_value in column_values]):
-        print "Error, all column values in " + column_name + " are NA, please check returned oncotree schema"
+        print "Error, all column values in " + column_name + " are NA, please check returned OncoTree schema"
         sys.exit(1)

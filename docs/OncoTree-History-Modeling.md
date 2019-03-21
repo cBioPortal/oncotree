@@ -11,7 +11,7 @@ The complexity of the revision history for some OncoTree nodes created a need fo
 Three new properties were introduced as a result of the OncoTree history modeling. Each node will now contain the following new properties and will be discussed in further detail below.
 
 **1. History:** A list of _synonymous_  OncoTree codes
-**2. Revocations:** A list of OncoTree codes which the current node _was_ a part of the meaning of but have since been revoked from subsequent Oncotree release versions
+**2. Revocations:** A list of OncoTree codes which the current node _was_ a part of the meaning of but have since been revoked from subsequent OncoTree release versions
 **3. Precursors:** A list of OncoTree codes which _became_ a part of the meaning of the current node
 
 ***

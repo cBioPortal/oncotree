@@ -165,7 +165,7 @@ public class VersionUtilTest {
         }
         int currentNumberOfVersions = versionUtil.getVersions().size();
         if (currentNumberOfVersions != oncoTreeVersionRepositoryMockResponse.size()) {
-            failureReport.append("An invalid recache attempt was recognized by VersionUtil. Oncotree will fail during TopBraid downtime. Expected number of versions: " + String.valueOf(oncoTreeVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
+            failureReport.append("An invalid recache attempt was recognized by VersionUtil. OncoTree will fail during TopBraid downtime. Expected number of versions: " + String.valueOf(oncoTreeVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
             failureCount = failureCount +1;
         }
         config.resetAdditionalVersionRepository(oncoTreeVersionRepository);

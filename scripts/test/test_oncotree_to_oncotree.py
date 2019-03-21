@@ -134,7 +134,7 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
     def test_get_possible_oncotree_code_backwards_precursors(self):
         self.run_get_possible_oncotree_code_test("MYCF", set(["CTCL"]), True)
     # --------------------------------------------------------------------------------- 
-    # Tests for getting valid neighboring oncotree codes
+    # Tests for getting valid neighboring OncoTree codes
 
     # TNKL_NEW_CHILD parent MTNN is not in target (original) version
     # TNKL_GRANDCHILD is in both

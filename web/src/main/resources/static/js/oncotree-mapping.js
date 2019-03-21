@@ -22,7 +22,7 @@ $(function (){
                 var content = '';
 
                 if( data.length == 0 ){
-                    $("#mappings").val("No Mapping Oncotree Concepts Found")
+                    $("#mappings").val("No Mapping OncoTree Concepts Found")
 
                     $("#mapping-api").empty();
                     $("#mapping-api").append('<blockquote><p>The API call to get this mapping programmatically</p></blockquote><p><code> ' + url + '</code></p>');
@@ -56,7 +56,7 @@ $(function (){
                 var errorname = JSON.stringify(exception['responseJSON']['error'], undefined, 2);
                 var message = JSON.stringify(exception['responseJSON']['message'], undefined, 2);
                 var exceptionname = JSON.stringify(exception['responseJSON']['exception'], undefined, 2);
-                $("#mappings").val("No Mapping Oncotree Conecepts Found");
+                $("#mappings").val("No Mapping OncoTree Conecepts Found");
 
                 $("#mapping-api").empty();
                 $("#mapping-api").append('<blockquote><p>The API call to get this mapping programmatically</p></blockquote><p><code> ' + url + '</code></p>');

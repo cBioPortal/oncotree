@@ -9,6 +9,7 @@ ROOT_WORKSPACE=`pwd`
 CMO_PIPELINES_DIRECTORY=$ROOT_WORKSPACE/cmo-pipelines
 ONCOTREE_DIRECTORY=$ROOT_WORKSPACE/oncotree
 ONCOTREE_SCRIPTS_DIRECTORY=$ONCOTREE_DIRECTORY/scripts
+ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH=$ONCOTREE_DIRECTORY/resources/resource_uri_to_oncocode_mapping.txt
 
 ONCOTREE_JAR=$ONCOTREE_DIRECTORY/web/target/oncotree.jar
 IMPORT_SCRIPTS_DIRECTORY=$CMO_PIPELINES_DIRECTORY/import-scripts
@@ -21,6 +22,7 @@ ONCOTREE_CODE_CONVERTER_TEST_SUCCESS=0
 FAKE_ONCOTREE_VERSION_TEST_SUCCESS=0
 ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS=0
 ONCOTREE_VERSION_MAPPER_TEST_SUCCESS=0
+ONCOTREE_TOPBRAID_URI_VALIDATION_SUCCESS=0
 
 # will be automatically called when script exits
 # provided $ONCOTREE_PORT is defined, will find process number for process on that port and kill it
@@ -32,10 +34,10 @@ function find_and_kill_oncotree_process {
     if [ ! -z $ONCOTREE_PROCESS_NUMBER ] ; then
         kill -9 $ONCOTREE_PROCESS_NUMBER
         if [ $? -gt 0 ] ; then
-            echo "failed to kill process $ONCOTREE_PROCESS_NUMBER, please check for running oncotree process"
+            echo "failed to kill process $ONCOTREE_PROCESS_NUMBER, please check for running OncoTree process"
         fi
     else
-            echo "no oncotree process found"
+            echo "no OncoTree process found"
     fi
 }
 trap 'find_and_kill_oncotree_process $ONCOTREE_PORT' EXIT
@@ -70,9 +72,9 @@ ONCOTREE_DEPLOYMENT_SUCCESS=0
 CURRENT_WAIT_TIME=0
 MAXIMUM_WAIT_TIME=600 # 600 seconds (10 min) - as of 3/19/2019 takes 381.809 to start up
 if [ $ONCOTREE_PORT -gt 0 ] ; then
-    echo "Starting 'java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &'" 
+    echo "Starting 'java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &'"
     java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &
-    # maximum time to wait for oncotree to deploy (MAXIMUM_WAIT_TIME/60) minutes
+    # maximum time to wait for OncoTree to deploy (MAXIMUM_WAIT_TIME/60) minutes
     # every TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS seconds check if job is still running
     # attempt to hit endpoint - successful return code indicated ONCOTREE has started up
     ONCOTREE_URL="http://dashi-dev.cbio.mskcc.org:$ONCOTREE_PORT"
@@ -103,7 +105,7 @@ fi
 
 if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     INTEGRATION_TEST_DIRECTORY=$ONCOTREE_DIRECTORY/integration-tests
-    MOCK_ONCOTREE_FILE=$INTEGRATION_TEST_DIRECTORY/default_oncotree_file.txt
+    MOCK_ONCOTREE_FILE=$INTEGRATION_TEST_DIRECTORY/data/default_oncotree_file.txt
     TEST_ONCOTREE_DEFAULT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_default.txt
     TEST_ONCOTREE_VERSION_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_version.txt
     cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_DEFAULT_FILENAME
@@ -132,8 +134,8 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
         ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS=1
     fi
 
-    # this test is data dependent (will fail if versions are changed in topbraid history) 
-    EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT=$INTEGRATION_TEST_DIRECTORY/default_oncotree_file_converted.txt
+    # this test is data dependent (will fail if versions are changed in TopBraid history)
+    EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT=$INTEGRATION_TEST_DIRECTORY/data/default_oncotree_file_converted.txt
     TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version.txt
     TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version_output.txt
     cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME
@@ -148,8 +150,16 @@ fi
 
 rm -rf $TESTING_DIRECTORY_TEMP
 
-# all four tests must pass for integration test to succeed
-if [[ $ONCOTREE_CODE_CONVERTER_TEST_SUCCESS -eq 0 || $FAKE_ONCOTREE_VERSION_TEST_SUCCESS -eq 0 || $ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS -eq 0 || $ONCOTREE_VERSION_MAPPER_TEST_SUCCESS -eq 0 ]] ; then
+# test that the resource_uri_to_oncocode_mapping.txt is valid and matches TopBraid
+python $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
+if [ $? -gt 0 ] ; then
+    echo "validate_topbraid_uris.py failed, resource_uri_to_oncocode_mapping.txt is invalid or in conflict with TopBraid"
+else
+    ONCOTREE_TOPBRAID_URI_VALIDATION_SUCCESS=1
+fi
+
+# all five tests must pass for integration test to succeed
+if [[ $ONCOTREE_CODE_CONVERTER_TEST_SUCCESS -eq 0 || $FAKE_ONCOTREE_VERSION_TEST_SUCCESS -eq 0 || $ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS -eq 0 || $ONCOTREE_VERSION_MAPPER_TEST_SUCCESS -eq 0 || $ONCOTREE_TOPBRAID_URI_VALIDATION_SUCCESS -eq 0 ]] ; then
     echo "Integration tests for ONCOTREE failed"
     exit 1
 fi

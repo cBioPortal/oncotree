@@ -86,7 +86,7 @@ public class MSKConceptCache {
             try {
                 oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
             } catch (TopBraidException e) {
-                logger.error("resetCache() -- failed to pull a versioned oncotree");
+                logger.error("resetCache() -- failed to pull a versioned OncoTree");
                 throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
             }
             for (OncoTreeNode node : oncoTreeNodes) {

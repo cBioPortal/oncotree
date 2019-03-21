@@ -27,5 +27,5 @@ $(document).ready(function() {
     var newsURL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/News.md";
     var oncotreeMappingToolURL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/OncoTree-Mapping-Tool.md";
     loadMarkdown(displayMarkdown, newsURL, "news", "github", "#news");
-    loadMarkdown(displayMarkdown, oncotreeMappingToolURL, "Oncotree Mapping tool documentation", "github", "#oncotree-mapping-tool");
+    loadMarkdown(displayMarkdown, oncotreeMappingToolURL, "OncoTree Mapping tool documentation", "github", "#oncotree-mapping-tool");
 });

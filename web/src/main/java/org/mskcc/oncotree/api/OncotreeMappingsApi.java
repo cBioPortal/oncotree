@@ -54,9 +54,9 @@ public class OncotreeMappingsApi {
     private static final Logger logger = LoggerFactory.getLogger(OncotreeMappingsApi.class);
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "An array of mapped oncotree codes"),
+        @ApiResponse(code = 200, message = "An array of mapped OncoTree codes"),
         @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 404, message = "Could not find oncotree mapping"), 
+        @ApiResponse(code = 404, message = "Could not find OncoTree mapping"), 
         @ApiResponse(code = 503, message = "Required data source unavailable") 
         }   
     )
@@ -126,16 +126,16 @@ public class OncotreeMappingsApi {
         if (mskConcept != null) {
             if (mskConcept.getCrosswalks() != null && mskConcept.getCrosswalks().size() > 0) {
                 if (mskConcept.getCrosswalks().containsKey("ONCOTREE")) {
-                    logger.info("Oncotree mskConcept found for concept id " + mskConcept.getConceptIds().get(0));
+                    logger.info("OncoTree mskConcept found for concept id " + mskConcept.getConceptIds().get(0));
                     oncotreeCodes = mskConcept.getCrosswalks().get("ONCOTREE");
                 }
             } else if (mskConcept.getOncotreeCodes() != null && mskConcept.getOncotreeCodes().size() > 0) {
-                logger.info("Oncotree mskConcept found for concept id " + mskConcept.getOncotreeCodes().toString());
+                logger.info("OncoTree mskConcept found for concept id " + mskConcept.getOncotreeCodes().toString());
                 oncotreeCodes = mskConcept.getOncotreeCodes();
             }
         }
         if (oncotreeCodes == null || oncotreeCodes.isEmpty()) {
-            throw new OncotreeMappingsNotFound("There is no oncotree code mapped to the query");
+            throw new OncotreeMappingsNotFound("There is no OncoTree code mapped to the query");
         }
         return oncotreeCodes;
     }
