@@ -113,16 +113,23 @@ a:hover {
 
 /* style of menu navigation items */
 
-ul.nav li a, ul.nav li a:visited {
+ul.nav li a,
+ul.nav li a:visited,
+div.dropdown a.dropdown-toggle,
+ul.dropdown-menu li.dropdown-submenu a.dropdown-toggle,
+ul.dropdown-menu li a {
     color: #000 !important;
 }
 
-ul.nav li a:hover, ul.nav li a:active {
+ul.nav li a:hover,
+ul.nav li a:active,
+ul.nav li.active a {
     color: #666 !important;
 }
 
-ul.nav li.active a {
-    color: #666 !important;
+div.dropdown.show a.dropdown-toggle,
+ul.dropdown-menu li a.active {
+    color: #fff !important;
 }
 
 .hidden {
