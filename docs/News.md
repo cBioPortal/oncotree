@@ -1,4 +1,17 @@
 ### News
+#### May 2, 2019
+ *   **OncoTree-to-OncoTree code mapping tool updated**
+     * The OncoTree-to-OncoTree mapping tool (now version 1.2) has been updated:
+         * it no longer requires the installation of the python 'requests' module
+         * it now is able to handle input files where lines end in carriage return (such as files saved from Microsoft Excel)
+#### May 1, 2019
+ *   **New Stable Release** OncoTree version *oncotree_2019_05_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_03_01*.
+ *   **Nodes reclassified**
+     * Intestinal Ampullary Carcinoma (IAMPCA) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
+     * Mixed Ampullary Carcinoma (MAMPCA) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
+     * Pancreatobiliary Ampullary Carcinoma (PAMPCA) MainType is now Ampullary Cancer [previously: Ampullary Carcinoma]
+     * Ependymoma (EPM) MainType is now Glioma [previously: CNS Cancer]
+     * Rosai-Dorfman Disease (RDD) MainType is now Histiocytosis [previously: Histiocytic Disorder]
 #### March 26, 2019
  *   **OncoTree-to-OncoTree code mapping tool updated**
      * The OncoTree-to-OncoTree mapping tool (now version 1.1) has been slightly improved, mainly by adding a separate section in the output summary for reporting OncoTree codes which were replaced automatically. Also, additional documentation and description of the tool has been added under the "Mapping Tools" tab.
