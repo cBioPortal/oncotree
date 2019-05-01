@@ -15,11 +15,10 @@
 # has been advised of the possibility of such damage.
 
 import argparse
-import csv
 import os
-import requests
 import sys
-import re
+import urllib
+import json
 
 ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
 ONCOTREE_API_URL_BASE_DEFAULT = "http://oncotree.mskcc.org/api/"
@@ -50,11 +49,11 @@ IS_LOGGED_FLAG = "logged"
 def fetch_oncotree_versions(oncotree_api_url_base):
     # fetch available onctree versions from api
     oncotree_version_endpoint_url = oncotree_api_url_base + ONCOTREE_VERSION_ENDPOINT
-    response = requests.get(oncotree_version_endpoint_url)
-    if response.status_code != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree versions." % (response.status_code)
+    response = urllib.urlopen(oncotree_version_endpoint_url)
+    if response.getcode() != 200:
+        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree versions." % (response.getcode())
         sys.exit(1)
-    return response.json()
+    return json.loads(response.read())
 
 #--------------------------------------------------------------
 def validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version):
@@ -89,11 +88,11 @@ def validate_and_fetch_oncotree_version_release_dates(source_version, target_ver
 def load_oncotree_version(oncotree_version_name, oncotree_api_url_base):
     oncotree_nodes = {}
     oncotree_tumortypes_endpoint = oncotree_api_url_base + ONCOTREE_TUMORTYPES_ENDPOINT + "?version=" + oncotree_version_name
-    response = requests.get(oncotree_tumortypes_endpoint)
-    if response.status_code != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree version %s." % (response.status_code, oncotree_version_name)
+    response = urllib.urlopen(oncotree_tumortypes_endpoint)
+    if response.getcode() != 200:
+        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree version %s." % (response.getcode(), oncotree_version_name)
         sys.exit(1)
-    for json_oncotree_node in response.json():
+    for json_oncotree_node in json.loads(response.read()):
         new_node = {}
         new_node[PARENT_CODE_FIELD] = json_oncotree_node[PARENT_CODE_FIELD]
         new_node[PRECURSORS_FIELD] = json_oncotree_node[PRECURSORS_FIELD]
