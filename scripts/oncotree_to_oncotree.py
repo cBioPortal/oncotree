@@ -28,7 +28,7 @@ VERSION_API_IDENTIFIER_FIELD = "api_identifier"
 VERSION_RELEASE_DATE_FIELD = "release_date"
 METADATA_HEADER_PREFIX = "#"
 PASSTHROUGH_ONCOTREE_CODE_LIST = ["NA"] # These codes will be passed through the converter without examination or alteration
-TOOL_VERSION_NUMBER = "1.1"
+TOOL_VERSION_NUMBER = "1.2"
 
 # field names used for navigating tumor types
 CHILDREN_CODES_FIELD = "children"
@@ -112,7 +112,7 @@ def load_oncotree_version(oncotree_version_name, oncotree_api_url_base):
 #--------------------------------------------------------------
 def get_header(file):
     header = []
-    with open(file, "r") as header_source:
+    with open(file, "rU") as header_source:
         for line in header_source:
             if not line.startswith("#"):
                 header = line.rstrip().split('\t')
@@ -134,7 +134,7 @@ def load_source_file(source_file):
         print >> sys.stderr, "ERROR: Input file is missing column 'ONCOTREE_CODE'."
         sys.exit(1)
         
-    with open(source_file) as data_file:
+    with open(source_file, "rU") as data_file:
         for line_number, line in enumerate(data_file):
             if '\r' in line:
                 print >> sys.stderr, "ERROR: source file (%s) is not in the required format (tab delimited, newline line breaks). carriage return characters encountered." % (source_file) 

@@ -6,10 +6,6 @@ The OncoTree Mapping tool was developed to facilitate the mapping of OncoTree co
 
 Click here to download the script: <span class="text-primary" style="font-size:1.5em; font-weight:bold;">[oncotree_to_oncotree.py <span class="text-primary oi oi-data-transfer-download"></span>](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py)</span>
 
-The OncoTree Mapping tool was written in `python`. To use the tool, please install the following python module if it is not already installed:
-
-- [requests <span class="text-primary oi oi-external-link"></span>](http://docs.python-requests.org/en/v2.7.0/user/install/)
-
 ## Running the tool
 
 The OncoTree Mapping tool can be run with the following command:
@@ -26,6 +22,8 @@ python <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/f
 - `-t | --target-version`: This is the target OncoTree version that the script will attempt to map the source file OncoTree codes to.
 
 The list of OncoTree versions available are viewable [here](http://oncotree.mskcc.org/api/versions) or on the dropdown menu of the [OncoTree home page](http://oncotree.mskcc.org/#/home).
+
+Note: <span class="oi oi-warning text-danger" aria-hidden="true"> the source file should not contain embedded line breaks within any single cell in the table, such as those created by using the keyboard combinations Alt-Enter or Command-Option-Enter while editing a cell in Microsoft Excel.
 
 For a detailed walkthrough of running the tool, see the "Tutorial" section below.
 
