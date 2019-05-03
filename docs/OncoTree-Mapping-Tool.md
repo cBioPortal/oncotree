@@ -23,7 +23,7 @@ python <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/f
 
 The list of OncoTree versions available are viewable [here](http://oncotree.mskcc.org/api/versions) or on the dropdown menu of the [OncoTree home page](http://oncotree.mskcc.org/#/home).
 
-Note: <span class="oi oi-warning text-danger" aria-hidden="true"> the source file should not contain embedded line breaks within any single cell in the table, such as those created by using the keyboard combinations Alt-Enter or Command-Option-Enter while editing a cell in Microsoft Excel.
+Note: <span class="oi oi-warning text-danger" aria-hidden="true"></span> the source file should not contain embedded line breaks within any single cell in the table, such as those created by using the keyboard combinations Alt-Enter or Command-Option-Enter while editing a cell in Microsoft Excel.
 
 For a detailed walkthrough of running the tool, see the "Tutorial" section below.
 
