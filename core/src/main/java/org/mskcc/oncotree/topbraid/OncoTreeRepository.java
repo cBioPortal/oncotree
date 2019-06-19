@@ -38,7 +38,7 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
     private static final Logger logger = LoggerFactory.getLogger(OncoTreeRepository.class);
 
     private String query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
-        "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree/> " +
+        "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree#> " +
         "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors " +
         "WHERE { " +
         "   GRAPH <%s> { " +

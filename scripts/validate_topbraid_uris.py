@@ -32,7 +32,7 @@ PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/>
 
 TOPBRAID_DATA_QUERY = """
 PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
-        PREFIX onc:<http://data.mskcc.org/ontologies/oncotree/>
+        PREFIX onc:<http://data.mskcc.org/ontologies/oncotree#>
 SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors
         WHERE {
            GRAPH <%s> {
