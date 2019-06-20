@@ -32,5 +32,5 @@ public class InvalidVersionException extends RuntimeException {
     public InvalidVersionException(String message) {
         super(message);
         logger.error(message);
-    }   
+    }
 }

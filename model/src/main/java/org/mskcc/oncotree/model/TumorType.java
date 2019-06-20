@@ -24,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
-
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorType {
@@ -95,7 +94,6 @@ public class TumorType {
         this.code = code;
     }
 
-
     /**
      * Tumor type color.
      **/
@@ -108,7 +106,6 @@ public class TumorType {
     public void setColor(String color) {
         this.color = color;
     }
-
 
     /**
      * Tumor type name.
@@ -123,7 +120,6 @@ public class TumorType {
         this.name = name;
     }
 
-
     /**
      **/
     @ApiModelProperty(value = "")
@@ -135,7 +131,6 @@ public class TumorType {
     public void setMainType(String mainType) {
         this.mainType = mainType;
     }
-
 
     /**
      * External references (e.g. NCI and UMLS)
@@ -177,7 +172,6 @@ public class TumorType {
     public void setTissue(String tissue) {
         this.tissue = tissue;
     }
-
 
     /**
      * List of all available children tumor types.

@@ -1,131 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>OncoTree Web</name>
+  <description>The web module for OncoTree</description>
+  <groupId>org.mskcc.oncotree</groupId>
+  <artifactId>web</artifactId>
+  <packaging>${packaging.type}</packaging>
+  <url>https://github.com/cBioPortal/oncotree/</url>
 
+  <parent>
     <groupId>org.mskcc.oncotree</groupId>
-    <artifactId>web</artifactId>
-    <packaging>${packaging.type}</packaging>
+    <artifactId>master</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
-    <name>OncoTree Web</name>
-    <description>The web module for OncoTree</description>
-    <url>https://github.com/cBioPortal/oncotree/</url>
+  <properties>
+    <java.version>1.7</java.version>
+    <spring.version>4.3.8.RELEASE</spring.version>
+    <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
+    <oncotree.core.version>1.0.0-SNAPSHOT</oncotree.core.version>
+    <oncotree.model.version>1.0.0-SNAPSHOT</oncotree.model.version>
+  </properties>
 
-    <parent>
-        <groupId>org.mskcc.oncotree</groupId>
-        <artifactId>master</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+  <profiles>
+    <profile>
+      <id>war</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <packaging.type>war</packaging.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>jar</id>
+      <properties>
+        <packaging.type>jar</packaging.type>
+        <start-class>org.mskcc.oncotree.OncotreeApplication</start-class>
+      </properties>
+    </profile>
+  </profiles>
 
-    <properties>
-        <java.version>1.7</java.version>
-        <spring.version>4.3.8.RELEASE</spring.version>
-        <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
-        <oncotree.core.version>1.0.0-SNAPSHOT</oncotree.core.version>
-        <oncotree.model.version>1.0.0-SNAPSHOT</oncotree.model.version>
-    </properties>
+  <build>
+    <finalName>oncotree</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <compilerArgs>
+            <arg>-Xlint:unchecked</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
 
-    <profiles>
-        <profile>
-            <id>war</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <packaging.type>war</packaging.type>
-            </properties>
-        </profile>
-        <profile>
-            <id>jar</id>
-            <properties>
-                <packaging.type>jar</packaging.type>
-                <start-class>org.mskcc.oncotree.OncotreeApplication</start-class>
-            </properties>
-        </profile>
-    </profiles>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <!-- this is relative to the web/pom.xml directory -->
+              <directory>../scripts</directory>
+              <targetPath>WEB-INF/classes/static/downloads</targetPath>
+              <includes>
+                <include>**/oncotree_to_oncotree.py</include>
+              </includes>
+            </resource>
+            <resource>
+              <!-- this is relative to the web/pom.xml directory -->
+              <directory>../docs/images</directory>
+              <targetPath>WEB-INF/classes/static/images</targetPath>
+              <includes>
+                <include>**/*.png</include>
+              </includes>
+            </resource>
+          </webResources>
+          <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
+        </configuration>
+      </plugin>
 
-    <build>
-        <finalName>oncotree</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <compilerArgs>
-                      <arg>-Xlint:unchecked</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <!-- this is relative to the web/pom.xml directory -->
-                            <directory>../scripts</directory>
-                            <targetPath>WEB-INF/classes/static/downloads</targetPath>
-                            <includes>
-                                <include>**/oncotree_to_oncotree.py</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <!-- this is relative to the web/pom.xml directory -->
-                            <directory>../docs/images</directory>
-                            <targetPath>WEB-INF/classes/static/images</targetPath>
-                            <includes>
-                                <include>**/*.png</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                    <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.2.5.RELEASE</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>1.2.5.RELEASE</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-expression</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <version>${spring.boot.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>${spring.boot.version}</version>
+    </dependency>
         <!--
         Ensure that the embedded servlet container doesn’t interfere with
         the servlet container to which the war file will be deployed.
@@ -133,25 +133,23 @@
         http://stackoverflow.com/questions/15601469/jar-not-loaded-see-servlet-spec-2-3-section-9-7-2-offending-class-javax-serv
         http://stackoverflow.com/questions/34506712/how-to-deploy-spring-boot-web-application-on-tomcat-server
         -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>${spring.boot.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.mskcc.oncotree</groupId>
-            <artifactId>model</artifactId>
-            <version>${oncotree.model.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mskcc.oncotree</groupId>
-            <artifactId>core</artifactId>
-            <version>${oncotree.core.version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <version>${spring.boot.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mskcc.oncotree</groupId>
+      <artifactId>model</artifactId>
+      <version>${oncotree.model.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mskcc.oncotree</groupId>
+      <artifactId>core</artifactId>
+      <version>${oncotree.core.version}</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>

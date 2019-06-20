@@ -26,5 +26,5 @@ public class CrosswalkServiceUnavailableException extends CrosswalkException {
 
     public CrosswalkServiceUnavailableException(String message, Throwable cause) {
         super(message, cause);
-    }   
+    }
 }

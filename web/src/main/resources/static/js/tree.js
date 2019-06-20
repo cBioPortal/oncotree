@@ -319,7 +319,6 @@ var tree = (function () {
                 return (d._children ? d.color : "#fff");
             });
 
-
         var nodeContent = '';
         var nodeText = nodeEnter.append("svg:text")
             .attr("x", function (d) {

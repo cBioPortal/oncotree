@@ -118,7 +118,6 @@ public class TumorTypesApi {
         return tumorTypes;
     }
 
-
     @ApiOperation(value = "Tumor Types", notes = "", response = TumorType.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "An array of tumor types"),

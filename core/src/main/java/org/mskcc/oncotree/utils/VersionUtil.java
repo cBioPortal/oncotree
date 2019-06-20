@@ -18,7 +18,7 @@ public class VersionUtil {
 
     @Autowired
     private CacheUtil cacheUtil;
-    
+
     public List<Version> getVersions() {
         return cacheUtil.getCachedVersions();
     }

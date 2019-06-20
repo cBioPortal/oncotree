@@ -32,5 +32,5 @@ public class InvalidOncoTreeDataException extends RuntimeException {
     public InvalidOncoTreeDataException(String message) {
         super(message);
         logger.error(message);
-    }   
+    }
 }

@@ -49,7 +49,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-
 /**
  * Created by Hongxin on 2/25/16.
  */
@@ -74,7 +73,7 @@ public class CacheUtil {
 
     @Value("${required.oncotree.version:oncotree_latest_stable}")
     private String requiredOncotreeVersion;
- 
+
     @PostConstruct // call when constructed
     @Scheduled(cron="0 */10 * * * *") // call every 10 minutes
     private void scheduleResetCache() {

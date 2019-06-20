@@ -1,6 +1,6 @@
 $(function (){
 
-    $('#mappingsBtn').on('click',function (e){   
+    $('#mappingsBtn').on('click',function (e){
 
         var vocabularyId = $('#vocabularyId').val();
         var conceptId = $('#conceptId').val();
@@ -13,7 +13,7 @@ $(function (){
         var protocol = window.location.protocol;
         path = path == null ? '/' : path;
         var url = protocol + '//' + host + path + 'api/crosswalk?' + 'vocabularyId=' + vocabularyId + '&conceptId=' + conceptId + '&histologyCode=' + histologyCode + '&siteCode=' + siteCode;
-   
+
         $.ajax({
            type:'GET',
            url :url,
@@ -70,7 +70,7 @@ $(function (){
 
                 console.log('Exception:'+exception);
            }
-        }); 
+        });
         e.preventDefault();
     });
 });

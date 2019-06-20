@@ -37,5 +37,5 @@ public class TopBraidException extends RuntimeException {
     public TopBraidException(String message, Throwable cause) {
         super(message, cause);
         logger.error(message + ": " + cause + " (Check that authentication is working)");
-    }   
+    }
 }

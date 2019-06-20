@@ -1,5 +1,5 @@
 # Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
-# 
+#
 # This library is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
 # MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
@@ -133,11 +133,11 @@ def load_source_file(source_file):
     if "ONCOTREE_CODE" not in header:
         print >> sys.stderr, "ERROR: Input file is missing column 'ONCOTREE_CODE'."
         sys.exit(1)
-        
+
     with open(source_file, "rU") as data_file:
         for line_number, line in enumerate(data_file):
             if '\r' in line:
-                print >> sys.stderr, "ERROR: source file (%s) is not in the required format (tab delimited, newline line breaks). carriage return characters encountered." % (source_file) 
+                print >> sys.stderr, "ERROR: source file (%s) is not in the required format (tab delimited, newline line breaks). carriage return characters encountered." % (source_file)
                 sys.exit(1)
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
                 header_and_comment_lines[line_number] = line
@@ -148,7 +148,7 @@ def load_source_file(source_file):
                 header_and_comment_lines[line_number] = line
                 continue
             if len(line.split('\t')) != header_length:
-                print >> sys.stderr, "ERROR: Current row has a different number of columns than header row: %s" % line  
+                print >> sys.stderr, "ERROR: Current row has a different number of columns than header row: %s" % line
                 sys.exit(1)
             data = dict(zip(header, map(str.strip, line.split('\t'))))
             source_file_mapped_list.append(data)
@@ -191,7 +191,7 @@ def remove_new_column(row, new_column_index):
         del updated_row[new_column_index]
     else:
         del updated_row[new_column_index]
-    return '\t'.join(updated_row)        
+    return '\t'.join(updated_row)
 
 #--------------------------------------------------------------
 # Uses a list of dictionaries, each dictionary represents a record/row
@@ -437,8 +437,8 @@ def write_to_target_file(translated_source_file_mapped_list, target_file, header
     if all_easily_resolved:
         header.remove("ONCOTREE_CODE_OPTIONS")
         for line_number in range(len(header_and_comment_lines)):
-            header_and_comment_lines[line_number] = remove_new_column(header_and_comment_lines[line_number], oncotree_code_options_index) 
-    
+            header_and_comment_lines[line_number] = remove_new_column(header_and_comment_lines[line_number], oncotree_code_options_index)
+
     line_num = 0
     with open(target_file, "w") as f:
         for record in translated_source_file_mapped_list:

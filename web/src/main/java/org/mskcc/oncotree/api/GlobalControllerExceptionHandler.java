@@ -81,7 +81,7 @@ class GlobalControllerExceptionHandler {
     public void handleInvalidVersionException() {}
 
     @ExceptionHandler
-    public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response) 
+    public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response)
         throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }

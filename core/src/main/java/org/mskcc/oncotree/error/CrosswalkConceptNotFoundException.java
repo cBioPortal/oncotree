@@ -26,5 +26,5 @@ public class CrosswalkConceptNotFoundException extends CrosswalkException {
 
     public CrosswalkConceptNotFoundException(String message, Throwable cause) {
         super(message, cause);
-    }   
+    }
 }

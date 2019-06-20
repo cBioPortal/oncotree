@@ -110,7 +110,7 @@ public class TopBraidSessionConfiguration {
 
             CloseableHttpClient client = HttpClients.createDefault();
             CloseableHttpResponse response = client.execute(new HttpHead(url), context);
-            StatusLine statusLine = response.getStatusLine(); 
+            StatusLine statusLine = response.getStatusLine();
             if (statusLine.getStatusCode() != HttpStatus.OK.value()) {
                 logger.error("Response status: '" + statusLine + "'");
                 return null;
@@ -124,7 +124,7 @@ public class TopBraidSessionConfiguration {
                     return cookie;
                 }
             }
-            
+
             // close stuff
             client.close();
             response.close();

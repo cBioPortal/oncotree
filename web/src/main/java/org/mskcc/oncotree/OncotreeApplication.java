@@ -25,7 +25,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(OncotreeApplication.class);
     }
-    
+
     public static void main(String[] args) {
         SpringApplication.run(OncotreeApplication.class, args);
     }
@@ -42,7 +42,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
             public void addViewControllers(final ViewControllerRegistry registry) {
                 super.addViewControllers(registry);
                 registry.addRedirectViewController("/oncotree-mappings/","/#/home?tab=mapping").setKeepQueryParams(true).setStatusCode(HttpStatus.MOVED_PERMANENTLY);
-        
+
             }
         };
     }

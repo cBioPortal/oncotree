@@ -101,7 +101,6 @@ public class OncotreeTestConfig {
         return oncoTreeVersionRepositoryMockResponse;
     }
 
-
     @Bean
     public List<Version> oncoTreeAdditionalVersionRepositoryMockResponse() {
         List<Version> oncoTreeAdditionalVersionRepositoryMockResponse = new ArrayList<Version>(oncoTreeVersionRepositoryMockResponse());
@@ -112,7 +111,6 @@ public class OncotreeTestConfig {
         oncoTreeAdditionalVersionRepositoryMockResponse.add(nextVersion);
         return oncoTreeAdditionalVersionRepositoryMockResponse;
     }
-
 
     @Bean
     public TopBraidSessionConfiguration topBraidSessionConfiguration() {
@@ -235,7 +233,7 @@ public class OncotreeTestConfig {
                 newOncotreeNode.setCode("SS");
             }
 
-            // add revocations 
+            // add revocations
             if ("URMM".equals(newOncotreeNode.getCode())) {
                 newOncotreeNode.setRevocations("ONC000503");
             }
@@ -244,7 +242,7 @@ public class OncotreeTestConfig {
         }
 
         OncoTreeNode newOncotreeNode = new OncoTreeNode();
-        newOncotreeNode.setURI("http://data.mskcc.org/ontologies/oncotree/ONC000932"); 
+        newOncotreeNode.setURI("http://data.mskcc.org/ontologies/oncotree/ONC000932");
         newOncotreeNode.setCode("CLLSLL");
         newOncotreeNode.setName("DLBCL Associated with Chronic Inflammation");
         newOncotreeNode.setMainType("Mature B-Cell Neoplasms");
