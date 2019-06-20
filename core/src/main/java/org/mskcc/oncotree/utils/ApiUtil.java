@@ -29,7 +29,7 @@ public class ApiUtil {
     public static Pattern prohibited_pattern = Pattern.compile("[\\<\\>\\&\\\"\\'\\\\\\x00]");
 
     /**
-     * removes non-printing characters, and &lt; &gt; &amp; &quot; apotrophe, and backslash
+     * removes non-printing characters, and &lt; &gt; &amp; &quot; apostrophe, and backslash
      */
     public String cleanArgument(String arg) {
         if (arg == null) {
