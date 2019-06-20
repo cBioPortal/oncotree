@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Manda Wilson
  **/
-public class ListUtil { 
+public class ListUtil {
 
     public static boolean hasMatchingElementIgnoreCase(List<String> list, String soughtFor) {
         for (String current : list) {

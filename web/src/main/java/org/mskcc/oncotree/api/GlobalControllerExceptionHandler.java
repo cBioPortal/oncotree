@@ -60,17 +60,9 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(InvalidOncoTreeDataException.class)
     public void handleInvalidOncoTreeDataException() {}
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Your query parameters: vocabularyId, conceptId, histologyCode, siteCode are not valid. Please refer to the documentation")
-    @ExceptionHandler(InvalidOncotreeMappingsParameters.class)
-    public void handleInvalidOncotreeMappingsParameters() {}
-
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no OncoTree code available for your request")
     @ExceptionHandler(UnexpectedCrosswalkResponseException.class)
     public void handleUnexpectedCrosswalkResponseException() {}
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No OncoTree codes were mapped to your query")
-    @ExceptionHandler({CrosswalkConceptNotFoundException.class, OncotreeMappingsNotFound.class})
-    public void handleOncotreeMappingsNotFound() {}
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No tumor types were mapped to your query")
     @ExceptionHandler(TumorTypesNotFoundException.class)
@@ -81,7 +73,7 @@ class GlobalControllerExceptionHandler {
     public void handleInvalidVersionException() {}
 
     @ExceptionHandler
-    public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response) 
+    public void handleInvalidQueryException(InvalidQueryException e, HttpServletResponse response)
         throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }

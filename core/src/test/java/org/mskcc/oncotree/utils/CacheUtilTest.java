@@ -47,7 +47,6 @@ import org.springframework.stereotype.Component;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Author: Avery Wang.
  */
@@ -57,7 +56,7 @@ public class CacheUtilTest {
 
     @Resource(name="oncoTreeVersionRepositoryMockResponse")
     private List<Version> oncoTreeVersionRepositoryMockResponse;
-    
+
     @Resource(name="oncoTreeAdditionalVersionRepositoryMockResponse")
     private List<Version> oncoTreeAdditionalVersionRepositoryMockResponse;
 
@@ -66,7 +65,7 @@ public class CacheUtilTest {
 
     @Resource(name="latestVersion")
     private Version latestVersion;
-    
+
     @Autowired
     private OncoTreeVersionRepository oncoTreeVersionRepository;
 
@@ -90,7 +89,7 @@ public class CacheUtilTest {
         }
         if (!(returnedVersionList.containsAll(expectedVersionList) && expectedVersionList.containsAll(returnedVersionList))) {
             versionListsAreEqual = false;
-        } 
+        }
         return versionListsAreEqual;
     }
 
@@ -116,7 +115,7 @@ public class CacheUtilTest {
             expectedVersionNames = getVersionListNames(oncoTreeVersionRepositoryMockResponse);
             returnedVersionNames = getVersionListNames(returnedCachedVersions);
             fail("Expected and returned cached versions differ. Expected: " + expectedVersionNames + ", Returned: " + returnedVersionNames);
-        } 
+        }
         config.resetAdditionalVersionRepository(oncoTreeVersionRepository);
         cacheUtil.resetCache();
         returnedCachedVersions = cacheUtil.getCachedVersions();
@@ -124,15 +123,15 @@ public class CacheUtilTest {
             expectedVersionNames = getVersionListNames(oncoTreeVersionRepositoryMockResponse);
             returnedVersionNames = getVersionListNames(returnedCachedVersions);
             fail("Expected and returned cached versions differ. Expected: " + expectedVersionNames + ", Returned: " + returnedVersionNames);
-        } 
+        }
     }
-    
+
     @Test(expected = FailedCacheRefreshException.class)
     public void testRecacheWithBrokenOncoTreeVersionRepository() {
         OncotreeTestConfig config = new OncotreeTestConfig();
         config.resetNotWorkingVersionRepository(oncoTreeVersionRepository);
         cacheUtil.resetCache();
-    }   
+    }
 
     private void assertNoHistoryInChildren(Map<String, TumorType> tumorTypes) {
         for(TumorType tumorType: tumorTypes.values()) {

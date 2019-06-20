@@ -44,7 +44,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController // shorthand for @Controller, @ResponseBody
 @RequestMapping(value = "/api/tumor_types.txt", produces = {TEXT_PLAIN_VALUE})
 @Api(value = "/tumor_types.txt", description = "")
@@ -67,9 +66,7 @@ public class TumorTypesTxtApi {
         @ApiResponse(code = 503, message = "Required data source unavailable")
         }
     )
-    @RequestMapping(value = "",
-        produces = {TEXT_PLAIN_VALUE},
-        method = RequestMethod.GET)
+    @RequestMapping(value = "", produces = {TEXT_PLAIN_VALUE}, method = RequestMethod.GET)
     public InputStreamResource tumorTypesTxtGet(
         @ApiParam(value = "The version of tumor types. For example, " + VersionUtil.DEFAULT_VERSION + ". Please see the versions api documentation for released versions.")
         @RequestParam(value = "version", required = false) String version

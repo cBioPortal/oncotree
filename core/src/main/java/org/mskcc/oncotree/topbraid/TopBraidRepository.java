@@ -70,7 +70,7 @@ public abstract class TopBraidRepository<T> {
         // the default supported types for MappingJackson2HttpMessageConverter are:
         //   application/json and application/*+json
         // our response content type is application/sparql-results+json-simple
-        // NOTE: if the response content type was one of the default types we 
+        // NOTE: if the response content type was one of the default types we
         //   would not have to add the message converter to the rest template
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         messageConverter.setSupportedMediaTypes(Collections.singletonList(
@@ -89,9 +89,9 @@ public abstract class TopBraidRepository<T> {
         // See: http://stackoverflow.com/questions/21987295/using-spring-resttemplate-in-generic-method-with-generic-parameter
         try {
             ResponseEntity<List<T>> response = restTemplate.exchange(topBraidURL,
-                HttpMethod.POST,
-                request,
-                parameterizedType);
+                    HttpMethod.POST,
+                    request,
+                    parameterizedType);
             logger.debug("query() -- response.getBody(): '" + response.getBody() + "'");
             return response.getBody();
         } catch (RestClientException e) {

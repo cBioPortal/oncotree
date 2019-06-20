@@ -93,7 +93,7 @@ $(document).ready(function(){
           previous_version_was_visible = this_item_is_visible;
         });
         option_list_html.push('</li></ul>'); // end submenu
-     
+
       $('#other-version .other-version-content').html(option_list_html.join(''));
       $('#oncotree-version-label').append($("#other-version .other-version-content .active").text());
       $('#oncotree-version-note').append($("#other-version .other-version-content .active").data("desc"));
@@ -161,7 +161,7 @@ $(document).ready(function(){
           OutJS.search();
           OutJS.backToTop();
           if (isNaN(initial_search_timer)) {
-            if (!initial_search_timer_inhibit_warning) { 
+            if (!initial_search_timer_inhibit_warning) {
                 window.console.log("warning : could not clear the initial search interval - timer handle not captured");
             }
             initial_search_timer_inhibit_warning = true;

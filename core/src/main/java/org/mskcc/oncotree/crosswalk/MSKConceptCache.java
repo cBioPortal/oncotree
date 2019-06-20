@@ -35,7 +35,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-
 /**
  *
  * @author Manda Wilson
@@ -72,14 +71,14 @@ public class MSKConceptCache {
     @Scheduled(cron="0 0 3 * * SUN") // call every Sunday at 3am
     private void resetCache() {
         logger.info("resetCache() -- attempting to refresh  Crosswalk MSKConcept cache");
-        HashMap<String, MSKConcept> latestOncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>(); 
+        HashMap<String, MSKConcept> latestOncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
         List<Version> versions = new ArrayList<Version>();
         try {
             versions = oncoTreeVersionRepository.getOncoTreeVersions();
         } catch (TopBraidException e) {
             logger.error("resetCache() -- failed to pull versions from repository");
             throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
-        } 
+        }
         // versions are ordered in ascending order by release date
         for (Version version : versions) {
             List<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
@@ -96,7 +95,7 @@ public class MSKConceptCache {
         }
         oncoTreeCodesToMSKConcepts = latestOncoTreeCodesToMSKConcepts;
     }
-    
+
     private MSKConcept getFromCrosswalk(String oncoTreeCode) {
         MSKConcept concept = new MSKConcept();
         try {

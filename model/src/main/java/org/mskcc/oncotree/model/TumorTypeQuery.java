@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Objects;
 
-
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-04-04T17:16:11.368Z")
 public class TumorTypeQuery {
