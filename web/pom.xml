@@ -21,7 +21,8 @@
         <java.version>1.7</java.version>
         <spring.version>4.3.8.RELEASE</spring.version>
         <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
-        <oncotree.core.version>0.0.1-SNAPSHOT</oncotree.core.version>
+        <oncotree.core.version>1.0.0-SNAPSHOT</oncotree.core.version>
+        <oncotree.model.version>1.0.0-SNAPSHOT</oncotree.model.version>
     </properties>
 
     <profiles>
@@ -137,6 +138,13 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <version>${spring.boot.version}</version>
             <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mskcc.oncotree</groupId>
+            <artifactId>model</artifactId>
+            <version>${oncotree.model.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

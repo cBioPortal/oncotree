@@ -11,6 +11,7 @@
         <module>web</module>
         <module>core</module>
         <module>scripts</module>
+        <module>model</module>
     </modules>
 
     <name>OncoTree</name>
