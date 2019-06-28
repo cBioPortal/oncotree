@@ -24,12 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 import javax.annotation.Generated;
-
+import java.io.Serializable;
 /**
  *
  * @author Manda Wilson
  **/
-public class MSKConcept {
+public class MSKConcept implements Serializable {
     // TODO this is a subset of the full model
     @JsonProperty("conceptId")
     private List<String> conceptIds;

@@ -28,6 +28,7 @@ import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.config.OncoTreeAppConfig;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -68,7 +69,8 @@ public class TumorTypesUtilTest {
     }
 
     public Set<TumorType> simulateFullTumorTypeApiResponse() throws Exception {
-        Map<String, TumorType> tumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(legacyVersion, new HashMap<String, ArrayList<String>>());
+        ArrayList<OncoTreeNode> mockOncoTreeNodes = mockRepository.getOncoTree(legacyVersion);
+        Map<String, TumorType> tumorTypeMap = tumorTypesUtil.getAllTumorTypesFromOncoTreeNodes(mockOncoTreeNodes, legacyVersion, new HashMap<String, ArrayList<String>>());
         Set<TumorType> tumorTypeSet = tumorTypesUtil.flattenTumorTypes(tumorTypeMap, null);
         return tumorTypeSet;
     }
@@ -184,7 +186,8 @@ public class TumorTypesUtilTest {
     public void testFullTumorTypesTxt() throws Exception {
         int failureCount = 0;
         StringBuilder failureReport  = new StringBuilder();
-        Map<String, TumorType> returnedTumorTypeMap = tumorTypesUtil.getTumorTypesByVersionFromRaw(legacyVersion, new HashMap<String, ArrayList<String>>());
+        ArrayList<OncoTreeNode> mockOncoTreeNodes = mockRepository.getOncoTree(legacyVersion);
+        Map<String, TumorType> returnedTumorTypeMap = tumorTypesUtil.getAllTumorTypesFromOncoTreeNodes(mockOncoTreeNodes, legacyVersion, new HashMap<String, ArrayList<String>>());
         InputStream tumorTypeTxtInputStream = tumorTypesUtil.getTumorTypeInputStream(returnedTumorTypeMap);
         BufferedReader returnedSheetReader = new BufferedReader(new InputStreamReader(tumorTypeTxtInputStream));
         //check that header is present and matches

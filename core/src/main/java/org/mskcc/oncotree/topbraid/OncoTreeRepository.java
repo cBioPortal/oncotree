@@ -19,6 +19,7 @@
 package org.mskcc.oncotree.topbraid;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +54,9 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
         "   }" +
         "}";
 
-    public List<OncoTreeNode> getOncoTree(Version version) throws TopBraidException {
-        return super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){});
+    public ArrayList<OncoTreeNode> getOncoTree(Version version) throws TopBraidException {
+        ArrayList<OncoTreeNode> list = new ArrayList<OncoTreeNode>(super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){}));
+        return list;
     }
 
 }
