@@ -10,7 +10,7 @@
     <ehcache:service>
       <jcache:defaults enable-management="true" enable-statistics="true"/>
     </ehcache:service>
-    <ehcache:persistence directory="/Users/wanga5/Documents/oncocache-backup/"/>
+    <ehcache:persistence directory="${ehcache.persistence.backup.path}"/>
 
     <ehcache:cache alias="oncoTreeNodesEHCache">
       <ehcache:key-type>java.lang.String</ehcache:key-type>
@@ -28,7 +28,7 @@
         </ehcache:listener>
       </ehcache:listeners-->
       <ehcache:resources>
-        <ehcache:disk unit="GB" persistent="true">4</ehcache:disk>
+        <ehcache:disk unit="${ehcache.oncoTreeNodesEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.oncoTreeNodesEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
     </ehcache:cache>
 
@@ -48,7 +48,7 @@
         </ehcache:listener>
       </ehcache:listeners-->
       <ehcache:resources>
-        <ehcache:disk unit="GB" persistent="true">4</ehcache:disk>
+        <ehcache:disk unit="${ehcache.oncoTreeVersionsEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.oncoTreeVersionsEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
     </ehcache:cache>
 
@@ -68,9 +68,8 @@
         </ehcache:listener>
       </ehcache:listeners-->
       <ehcache:resources>
-        <ehcache:disk unit="GB" persistent="true">4</ehcache:disk>
+        <ehcache:disk unit="${ehcache.mskConceptEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.mskConceptEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
     </ehcache:cache>
 
 </ehcache:config>
-

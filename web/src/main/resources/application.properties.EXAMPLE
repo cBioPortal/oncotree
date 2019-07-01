@@ -17,3 +17,14 @@ slack.url=
 
 # required OncoTree version for startup/recache
 required.oncotree.version=oncotree_latest_stable
+
+# ehcache configuration
+ehcache.persistence.path=
+ehcache.persistence.backup.path=
+ehcache.enable.statistics=false
+ehcache.oncoTreeNodesEHCache.maxBytesLocalDisk=
+ehcache.oncoTreeNodesEHCache.maxBytesLocalDiskUnits=
+ehcache.oncoTreeVersionsEHCache.maxBytesLocalDisk=
+ehcache.oncoTreeVersionsEHCache.maxBytesLocalDiskUnits=
+ehcache.mskConceptEHCache.maxBytesLocalDisk=
+ehcache.mskConceptEHCache.maxBytesLocalDiskUnits=
