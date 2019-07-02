@@ -57,8 +57,14 @@
             <include>**/ehcache.xml</include>
             <include>**/ehcache_backup.xml</include>
             <include>**/log4j.properties</include>
-            <include>**/static/</include>
          </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+            <include>**/static/</include>
+        </includes>
       </resource>
     </resources>
     <plugins>

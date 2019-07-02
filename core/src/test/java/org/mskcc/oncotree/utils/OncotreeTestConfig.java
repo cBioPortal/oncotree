@@ -28,6 +28,7 @@ import org.mskcc.oncotree.utils.CacheUtil;
 import org.mskcc.oncotree.config.OncoTreeAppConfig;
 import org.mskcc.oncotree.utils.OncoTreePersistentCache;
 import org.mskcc.oncotree.utils.VersionUtil;
+import org.mskcc.oncotree.utils.SlackUtil;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
@@ -135,6 +136,11 @@ public class OncotreeTestConfig {
         return repository;
     }
 
+    @Bean
+    public SlackUtil slackUtil() {
+        return Mockito.mock(SlackUtil.class);
+    }
+    
     @Bean
     public VersionUtil versionUtil() {
         return new VersionUtil();

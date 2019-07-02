@@ -30,9 +30,11 @@ import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 
 import org.mskcc.oncotree.model.Version;
+import org.mskcc.oncotree.topbraid.TopBraidException;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.error.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,19 +77,70 @@ public class OncoTreePersistentCache {
     // retrieve cached TopBraid responses from default EHCache location
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     public ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCache(Version version) {
-        return oncoTreeRepository.getOncoTree(version);
+        ArrayList<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
+        try {
+            oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+        } catch (TopBraidException e) {
+            logger.error("Unable to get oncotree nodes from TopBraid... attempting to read from backup.");
+            try {
+                oncoTreeNodes = getOncoTreeNodesFromPersistentCacheBackup(version);
+                if (oncoTreeNodes == null) {
+                    logger.error("No oncotree nodes were found in backup.");
+                    throw new RuntimeException("No oncotree nodes were found in backup.");
+                } 
+            } catch (Exception e2) {
+                logger.error("Unable to read oncotree nodes from backup.");
+                throw new RuntimeException(e2);
+            }
+        }
+        return oncoTreeNodes;
     }
 
     @Cacheable(value = "oncoTreeVersionsEHCache", key = "#root.target.ONCOTREE_VERSIONS_CACHE_KEY", unless = "#result==null")
     public ArrayList<Version> getOncoTreeVersionsFromPersistentCache() {
-        return oncoTreeVersionRepository.getOncoTreeVersions();
+        ArrayList<Version> versions = new ArrayList<Version>();
+        try {
+            versions = oncoTreeVersionRepository.getOncoTreeVersions();
+        } catch (TopBraidException e) {
+            logger.error("Unable to get versions from TopBraid... attempting to read from backup.");
+            try {
+                versions = getOncoTreeVersionsFromPersistentCacheBackup();
+                if (versions == null) {
+                    logger.error("No versions were found in backup.");
+                    throw new RuntimeException("No versions were found in backup.");
+                }
+            } catch (Exception e2) {
+                logger.error("Unable to read versions from backup.");
+                throw new RuntimeException(e2);
+            }
+        }
+        return versions;
     }
 
+    /* this function will ALWAYS return an MSKConcept object (may be empty)
+     * is not required for application startup
+     */
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept getMSKConceptFromPersistentCache(String oncoTreeCode) {
-        // if crosswalk can't find it, then return emtpy MSKConcept
-        // else if crosswalk had other error, get from backup
-        return crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        MSKConcept mskConcept = new MSKConcept();
+        try {
+            mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        // able to connect to Crosswalk system but node not found - catch empty object
+        } catch (CrosswalkConceptNotFoundException e) {
+            return new MSKConcept();
+        // can't connect to Crosswalk - attempt to fall on backup
+        } catch (CrosswalkException e) {
+            logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
+            try {
+                mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
+                if (mskConcept == null) {
+                    return new MSKConcept();
+                }
+            } catch (Exception e2) {
+                return new MSKConcept();
+            }
+        }
+        return mskConcept;
     }
 
     @CachePut(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
@@ -102,10 +155,19 @@ public class OncoTreePersistentCache {
         return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
+    // Updating MSKConcepts -- catch cases where can't connect to Crosswalk
     @CachePut(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) {
         logger.info("updating EHCache with updated MSKConcept from Crosswalk");
-        return crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        MSKConcept mskConcept = new MSKConcept();
+        try {
+            mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        } catch (CrosswalkConceptNotFoundException e) {
+            return new MSKConcept();
+        } catch (CrosswalkException e) {
+            throw e;
+        }
+        return mskConcept;
     }
 
     /*
@@ -118,7 +180,7 @@ public class OncoTreePersistentCache {
 
     // retrieve cache TopBraid responses from backup EHCache location (and re-populate default EHCache locatin)
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
-    public synchronized ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCacheBackup(Version version) throws Exception {
+    private synchronized ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCacheBackup(Version version) throws Exception {
         CacheManager cacheManager = null;
         Cache cache = null;
         ArrayList<OncoTreeNode> oncoTreeNodes = null;
@@ -135,7 +197,7 @@ public class OncoTreePersistentCache {
     }
 
     @Cacheable(value = "oncoTreeVersionsEHCache", key = "#root.target.ONCOTREE_VERSIONS_CACHE_KEY", unless = "#result==null")
-    public synchronized ArrayList<Version> getOncoTreeVersionsFromPersistentCacheBackup() throws Exception {
+    private synchronized ArrayList<Version> getOncoTreeVersionsFromPersistentCacheBackup() throws Exception {
         CacheManager cacheManager = null;
         Cache cache = null;
         ArrayList<Version> versions = null;
@@ -152,7 +214,7 @@ public class OncoTreePersistentCache {
     }
 
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
-    public synchronized MSKConcept getMSKConceptFromPersistentCacheBackup(String oncoTreeCode) throws Exception {
+    private synchronized MSKConcept getMSKConceptFromPersistentCacheBackup(String oncoTreeCode) throws Exception {
         CacheManager cacheManager = null;
         Cache cache = null;
         MSKConcept mskConcept = null;
