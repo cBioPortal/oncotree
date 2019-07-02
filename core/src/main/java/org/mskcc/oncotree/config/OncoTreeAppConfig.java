@@ -22,6 +22,9 @@ import javax.cache.CacheManager;
 import javax.cache.spi.CachingProvider;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.jcache.JCacheCacheManager;
@@ -36,20 +39,25 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class OncoTreeAppConfig {
 
+    private final static Logger logger = LoggerFactory.getLogger(OncoTreeAppConfig.class);
+
     @Bean
     public CachingProvider cachingProvider() throws Exception {
+        logger.info("cachingProvider() called");
         CachingProvider cachingProvider = new EhcacheCachingProvider();
         return cachingProvider;
     }
 
     @Bean(destroyMethod = "close")
     public CacheManager oncoTreeCacheManager() throws Exception {
+        logger.info("oncoTreeCacheManager() called");
         return cachingProvider().getCacheManager(getClass().getClassLoader().getResource("ehcache.xml").toURI(),
             getClass().getClassLoader());
     }
 
     @Bean
     public JCacheCacheManager jCacheCacheManager() throws Exception {
+        logger.info("jCacheCacheManager() called");
         return new JCacheCacheManager(oncoTreeCacheManager());
     }
 

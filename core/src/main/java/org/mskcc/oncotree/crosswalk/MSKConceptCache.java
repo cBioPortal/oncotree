@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -47,40 +47,34 @@ import org.springframework.context.event.EventListener;
 public class MSKConceptCache {
 
     private static final Logger logger = LoggerFactory.getLogger(MSKConceptCache.class);
-    private static HashMap<String, MSKConcept> oncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
 
     @Autowired
     private OncoTreePersistentCache oncoTreePersistentCache;
 
     public MSKConcept get(String oncoTreeCode) {
-        if (oncoTreeCodesToMSKConcepts.containsKey(oncoTreeCode)) {
-            logger.debug("get(" + oncoTreeCode + ") -- in cache");
-            return oncoTreeCodesToMSKConcepts.get(oncoTreeCode);
+        // TODO we should not be checking crosswalk again for nodes we know are not there
+        // the cache should have empty objects in it on a CrosswalkException
+        // TODO should we also check backup? no, make oncoTreePersistentCache do that, probably not
+        // TODO in OncoTreePersistentCache look at error code, if object not found, save 
+        // empty MSKConcept object for oncoTreeCode, if something else, throw the exception
+        // TODO this is not populating the backup cache, but is the main cache,
+        // so is the backup cache getting populated with everything?
+        try {
+            return oncoTreePersistentCache.getMSKConceptFromPersistentCache(oncoTreeCode);
+        } catch (CrosswalkException e) {
+            return new MSKConcept(); // TODO in the bright future, this would be a new node with a cache problem or 500 error?
         }
-        logger.debug("get(" + oncoTreeCode + ") -- NOT in cache, query crosswalk");
-        MSKConcept concept = getFromCrosswalk(oncoTreeCode);
-        // save even if has no information in it
-        oncoTreeCodesToMSKConcepts.put(oncoTreeCode, concept);
-        return concept;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     @Scheduled(cron="0 0 3 * * SUN") // call every Sunday at 3am
-    // this only fails if TopBraid is down; crosswalk being down does not affect the cache since it does not require a response from Crosswalk 
+    // this only fails if TopBraid is down; crosswalk being down does not affect the cache since it does not require a response from Crosswalk
     private void resetCache() throws Exception {
-        logger.info("resetCache() -- attempting to refresh  Crosswalk MSKConcept cache");
+        logger.info("resetCache() -- attempting to refresh Crosswalk MSKConcept cache");
         HashMap<String, MSKConcept> latestOncoTreeCodesToMSKConcepts = new HashMap<String, MSKConcept>();
         ArrayList<Version> oncoTreeVersions = new ArrayList<Version>();
-       
-        // update verisons in EHCache, extract from EHCache, backup if update was successful 
-        boolean failedOncoTreeVersionsCacheRefresh = false;
-        try {
-            oncoTreePersistentCache.updateOncoTreeVersionsInPersistentCache();
-        } catch (TopBraidException exception) {
-            logger.error("resetCache() -- failed to pull versions from repository");
-            failedOncoTreeVersionsCacheRefresh = true;
-        }
-        
+
+        // get versions, we are not updating them here
         try {
             oncoTreeVersions = oncoTreePersistentCache.getOncoTreeVersionsFromPersistentCache();
         } catch (TopBraidException e) {
@@ -96,25 +90,10 @@ public class MSKConceptCache {
                 throw new FailedCacheRefreshException("Unable to load versions from backup cache...");
             }
         }
-        if (!failedOncoTreeVersionsCacheRefresh) {
-            try {
-                oncoTreePersistentCache.backupOncoTreeVersionsPersistentCache(oncoTreeVersions);
-            } catch (Exception e) {
-                logger.error("Unable to backup versions EHCache");
-            }
-        }
 
         // versions are ordered in ascending order by release date
-        // for every version, update oncotree nodes in EHCache, extract from EHCache, and backup if successful
         for (Version version : oncoTreeVersions) {
-            boolean failedVersionedOncoTreeNodesCacheRefresh = false;       
             ArrayList<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
-            try {
-                ;//oncoTreePersistentCache.updateOncoTreeNodesInPersistentCache(version);
-            } catch (TopBraidException e) {
-                logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
-                failedVersionedOncoTreeNodesCacheRefresh = true;
-            }
             try {
                 oncoTreeNodes = oncoTreePersistentCache.getOncoTreeNodesFromPersistentCache(version);
             } catch (TopBraidException e) {
@@ -128,51 +107,45 @@ public class MSKConceptCache {
                 } catch (Exception e2) {
                     logger.error("Unable to load oncotree nodes for version " + version.getVersion() + " from backup cache...");
                     throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
-                } 
-            }
-            if (!failedVersionedOncoTreeNodesCacheRefresh) {
-                try {
-                    oncoTreePersistentCache.backupOncoTreeNodesPersistentCache(oncoTreeNodes, version);
-                } catch (Exception e) {
-                    logger.error("Unable to backup oncotree nodes in EHCche");
                 }
             }
             for (OncoTreeNode node : oncoTreeNodes) {
-                MSKConcept mskConcept = getFromCrosswalk(node.getCode());
-                latestOncoTreeCodesToMSKConcepts.put(node.getCode(), mskConcept);
+                // check if already in latestOncoTreeCodesToMSKConcepts and then skip if it is
+                if (!latestOncoTreeCodesToMSKConcepts.containsKey(node.getCode())) {
+                    // pull from crosswalk first (b/c refreshing), then backup cache
+                    MSKConcept concept = new MSKConcept();
+                    try {
+                        // TODO this needs to save the empty mskconcept, maybe in oncoTreePersistentCache
+                        oncoTreePersistentCache.updateMSKConceptInPersistentCache(node.getCode());
+                    } catch (CrosswalkException e) {
+                        // TODO we don't want to throw an exception from one problem node,
+                        // but what if all are always failing?
+                        logger.error("Unable to update oncotree node with code " + node.getCode() + " from crosswalk...");
+                    }
+                    try {
+                        concept = oncoTreePersistentCache.getMSKConceptFromPersistentCache(node.getCode());
+                        if (concept == null) {
+                            concept = new MSKConcept();
+                        }
+                    } catch (CrosswalkException e) {
+                        try {
+                            concept = oncoTreePersistentCache.getMSKConceptFromPersistentCacheBackup(node.getCode());
+                        } catch (Exception e2) {
+                            concept = new MSKConcept();
+                        }
+                    }
+                    // at this point whatever we have save it?
+                    latestOncoTreeCodesToMSKConcepts.put(node.getCode(), concept);
+                }
             }
         }
-        oncoTreeCodesToMSKConcepts = latestOncoTreeCodesToMSKConcepts;
+        // now save mskconcepts to backup
+        try  {
+             oncoTreePersistentCache.backupMSKConceptPersistentCache(latestOncoTreeCodesToMSKConcepts);
+        } catch (Exception e) {
+            logger.error("Unable to backup MSK concepts in EHCache");
+            // TODO throw exception?
+        }
     }
 
-    // returns default MSKConcept when unable to fetch from crosswalk (existing behavior)
-    private MSKConcept getFromCrosswalk(String oncoTreeCode) {
-        MSKConcept concept = new MSKConcept();
-        boolean failedUpdateMskConceptInPersistentCache = false;
-        try {
-            oncoTreePersistentCache.updateMSKConceptInPersistentCache(oncoTreeCode);
-        } catch (CrosswalkException e) {
-            failedUpdateMskConceptInPersistentCache = true;
-        }
-        try {
-            concept = oncoTreePersistentCache.getMSKConceptFromPersistentCache(oncoTreeCode); 
-        } catch (CrosswalkException e) {
-            try {
-                concept = oncoTreePersistentCache.getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
-                if (concept == null) {
-                    return new MSKConcept();
-                }
-            } catch (Exception e2) {
-                return new MSKConcept();
-            }                       
-        }
-        if (!failedUpdateMskConceptInPersistentCache) {
-            try {
-                oncoTreePersistentCache.backupMSKConceptPersistentCache(concept, oncoTreeCode);
-            } catch (Exception e) {
-                logger.error("Unable to backup MSKConcpet EHCache");
-            }
-        }
-        return concept;
-    }
 }

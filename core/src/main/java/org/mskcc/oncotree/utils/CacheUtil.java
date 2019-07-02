@@ -72,8 +72,8 @@ public class CacheUtil {
     @Value("${required.oncotree.version:oncotree_latest_stable}")
     private String requiredOncotreeVersion;
 
-    @EventListener(ApplicationReadyEvent.class)
-    @Scheduled(cron="0 */10 * * * *") // call every 10 minutes
+    // starts immediately, then called again 10 minutes after previous execution finishes
+    @Scheduled(fixedDelay = 600000, initialDelay = 0)
     private void scheduleResetCache() {
         // TODO make sure we don't have two scheduled calls run simultaneously
         if (tumorTypesCache == null || cacheIsStale()) {
