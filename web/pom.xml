@@ -81,7 +81,7 @@
               </includes>
             </resource>
           </webResources>
-          <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package logback.xml-EXAMPLE or application.properties-EXAMPLE -->
+          <packagingExcludes>WEB-INF/classes/*-EXAMPLE</packagingExcludes> <!-- don't need to package log4.properties.EXAMPLE or application.properties.EXAMPLE -->
         </configuration>
       </plugin>
 
