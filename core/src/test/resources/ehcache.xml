@@ -15,9 +15,9 @@
     <ehcache:cache alias="oncoTreeNodesEHCache">
       <ehcache:key-type>java.lang.String</ehcache:key-type>
       <ehcache:value-type>java.util.ArrayList</ehcache:value-type>
-      <!--ehcache:listeners>
+      <ehcache:listeners>
         <ehcache:listener>
-          <ehcache:class>org.mskcc.oncotree.util.CacheEventLogger</ehcache:class>
+          <ehcache:class>org.mskcc.oncotree.utils.CacheEventLogger</ehcache:class>
           <ehcache:event-firing-mode>ASYNCHRONOUS</ehcache:event-firing-mode>
           <ehcache:event-ordering-mode>UNORDERED</ehcache:event-ordering-mode>
           <ehcache:events-to-fire-on>CREATED</ehcache:events-to-fire-on>
@@ -26,7 +26,7 @@
           <ehcache:events-to-fire-on>EXPIRED</ehcache:events-to-fire-on>
           <ehcache:events-to-fire-on>EVICTED</ehcache:events-to-fire-on>
         </ehcache:listener>
-      </ehcache:listeners-->
+      </ehcache:listeners>
       <ehcache:resources>
         <ehcache:disk unit="${ehcache.dev.oncoTreeNodesEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.dev.oncoTreeNodesEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
@@ -35,9 +35,9 @@
     <ehcache:cache alias="oncoTreeVersionsEHCache">
       <ehcache:key-type>java.lang.String</ehcache:key-type>
       <ehcache:value-type>java.util.ArrayList</ehcache:value-type>
-      <!--ehcache:listeners>
+      <ehcache:listeners>
         <ehcache:listener>
-          <ehcache:class>org.mskcc.oncotree.util.CacheEventLogger</ehcache:class>
+          <ehcache:class>org.mskcc.oncotree.utils.CacheEventLogger</ehcache:class>
           <ehcache:event-firing-mode>ASYNCHRONOUS</ehcache:event-firing-mode>
           <ehcache:event-ordering-mode>UNORDERED</ehcache:event-ordering-mode>
           <ehcache:events-to-fire-on>CREATED</ehcache:events-to-fire-on>
@@ -46,7 +46,7 @@
           <ehcache:events-to-fire-on>EXPIRED</ehcache:events-to-fire-on>
           <ehcache:events-to-fire-on>EVICTED</ehcache:events-to-fire-on>
         </ehcache:listener>
-      </ehcache:listeners-->
+      </ehcache:listeners>
       <ehcache:resources>
         <ehcache:disk unit="${ehcache.dev.oncoTreeVersionsEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.dev.oncoTreeVersionsEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
@@ -55,9 +55,9 @@
     <ehcache:cache alias="mskConceptEHCache">
       <ehcache:key-type>java.lang.String</ehcache:key-type>
       <ehcache:value-type>org.mskcc.oncotree.crosswalk.MSKConcept</ehcache:value-type>
-      <!--ehcache:listeners>
+      <ehcache:listeners>
         <ehcache:listener>
-          <ehcache:class>org.mskcc.oncotree.util.CacheEventLogger</ehcache:class>
+          <ehcache:class>org.mskcc.oncotree.utils.CacheEventLogger</ehcache:class>
           <ehcache:event-firing-mode>ASYNCHRONOUS</ehcache:event-firing-mode>
           <ehcache:event-ordering-mode>UNORDERED</ehcache:event-ordering-mode>
           <ehcache:events-to-fire-on>CREATED</ehcache:events-to-fire-on>
@@ -66,7 +66,7 @@
           <ehcache:events-to-fire-on>EXPIRED</ehcache:events-to-fire-on>
           <ehcache:events-to-fire-on>EVICTED</ehcache:events-to-fire-on>
         </ehcache:listener>
-      </ehcache:listeners-->
+      </ehcache:listeners>
       <ehcache:resources>
         <ehcache:disk unit="${ehcache.dev.mskConceptEHCache.maxBytesLocalDiskUnits}" persistent="true">${ehcache.dev.mskConceptEHCache.maxBytesLocalDisk}</ehcache:disk>
       </ehcache:resources>
