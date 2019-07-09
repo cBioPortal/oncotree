@@ -46,9 +46,6 @@ import org.springframework.stereotype.Component;
 public class OncoTreePersistentCache {
 
     // TODO should this be a templated class somehow because we are doing the same stuff for 3 kinds of objects
-    // TODO for users of this class getting from the cache and then from backup is complicated
-    // make a method that is just a getBlah() which attempts to get from backup too
-
     private final static Logger logger = LoggerFactory.getLogger(OncoTreePersistentCache.class);
 
     @Autowired
@@ -122,7 +119,7 @@ public class OncoTreePersistentCache {
      */
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept getMSKConceptFromPersistentCache(String oncoTreeCode) {
-        MSKConcept mskConcept = new MSKConcept();
+        MSKConcept mskConcept = null;
         try {
             mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         // able to connect to Crosswalk system but node not found - catch empty object
@@ -159,7 +156,7 @@ public class OncoTreePersistentCache {
     @CachePut(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) {
         logger.info("updating EHCache with updated MSKConcept from Crosswalk");
-        MSKConcept mskConcept = new MSKConcept();
+        MSKConcept mskConcept = null;
         try {
             mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         } catch (CrosswalkConceptNotFoundException e) {

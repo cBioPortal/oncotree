@@ -183,7 +183,7 @@ public class CacheUtil {
         dateOfLastCacheRefresh = date;
     }
 
-    public  List<Version> getCachedVersions() {
+    public List<Version> getCachedVersions() {
         if (tumorTypesCache == null) {
             resetCache();
         }

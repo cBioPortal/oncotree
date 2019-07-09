@@ -55,8 +55,7 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
         "}";
 
     public ArrayList<OncoTreeNode> getOncoTree(Version version) throws TopBraidException {
-        ArrayList<OncoTreeNode> list = new ArrayList<OncoTreeNode>(super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){}));
-        return list;
+        return new ArrayList<OncoTreeNode>(super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){}));
     }
 
 }

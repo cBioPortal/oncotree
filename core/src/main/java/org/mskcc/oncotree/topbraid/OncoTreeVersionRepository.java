@@ -55,7 +55,6 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
      * @return all OncoTree versions ordered by ascending release date (development last)
      */
     public ArrayList<Version> getOncoTreeVersions() throws TopBraidException {
-        ArrayList<Version> list = new ArrayList<Version>(super.query(query, new ParameterizedTypeReference<List<Version>>(){}));
-        return list;
+        return new ArrayList<Version>(super.query(query, new ParameterizedTypeReference<List<Version>>(){}));
     }
 }
