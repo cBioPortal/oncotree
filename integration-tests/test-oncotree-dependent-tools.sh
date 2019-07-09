@@ -73,7 +73,7 @@ CURRENT_WAIT_TIME=0
 MAXIMUM_WAIT_TIME=600 # 600 seconds (10 min) - as of 3/19/2019 takes 381.809 to start up
 if [ $ONCOTREE_PORT -gt 0 ] ; then
     echo "Starting 'java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &'"
-    java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &
+    java -Dcrosswalk.disable_cvs_querying=true -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &
     # maximum time to wait for OncoTree to deploy (MAXIMUM_WAIT_TIME/60) minutes
     # every TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS seconds check if job is still running
     # attempt to hit endpoint - successful return code indicated ONCOTREE has started up
