@@ -41,7 +41,7 @@ public class SlackUtil {
     private String slackChannel;
 
     public void sendSlackNotification(String message) {
-        String payload = "payload={\"channel\": \"" + slackChannel + "\", \"username\": \"cbioportal_importer\", \"text\": \"" + message + "\", \"icon_emoji\": \":rotating_light:\"}";
+        String payload = "payload={\"channel\": \"#" + slackChannel + "\", \"username\": \"cbioportal_importer\", \"text\": \"" + message + "\", \"icon_emoji\": \":rotating_light:\"}";
         StringEntity entity = new StringEntity(payload, ContentType.APPLICATION_FORM_URLENCODED);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(slackURL);

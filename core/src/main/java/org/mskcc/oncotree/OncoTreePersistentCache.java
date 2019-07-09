@@ -119,23 +119,20 @@ public class OncoTreePersistentCache {
      */
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept getMSKConceptFromPersistentCache(String oncoTreeCode) {
-        MSKConcept mskConcept = null;
+        MSKConcept mskConcept = new MSKConcept();
         try {
-            mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+            mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         // able to connect to Crosswalk system but node not found - catch empty object
         } catch (CrosswalkConceptNotFoundException e) {
-            return new MSKConcept();
         // can't connect to Crosswalk - attempt to fall on backup
         } catch (CrosswalkException e) {
             logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
             try {
                 mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
                 if (mskConcept == null) {
-                    return new MSKConcept();
+                    mskConcept = new MSKConcept();
                 }
-            } catch (Exception e2) {
-                return new MSKConcept();
-            }
+            } catch (Exception e2) {}
         }
         return mskConcept;
     }
@@ -154,15 +151,13 @@ public class OncoTreePersistentCache {
 
     // Updating MSKConcepts -- catch cases where can't connect to Crosswalk
     @CachePut(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
-    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) {
+    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) throws CrosswalkException {
         logger.info("updating EHCache with updated MSKConcept from Crosswalk");
         MSKConcept mskConcept = null;
         try {
             mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
         } catch (CrosswalkConceptNotFoundException e) {
             return new MSKConcept();
-        } catch (CrosswalkException e) {
-            throw e;
         }
         return mskConcept;
     }

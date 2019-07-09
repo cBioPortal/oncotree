@@ -17,6 +17,7 @@ IMPORT_SCRIPTS_DIRECTORY=$CMO_PIPELINES_DIRECTORY/import-scripts
 JENKINS_USER_HOME_DIRECTORY=/var/lib/jenkins
 JENKINS_PROPERTIES_DIRECTORY=$JENKINS_USER_HOME_DIRECTORY/pipelines-configuration/properties
 APPLICATION_PROPERTIES=application.properties
+TEST_APPLICATION_PROPERTIES=test.application.properties
 
 ONCOTREE_CODE_CONVERTER_TEST_SUCCESS=0
 FAKE_ONCOTREE_VERSION_TEST_SUCCESS=0
@@ -62,6 +63,8 @@ function find_free_port {
 
 # Copy in ONCOTREE properties and build jar
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/web/src/main/resources
+rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/log4j.properties $ONCOTREE_DIRECTORY/web/src/main/resources
+rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$TEST_APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/core/src/test/resources/$APPLICATION_PROPERTIES
 cd $ONCOTREE_DIRECTORY ; mvn package -Dpackaging.type=jar
 
 #start up ONCOTREE on some port on dashi-dev
