@@ -129,11 +129,6 @@ var tree = (function () {
     }
 
     function initDataAndTree(version) {
-        var jsonUrl = 'api/tumorTypes/tree?'
-
-        if (version) {
-          jsonUrl += '&version=' + version;
-        }
         tree = d3.layout.tree()
             .nodeSize([20, null]);
 
@@ -148,7 +143,7 @@ var tree = (function () {
             .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + 300 + ")");
 
-        d3.json(jsonUrl, function (oncotree_json) {
+        d3.json('data/tumor_types.json', function (oncotree_json) {
             var rootNode = new UniqueTreeNodeDatum();
             rootNode.name = 'Tissue';
             rootNode.children = []

@@ -16,15 +16,15 @@ $(document).ready(function(){
     var available_versions = {};
     var location_ = window.location.href;
 
-    loadVersions(function() {
-      checkURL();
+    // loadVersions(function() {
+      // checkURL();
       tree.init(displayed_version);
       setDisplayedSearch(displayed_search_term);
-      initVersionsLink();
+      // initVersionsLink();
       initEvents();
       OutJS.backToTop();
       initQtips();
-    });
+    // });
 
     $(function () {
       $('#tree-tab').click(function (e) {
