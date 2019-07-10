@@ -24,6 +24,12 @@ The OncoTree is an evolving ontology and as such has gone through several iterat
 
 For APIs, please see the [OncoTree Swagger page](http://oncotree.mskcc.org/#/home?tab=api)
 
+## Start a frontend only website
+### Install/Start project
+1. Install npm globally
+2. Go to web/src/main/resources/
+3. Run `npm install`
+4. Run `grunt serve`
 
 ## License
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
