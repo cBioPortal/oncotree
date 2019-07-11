@@ -19,8 +19,8 @@ var tree = (function () {
 
     var searchResult = [];
 
-    var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
-    var is_safari = navigator.userAgent.indexOf("Safari") > -1;
+    //var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
+    //var is_safari = navigator.userAgent.indexOf("Safari") > -1;
 
     var treeBuildComplete = false; // set to true after child elements have all been constructed in DOM
 
@@ -41,6 +41,7 @@ var tree = (function () {
         this.umls = [];
         this.history = ''; // comma delimited string
         this.hasRevocations = false;
+        this.number = 0;
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -306,7 +307,7 @@ var tree = (function () {
             });
 
         nodeEnter.append("svg:circle")
-            .attr("r", 1e-6)
+            .attr("r", 500)
             .style("stroke", function (d) {
                 return d.color;
             })
