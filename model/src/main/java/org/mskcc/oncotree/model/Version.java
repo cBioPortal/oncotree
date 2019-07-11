@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
-
+import java.io.Serializable;
 /**
  * Created by Hongxin on 5/23/16.
  */
@@ -37,7 +37,7 @@ import java.util.Objects;
     "graph_uri",
     "description"
 })
-public class Version {
+public class Version implements Serializable {
 
     @JsonProperty("api_identifier")
     private String version;

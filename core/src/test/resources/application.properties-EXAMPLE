@@ -1,0 +1,9 @@
+# echache configuration properties for testing
+ehcache.dev.persistence.path=
+ehcache.dev.enable.statistics=false
+ehcache.dev.oncoTreeNodesEHCache.maxBytesLocalDisk=
+ehcache.dev.oncoTreeNodesEHCache.maxBytesLocalDiskUnits=
+ehcache.dev.oncoTreeVersionsEHCache.maxBytesLocalDisk=
+ehcache.dev.oncoTreeVersionsEHCache.maxBytesLocalDiskUnits=
+ehcache.dev.mskConceptEHCache.maxBytesLocalDisk=
+ehcache.dev.mskConceptEHCache.maxBytesLocalDiskUnits=

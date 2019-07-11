@@ -1,4 +1,5 @@
-/** Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
+/*
+ * Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -55,19 +56,9 @@ public class TumorTypesUtil {
     private CacheUtil cacheUtil;
 
     @Autowired
-    private OncoTreeRepository oncoTreeRepository;
-
-    @Autowired
     private MSKConceptCache mskConceptCache;
 
     public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
-
-    public Map<String, TumorType> getTumorTypesByVersionFromRaw(Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
-        if (version != null) {
-            return loadFromRepository(version, topBraidURIsToOncotreeCodes);
-        }
-        return new HashMap<>();
-    }
 
     public List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException, InvalidQueryException {
         logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
@@ -255,8 +246,7 @@ public class TumorTypesUtil {
         }
     }
 
-    private Map<String, TumorType> loadFromRepository(Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
-        List<OncoTreeNode> oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
+    public Map<String, TumorType> getAllTumorTypesFromOncoTreeNodes(List<OncoTreeNode> oncoTreeNodes, Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
         HashSet<String> duplicateCodeSet = new HashSet<>();

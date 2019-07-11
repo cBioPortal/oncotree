@@ -25,7 +25,10 @@ import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
 import org.mskcc.oncotree.utils.CacheUtil;
+import org.mskcc.oncotree.config.OncoTreeAppConfig;
+import org.mskcc.oncotree.utils.OncoTreePersistentCache;
 import org.mskcc.oncotree.utils.VersionUtil;
+import org.mskcc.oncotree.utils.SlackUtil;
 import org.mskcc.oncotree.topbraid.OncoTreeNode;
 import org.mskcc.oncotree.topbraid.OncoTreeRepository;
 import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
@@ -33,6 +36,7 @@ import org.mskcc.oncotree.topbraid.TopBraidException;
 import org.mskcc.oncotree.topbraid.TopBraidSessionConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import static org.junit.Assert.fail;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.Matchers.*;
@@ -42,10 +46,11 @@ import static org.mockito.Matchers.*;
  * @author heinsz
  */
 @Configuration
+@Import(OncoTreeAppConfig.class)
 public class OncotreeTestConfig {
 
-    private List<OncoTreeNode> oncoTreeRepositoryMockResponse = setupOncotreeRepositoryMockResponse();
-    private List<OncoTreeNode> oncoTreeRepositoryMockResponseHistoryChange = setupOncotreeRepositoryMockResponseHistoryChange();
+    private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponse = setupOncotreeRepositoryMockResponse();
+    private ArrayList<OncoTreeNode> oncoTreeRepositoryMockResponseHistoryChange = setupOncotreeRepositoryMockResponseHistoryChange();
 
     @Bean
     public OncoTreeVersionRepository oncoTreeVersionRepository() {
@@ -79,8 +84,8 @@ public class OncotreeTestConfig {
     }
 
     @Bean
-    public List<Version> oncoTreeVersionRepositoryMockResponse() {
-        List<Version> oncoTreeVersionRepositoryMockResponse = new ArrayList<Version>();
+    public ArrayList<Version> oncoTreeVersionRepositoryMockResponse() {
+        ArrayList<Version> oncoTreeVersionRepositoryMockResponse = new ArrayList<Version>();
         // versions are always supposed to be in ascending order
 
         oncoTreeVersionRepositoryMockResponse.add(legacyVersion());
@@ -102,8 +107,8 @@ public class OncotreeTestConfig {
     }
 
     @Bean
-    public List<Version> oncoTreeAdditionalVersionRepositoryMockResponse() {
-        List<Version> oncoTreeAdditionalVersionRepositoryMockResponse = new ArrayList<Version>(oncoTreeVersionRepositoryMockResponse());
+    public ArrayList<Version> oncoTreeAdditionalVersionRepositoryMockResponse() {
+        ArrayList<Version> oncoTreeAdditionalVersionRepositoryMockResponse = new ArrayList<Version>(oncoTreeVersionRepositoryMockResponse());
         Version nextVersion = new Version();
         nextVersion.setVersion("test_version");
         nextVersion.setGraphURI("urn:x-evn-master:test_version");
@@ -132,6 +137,11 @@ public class OncotreeTestConfig {
     }
 
     @Bean
+    public SlackUtil slackUtil() {
+        return Mockito.mock(SlackUtil.class);
+    }
+    
+    @Bean
     public VersionUtil versionUtil() {
         return new VersionUtil();
     }
@@ -139,6 +149,11 @@ public class OncotreeTestConfig {
     @Bean
     public CacheUtil cacheUtil() {
         return new CacheUtil();
+    }
+
+    @Bean
+    public OncoTreePersistentCache oncoTreePersistentCache() {
+        return new OncoTreePersistentCache();
     }
 
     @Bean
@@ -199,7 +214,7 @@ public class OncotreeTestConfig {
         return latestVersion;
     }
 
-    private List<OncoTreeNode> setupOncotreeRepositoryMockResponse() {
+    private ArrayList<OncoTreeNode> setupOncotreeRepositoryMockResponse() {
         String[] rawTestValueSource = getRawTestValueSource();
         final int valuesPerCase = 6;
         if (rawTestValueSource.length % valuesPerCase != 0) {
@@ -209,7 +224,7 @@ public class OncotreeTestConfig {
         if (caseCount < 1) {
             throw new RuntimeException("Error : no test cases defined in rawTestValueSource");
         }
-        List<OncoTreeNode> tmpOncoTreeRepositoryMockResponse = new ArrayList<>();
+        ArrayList<OncoTreeNode> tmpOncoTreeRepositoryMockResponse = new ArrayList<>();
         for (int pos = 0; pos < rawTestValueSource.length; pos = pos + valuesPerCase) {
             OncoTreeNode nextNode = new OncoTreeNode();
             nextNode.setCode(rawTestValueSource[pos]);
@@ -223,8 +238,8 @@ public class OncotreeTestConfig {
         return tmpOncoTreeRepositoryMockResponse;
     }
 
-    private List<OncoTreeNode> setupOncotreeRepositoryMockResponseHistoryChange() {
-        List<OncoTreeNode> tmpOncoTreeRepositoryMockResponseHistoryChange = new ArrayList<>();
+    private ArrayList<OncoTreeNode> setupOncotreeRepositoryMockResponseHistoryChange() {
+        ArrayList<OncoTreeNode> tmpOncoTreeRepositoryMockResponseHistoryChange = new ArrayList<>();
         for (OncoTreeNode oncotreeNode : oncoTreeRepositoryMockResponse) {
             OncoTreeNode newOncotreeNode = new OncoTreeNode(oncotreeNode);
 
