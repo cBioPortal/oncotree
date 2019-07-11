@@ -9,7 +9,7 @@ var tree = (function () {
         w = 500 - m[1] - m[3],
         h = 500 - m[0] - m[2],
         i = 0,
-        radius = 4.5,
+        radius = 45,
         fontSize = '12px',
         root;
 
@@ -41,7 +41,7 @@ var tree = (function () {
         this.umls = [];
         this.history = ''; // comma delimited string
         this.hasRevocations = false;
-        this.number = 0;
+        //this.number = 0;
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -307,7 +307,7 @@ var tree = (function () {
             });
 
         nodeEnter.append("svg:circle")
-            .attr("r", 500)
+            .attr("r", radius)
             .style("stroke", function (d) {
                 return d.color;
             })
