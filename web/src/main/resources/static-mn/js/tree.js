@@ -9,7 +9,7 @@ var tree = (function () {
         w = 500 - m[1] - m[3],
         h = 500 - m[0] - m[2],
         i = 0,
-        radius = 45,
+        radius = 4.5,
         fontSize = '12px',
         root;
 
@@ -41,7 +41,7 @@ var tree = (function () {
         this.umls = [];
         this.history = ''; // comma delimited string
         this.hasRevocations = false;
-        //this.number = 0;
+        this.number = 0;
     }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
@@ -442,7 +442,7 @@ var tree = (function () {
             .remove();
 
         nodeExit.select("circle")
-            .attr("r", 1e-6);
+            .attr("r", 500);
 
         nodeExit.select("text")
             .style("fill-opacity", 1e-6);
