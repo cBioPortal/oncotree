@@ -127,11 +127,12 @@ var tree = (function () {
         // add new node to children list of parentNode
         parentNode.children.push(childNode);
 
-        if (parentNode.children != {}) {
+        var total = 0;
             for (i = 0; i in parentNode.children; i++) {
-                parentNode.number += parentNode.children[i].number;
+                total += parentNode.children[i].number;
+                //parentNode.number = parentNode.children[i].number;
             }
-        }
+            parentNode.number += total;
 
         // now process this node's children
         if (childData.hasOwnProperty('children')) {
