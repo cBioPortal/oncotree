@@ -30,94 +30,63 @@ $(document).ready(function(){
       $('#tree-tab').click(function (e) {
         window.location.hash = "/home";
       })
-      // $('#mapping-tab').click(function (e) {
-      //    window.location.hash = "/home?tab=mapping";
-      // })
-      // $('#news-tab').click(function (e) {
-      //   window.location.hash = "/home?tab=news";
-      // })
-      // $('#api-tab').click(function (e) {
-      //   window.location.hash = "/home?tab=api";
-      // })
     });
 
-    // function loadVersions(callback) {
-    //   $.get('api/versions')
-    //     .done(function(data) {
-    //       if (data instanceof Array) {
-    //         available_versions = data.reduce(
-    //           function(acc, cur) {
-    //             acc[cur.api_identifier] = cur;
-    //             return acc;
-    //           },
-    //           {}
-    //         );
-    //       }
-    //     })
-    //     .fail(function() {
-    //       // Error handling
-    //     }).always(function() {
-    //     if (callback instanceof Function) {
-    //       callback();
-    //     }
-    //   })
-    // }
+    function initVersionsLink() {
+      var option_list_html = [];
+      var sorted_version_list = Object.keys(available_versions);
+      sorted_version_list.sort(
+        function(a,b) {
+          if (available_versions[a].visible && !available_versions[b].visible) {
+            return -1;
+          }
+          if (available_versions[b].visible && !available_versions[a].visible) {
+            return 1;
+          }
+          return available_versions[b].release_date.localeCompare(available_versions[a].release_date);
+        });
+      var previous_version_was_visible = false;
+      sorted_version_list.forEach(
+        function(item) {
+          var _hash = '#/home?version=' + item;
+          var selected_class = '';
+          if (displayed_version === item) {
+            selected_class = ' active';
+          }
+          var option = '<li><a href="#" class="dropdown-item' + selected_class + '" data-desc="' + available_versions[item].description + '"  hash="' + _hash + '">' + item + '</a></li>';
+          var this_item_is_visible = available_versions[item].visible;
+          if (!this_item_is_visible && previous_version_was_visible) {
+            option_list_html.push('<li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">More</a><ul class="dropdown-menu">');
+          }
+          option_list_html.push(option);
+          previous_version_was_visible = this_item_is_visible;
+        });
+        option_list_html.push('</li></ul>'); // end submenu
 
-    // function initVersionsLink() {
-    //   var option_list_html = [];
-    //   var sorted_version_list = Object.keys(available_versions);
-    //   sorted_version_list.sort(
-    //     function(a,b) {
-    //       if (available_versions[a].visible && !available_versions[b].visible) {
-    //         return -1;
-    //       }
-    //       if (available_versions[b].visible && !available_versions[a].visible) {
-    //         return 1;
-    //       }
-    //       return available_versions[b].release_date.localeCompare(available_versions[a].release_date);
-    //     });
-    //   var previous_version_was_visible = false;
-    //   sorted_version_list.forEach(
-    //     function(item) {
-    //       var _hash = '#/home?version=' + item;
-    //       var selected_class = '';
-    //       if (displayed_version === item) {
-    //         selected_class = ' active';
-    //       }
-    //       var option = '<li><a href="#" class="dropdown-item' + selected_class + '" data-desc="' + available_versions[item].description + '"  hash="' + _hash + '">' + item + '</a></li>';
-    //       var this_item_is_visible = available_versions[item].visible;
-    //       if (!this_item_is_visible && previous_version_was_visible) {
-    //         option_list_html.push('<li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">More</a><ul class="dropdown-menu">');
-    //       }
-    //       option_list_html.push(option);
-    //       previous_version_was_visible = this_item_is_visible;
-    //     });
-    //     option_list_html.push('</li></ul>'); // end submenu
-    //
-    //   $('#other-version .other-version-content').html(option_list_html.join(''));
-    //   $('#oncotree-version-label').append($("#other-version .other-version-content .active").text());
-    //   $('#oncotree-version-note').append($("#other-version .other-version-content .active").data("desc"));
-    //   $('#other-version .dropdown-item').not('.dropdown-toggle').click(function() {
-    //     var _hash = $(this)[0].attributes['hash'].value;
-    //     window.location.hash = _hash;
-    //     window.location.reload();
-    //   })
-    // }
+      $('#other-version .other-version-content').html(option_list_html.join(''));
+      $('#oncotree-version-label').append($("#other-version .other-version-content .active").text());
+      $('#oncotree-version-note').append($("#other-version .other-version-content .active").data("desc"));
+      $('#other-version .dropdown-item').not('.dropdown-toggle').click(function() {
+        var _hash = $(this)[0].attributes['hash'].value;
+        window.location.hash = _hash;
+        window.location.reload();
+      })
+    }
 
     function initEvents() {
       // submenu JS and CSS comes from here:
       // https://stackoverflow.com/questions/18023493/bootstrap-dropdown-sub-menu-missing/18024991
-      // $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
-      //   var $subMenu = $(this).next(".dropdown-menu");
-      //   $subMenu.toggleClass('show');
-      //   return false;
-      // });
-      // $('.dropdown a.dropdown-toggle').first().on('click', function(e) {
-      //   // when you click on the main menu
-      //   // make sure submenu is closed
-      //   $(this).next().children('.dropdown-submenu').first().children('.dropdown-menu').first().removeClass("show");
-      //   return true;
-      // });
+      $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+        var $subMenu = $(this).next(".dropdown-menu");
+        $subMenu.toggleClass('show');
+        return false;
+      });
+      $('.dropdown a.dropdown-toggle').first().on('click', function(e) {
+        // when you click on the main menu
+        // make sure submenu is closed
+        $(this).next().children('.dropdown-submenu').first().children('.dropdown-menu').first().removeClass("show");
+        return true;
+      });
       $('#tumor_search button').click(function() {
         OutJS.search();
       });
