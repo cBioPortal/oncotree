@@ -1,3 +1,4 @@
+
 "use strict";
 $(document).ready(function(){
     var AVAILABLE_TABS = {
@@ -29,38 +30,7 @@ $(document).ready(function(){
         $('#tree-tab').click(function (e) {
             window.location.hash = "/home";
         })
-        $('#mapping-tab').click(function (e) {
-            window.location.hash = "/home?tab=mapping";
-        })
-        $('#news-tab').click(function (e) {
-            window.location.hash = "/home?tab=news";
-        })
-        $('#api-tab').click(function (e) {
-            window.location.hash = "/home?tab=api";
-        })
     });
-
-    function loadVersions(callback) {
-        $.get('api/versions')
-            .done(function(data) {
-                if (data instanceof Array) {
-                    available_versions = data.reduce(
-                        function(acc, cur) {
-                            acc[cur.api_identifier] = cur;
-                            return acc;
-                        },
-                        {}
-                    );
-                }
-            })
-            .fail(function() {
-                // Error handling
-            }).always(function() {
-            if (callback instanceof Function) {
-                callback();
-            }
-        })
-    }
 
     function initVersionsLink() {
         var option_list_html = [];
