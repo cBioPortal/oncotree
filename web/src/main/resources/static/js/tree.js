@@ -8,7 +8,7 @@ var tree = (function () {
     var m = [20, 120, 20, 50],
         w = 500 - m[1] - m[3],
         h = 500 - m[0] - m[2],
-        i = 0,
+        i = 20,
         fontSize = '12px',
         root;
 
@@ -31,9 +31,6 @@ var tree = (function () {
         return (typeof umlsCode !== 'undefined' && umlsCode != '') ? '<a class="qtip-link" href="' + umls_base_uri + umlsCode + '" target="_blank">' + umlsCode + '</a>' : 'Not Available';
     }
 
-    d3.csv("../data/msk-impact-oncotree.csv", function(data) {
-        console.log(data);
-    });
 
     function UniqueTreeNodeDatum() {
         this.name = '';
@@ -47,6 +44,14 @@ var tree = (function () {
         this.number = 0;
     }
 
+    // function UniqueSample() {
+    //     this.CANCER_STUDY_IDENTIFIER = '';
+    //     this.PATIENT_ID = '';
+    //     this.SAMPLE_ID = '';
+    //     this.ONCOTREE_NAME = '';
+    //     this.ONCOTREE_CODE = [];
+    // }
+
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
         return Object.keys(oncotreeNodeDict).sort(function(a,b) {
             var nameA = oncotreeNodeDict[a].name;
@@ -59,6 +64,25 @@ var tree = (function () {
             }
             return 0;
         });
+    }
+
+    function process_samples(sampleData) {
+        var sample = new UniqueSample();
+        if (sampleData.hasOwnProperty('CANCER_STUDY_IDENTIFIER')) {
+            sample.CANCER_STUDY_IDENTIFIER = sampleData.CANCER_STUDY_IDENTIFIER;
+        }
+        if (sampleData.hasOwnProperty('PATIENT_ID')) {
+            sample.PATIENT_ID = sampleData.PATIENT_ID;
+        }
+        if (sampleData.hasOwnProperty('SAMPLE_ID')) {
+            sample.SAMPLE_ID = sampleData.SAMPLE_ID;
+        }
+        if (sampleData.hasOwnProperty('ONCOTREE_NAME')) {
+            sample.ONCOTREE_NAME = sampleData.ONCOTREE_NAME;
+        }
+        if (sampleData.hasOwnProperty('ONCOTREE_CODE')) {
+            sample.ONCOTREE_CODE = sampleData.ONCOTREE_CODE;
+        }
     }
 
     function process_children(parentNode, childData) {
@@ -146,7 +170,14 @@ var tree = (function () {
 
     function initDataAndTree(version) {
         tree = d3.layout.tree()
-            .nodeSize([20, null]);
+            .nodeSize([34, null]);
+
+        // tree = d3.layout.tree()
+        //     .nodeSize([function (d) {
+        //         //return d.number.toString().length * 2 + 3;
+        //         d = 35;
+        //         return  d;
+        //     }, null]);
 
         diagonal = d3.svg.diagonal()
             .projection(function (d) {
@@ -164,10 +195,35 @@ var tree = (function () {
             rootNode.name = 'Tissue';
             rootNode.children = []
 
+            var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {
+                // var sample = new UniqueSample();
+                // console.log(sample);
+                // sample.children = []
+                // process_children(sample, impact_csv);
+                console.log(impact_csv);
+            });
+
+            // oncotree_json.TISSUE.children.forEach( function (code) {
+            //     for(var i = 0; i < sampleData.length; i++) {
+            //         console.log(sampleData[i]);
+            //         // var k = sampleData[i]['ONCOTREE_CODE'];
+            //         // if (k == childData.code) {
+            //         //     childData.number++;
+            //         //     console.log(childData.number);
+            //         // }
+            //     }
+            // });
+
             getOncotreeCodeKeysSortedByName(oncotree_json.TISSUE.children).forEach(function (code) {
                 var childData = oncotree_json.TISSUE.children[code];
                 // these nodes all belong at root of tree
                 process_children(rootNode, childData);
+                // for (i = 0; i in sampleData; i++) {
+                //     if (sampleData[i].ONCOTREE_CODE === childData[i].code) {
+                //         childData[i].number += 1;
+                //         console.log(childData[i].number);
+                //     }
+                // }
             });
 
             build(rootNode);
@@ -274,7 +330,7 @@ var tree = (function () {
         //Calculate the transform information for each node.
         nodes.forEach(function (d) {
             if (d.depth === 0) {
-                d.y = 0;
+                d.y = 5;
             } else {
                 var _y = 0,
                     _length = d.depth;
@@ -302,6 +358,7 @@ var tree = (function () {
                 }
                 d.y = _y;
             }
+            //d.nodeSize([(d.number.toString() * 8 + 2), null]);
         });
 
         // Update the nodes…
@@ -309,6 +366,11 @@ var tree = (function () {
             .data(nodes, function (d) {
                 return d.id || (d.id = ++i);
             });
+
+        // var tree = d3.layout.tree()
+        //     .nodeSize([function (d) {
+        //         return d.number.toString().length * 8 + 3;
+        //     }, null]);
 
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("svg:g")
@@ -333,7 +395,7 @@ var tree = (function () {
         var nodeContent = '';
         var nodeText = nodeEnter.append("svg:text")
             .attr("x", function (d) {
-                return d.children || d._children ? -10 : 10;
+                return d.children || d._children ? -20 : 17;
             })
             .attr("dy", ".35em")
             .attr('font-size', fontSize)
