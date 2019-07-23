@@ -66,24 +66,24 @@ var tree = (function () {
         });
     }
 
-    function process_samples(sampleData) {
-        var sample = new UniqueSample();
-        if (sampleData.hasOwnProperty('CANCER_STUDY_IDENTIFIER')) {
-            sample.CANCER_STUDY_IDENTIFIER = sampleData.CANCER_STUDY_IDENTIFIER;
-        }
-        if (sampleData.hasOwnProperty('PATIENT_ID')) {
-            sample.PATIENT_ID = sampleData.PATIENT_ID;
-        }
-        if (sampleData.hasOwnProperty('SAMPLE_ID')) {
-            sample.SAMPLE_ID = sampleData.SAMPLE_ID;
-        }
-        if (sampleData.hasOwnProperty('ONCOTREE_NAME')) {
-            sample.ONCOTREE_NAME = sampleData.ONCOTREE_NAME;
-        }
-        if (sampleData.hasOwnProperty('ONCOTREE_CODE')) {
-            sample.ONCOTREE_CODE = sampleData.ONCOTREE_CODE;
-        }
-    }
+    // function process_samples(sampleData) {
+    //     var sample = new UniqueSample();
+    //     if (sampleData.hasOwnProperty('CANCER_STUDY_IDENTIFIER')) {
+    //         sample.CANCER_STUDY_IDENTIFIER = sampleData.CANCER_STUDY_IDENTIFIER;
+    //     }
+    //     if (sampleData.hasOwnProperty('PATIENT_ID')) {
+    //         sample.PATIENT_ID = sampleData.PATIENT_ID;
+    //     }
+    //     if (sampleData.hasOwnProperty('SAMPLE_ID')) {
+    //         sample.SAMPLE_ID = sampleData.SAMPLE_ID;
+    //     }
+    //     if (sampleData.hasOwnProperty('ONCOTREE_NAME')) {
+    //         sample.ONCOTREE_NAME = sampleData.ONCOTREE_NAME;
+    //     }
+    //     if (sampleData.hasOwnProperty('ONCOTREE_CODE')) {
+    //         sample.ONCOTREE_CODE = sampleData.ONCOTREE_CODE;
+    //     }
+    // }
 
     function process_children(parentNode, childData) {
         // childData is always for a new unique node
@@ -152,6 +152,13 @@ var tree = (function () {
 
         // now process this node's children
         if (childData.hasOwnProperty('children')) {
+            // var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {;
+            //     for (i = 0; i < sampleData.length(); i++) {
+            //         if (sampleData[i].ONCOTREE_CODE === childData.code) {
+            //             childData.number++;
+            //         }
+            //     }
+            // });
             var codesSortedByName =  getOncotreeCodeKeysSortedByName(childData.children);
             if (codesSortedByName.length > 0) {
                 childNode.children = [];
@@ -174,9 +181,9 @@ var tree = (function () {
 
         // tree = d3.layout.tree()
         //     .nodeSize([function (d) {
-        //         //return d.number.toString().length * 2 + 3;
-        //         d = 35;
-        //         return  d;
+        //         //return d.number.toString().length * 8 + 3;
+        //         //d = 35;
+        //         return  40;
         //     }, null]);
 
         diagonal = d3.svg.diagonal()
@@ -195,24 +202,28 @@ var tree = (function () {
             rootNode.name = 'Tissue';
             rootNode.children = []
 
-            var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {
-                // var sample = new UniqueSample();
-                // console.log(sample);
-                // sample.children = []
-                // process_children(sample, impact_csv);
-                console.log(impact_csv);
-            });
-
-            // oncotree_json.TISSUE.children.forEach( function (code) {
-            //     for(var i = 0; i < sampleData.length; i++) {
-            //         console.log(sampleData[i]);
-            //         // var k = sampleData[i]['ONCOTREE_CODE'];
-            //         // if (k == childData.code) {
-            //         //     childData.number++;
-            //         //     console.log(childData.number);
-            //         // }
-            //     }
+            // var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {
+            //     // var sample = new UniqueSample();
+            //     // console.log(sample);
+            //     // sample.children = []
+            //     // process_children(sample, impact_csv);
+            //     console.log(impact_csv);
+            //     Object.keys(oncotree_json.TISSUE.children).forEach(function (key){
+            //         //console.log(oncotree_json.TISSUE.children[key]);
+            //         Object.keys(oncotree_json.TISSUE.children[key].children).forEach( function (key2) {
+            //             for (var i = 0; i < sampleData.length; i++) {
+            //                 if (sampleData[i].ONCOTREE_CODE === oncotree_json.TISSUE.children[key].children[key2].code) {
+            //                     oncotree_json.TISSUE.children[key].children[key2].number++;
+            //                 }
+            //             }
+            //             console.log(oncotree_json.TISSUE.children[key].children[key2]);
+            //         })
+            //
+            //         // console.log(oncotree_json.TISSUE.children[key]);
+            //     });
             // });
+
+
 
             getOncotreeCodeKeysSortedByName(oncotree_json.TISSUE.children).forEach(function (code) {
                 var childData = oncotree_json.TISSUE.children[code];
