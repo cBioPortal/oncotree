@@ -43,6 +43,7 @@
     "test": "grunt test"
   },
   "dependencies": {
+    "d3-flextree": "^2.1.1",
     "grunt-serve": "^0.1.6",
     "natives": "^1.1.6",
     "node-sass": "^4.12.0"
