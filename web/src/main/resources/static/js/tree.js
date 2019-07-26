@@ -23,6 +23,8 @@ var tree = (function () {
 
     var treeBuildComplete = false; // set to true after child elements have all been constructed in DOM
 
+    var codesObject = {};
+
     function getNCILink(nciCode) {
         return (typeof nciCode !== 'undefined' && nciCode != '') ? '<a class="qtip-link" href="' + nci_base_uri + nciCode + '" target="_blank">' + nciCode + '</a>' : 'Not Available';
     }
@@ -44,13 +46,13 @@ var tree = (function () {
         this.number = 0;
     }
 
-    // function UniqueSample() {
-    //     this.CANCER_STUDY_IDENTIFIER = '';
-    //     this.PATIENT_ID = '';
-    //     this.SAMPLE_ID = '';
-    //     this.ONCOTREE_NAME = '';
-    //     this.ONCOTREE_CODE = [];
-    // }
+    function UniqueSample() {
+        this.CANCER_STUDY_IDENTIFIER = '';
+        this.PATIENT_ID = '';
+        this.SAMPLE_ID = '';
+        this.ONCOTREE_NAME = '';
+        this.ONCOTREE_CODE = [];
+    }
 
     function getOncotreeCodeKeysSortedByName(oncotreeNodeDict) {
         return Object.keys(oncotreeNodeDict).sort(function(a,b) {
@@ -66,27 +68,30 @@ var tree = (function () {
         });
     }
 
-    // function process_samples(sampleData) {
-    //     var sample = new UniqueSample();
-    //     if (sampleData.hasOwnProperty('CANCER_STUDY_IDENTIFIER')) {
-    //         sample.CANCER_STUDY_IDENTIFIER = sampleData.CANCER_STUDY_IDENTIFIER;
-    //     }
-    //     if (sampleData.hasOwnProperty('PATIENT_ID')) {
-    //         sample.PATIENT_ID = sampleData.PATIENT_ID;
-    //     }
-    //     if (sampleData.hasOwnProperty('SAMPLE_ID')) {
-    //         sample.SAMPLE_ID = sampleData.SAMPLE_ID;
-    //     }
-    //     if (sampleData.hasOwnProperty('ONCOTREE_NAME')) {
-    //         sample.ONCOTREE_NAME = sampleData.ONCOTREE_NAME;
-    //     }
-    //     if (sampleData.hasOwnProperty('ONCOTREE_CODE')) {
-    //         sample.ONCOTREE_CODE = sampleData.ONCOTREE_CODE;
-    //     }
-    // }
+    function processSample(codesObject) {
+        d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {
 
-    function process_children(parentNode, childData) {
+            for (i = 0; i < impact_csv.length; i++) {
+                codesObject[impact_csv[i].ONCOTREE_CODE] = 0;
+            }
+
+            for (i = 0; i < impact_csv.length; i++) {
+                if (codesObject.hasOwnProperty((impact_csv[i].ONCOTREE_CODE))) {
+                    codesObject[impact_csv[i].ONCOTREE_CODE]++;
+                }
+            }
+
+            console.log(codesObject);
+            return(codesObject);
+        });
+    }
+
+    processSample(codesObject);
+    console.log(codesObject);
+
+    function process_children(parentNode, childData, codesObject) {
         // childData is always for a new unique node
+
         var childNode = new UniqueTreeNodeDatum();
         childNode.name = childData.name + " (" + childData.code + ")";
         childNode.code = childData.code;
@@ -138,7 +143,7 @@ var tree = (function () {
             childNode.number = childData.number;
         }
 
-        var tNum = [['LUAD', 1357], ['IDC', 927], ['COAD', 724], ['PRAD', 698], ['PAAD', 384], ['BLCA', 312], ['GBM', 286], ['CCRCC', 202], ['SKCM', 195], ['ILC', 190], ['LUSC', 170], ['READ', 151], ['STAD', 151], ['CUP', 146], ['GIST', 137], ['HGSOC', 133], ['IHCH', 115], ['ESCA', 112], ['UEC', 95], ['THPA', 93], ['COADREAD', 90], ['AASTR', 86], ['HCC', 85], ['SCLC', 82], ['UTUC', 82], ['NBL', 80], ['SEM', 76], ['PANET', 75], ['DLBCLNOS', 74], ['ACYC', 73], ['BMGCT', 70], ['MCC', 63], ['THPD', 60], ['MFH', 59], ['CHOL', 57], ['ULMS', 57], ['MDLC', 56], ['CSCC', 55], ['URCC', 54], ['BRCA', 50], ['BRCANOS', 49], ['MAAP', 48], ['USC', 47], ['GBC', 46], ['DDLS', 45], ['UM', 44], ['MUP', 43], ['AODG', 43], ['HNSC', 43], ['OCSC', 42], ['OPHSC', 42], ['PLEMESO', 41], ['LMS', 41], ['BRCNOS', 40], ['MACR', 39], ['PLMESO', 39], ['UCS', 38], ['ES', 38], ['LUNE', 37], ['OS', 37], ['ODG', 36], ['ANGS', 36], ['MGCT', 36], ['ASTR', 35], ['VMGCT', 34], ['SYNS', 34], ['PRCC', 33], ['CHRCC', 33], ['SBC', 33], ['THAP', 33], ['SARCNOS', 32], ['ANSC', 32], ['GEJ', 28], ['EHCH', 27], ['FL', 27], ['ACC', 25], ['NSCLCPD', 24], ['CCOV', 24], ['SFT', 24], ['LGSOC', 23], ['THHC', 23], ['ACRM', 23], ['ARMM', 23], ['DSRCT', 22], ['MNG', 21], ['HGGNOS', 20], ['UMEC', 19], ['CHS', 19], ['WDLS', 18], ['APAD', 18], ['PEMESO', 18], ['MRLS', 18], ['SDCA', 18], ['NSCLC', 17], ['ECAD', 17], ['THME', 17], ['VMM', 17], ['EGC', 17], ['FLC', 17], ['SBWDNET', 16], ['AOAST', 16], ['AMPCA', 16], ['CHDM', 14], ['PAAC', 14], ['AITL', 14], ['UCCC', 14], ['ECD', 14], ['LXSC', 14], ['GRCT', 14], ['ALUCA', 13], ['SARCL', 13], ['PTCL', 13], ['MCL', 13], ['HNMUCM', 13], ['TRCC', 13], ['NPC', 13], ['OCS', 12], ['BCC', 12], ['SSRCC', 12], ['PRNE', 12], ['RMS', 11], ['BYST', 11], ['CESC', 11], ['HGNEC', 11], ['LUAS', 11], ['MPNST', 11], ['UPECOMA', 10], ['GSARC', 10], ['NECNOS', 10], ['THYC', 10], ['MPT', 10], ['EPM', 9], ['INTS', 9], ['ESCC', 9], ['ERMS', 9], ['LUCA', 9], ['MBN', 9], ['PAMPCA', 9], ['GINET', 9], ['LNET', 9], ['MOV', 9], ['PDC', 9], ['NETNOS', 8], ['LGGNOS', 8], ['PLLS', 8], ['IPMN', 8], ['THYM', 8], ['BEC', 8], ['NSGCT', 8], ['GCCAP', 8], ['EPIS', 8], ['PAASC', 8], ['MBC', 8], ['RAML', 8], ['PRSCC', 7], ['HNSCUP', 7], ['BLAD', 7], ['MFS', 7], ['TYST', 7], ['EOV', 7], ['ASPS', 6], ['VOEC', 6], ['HNMASC', 6], ['STMYEC', 6], ['GCEMU', 6], ['PSCC', 6], ['SKAC', 6], ['SRCBC', 6], ['VYST', 5], ['EHAE', 5], ['CEAS', 5], ['THFO', 5], ['NHL', 5], ['SRAP', 5], ['MXOV', 5], ['ARMS', 5], ['SPN', 5], ['MYCHS', 5], ['TT', 5], ['ATM', 5], ['SPDAC', 5], ['APE', 5], ['UELMS', 5], ['EMBCA', 5], ['ADNOS', 5], ['BCCA', 5], ['PLBMESO', 5], ['PECOMA', 5], ['FIBS', 5], ['EMCHS', 5], ['MTSCC', 5], ['MYEC', 4], ['PGNG', 4], ['VSC', 4], ['MIXED', 4], ['HGESS', 4], ['UAD', 4], ['AWDNET', 4], ['RWDNET', 4], ['PLRMS', 4], ['HPHSC', 4], ['FDCS', 4], ['HDCN', 4], ['UCP', 4], ['CHOS', 4], ['SNA', 4], ['ESMM', 4], ['LCH', 4], ['PHC', 4], ['HCCIHCH', 4], ['MCCE', 4], ['HNNE', 4], ['MRC', 4], ['SNSC', 4], ['SAAD', 4], ['OAST', 4], ['TMT', 4], ['OUSARC', 4], ['MZL', 4], ['RBL', 4], ['ROCY', 3], ['CHL', 3], ['SCCNOS', 3], ['IMT', 3], ['MUCC', 3], ['ESS', 3], ['TCCA', 3], ['EPDCA', 3], ['EMYOCA', 3], ['LIHB', 3], ['SCHW', 3], ['CLLSLL', 3], ['MCHS', 3], ['OSOS', 3], ['PPTID', 3], ['DFSP', 3], ['HMBL', 3], ['UAS', 3], ['SPCC', 3], ['MLYM', 3], ['DDCHS', 3], ['URMM', 3], ['BA', 3], ['UCCA', 3], ['CCS', 3], ['SBMOV', 3], ['UUC', 3], ['SCRMS', 3], ['SBOV', 2], ['SCST', 2], ['UA', 2], ['SWDNET', 2], ['UCU', 2], ['TMESO', 2], ['PAST', 2], ['EMPD', 2], ['SACA', 2], ['AECA', 2], ['ACBC', 2], ['HPCCNS', 2], ['OSACA', 2], ['DIPG', 2], ['SCCE', 2], ['SCBC', 2], ['BLSC', 2], ['USCC', 2], ['SFTCNS', 2], ['PNET', 2], ['SRCCR', 2], ['SEF', 2], ['OFMT', 2], ['HL', 2], ['RCC', 2], ['UUS', 2], ['WT', 2], ['ACCC', 2], ['ANM', 2], ['PLSMESO', 2], ['GCT', 2], ['USTUMP', 2], ['APXA', 2], ['SNUC', 2], ['CCPRC', 2], ['SLCT', 2], ['MCN', 2], ['DA', 2], ['SEBA', 2], ['MBL', 2], ['OHNCA', 2], ['SGAD', 2], ['SCB', 2], ['RGNT', 2], ['MF', 2], ['UMLMS', 2], ['ONBL', 2], ['ODGC', 1], ['CMPT', 1], ['CMC', 1], ['ICEMU', 1], ['LUPC', 1], ['PSC', 1], ['ALCL', 1], ['OOVC', 1], ['CNC', 1], ['DF', 1], ['OIMT', 1], ['ASTB', 1], ['PXA', 1], ['LGESS', 1], ['CDRCC', 1], ['LIPO', 1], ['MTNN', 1], ['HDCS', 1], ['CEMU', 1], ['UNEC', 1], ['PTES', 1], ['OSMCA', 1], ['ISTAD', 1], ['DSTAD', 1], ['GS', 1], ['UDDC', 1], ['EMALT', 1], ['SECOS', 1], ['OVT', 1], ['HGONEC', 1], ['MYXO', 1], ['SCT', 1], ['CECC', 1], ['LGFMS', 1], ['PCM', 1], ['GNG', 1], ['CEEN', 1], ['DCIS', 1], ['CCOC', 1], ['ACA', 1], ['DES', 1], ['SOC', 1], ['BPSCC', 1], ['AML', 1], ['MSCHW', 1], ['PTAD', 1], ['PTCY', 1], ['CSCHW', 1], ['BIMT', 1], ['MPE', 1], ['AGNG', 1], ['WM', 1], ['PB', 1], ['EVN', 1], ['BMT', 1], ['MSTAD', 1], ['IMMC', 1], ['CEMN', 1], ['TSTAD', 1], ['CHBL', 1], ['ACPG', 1], ['OMT', 1], ['PMBL', 1], ['OMGCT', 1], ['SCCO', 1], ['SCCRCC', 1], ['LCLC', 1], ['SM', 1], ['PHCH', 1], ['EPMT', 1], ['SCUP', 1], ['LECLC', 1], ['BLCLC', 1], ['TLL', 1], ['SCOS', 1]];
+        //var tNum = [['LUAD', 1357], ['IDC', 927], ['COAD', 724], ['PRAD', 698], ['PAAD', 384], ['BLCA', 312], ['GBM', 286], ['CCRCC', 202], ['SKCM', 195], ['ILC', 190], ['LUSC', 170], ['READ', 151], ['STAD', 151], ['CUP', 146], ['GIST', 137], ['HGSOC', 133], ['IHCH', 115], ['ESCA', 112], ['UEC', 95], ['THPA', 93], ['COADREAD', 90], ['AASTR', 86], ['HCC', 85], ['SCLC', 82], ['UTUC', 82], ['NBL', 80], ['SEM', 76], ['PANET', 75], ['DLBCLNOS', 74], ['ACYC', 73], ['BMGCT', 70], ['MCC', 63], ['THPD', 60], ['MFH', 59], ['CHOL', 57], ['ULMS', 57], ['MDLC', 56], ['CSCC', 55], ['URCC', 54], ['BRCA', 50], ['BRCANOS', 49], ['MAAP', 48], ['USC', 47], ['GBC', 46], ['DDLS', 45], ['UM', 44], ['MUP', 43], ['AODG', 43], ['HNSC', 43], ['OCSC', 42], ['OPHSC', 42], ['PLEMESO', 41], ['LMS', 41], ['BRCNOS', 40], ['MACR', 39], ['PLMESO', 39], ['UCS', 38], ['ES', 38], ['LUNE', 37], ['OS', 37], ['ODG', 36], ['ANGS', 36], ['MGCT', 36], ['ASTR', 35], ['VMGCT', 34], ['SYNS', 34], ['PRCC', 33], ['CHRCC', 33], ['SBC', 33], ['THAP', 33], ['SARCNOS', 32], ['ANSC', 32], ['GEJ', 28], ['EHCH', 27], ['FL', 27], ['ACC', 25], ['NSCLCPD', 24], ['CCOV', 24], ['SFT', 24], ['LGSOC', 23], ['THHC', 23], ['ACRM', 23], ['ARMM', 23], ['DSRCT', 22], ['MNG', 21], ['HGGNOS', 20], ['UMEC', 19], ['CHS', 19], ['WDLS', 18], ['APAD', 18], ['PEMESO', 18], ['MRLS', 18], ['SDCA', 18], ['NSCLC', 17], ['ECAD', 17], ['THME', 17], ['VMM', 17], ['EGC', 17], ['FLC', 17], ['SBWDNET', 16], ['AOAST', 16], ['AMPCA', 16], ['CHDM', 14], ['PAAC', 14], ['AITL', 14], ['UCCC', 14], ['ECD', 14], ['LXSC', 14], ['GRCT', 14], ['ALUCA', 13], ['SARCL', 13], ['PTCL', 13], ['MCL', 13], ['HNMUCM', 13], ['TRCC', 13], ['NPC', 13], ['OCS', 12], ['BCC', 12], ['SSRCC', 12], ['PRNE', 12], ['RMS', 11], ['BYST', 11], ['CESC', 11], ['HGNEC', 11], ['LUAS', 11], ['MPNST', 11], ['UPECOMA', 10], ['GSARC', 10], ['NECNOS', 10], ['THYC', 10], ['MPT', 10], ['EPM', 9], ['INTS', 9], ['ESCC', 9], ['ERMS', 9], ['LUCA', 9], ['MBN', 9], ['PAMPCA', 9], ['GINET', 9], ['LNET', 9], ['MOV', 9], ['PDC', 9], ['NETNOS', 8], ['LGGNOS', 8], ['PLLS', 8], ['IPMN', 8], ['THYM', 8], ['BEC', 8], ['NSGCT', 8], ['GCCAP', 8], ['EPIS', 8], ['PAASC', 8], ['MBC', 8], ['RAML', 8], ['PRSCC', 7], ['HNSCUP', 7], ['BLAD', 7], ['MFS', 7], ['TYST', 7], ['EOV', 7], ['ASPS', 6], ['VOEC', 6], ['HNMASC', 6], ['STMYEC', 6], ['GCEMU', 6], ['PSCC', 6], ['SKAC', 6], ['SRCBC', 6], ['VYST', 5], ['EHAE', 5], ['CEAS', 5], ['THFO', 5], ['NHL', 5], ['SRAP', 5], ['MXOV', 5], ['ARMS', 5], ['SPN', 5], ['MYCHS', 5], ['TT', 5], ['ATM', 5], ['SPDAC', 5], ['APE', 5], ['UELMS', 5], ['EMBCA', 5], ['ADNOS', 5], ['BCCA', 5], ['PLBMESO', 5], ['PECOMA', 5], ['FIBS', 5], ['EMCHS', 5], ['MTSCC', 5], ['MYEC', 4], ['PGNG', 4], ['VSC', 4], ['MIXED', 4], ['HGESS', 4], ['UAD', 4], ['AWDNET', 4], ['RWDNET', 4], ['PLRMS', 4], ['HPHSC', 4], ['FDCS', 4], ['HDCN', 4], ['UCP', 4], ['CHOS', 4], ['SNA', 4], ['ESMM', 4], ['LCH', 4], ['PHC', 4], ['HCCIHCH', 4], ['MCCE', 4], ['HNNE', 4], ['MRC', 4], ['SNSC', 4], ['SAAD', 4], ['OAST', 4], ['TMT', 4], ['OUSARC', 4], ['MZL', 4], ['RBL', 4], ['ROCY', 3], ['CHL', 3], ['SCCNOS', 3], ['IMT', 3], ['MUCC', 3], ['ESS', 3], ['TCCA', 3], ['EPDCA', 3], ['EMYOCA', 3], ['LIHB', 3], ['SCHW', 3], ['CLLSLL', 3], ['MCHS', 3], ['OSOS', 3], ['PPTID', 3], ['DFSP', 3], ['HMBL', 3], ['UAS', 3], ['SPCC', 3], ['MLYM', 3], ['DDCHS', 3], ['URMM', 3], ['BA', 3], ['UCCA', 3], ['CCS', 3], ['SBMOV', 3], ['UUC', 3], ['SCRMS', 3], ['SBOV', 2], ['SCST', 2], ['UA', 2], ['SWDNET', 2], ['UCU', 2], ['TMESO', 2], ['PAST', 2], ['EMPD', 2], ['SACA', 2], ['AECA', 2], ['ACBC', 2], ['HPCCNS', 2], ['OSACA', 2], ['DIPG', 2], ['SCCE', 2], ['SCBC', 2], ['BLSC', 2], ['USCC', 2], ['SFTCNS', 2], ['PNET', 2], ['SRCCR', 2], ['SEF', 2], ['OFMT', 2], ['HL', 2], ['RCC', 2], ['UUS', 2], ['WT', 2], ['ACCC', 2], ['ANM', 2], ['PLSMESO', 2], ['GCT', 2], ['USTUMP', 2], ['APXA', 2], ['SNUC', 2], ['CCPRC', 2], ['SLCT', 2], ['MCN', 2], ['DA', 2], ['SEBA', 2], ['MBL', 2], ['OHNCA', 2], ['SGAD', 2], ['SCB', 2], ['RGNT', 2], ['MF', 2], ['UMLMS', 2], ['ONBL', 2], ['ODGC', 1], ['CMPT', 1], ['CMC', 1], ['ICEMU', 1], ['LUPC', 1], ['PSC', 1], ['ALCL', 1], ['OOVC', 1], ['CNC', 1], ['DF', 1], ['OIMT', 1], ['ASTB', 1], ['PXA', 1], ['LGESS', 1], ['CDRCC', 1], ['LIPO', 1], ['MTNN', 1], ['HDCS', 1], ['CEMU', 1], ['UNEC', 1], ['PTES', 1], ['OSMCA', 1], ['ISTAD', 1], ['DSTAD', 1], ['GS', 1], ['UDDC', 1], ['EMALT', 1], ['SECOS', 1], ['OVT', 1], ['HGONEC', 1], ['MYXO', 1], ['SCT', 1], ['CECC', 1], ['LGFMS', 1], ['PCM', 1], ['GNG', 1], ['CEEN', 1], ['DCIS', 1], ['CCOC', 1], ['ACA', 1], ['DES', 1], ['SOC', 1], ['BPSCC', 1], ['AML', 1], ['MSCHW', 1], ['PTAD', 1], ['PTCY', 1], ['CSCHW', 1], ['BIMT', 1], ['MPE', 1], ['AGNG', 1], ['WM', 1], ['PB', 1], ['EVN', 1], ['BMT', 1], ['MSTAD', 1], ['IMMC', 1], ['CEMN', 1], ['TSTAD', 1], ['CHBL', 1], ['ACPG', 1], ['OMT', 1], ['PMBL', 1], ['OMGCT', 1], ['SCCO', 1], ['SCCRCC', 1], ['LCLC', 1], ['SM', 1], ['PHCH', 1], ['EPMT', 1], ['SCUP', 1], ['LECLC', 1], ['BLCLC', 1], ['TLL', 1], ['SCOS', 1]];
 
         // save code and name to check for duplicate codes later
         if (!oncotreeCodesToNames.hasOwnProperty(childNode.code)) {
@@ -149,28 +154,30 @@ var tree = (function () {
         // add new node to children list of parentNode
         parentNode.children.push(childNode);
 
-
         // now process this node's children
         if (childData.hasOwnProperty('children')) {
-            for (var i = 0; i < tNum.length; i++) {
-                if (tNum[i][0] === childNode.code) {
-                    childNode.number = tNum[i][1];
+            // for (i = 0; i < tNum.length; i++) {
+            //     if (tNum[i][0] === childNode.code) {
+            //         childNode.number += tNum[i][1];
+            //     }
+            // }
+
+            for (let item in codesObject) {
+                if (codesObject.hasOwnProperty(item)) {
+                    if (item === childNode.code) {
+                        childNode.number = codesObject[item];
+                    }
                 }
             }
-            // var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {;
-            //     for (i = 0; i < sampleData.length(); i++) {
-            //         if (sampleData[i].ONCOTREE_CODE === childData.code) {
-            //             childData.number++;
-            //         }
-            //     }
-            // });
+
             var codesSortedByName =  getOncotreeCodeKeysSortedByName(childData.children);
             if (codesSortedByName.length > 0) {
                 childNode.children = [];
                 codesSortedByName.forEach(function (code) {
                     // now childNode's children are added
-                    process_children(childNode, childData.children[code]);
+                    process_children(childNode, childData.children[code], codesObject);
                 });
+
                 var total = 0;
                 for (i = 0; i in childNode.children; i++) {
                     total += childNode.children[i].number;
@@ -180,48 +187,10 @@ var tree = (function () {
         }
     }
 
-    function initDataAndTree(version) {
-        // tree = require('d3-flextree').flextree;
-        // var layout = tree();
-        // var flextree = layout.hierarchy({
-        //     size: [1, 1],
-        //     children: [
-        //         { size: [2, 4] },
-        //         { size: [3, 1],
-        //             children: [
-        //                 { size: [4, 1] },
-        //             ],
-        //         },
-        //     ],
-        // });
-        // layout(flextree);
-        // tree.each(node => console.log(`(${node.x}, ${node.y})`));
-
-        // var flextree = d3.flextree();
-        //
-        // layout = tree({
-        //     children: data => {
-        //         const kd = data.slice(2);
-        //         return kd.length ? kd : null;
-        //     },
-        //     nodeSize: node => node.data.slice(0, 2),
-        //     spacing: (nodeA, nodeB) => nodeA.path(nodeB).length,
-        // });
-        // const tree = layout.hierarchy(data);
-        // layout(tree);
-        // console.log(layout.dump(tree));
+    function initDataAndTree() {
 
         tree = d3.layout.tree()
             .nodeSize([34, null]);
-
-
-
-        // tree = d3.layout.tree()
-        //     .nodeSize([function (d) {
-        //         //return d.number.toString().length * 8 + 3;
-        //         //d = 35;
-        //         return  40;
-        //     }, null]);
 
         diagonal = d3.svg.diagonal()
             .projection(function (d) {
@@ -234,63 +203,54 @@ var tree = (function () {
             .append("svg:g")
             .attr("transform", "translate(" + m[3] + "," + 300 + ")");
 
-        d3.json('data/tumor_types.json', function (oncotree_json) {
-            var rootNode = new UniqueTreeNodeDatum();
-            rootNode.name = 'Tissue';
-            rootNode.children = []
+        processSample(codesObject);
 
-            var sampleData = d3.csv("../data/msk-impact-oncotree.csv", function(impact_csv) {
-                // var sample = new UniqueSample();
-                // console.log(sample);
-                // sample.children = []
-                // process_children(sample, impact_csv);
-                console.log(impact_csv);
-                // Object.keys(oncotree_json.TISSUE.children).forEach(function (key){
-                //     //console.log(oncotree_json.TISSUE.children[key]);
-                //     Object.keys(oncotree_json.TISSUE.children[key].children).forEach( function (key2) {
-                //         for (var i = 0; i < sampleData.length; i++) {
-                //             if (sampleData[i].ONCOTREE_CODE === oncotree_json.TISSUE.children[key].children[key2].code) {
-                //                 oncotree_json.TISSUE.children[key].children[key2].number++;
-                //             }
-                //         }
-                //         console.log(oncotree_json.TISSUE.children[key].children[key2]);
-                //     })
-                //
-                //     // console.log(oncotree_json.TISSUE.children[key]);
-                // });
-            });
+        d3.csv("data/msk-impact-oncotree.csv", function(impact_csv) {
 
+               for (i = 0; i < impact_csv.length; i++) {
+                   codesObject[impact_csv[i].ONCOTREE_CODE] = 0;
+               }
 
+               for (i = 0; i < impact_csv.length; i++) {
+                   if (codesObject.hasOwnProperty((impact_csv[i].ONCOTREE_CODE))) {
+                       codesObject[impact_csv[i].ONCOTREE_CODE]++;
+                   }
+               }
 
-            getOncotreeCodeKeysSortedByName(oncotree_json.TISSUE.children).forEach(function (code) {
-                var childData = oncotree_json.TISSUE.children[code];
-                // these nodes all belong at root of tree
-                process_children(rootNode, childData);
-                // for (i = 0; i in sampleData; i++) {
-                //     if (sampleData[i].ONCOTREE_CODE === childData[i].code) {
-                //         childData[i].number += 1;
-                //         console.log(childData[i].number);
-                //     }
-                // }
-            });
+               console.log(codesObject);
 
-            build(rootNode);
-            var dups = searchDupAcronym();
+            d3.json('data/tumor_types.json',  function (oncotree_json) {
 
-            if (Object.keys(dups).length > 0) {
-                var htmlStr = '<table class="table">';
-                for (var key in dups) {
-                    htmlStr += "<tr><td>" + key + "</td><td>" + dups[key].join('<br/>') + '</td><tr>';
+                var rootNode = new UniqueTreeNodeDatum();
+                rootNode.name = 'Tissue';
+                rootNode.children = []
+
+                getOncotreeCodeKeysSortedByName(oncotree_json.TISSUE.children).forEach(function (code) {
+                    var childData = oncotree_json.TISSUE.children[code];
+                    // these nodes all belong at root of tree
+                    process_children(rootNode, childData, codesObject);
+                });
+
+                build(rootNode);
+                var dups = searchDupAcronym();
+
+                if (Object.keys(dups).length > 0) {
+                    var htmlStr = '<table class="table">';
+                    for (var key in dups) {
+                        htmlStr += "<tr><td>" + key + "</td><td>" + dups[key].join('<br/>') + '</td><tr>';
+                    }
+                    htmlStr += '</table>';
+                    $('#summary-duplicates p').html(htmlStr);
+                } else {
+                    $('#summary-duplicates').css('display', 'none');
                 }
-                htmlStr += '</table>';
-                $('#summary-duplicates p').html(htmlStr);
-            } else {
-                $('#summary-duplicates').css('display', 'none');
-            }
-            $("#oncotree-version-statistics").text(function () {
-                return "Includes " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + ".";
+                $("#oncotree-version-statistics").text(function () {
+                    return "Includes " + numOfTumorTypes + " tumor type" + ( numOfTumorTypes === 1 ? "" : "s" ) + " from " + numOfTissues + " tissue" + ( numOfTissues === 1 ? "" : "s" ) + ".";
+                });
             });
-        });
+           });
+
+
     }
 
     function searchDupAcronym() {
@@ -406,23 +366,13 @@ var tree = (function () {
                 }
                 d.y = _y;
             }
-            //d.nodeSize([(d.number.toString().length * 8 + 2), null]);
         });
-
-        // nodes.forEach(function (d) {
-        //     node.nodeSize([(d.number.toString().length * 8 + 2), null]);
-        // });
 
         // Update the nodes…
         var node = vis.selectAll("g.node")
             .data(nodes, function (d) {
                 return d.id || (d.id = ++i);
             });
-
-        // var tree = d3.layout.tree()
-        //     .nodeSize([function (d) {
-        //         return d.number.toString().length * 8 + 3;
-        //     }, null]);
 
         // Enter any new nodes at the parent's previous position.
         var nodeEnter = node.enter().append("svg:g")
@@ -575,7 +525,7 @@ var tree = (function () {
 
         nodeExit.select("circle")
             .attr("r", function (d) {
-                return  d.number.toString().length * 3;
+                return d.number.toString().length * 3;
             });
 
         nodeExit.select("text")
