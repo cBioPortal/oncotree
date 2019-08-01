@@ -1,4 +1,15 @@
 ### News
+#### August 1, 2019
+ *   **New Stable Release** OncoTree version *oncotree_2019_08_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_05_01*.
+ *   **New nodes added:**
+     * Lacrimal Gland Tumor (LGT)
+     * Adenoid Cystic Carcinoma of the Lacrimal Gland (ACLG)
+     * Squamous Cell Carcinoma of the Lacrimal Gland (SCLG)
+     * Basal Cell Adenocarcinoma (BCAC)
+     * Carcinoma ex Pleomorphic Adenoma (CAEXPA)
+     * Pleomorphic Adenoma (PADA)
+     * Polymorphous Adenocarcinoma (PAC)
+     * Atypical Lipomatous Tumor (ALT)
 #### May 2, 2019
  *   **OncoTree-to-OncoTree code mapping tool updated**
      * The OncoTree-to-OncoTree mapping tool (now version 1.2) has been updated:
@@ -41,7 +52,7 @@
      * High-Grade Neuroendocrine Carcinoma of the Esophagus (HGNEE)
      * High-Grade Neuroendocrine Carcinoma of the Stomach (HGNES)
  *   **Nodes reclassified:**
-     * Well-Differentiated Neuroendocrine Tumors of the Stomach (SWDNET) is now a child of Gastrointestinal Neuroendocrine Tumors of the Esophagus/Stomach (GINETES) [previously under: Bowel (BOWEL)]. 
+     * Well-Differentiated Neuroendocrine Tumors of the Stomach (SWDNET) is now a child of Gastrointestinal Neuroendocrine Tumors of the Esophagus/Stomach (GINETES) [previously under: Bowel (BOWEL)].
 #### September 1, 2018
  *   **New Stable Release** OncoTree version *oncotree_2018_09_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2018_08_01*.
  *   **Nodes with adjusted History:**
