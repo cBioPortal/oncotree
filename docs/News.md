@@ -1,4 +1,8 @@
 ### News
+#### December 1, 2019
+ *   **New Stable Release** OncoTree version *oncotree_2019_12_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_08_01*.
+ *   **New nodes added:**
+     * Low-grade Appendiceal Mucinous Neoplasm (LAMN)
 #### August 1, 2019
  *   **New Stable Release** OncoTree version *oncotree_2019_08_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_05_01*.
  *   **New nodes added:**
