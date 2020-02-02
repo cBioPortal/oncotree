@@ -1,4 +1,14 @@
 ### News
+#### February 1, 2020
+ *   **New Stable Release** OncoTree version *oncotree_2020_02_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_12_01*.
+ *   **New nodes added:**
+     * Intraductal Oncocytic Papillary Neoplasm (IOPN)
+     * Intraductal Tubulopapillary Neoplasm (ITPN)
+     * Intracholecystic Papillary Neoplasm (ICPN)
+     * Intraductal Papillary Neoplasm of the Bile Duct (IPN)
+ *   **Nodes reclassified:**
+     * Gallbladder Cancer (GBC) is now a child of Intracholecystic Papillary Neoplasm (ICPN) [previously under: Biliary Tract (BILIARY_TRACT)].
+     * Cholangiocarcinoma (CHOL) is now a child of Intraductal Papillary Neoplasm of the Bile Duct (IPN) [previously under: Biliary Tract (BILIARY_TRACT)].
 #### December 1, 2019
  *   **New Stable Release** OncoTree version *oncotree_2019_12_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_08_01*.
  *   **New nodes added:**
