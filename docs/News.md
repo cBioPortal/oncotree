@@ -1,4 +1,12 @@
 ### News
+#### February 6, 2020
+ *   **Web Link To Specific Nodes Available:**
+     * When providing web links to oncotree, you may include a search term as an optional argument and the oncotree you reference will be displayed with the search term located and highlighted. Use of this mechanism can be seen in the [example output <span class="text-primary oi oi-external-link"></span>](https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/resources/data_clinical_sample_remapped_summary.html) for the OncoTree-to-OncoTree code mapping tool.
+     * As an example, you can provide a direct link to the TumorType node PANET in oncotree version oncotree_2019_12_01 with this link: `http://oncotree.mskcc.org/#/home?version=oncotree_2019_12_01&search_term=(PANET)`
+ *   **New Stable Release** OncoTree version *oncotree_2020_02_06* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_02_01*.
+ *   **Nodes reclassified:**
+     * Gallbladder Cancer (GBC) is now a child of Biliary Tract (BILIARY_TRACT) [previously under: Intracholecystic Papillary Neoplasm (ICPN)].
+     * Cholangiocarcinoma (CHOL) is now a child of Biliary Tract (BILIARY_TRACT) [previously under: Intraductal Papillary Neoplasm of the Bile Duct (IPN)].
 #### February 1, 2020
  *   **New Stable Release** OncoTree version *oncotree_2020_02_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2019_12_01*.
  *   **New nodes added:**
