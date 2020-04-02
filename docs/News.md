@@ -1,4 +1,10 @@
 ### News
+#### April 1, 2020
+ *   **New Stable Release** OncoTree version *oncotree_2020_04_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_02_06*.
+ *   **New nodes added:**
+     * AML with Variant RARA translocation (AMLRARA)
+ *   **Nodes reclassified:**
+     * Mixed Cancer Types (MIXED is now a child of Other (OTHER) [previously under: Cancer of Unknown Primary (CUP)].
 #### February 6, 2020
  *   **Web Link To Specific Nodes Available:**
      * When providing web links to oncotree, you may include a search term as an optional argument and the oncotree you reference will be displayed with the search term located and highlighted. Use of this mechanism can be seen in the [example output <span class="text-primary oi oi-external-link"></span>](https://raw.githubusercontent.com/cBioPortal/oncotree/master/docs/resources/data_clinical_sample_remapped_summary.html) for the OncoTree-to-OncoTree code mapping tool.
