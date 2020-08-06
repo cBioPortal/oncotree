@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
 #
 # This library is distributed in the hope that it will be useful, but
