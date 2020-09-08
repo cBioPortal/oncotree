@@ -5,6 +5,9 @@ if [ ! -d $TESTING_DIRECTORY ] ; then
     mkdir -p $TESTING_DIRECTORY
 fi
 TESTING_DIRECTORY_TEMP=$(mktemp -d $TESTING_DIRECTORY/pr-integration.XXXXXX)
+TESTING_CACHE_DIR="${TESTING_DIRECTORY_TEMP}_ehcache"
+TESTING_BACKUP_CACHE_DIR="${TESTING_DIRECTORY_TEMP}_ehcacheback"
+
 ROOT_WORKSPACE=`pwd`
 CMO_PIPELINES_DIRECTORY=$ROOT_WORKSPACE/cmo-pipelines
 ONCOTREE_DIRECTORY=$ROOT_WORKSPACE/oncotree
@@ -25,6 +28,8 @@ ONCOTREE_CODE_CONVERTER_OUTPUT_TEST_SUCCESS=0
 ONCOTREE_VERSION_MAPPER_TEST_SUCCESS=0
 ONCOTREE_TOPBRAID_URI_VALIDATION_SUCCESS=0
 
+TOMCAT_SHUTDOWN_WAIT_TIME=10
+
 # will be automatically called when script exits
 # provided $ONCOTREE_PORT is defined, will find process number for process on that port and kill it
 function find_and_kill_oncotree_process {
@@ -40,6 +45,9 @@ function find_and_kill_oncotree_process {
     else
             echo "no OncoTree process found"
     fi
+    sleep $TOMCAT_SHUTDOWN_WAIT_TIME
+    rm -rf $TESTING_CACHE_DIR
+    rm -rf $TESTING_BACKUP_CACHE_DIR
 }
 trap 'find_and_kill_oncotree_process $ONCOTREE_PORT' EXIT
 
@@ -70,13 +78,15 @@ cd $ONCOTREE_DIRECTORY ; mvn package -Dpackaging.type=jar
 #start up ONCOTREE on some port on dashi-dev
 ONCOTREE_PORT=`find_free_port`
 
-TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS=3
+TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS=60
 ONCOTREE_DEPLOYMENT_SUCCESS=0
 CURRENT_WAIT_TIME=0
 MAXIMUM_WAIT_TIME=600 # 600 seconds (10 min) - as of 3/19/2019 takes 381.809 to start up
 if [ $ONCOTREE_PORT -gt 0 ] ; then
-    echo "Starting 'java -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &'"
-    java -Dcrosswalk.disable_cvs_querying=true -jar $ONCOTREE_JAR --server.port=$ONCOTREE_PORT &
+    mkdir -p "$TESTING_CACHE_DIR"
+    mkdir -p "$TESTING_BACKUP_CACHE_DIR"
+    echo "Starting 'java -jar $ONCOTREE_JAR --port=$ONCOTREE_PORT &'"
+    java -Dehcache.persistence.path=$TESTING_CACHE_DIR -Dehcache.persistence.backup.path=$TESTING_BACKUP_CACHE_DIR -Dcrosswalk.disable_cvs_querying=true -jar $ONCOTREE_JAR --port=$ONCOTREE_PORT &
     # maximum time to wait for OncoTree to deploy (MAXIMUM_WAIT_TIME/60) minutes
     # every TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS seconds check if job is still running
     # attempt to hit endpoint - successful return code indicated ONCOTREE has started up
@@ -89,7 +99,7 @@ if [ $ONCOTREE_PORT -gt 0 ] ; then
         echo "Status of all jenkins jobs in ps matching oncotree.jar: $JOB_RUNNING"
         # -z is testing if the string is empty, if it is not empty the job is running
         if [ ! -z "$JOB_RUNNING" ] ; then
-            curl --fail -X GET --header 'Accept: */*' $ONCOTREE_URL
+            curl --fail -X GET --header 'Accept: */*' $ONCOTREE_URL/api/versions
             if [ $? -eq 0 ] ; then
                 ONCOTREE_DEPLOYMENT_SUCCESS=1
                 break

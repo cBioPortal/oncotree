@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2020 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -83,7 +83,7 @@ public class MSKConceptCache {
             try {
                 oncoTreeNodes = oncoTreePersistentCache.getOncoTreeNodesFromPersistentCache(version);
             } catch (RuntimeException e) {
-                throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache");
+                throw new FailedCacheRefreshException("Failed to refresh MSKConceptCache : " + e.toString());
             }
             for (OncoTreeNode node : oncoTreeNodes) {
                 // skip querying repeated nodes/MSKConcepts
@@ -93,7 +93,7 @@ public class MSKConceptCache {
                         oncoTreePersistentCache.updateMSKConceptInPersistentCache(node.getCode());
                     } catch (CrosswalkException e) {
                         // only thrown if can't connect to crosswalk (5XX error)
-                        logger.error("Unable to update oncotree node with code " + node.getCode() + " from crosswalk...");
+                        logger.error("Unable to update oncotree node with code " + node.getCode() + " from crosswalk : " + e.toString());
                     }
                     MSKConcept concept = oncoTreePersistentCache.getMSKConceptFromPersistentCache(node.getCode());
                     latestOncoTreeCodesToMSKConcepts.put(node.getCode(), concept);
