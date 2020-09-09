@@ -84,7 +84,7 @@ public class OncoTreePersistentCache {
                 if (oncoTreeNodes == null) {
                     logger.error("No oncotree nodes were found in backup.");
                     throw new RuntimeException("No oncotree nodes were found in backup.");
-                } 
+                }
             } catch (Exception e2) {
                 logger.error("Unable to read oncotree nodes from backup.");
                 throw new RuntimeException(e2);
@@ -119,22 +119,22 @@ public class OncoTreePersistentCache {
      */
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept getMSKConceptFromPersistentCache(String oncoTreeCode) {
-        MSKConcept mskConcept = new MSKConcept();
-        try {
-            mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
-        // able to connect to Crosswalk system but node not found - catch empty object
-        } catch (CrosswalkConceptNotFoundException e) {
-        // can't connect to Crosswalk - attempt to fall on backup
-        } catch (CrosswalkException e) {
-            logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
-            try {
-                mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
-                if (mskConcept == null) {
-                    mskConcept = new MSKConcept();
-                }
-            } catch (Exception e2) {}
+        // commented exception handling logic kept here for future crosswalk implementation
+        // try {
+        MSKConcept mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        // } catch (CrosswalkExeption e) {
+        //     logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
+        //     try {
+        //         mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
+        //         if (mskConcept == null) {
+        //             mskConcept = new MSKConcept();
+        //         }
+        //     } catch (Exception e2) {}
+        // }
+        if (mskConcept != null) {
+            return mskConcept;
         }
-        return mskConcept;
+        return new MSKConcept();
     }
 
     @CachePut(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
@@ -149,17 +149,15 @@ public class OncoTreePersistentCache {
         return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
-    // Updating MSKConcepts -- catch cases where can't connect to Crosswalk
+    // Updating MSKConcepts
     @CachePut(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
-    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) throws CrosswalkException {
+    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) {
         logger.info("updating EHCache with updated MSKConcept from Crosswalk");
-        MSKConcept mskConcept = null;
-        try {
-            mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
-        } catch (CrosswalkConceptNotFoundException e) {
-            return new MSKConcept();
+        MSKConcept mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        if (mskConcept != null) {
+            return mskConcept;
         }
-        return mskConcept;
+        return new MSKConcept();
     }
 
     /*

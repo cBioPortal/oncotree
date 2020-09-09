@@ -89,12 +89,7 @@ public class MSKConceptCache {
                 // skip querying repeated nodes/MSKConcepts
                 if (!latestOncoTreeCodesToMSKConcepts.containsKey(node.getCode())) {
                     // pull from crosswalk first
-                    try {
-                        oncoTreePersistentCache.updateMSKConceptInPersistentCache(node.getCode());
-                    } catch (CrosswalkException e) {
-                        // only thrown if can't connect to crosswalk (5XX error)
-                        logger.error("Unable to update oncotree node with code " + node.getCode() + " from crosswalk : " + e.toString());
-                    }
+                    oncoTreePersistentCache.updateMSKConceptInPersistentCache(node.getCode());
                     MSKConcept concept = oncoTreePersistentCache.getMSKConceptFromPersistentCache(node.getCode());
                     latestOncoTreeCodesToMSKConcepts.put(node.getCode(), concept);
                 }

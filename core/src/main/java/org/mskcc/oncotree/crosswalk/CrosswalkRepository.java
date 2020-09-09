@@ -19,23 +19,14 @@
 package org.mskcc.oncotree.crosswalk;
 
 import java.io.*;
-import java.nio.charset.*;
+import java.nio.charset.Charset;
 import java.util.*;
-
-import org.mskcc.oncotree.error.*;
+import org.mskcc.oncotree.crosswalk.CrosswalkStaticResourceParsingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -46,72 +37,29 @@ public class CrosswalkRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CrosswalkRepository.class);
 
-    // URI variables should be vocabularyId={vocabularyId}&conceptId={conceptId}&histologyCode={histologyCode}&siteCode={siteCode}
-    @Value("${crosswalk.url}")
-    private String crosswalkURL;
-
-    @Value("${crosswalk.disable_cvs_querying:false}")
-    private Boolean DISABLE_CVS_QUERYING;
-
     private static final String STATIC_CROSSWALK_FILENAME = "staticCrosswalkOncotreeMappings.txt";
     private Map<String, MSKConcept> parsedStaticResource = null;
 
-    public MSKConcept getByOncotreeCode(String oncotreeCode)
-            throws CrosswalkException {
-        return queryCVS("ONCOTREE", oncotreeCode, null, null);
-    }
-
-    public MSKConcept queryCVS(String vocabularyId, String conceptId, String histologyCode, String siteCode)
-            throws CrosswalkException {
-        if (DISABLE_CVS_QUERYING) {
-            return respondToQueryFromStaticResource(vocabularyId, conceptId, histologyCode, siteCode);
-        }
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            ResponseEntity<MSKConcept> response = restTemplate.getForEntity(crosswalkURL, MSKConcept.class, vocabularyId, conceptId, histologyCode, siteCode);
-            return response.getBody();
-        } catch (HttpStatusCodeException e) {
-            logger.error("queryCVS() -- caught HttpStatusCodeException: " + e);
-            String errorString = "URI: " + crosswalkURL + "\n" +
-                "vocabularyId: " + vocabularyId + "\n" +
-                "conceptId: " + conceptId + "\n" +
-                "histologyCode: " + histologyCode + "\n" +
-                "siteCode: " + siteCode + "\n";
-            if (e.getStatusCode().is4xxClientError()) {
-                throw new CrosswalkConceptNotFoundException("4xx Error while getting data from CVS Service with: \n" + errorString, e);
-            } else if (e.getStatusCode().is5xxServerError()) {
-                throw new CrosswalkServiceUnavailableException("5xx Error while getting data from CVS", e);
-            }
-            throw new UnexpectedCrosswalkResponseException("Exception while getting data from CVS Service with: \n" + errorString, e);
-        } catch (RestClientException e) {
-            logger.error("queryCVS() -- caught RestClientErrorException: " + e);
-            String errorString = "URI: " + crosswalkURL + "\n" +
-                "vocabularyId: " + vocabularyId + "\n" +
-                "conceptId: " + conceptId + "\n" +
-                "histologyCode: " + histologyCode + "\n" +
-                "siteCode: " + siteCode + "\n";
-            throw new UnexpectedCrosswalkResponseException("RestClientException while getting data from CVS Service" + errorString, e);
-        }
-    }
-
-    private MSKConcept respondToQueryFromStaticResource(String vocabularyId, String conceptId, String histologyCode, String siteCode) {
-        if (vocabularyId == null || !vocabularyId.equals("ONCOTREE")) {
-            // static resource only handles oncotree queries
-            throw new CrosswalkServiceUnavailableException("CVS server queries have been disabled (crosswalk.disable_cvs_querying set to true)", new HttpServerErrorException(HttpStatus.SERVICE_UNAVAILABLE));
-        }
+    public MSKConcept getByOncotreeCode(String oncotreeCode) {
         parseCrosswalkResourceFileIfNeeded();
-        MSKConcept concept = parsedStaticResource.get(conceptId);
+        MSKConcept concept = parsedStaticResource.get(oncotreeCode);
         return concept;
     }
 
     private void parseCrosswalkResourceFileIfNeeded() {
         if (parsedStaticResource == null) {
             parsedStaticResource = new HashMap<String, MSKConcept>();
-            parseCrosswalkResourceFile();
+            try {
+                parseCrosswalkResourceFile();
+            } catch (CrosswalkStaticResourceParsingException e) {
+                logger.error(e.toString());
+                parsedStaticResource.clear();
+                logger.error("external reference map empty following parsing error");
+            }
         }
     }
 
-    private void parseCrosswalkResourceFile() {
+    private void parseCrosswalkResourceFile() throws CrosswalkStaticResourceParsingException {
         try {
             Resource resource = new ClassPathResource(STATIC_CROSSWALK_FILENAME);
             InputStream inputStream = resource.getInputStream();
@@ -121,7 +69,7 @@ public class CrosswalkRepository {
                 String line = reader.readLine();
                 String columns[] = line.split("\t");
                 if (columns.length != 3) {
-                    throw new RuntimeException("error : could not parse static file with crosswalk mappings - wrong column count");
+                    throw new CrosswalkStaticResourceParsingException("could not parse static file with crosswalk mappings - wrong column count");
                 }
                 String code = columns[0];
                 String nci[] = columns[1].split(",");
@@ -137,9 +85,9 @@ public class CrosswalkRepository {
                 parsedStaticResource.put(code, concept);
             }
         } catch (IOException e) {
-            throw new RuntimeException("error : could not parse static file with crosswalk mappings", e);
+            throw new CrosswalkStaticResourceParsingException("error : could not parse static file with crosswalk mappings");
         }
-
     }
 
 }
+

@@ -78,7 +78,7 @@ cd $ONCOTREE_DIRECTORY ; mvn package -Dpackaging.type=jar
 #start up ONCOTREE on some port on dashi-dev
 ONCOTREE_PORT=`find_free_port`
 
-TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS=60
+TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS=20
 ONCOTREE_DEPLOYMENT_SUCCESS=0
 CURRENT_WAIT_TIME=0
 MAXIMUM_WAIT_TIME=600 # 600 seconds (10 min) - as of 3/19/2019 takes 381.809 to start up
@@ -86,7 +86,7 @@ if [ $ONCOTREE_PORT -gt 0 ] ; then
     mkdir -p "$TESTING_CACHE_DIR"
     mkdir -p "$TESTING_BACKUP_CACHE_DIR"
     echo "Starting 'java -jar $ONCOTREE_JAR --port=$ONCOTREE_PORT &'"
-    java -Dehcache.persistence.path=$TESTING_CACHE_DIR -Dehcache.persistence.backup.path=$TESTING_BACKUP_CACHE_DIR -Dcrosswalk.disable_cvs_querying=true -jar $ONCOTREE_JAR --port=$ONCOTREE_PORT &
+    java -Dehcache.persistence.path=$TESTING_CACHE_DIR -Dehcache.persistence.backup.path=$TESTING_BACKUP_CACHE_DIR -jar $ONCOTREE_JAR --port=$ONCOTREE_PORT &
     # maximum time to wait for OncoTree to deploy (MAXIMUM_WAIT_TIME/60) minutes
     # every TIME_BETWEEN_ONCOTREE_AVAILIBILITY_TESTS seconds check if job is still running
     # attempt to hit endpoint - successful return code indicated ONCOTREE has started up
