@@ -52,17 +52,9 @@ class GlobalControllerExceptionHandler {
     @ExceptionHandler(FailedCacheRefreshException.class)
     public void handleFailedCacheRefreshException() {}
 
-    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to CVS")
-    @ExceptionHandler(CrosswalkServiceUnavailableException.class)
-    public void handleCrosswalkServiceUnavailableException() {}
-
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Failed to build OncoTree")
     @ExceptionHandler(InvalidOncoTreeDataException.class)
     public void handleInvalidOncoTreeDataException() {}
-
-    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Unexpected response returned from related system - this may be interpreted as having no OncoTree code available for your request")
-    @ExceptionHandler(UnexpectedCrosswalkResponseException.class)
-    public void handleUnexpectedCrosswalkResponseException() {}
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "No tumor types were mapped to your query")
     @ExceptionHandler(TumorTypesNotFoundException.class)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2016 - 2020 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -123,7 +123,7 @@ public class CacheUtil {
                 try {
                     oncoTreePersistentCache.updateOncoTreeNodesInPersistentCache(version);
                 } catch (TopBraidException e) {
-                    logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository");
+                    logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository : " + e.toString());
                     failedVersionedOncoTreeNodesCacheRefresh = true;
                 }
                 // attempt to get nodes from EHCache -- RuntimeException thrown when ALL options are exhausted (ehcache, topbraid, backup)
@@ -132,6 +132,7 @@ public class CacheUtil {
                     oncoTreeNodes = oncoTreePersistentCache.getOncoTreeNodesFromPersistentCache(version);
                 } catch (RuntimeException e) {
                     failedVersions.add(version.getVersion());
+                    logger.warn("resetCache() -- failed to retrieve version '" + version.getVersion() + "'");
                     continue;
                 }
                 if (!failedVersionedOncoTreeNodesCacheRefresh) {
@@ -147,19 +148,20 @@ public class CacheUtil {
                 } catch (InvalidOncoTreeDataException exception) {
                     logger.error("Unable to get tumor types from oncotree nodes");
                     failedVersions.add(version.getVersion());
+                    logger.warn("resetCache() -- failed to retrieve version : " + version.getVersion() + " : " + exception.toString());
                     continue;
                 }
             }
             latestTumorTypesCache.put(version, latestTumorTypes);
         }
         // Fail the cache refresh if required oncotree version cannot be constructed or if no versions can be constructed
-        if (failedVersions.contains(requiredOncotreeVersion)) {
-            logger.error("resetCache() -- failed to pull required oncotree version: " + requiredOncotreeVersion);
-            throw new FailedCacheRefreshException("Failed to refresh cache");
-        }
         if (latestTumorTypesCache.keySet().size() == 0) {
             logger.error("resetCache() -- failed to pull a single valid OncoTree version");
-            throw new FailedCacheRefreshException("Failed to refresh cache");
+            throw new FailedCacheRefreshException("Failed to refresh cache - no versions constructed");
+        }
+        if (failedVersions.contains(requiredOncotreeVersion)) {
+            logger.error("resetCache() -- failed to pull required oncotree version: " + requiredOncotreeVersion);
+            throw new FailedCacheRefreshException("Failed to refresh cache - required version not constructed");
         }
         if (failedVersions.size() > 0) {
             slackUtil.sendSlackNotification("OncoTree successfully recached `" + requiredOncotreeVersion + "`, but ran into issues with the following versions: " + String.join(", ", failedVersions));
@@ -168,7 +170,7 @@ public class CacheUtil {
         tumorTypesCache = latestTumorTypesCache;
         // cache is filled, but indicate to endpoint that we did not successfully pull updated data from TopBraid
         if (failedOncoTreeVersionsCacheRefresh || failedVersionedOncoTreeNodesCacheRefresh) {
-            throw new FailedCacheRefreshException("Failed to refresh cache");
+            throw new FailedCacheRefreshException("Failed to refresh cache - composite error");
         } else {
             dateOfLastCacheRefresh = new Date();
             logger.info("resetCache() -- successfully reset cache from repository");
