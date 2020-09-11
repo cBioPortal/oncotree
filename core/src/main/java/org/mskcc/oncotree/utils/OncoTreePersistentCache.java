@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2019 - 2020 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -84,7 +84,7 @@ public class OncoTreePersistentCache {
                 if (oncoTreeNodes == null) {
                     logger.error("No oncotree nodes were found in backup.");
                     throw new RuntimeException("No oncotree nodes were found in backup.");
-                } 
+                }
             } catch (Exception e2) {
                 logger.error("Unable to read oncotree nodes from backup.");
                 throw new RuntimeException(e2);
@@ -119,22 +119,22 @@ public class OncoTreePersistentCache {
      */
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     public MSKConcept getMSKConceptFromPersistentCache(String oncoTreeCode) {
-        MSKConcept mskConcept = new MSKConcept();
-        try {
-            mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
-        // able to connect to Crosswalk system but node not found - catch empty object
-        } catch (CrosswalkConceptNotFoundException e) {
-        // can't connect to Crosswalk - attempt to fall on backup
-        } catch (CrosswalkException e) {
-            logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
-            try {
-                mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
-                if (mskConcept == null) {
-                    mskConcept = new MSKConcept();
-                }
-            } catch (Exception e2) {}
+        // commented exception handling logic kept here for future crosswalk implementation
+        // try {
+        MSKConcept mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        // } catch (CrosswalkExeption e) {
+        //     logger.error("Unable to get MSKConcept from Crosswalk... attempting to read from backup.");
+        //     try {
+        //         mskConcept = getMSKConceptFromPersistentCacheBackup(oncoTreeCode);
+        //         if (mskConcept == null) {
+        //             mskConcept = new MSKConcept();
+        //         }
+        //     } catch (Exception e2) {}
+        // }
+        if (mskConcept != null) {
+            return mskConcept;
         }
-        return mskConcept;
+        return new MSKConcept();
     }
 
     @CachePut(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
@@ -149,17 +149,15 @@ public class OncoTreePersistentCache {
         return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
-    // Updating MSKConcepts -- catch cases where can't connect to Crosswalk
+    // Updating MSKConcepts
     @CachePut(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
-    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) throws CrosswalkException {
+    public MSKConcept updateMSKConceptInPersistentCache(String oncoTreeCode) {
         logger.info("updating EHCache with updated MSKConcept from Crosswalk");
-        MSKConcept mskConcept = null;
-        try {
-            mskConcept =  crosswalkRepository.getByOncotreeCode(oncoTreeCode);
-        } catch (CrosswalkConceptNotFoundException e) {
-            return new MSKConcept();
+        MSKConcept mskConcept = crosswalkRepository.getByOncotreeCode(oncoTreeCode);
+        if (mskConcept != null) {
+            return mskConcept;
         }
-        return mskConcept;
+        return new MSKConcept();
     }
 
     /*
@@ -174,12 +172,12 @@ public class OncoTreePersistentCache {
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     private synchronized ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCacheBackup(Version version) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, ArrayList<OncoTreeNode>> cache = null;
         ArrayList<OncoTreeNode> oncoTreeNodes = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(ONCOTREE_NODES_CACHE);
-            oncoTreeNodes = (ArrayList<OncoTreeNode>) cache.get(version.getVersion());
+            oncoTreeNodes = cache.get(version.getVersion());
         } finally {
             if (cacheManager != null) {
                 cacheManager.close(); // closes all caches it knows about
@@ -191,12 +189,12 @@ public class OncoTreePersistentCache {
     @Cacheable(value = "oncoTreeVersionsEHCache", key = "#root.target.ONCOTREE_VERSIONS_CACHE_KEY", unless = "#result==null")
     private synchronized ArrayList<Version> getOncoTreeVersionsFromPersistentCacheBackup() throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, ArrayList<Version>>  cache = null;
         ArrayList<Version> versions = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(ONCOTREE_VERSIONS_CACHE);
-            versions = (ArrayList<Version>) cache.get(ONCOTREE_VERSIONS_CACHE_KEY);
+            versions = cache.get(ONCOTREE_VERSIONS_CACHE_KEY);
         } finally {
             if (cacheManager != null) {
                 cacheManager.close(); // closes all caches it knows about
@@ -208,12 +206,12 @@ public class OncoTreePersistentCache {
     @Cacheable(value = "mskConceptEHCache", key = "#oncoTreeCode", unless = "#result==null")
     private synchronized MSKConcept getMSKConceptFromPersistentCacheBackup(String oncoTreeCode) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, MSKConcept> cache = null;
         MSKConcept mskConcept = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(MSKCONCEPT_CACHE);
-            mskConcept = (MSKConcept) cache.get(oncoTreeCode);
+            mskConcept = cache.get(oncoTreeCode);
         } finally {
             if (cacheManager != null) {
                 cacheManager.close(); // closes all caches it knows about
@@ -225,7 +223,7 @@ public class OncoTreePersistentCache {
     // update backup EHCache location with modeled-object cache values
     public synchronized void backupOncoTreeNodesPersistentCache(ArrayList<OncoTreeNode> oncoTreeNodes, Version version) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, ArrayList<OncoTreeNode>> cache = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(ONCOTREE_NODES_CACHE);
@@ -239,7 +237,7 @@ public class OncoTreePersistentCache {
 
     public synchronized void backupOncoTreeVersionsPersistentCache(ArrayList<Version> versions) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, ArrayList<Version>> cache = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(ONCOTREE_VERSIONS_CACHE);
@@ -253,11 +251,14 @@ public class OncoTreePersistentCache {
 
     public synchronized void backupMSKConceptPersistentCache(MSKConcept mskConcept, String oncoTreeCode) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, MSKConcept> cache = null;
         try {
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(MSKCONCEPT_CACHE);
             cache.put(oncoTreeCode, mskConcept);
+        } catch (Exception e) {
+            logger.warn("exception in mskConcept backup " + mskConcept + " exception: " + e);
+            throw e;
         } finally {
             if (cacheManager != null) {
                 cacheManager.close(); // closes all caches it knows about
@@ -267,11 +268,18 @@ public class OncoTreePersistentCache {
 
     public synchronized void backupMSKConceptPersistentCache(Map<String, MSKConcept> oncoTreeCodesToMSKConcepts) throws Exception {
         CacheManager cacheManager = null;
-        Cache cache = null;
+        Cache<String, MSKConcept> cache = null;
         try {
+            if (oncoTreeCodesToMSKConcepts == null) {
+                System.out.println("null argument passed to backupMSKConceptPersistentCache");
+                return;
+            }
             cacheManager = getCacheManager(BACKUP_CACHE_CONFIG_FILENAME);
             cache = cacheManager.getCache(MSKCONCEPT_CACHE);
             cache.putAll(oncoTreeCodesToMSKConcepts);
+        } catch (Exception e) {
+            logger.warn("exception in oncotreeCocdesToMSKConcepts -- exception: " + e);
+            throw e;
         } finally {
             if (cacheManager != null) {
                 cacheManager.close(); // closes all caches it knows about

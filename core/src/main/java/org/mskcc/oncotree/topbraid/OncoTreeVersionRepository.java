@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2020 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -39,15 +39,15 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
     private static final Logger logger = LoggerFactory.getLogger(OncoTreeVersionRepository.class);
 
     // NOTE we MUST order by release_date
-    private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/oncotree_version/> " +
+    private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/OncoTreeVersion#> " +
         "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
         "WHERE { " +
-        "   GRAPH <urn:x-evn-master:oncotree_version> { " +
-        "       ?s oncotree-version:graph_uri ?graph_uri. " +
-        "       ?s oncotree-version:api_identifier ?api_identifier. " +
-        "       ?s oncotree-version:release_date ?release_date. " +
+        "   GRAPH <urn:x-evn-master:oncotreeversionlist> { " +
+        "       ?s oncotree-version:graphUri ?graph_uri. " +
+        "       ?s oncotree-version:apiIdentifier ?api_identifier. " +
+        "       ?s oncotree-version:releaseDate ?release_date. " +
         "       OPTIONAL{?s oncotree-version:description ?description.} " +
-        "       OPTIONAL{?s oncotree-version:visible ?visible.} " +
+        "       ?s oncotree-version:visible ?visible. " +
         "   } " +
         "} ORDER BY ASC(?release_date)";
 

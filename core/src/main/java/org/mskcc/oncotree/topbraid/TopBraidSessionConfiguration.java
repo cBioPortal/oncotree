@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2020 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -81,7 +81,7 @@ public class TopBraidSessionConfiguration {
         if (initialSessionIdCookie != null) {
             logger.debug("getFreshSessionId() -- initial session id: " + initialSessionIdCookie.getValue());
             // now actually login, using our session id
-            String loginURL = topBraidURL + "/j_security_check?j_username=" + username + "&j_password=" + password;
+            String loginURL = topBraidURL + "/j_security_check?j_username=" + username + "&j_password=" + password + "&login=LOGIN";
             // send our previous session id cookie and then replace it with the one attached to our successful login
             sessionIdCookie = getSessionIdCookie(loginURL, initialSessionIdCookie);
             if (sessionIdCookie != null) {
