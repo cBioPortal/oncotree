@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.model.Version;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Repository;
 
@@ -38,23 +39,36 @@ public class OncoTreeVersionRepository extends TopBraidRepository<Version> {
 
     private static final Logger logger = LoggerFactory.getLogger(OncoTreeVersionRepository.class);
 
+    @Value("${topbraid.oncotree_version_namespace_prefix:http://data.mskcc.org/ontologies/OncoTreeVersion#}")
+    private String topBraidOncotreeVersionNamespacePrefix;
+
+    @Value("${topbraid.oncotree_version_list_graph_id:urn:x-evn-master:oncotreeversionlist}")
+    private String topBraidOncotreeVersionListGraphId;
+
+    private String query = null;
+
     // NOTE we MUST order by release_date
-    private String query = "PREFIX oncotree-version:<http://data.mskcc.org/ontologies/OncoTreeVersion#> " +
-        "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
-        "WHERE { " +
-        "   GRAPH <urn:x-evn-master:oncotreeversionlist> { " +
-        "       ?s oncotree-version:graphUri ?graph_uri. " +
-        "       ?s oncotree-version:apiIdentifier ?api_identifier. " +
-        "       ?s oncotree-version:releaseDate ?release_date. " +
-        "       OPTIONAL{?s oncotree-version:description ?description.} " +
-        "       ?s oncotree-version:visible ?visible. " +
-        "   } " +
-        "} ORDER BY ASC(?release_date)";
+    private String getQuery() {
+        if (query == null) {
+            query = "PREFIX oncotree-version:<" + topBraidOncotreeVersionNamespacePrefix + "> " +
+                    "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
+                    "WHERE { " +
+                    "   GRAPH <" + topBraidOncotreeVersionListGraphId + "> { " +
+                    "       ?s oncotree-version:graphUri ?graph_uri. " +
+                    "       ?s oncotree-version:apiIdentifier ?api_identifier. " +
+                    "       ?s oncotree-version:releaseDate ?release_date. " +
+                    "       OPTIONAL{?s oncotree-version:description ?description.} " +
+                    "       ?s oncotree-version:visible ?visible. " +
+                    "   } " +
+                    "} ORDER BY ASC(?release_date)";
+        }
+        return query;
+    }
 
     /**
      * @return all OncoTree versions ordered by ascending release date (development last)
      */
     public ArrayList<Version> getOncoTreeVersions() throws TopBraidException {
-        return new ArrayList<Version>(super.query(query, new ParameterizedTypeReference<List<Version>>(){}));
+        return new ArrayList<Version>(super.query(getQuery(), new ParameterizedTypeReference<List<Version>>(){}));
     }
 }
