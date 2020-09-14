@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.model.Version;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Repository;
 
@@ -38,24 +39,34 @@ public class OncoTreeRepository extends TopBraidRepository<OncoTreeNode> {
 
     private static final Logger logger = LoggerFactory.getLogger(OncoTreeRepository.class);
 
-    private String query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
-        "PREFIX onc:<http://data.mskcc.org/ontologies/oncotree#> " +
-        "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors " +
-        "WHERE { " +
-        "   GRAPH <%s> { " +
-        "       ?s skos:prefLabel ?name;" +
-        "       skos:notation ?code." +
-        "       OPTIONAL{?s skos:broader ?broader." +
-        "           ?broader skos:notation ?parentCode}." +
-        "       OPTIONAL{?s onc:mainType ?mainType}." +
-        "       OPTIONAL{?s onc:color ?color}." +
-        "       OPTIONAL{?s onc:revocations ?revocations}." +
-        "       OPTIONAL{?s onc:precursors ?precursors}." +
-        "   }" +
-        "}";
+    @Value("${topbraid.oncotree_namespace_prefix:http://data.mskcc.org/ontologies/oncotree#}")
+    private String topBraidOncotreeNamespacePrefix;
+
+    private String query = null;
+
+    private String getQuery() {
+        if (query == null) {
+            query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
+                    "PREFIX onc:<" + topBraidOncotreeNamespacePrefix + "> " +
+                    "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors " +
+                    "WHERE { " +
+                    "   GRAPH <%s> { " +
+                    "       ?s skos:prefLabel ?name;" +
+                    "       skos:notation ?code." +
+                    "       OPTIONAL{?s skos:broader ?broader." +
+                    "           ?broader skos:notation ?parentCode}." +
+                    "       OPTIONAL{?s onc:mainType ?mainType}." +
+                    "       OPTIONAL{?s onc:color ?color}." +
+                    "       OPTIONAL{?s onc:revocations ?revocations}." +
+                    "       OPTIONAL{?s onc:precursors ?precursors}." +
+                    "   }" +
+                    "}";
+        }
+        return query;
+    }
 
     public ArrayList<OncoTreeNode> getOncoTree(Version version) throws TopBraidException {
-        return new ArrayList<OncoTreeNode>(super.query(String.format(query, version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){}));
+        return new ArrayList<OncoTreeNode>(super.query(String.format(getQuery(), version.getGraphURI()), new ParameterizedTypeReference<List<OncoTreeNode>>(){}));
     }
 
 }

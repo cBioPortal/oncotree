@@ -6,6 +6,9 @@ server.port=${port:38080}
 topbraid.url=
 topbraid.username=
 topbraid.password=
+topbraid.oncotree_namespace_prefix=
+topbraid.oncotree_version_namespace_prefix=
+topbraid.oncotree_version_list_graph_id=
 
 # for slack alerts
 slack.url=

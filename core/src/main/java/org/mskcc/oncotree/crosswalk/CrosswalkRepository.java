@@ -59,6 +59,13 @@ public class CrosswalkRepository {
         }
     }
 
+    private String[] parseValuesIfPresent(String valueString) {
+        if (valueString.trim().length() > 0) {
+            return valueString.split(",");
+        }
+        return new String[0];
+    }
+    
     private void parseCrosswalkResourceFile() throws CrosswalkStaticResourceParsingException {
         try {
             Resource resource = new ClassPathResource(STATIC_CROSSWALK_FILENAME);
@@ -72,15 +79,21 @@ public class CrosswalkRepository {
                     throw new CrosswalkStaticResourceParsingException("could not parse static file with crosswalk mappings - wrong column count");
                 }
                 String code = columns[0];
-                String nci[] = columns[1].split(",");
-                String umln[] = columns[2].split(",");
+                String nci[] = parseValuesIfPresent(columns[1]);
+                String umln[] = parseValuesIfPresent(columns[2]);
                 MSKConcept concept = new MSKConcept();
                 List<String> oncotreeCodes = new ArrayList<>();
                 oncotreeCodes.add(code);
                 concept.setOncotreeCodes(oncotreeCodes);
-                concept.setConceptIds(Arrays.asList(umln));
+                List<String> conceptIdList = Arrays.asList(umln);
+                if (conceptIdList.size() > 0) {
+                    concept.setConceptIds(conceptIdList);
+                }
                 HashMap<String, List<String>> crosswalks = new HashMap<String, List<String>>();
-                crosswalks.put("NCI", Arrays.asList(nci));
+                List<String> nciList = Arrays.asList(nci);
+                if (nciList.size() > 0) {
+                    crosswalks.put("NCI", nciList);
+                }
                 concept.setCrosswalks(crosswalks);
                 parsedStaticResource.put(code, concept);
             }
