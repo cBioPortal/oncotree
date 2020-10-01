@@ -1,4 +1,12 @@
 ### News
+#### October 1, 2020
+ *   **New Stable Release** OncoTree version *oncotree_2020_10_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_04_01*.
+ *   **New nodes added:**
+     * Basal Cell Carcinoma of Prostate (BCCP)
+ *   **Node deleted:**
+     * Porphyria Cutania Tarda (PCT)
+ *   **Node with updated name:**
+     * Goblet Cell Adenocarcinoma of the Appendix (GCCAP) [previously: Goblet Cell Carcinoid of the Appendix (GCCAP)].
 #### April 1, 2020
  *   **New Stable Release** OncoTree version *oncotree_2020_04_01* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_02_06*.
  *   **New nodes added:**
