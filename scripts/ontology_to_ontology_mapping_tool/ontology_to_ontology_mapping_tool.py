@@ -124,7 +124,7 @@ def validate_arguments(source_file, source_code, target_code):
     #4. CHeck if the user input file has the source code column.
     source_file.columns = map(str.upper, source_file.columns)
     if source_code not in source_file.columns:
-        print("\nThe input file does not contain any ontology code columns or the headers do not match to accepted values. Please check. \n\nThe list of acceptable ontology headers are:")
+        print("\nThe input file does not contain the requested source ontology column or the headers do not match to accepted values. Please check. \n\nThe list of acceptable ontology headers are:")
         for code in ACCEPTED_ONTOLOGIES:
             print(code)
         print('\n')
