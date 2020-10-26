@@ -25,5 +25,5 @@ python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <pat
 ```
 
 **Note**
-- The source file should be tab delimited and should contain one of the ontology: ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE in the file header.
+- The source file should be tab delimited and should contain one of the ontology: ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE in the file header.
 - We currently are allowing only one ontology to another ontology mapping. In the future, we plan to extend the tool to support mapping to multiple ontology systems.
