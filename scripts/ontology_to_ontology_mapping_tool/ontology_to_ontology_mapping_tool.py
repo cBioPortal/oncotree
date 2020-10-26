@@ -23,7 +23,7 @@ import requests
 
 ONTOLOGY_MAPPINGS_FILE_URL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/scripts/ontology_to_ontology_mapping_tool/ontology_mappings.txt"
 VALID_ONCOTREE_CODES_URL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/resources/resource_uri_to_oncocode_mapping.txt"
-ACCEPTED_ONTOLOGIES = ['ONCOTREE_CODE', 'UMLS_CODE', 'NCIT_CODE', 'ICDO_CODE', 'HEMEONC_CODE']
+ACCEPTED_ONTOLOGIES = ['ONCOTREE_CODE', 'UMLS_CODE', 'NCIT_CODE', 'ICDO_TOPOGRAPHY_CODE', 'HEMEONC_CODE', 'ICDO_MORPHOLOGY_CODE']
 NULL_VALUES = ['', 'NA']
 
 def add_comments_column_and_log_data(mapped_data, target_file, source_code, target_code, source_file):
@@ -100,7 +100,7 @@ def add_comments_column_and_log_data(mapped_data, target_file, source_code, targ
     log_file.close()
 
 #Check if any of the ontology code headers are present in the clinical file
-def validate_arguments(source_code, target_code):
+def validate_arguments(source_file, source_code, target_code):
     #1. Check if the source_code input by the user is valid.
     if source_code not in ACCEPTED_ONTOLOGIES:
         print("Invalid source code: \'%s\'. \nThe list of acceptable codes are:" % (source_code))
@@ -121,13 +121,21 @@ def validate_arguments(source_code, target_code):
         print("Please specify different ontologies to map on.\n")
         sys.exit(1)
 
+    #4. CHeck if the user input file has the source code column.
+    source_file.columns = map(str.upper, source_file.columns)
+    if source_code not in source_file.columns:
+        print("\nThe input file does not contain any ontology code columns or the headers do not match to accepted values. Please check. \n\nThe list of acceptable ontology headers are:")
+        for code in ACCEPTED_ONTOLOGIES:
+            print(code)
+        print('\n')
+        sys.exit(1)
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--source-file', required = True, help = 'This is the source file path. The source file must contain one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE in the file header and it must contain codes corresponding to the Ontology System.', type = str)
+    parser.add_argument('-i', '--source-file', required = True, help = 'This is the source file path. The source file must contain one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE in the file header and it must contain codes corresponding to the Ontology System.', type = str)
     parser.add_argument('-o', '--target-file', required = True, help = 'This is the path to the target file that will be generated. It will contain the ontology mappings of source code in <source-file> to <target-code>.', type = str)
-    parser.add_argument('-s', '--source-code', required = True, help = "This is the source ontology code in <source-file>. It must be one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE.", type = str)
-    parser.add_argument('-t', '--target-code', required = True, help = "This is the target ontology code that the script will attempt to map the source ontology code to. It must be one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE.", type = str)
+    parser.add_argument('-s', '--source-code', required = True, help = "This is the source ontology code in <source-file>. It must be one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE.", type = str)
+    parser.add_argument('-t', '--target-code', required = True, help = "This is the target ontology code that the script will attempt to map the source ontology code to. It must be one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE.", type = str)
     args = parser.parse_args()
 
     target_file = args.target_file
@@ -135,7 +143,7 @@ def main():
     target_code = args.target_code.upper()
 
     source_file = pd.read_csv(args.source_file, comment='#', sep='\t', header=0, keep_default_na=False).applymap(str) #HEMEONC_CODES are numbers.
-    validate_arguments(source_code, target_code)
+    validate_arguments(source_file, source_code, target_code)
 
     oncotree_code_source_data = requests.get(ONTOLOGY_MAPPINGS_FILE_URL).content
     mappings_file = pd.read_csv(io.StringIO(oncotree_code_source_data.decode('utf-8')), sep='\t', header=0, keep_default_na=False).applymap(str)

@@ -18,10 +18,10 @@ python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <pat
 
 **Options**
 ```
- -i | --source-file: This is the source file path. The source file must contain one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE in the file header and it must contain codes corresponding to the Ontology System.
+ -i | --source-file: This is the source file path. The source file must contain one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE in the file header and it must contain codes corresponding to the Ontology System.
  -o | --target-file: This is the path to the target file that will be generated. It will contain ontologies mapped from source code in <source-file> to <target-code>.
- -s | --source-code: This is the source ontology code in <source-file>. It must be one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE.
- -t | --target-code: This is the target ontology code that the script will attempt to map the source file ontology code to. It must be one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE.
+ -s | --source-code: This is the source ontology code in <source-file>. It must be one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE.
+ -t | --target-code: This is the target ontology code that the script will attempt to map the source file ontology code to. It must be one of the ONCOTREE_CODE, NCIT_CODE, UMLS_CODE, ICDO_TOPOGRAPHY_CODE, ICDO_MORPHOLOGY_CODE or HEMEONC_CODE.
 ```
 
 **Note**
