@@ -1,3 +1,7 @@
+# Contents
+* [OncoTree to OncoTree Mapping Tool](#oncotree-to-oncotree-mapping-tool)
+* [Ontology Mapping Tool](#ontology-mapping-tool)
+
 # OncoTree to OncoTree Mapping Tool
 
 The OncoTree Mapping tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. Below you can find basic instructions in the "Running the tool" section, and a detailed walkthrough in the "Tutorial" section.
@@ -184,3 +188,26 @@ After filling in the `ONCOTREE_CODE` column with an OncoTree code for each sampl
 |P16|S16|65|MNM|
 |P17|S17|66|MYCF|
 |P18|S18|66|RBL|
+
+# Ontology Mapping Tool
+
+The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently allow the mappings between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems. The tool and the mapping file can be found [here](https://github.com/cBioPortal/oncotree/tree/master/scripts)
+
+### Running the tool
+
+The tool can be run with the following command:
+```
+python <path/to/scripts/ontology_mapping_tool.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --target-code <target_ontology_code>
+```
+
+**Options**
+```
+ -i | --source-file: This is the source file path. The source file must contain one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE in the file header and it must contain codes corresponding to the Ontology System.
+ -o | --target-file: This is the path to the target file that will be generated. It will contain ontologies mapped from source code in <source-file> to <target-code>.
+ -t | --target-code: This is the target ontology codes that the script will attempt to map the source file ontology codes to. It must be one of the ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE.
+```
+
+**Note:**
+- The Ontology Mapping tool runs on python 3.
+- The source file should be tab delimited with one or more columns and it should contain atleast one of ONCOTREE_CODE, ICDO_CODE, NCIT_CODE, UMLS_CODE or HEMEONC_CODE in the file header.
+- We currently are allowing only one ontology to another ontology mapping. This tool will be extended to support one to multiple ontology systems mapping.
