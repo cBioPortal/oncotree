@@ -13,7 +13,7 @@ var tree = (function () {
         fontSize = '12px',
         root;
 
-    var tree, diagonal, vis, numOfTumorTypes = 0, numOfTissues = 0;
+    var tree, diagonal, vis, numOfTumorTypes = 0, numOfTumorTypeLeaves = 0, numOfTumorTypeParents = 0, numOfTissues = 0;
 
     var oncotreeCodesToNames = {}; // used to find duplicate codes
 
@@ -640,6 +640,8 @@ var tree = (function () {
     function searchLeaf(node) {
         var i, length;
         if (node._children || node.children) {
+            numOfTumorTypes++;
+            numOfTumorTypeParents++;
             if (node.children) {
                 length =  node.children.length;
                 for (i = 0; i < length; i++) {
@@ -654,6 +656,7 @@ var tree = (function () {
             }
         } else {
             numOfTumorTypes++;
+            numOfTumorTypeLeaves++;
         }
     }
 
