@@ -201,7 +201,7 @@ The Ontology Mapping tool runs on python 3 and requires `pandas` and `requests` 
 ```
 pip3 install pandas
 pip3 install requests
- ```
+```
 
 ## Running the tool
 
