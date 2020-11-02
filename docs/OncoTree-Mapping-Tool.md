@@ -1,6 +1,6 @@
 # Contents
 * [OncoTree to OncoTree Mapping Tool](#oncotree-to-oncotree-mapping-tool)
-* [Ontology to Ontology Mapping tool](#ontology-to-ontology-mapping-tool)
+* [Ontology to Ontology Mapping Tool](#ontology-to-ontology-mapping-tool)
 
 # OncoTree to OncoTree Mapping Tool
 
@@ -201,7 +201,7 @@ The Ontology Mapping tool runs on python 3 and requires `pandas` and `requests` 
 ```
 pip3 install pandas
 pip3 install requests
- ```
+```
 
 ## Running the tool
 
@@ -209,7 +209,7 @@ The Ontology Mapping tool can be run with the following command:
 
 
 ```
-python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --target-code <target_ontology_code>
+python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --source-code <source_ontology_code> --target-code <target_ontology_code>
 ```
 
 **Options**

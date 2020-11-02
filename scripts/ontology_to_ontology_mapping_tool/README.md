@@ -13,7 +13,7 @@ pip3 install requests
 
 The tool can be run with the following command:
 ```
-python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --target-code <target_ontology_code>
+python <path/to/scripts/ontology_to_ontology_mapping_tool.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --source-code <source_ontology_code> --target-code <target_ontology_code>
 ```
 
 **Options**
