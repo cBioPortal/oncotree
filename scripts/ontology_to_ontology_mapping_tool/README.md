@@ -1,4 +1,4 @@
-## Ontology Mapping Tool
+## Ontology to Ontology Mapping Tool
 
 The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently allow the mappings between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
 
