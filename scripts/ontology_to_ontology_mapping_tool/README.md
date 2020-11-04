@@ -1,6 +1,6 @@
 ## Ontology to Ontology Mapping Tool
 
-The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently allow the mappings between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
+The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently support mapping between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
 
 ### Prerequisites
 The Ontology Mapping tool runs on python 3 and requires `pandas` and `requests` libraries. These libraries can be installed using
