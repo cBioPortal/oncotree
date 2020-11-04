@@ -1,7 +1,7 @@
 ### News
 #### November 4, 2020
  *   **Ontology to Ontology Mapping tool available**
-     * The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently perform mappings between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
+     * The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently support mapping between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
      * A mapping file containing mappings between the different ontologies and OncoTree codes as well as a python script to run the mapping is available on the OncoTree [GitHub page](https://github.com/cBioPortal/oncotree/tree/master/scripts/ontology_to_ontology_mapping_tool). Details are also available on the [Mapping Tool page](http://oncotree.info/#ontology-to-ontology-mapping-tool).
      * The mapping file is expected to grow as we curate more ontology mappings for OncoTree codes.
 #### October 1, 2020
