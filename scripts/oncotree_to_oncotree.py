@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright (c) 2019 Memorial Sloan-Kettering Cancer Center.
 #
 # This library is distributed in the hope that it will be useful, but
@@ -17,7 +19,7 @@
 import argparse
 import os
 import sys
-import urllib
+import urllib.request
 import json
 
 ONCOTREE_WEBSITE_URL = "http://oncotree.mskcc.org/#/home?version="
@@ -49,9 +51,9 @@ IS_LOGGED_FLAG = "logged"
 def fetch_oncotree_versions(oncotree_api_url_base):
     # fetch available onctree versions from api
     oncotree_version_endpoint_url = oncotree_api_url_base + ONCOTREE_VERSION_ENDPOINT
-    response = urllib.urlopen(oncotree_version_endpoint_url)
+    response = urllib.request.urlopen(oncotree_version_endpoint_url)
     if response.getcode() != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree versions." % (response.getcode())
+        print("ERROR (HttpStatusCode %d): Unable to retrieve OncoTree versions." % (response.getcode()), file=sys.stderr)
         sys.exit(1)
     return json.loads(response.read())
 
@@ -59,16 +61,16 @@ def fetch_oncotree_versions(oncotree_api_url_base):
 def validate_input_oncotree_versions(oncotree_versions_list, source_version, target_version):
     valid_version_identifiers = [version[VERSION_API_IDENTIFIER_FIELD] for version in oncotree_versions_list]
     if not source_version in valid_version_identifiers:
-        print >> sys.stderr, "ERROR: Source version (%s) is not a valid OncoTree version" % (source_version)
+        print("ERROR: Source version (%s) is not a valid OncoTree version" % (source_version), file=sys.stderr)
         sys.exit(1)
     if not target_version in valid_version_identifiers:
-        print >> sys.stderr, "ERROR: Source version (%s) is not a valid OncoTree version" % (target_version)
+        print("ERROR: Source version (%s) is not a valid OncoTree version" % (target_version), file=sys.stderr)
         sys.exit(1)
 
 #--------------------------------------------------------------
 def validate_and_fetch_oncotree_version_release_dates(source_version, target_version, oncotree_api_url_base):
     if source_version == target_version:
-        print >> sys.stderr, "Error: Source OncoTree version (%s) and target OncoTree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version)
+        print("Error: Source OncoTree version (%s) and target OncoTree version (%s) are the same.  There is no need to convert this file." % (source_version, target_version), file=sys.stderr)
     oncotree_versions_list = fetch_oncotree_versions(oncotree_api_url_base)
 
     # validate source and target versions
@@ -88,9 +90,9 @@ def validate_and_fetch_oncotree_version_release_dates(source_version, target_ver
 def load_oncotree_version(oncotree_version_name, oncotree_api_url_base):
     oncotree_nodes = {}
     oncotree_tumortypes_endpoint = oncotree_api_url_base + ONCOTREE_TUMORTYPES_ENDPOINT + "?version=" + oncotree_version_name
-    response = urllib.urlopen(oncotree_tumortypes_endpoint)
+    response = urllib.request.urlopen(oncotree_tumortypes_endpoint)
     if response.getcode() != 200:
-        print >> sys.stderr, "ERROR (HttpStatusCode %d): Unable to retrieve OncoTree version %s." % (response.getcode(), oncotree_version_name)
+        print("ERROR (HttpStatusCode %d): Unable to retrieve OncoTree version %s." % (response.getcode(), oncotree_version_name), file=sys.stderr)
         sys.exit(1)
     for json_oncotree_node in json.loads(response.read()):
         new_node = {}
@@ -112,7 +114,7 @@ def load_oncotree_version(oncotree_version_name, oncotree_api_url_base):
 #--------------------------------------------------------------
 def get_header(file):
     header = []
-    with open(file, "rU") as header_source:
+    with open(file, "r") as header_source:
         for line in header_source:
             if not line.startswith("#"):
                 header = line.rstrip().split('\t')
@@ -131,13 +133,13 @@ def load_source_file(source_file):
     header_line_number = 0
 
     if "ONCOTREE_CODE" not in header:
-        print >> sys.stderr, "ERROR: Input file is missing column 'ONCOTREE_CODE'."
+        print("ERROR: Input file is missing column 'ONCOTREE_CODE'.", file=sys.stderr)
         sys.exit(1)
 
-    with open(source_file, "rU") as data_file:
+    with open(source_file, "r") as data_file:
         for line_number, line in enumerate(data_file):
             if '\r' in line:
-                print >> sys.stderr, "ERROR: source file (%s) is not in the required format (tab delimited, newline line breaks). carriage return characters encountered." % (source_file)
+                print("ERROR: source file (%s) is not in the required format (tab delimited, newline line breaks). carriage return characters encountered." % (source_file), file=sys.stderr)
                 sys.exit(1)
             if line.startswith(METADATA_HEADER_PREFIX) or len(line.rstrip()) == 0:
                 header_and_comment_lines[line_number] = line
@@ -148,7 +150,7 @@ def load_source_file(source_file):
                 header_and_comment_lines[line_number] = line
                 continue
             if len(line.split('\t')) != header_length:
-                print >> sys.stderr, "ERROR: Current row has a different number of columns than header row: %s" % line
+                print("ERROR: Current row has a different number of columns than header row: %s" % line, file=sys.stderr)
                 sys.exit(1)
             data = dict(zip(header, map(str.strip, line.split('\t'))))
             source_file_mapped_list.append(data)
@@ -263,7 +265,7 @@ def get_possible_target_oncotree_codes(source_oncotree_node, target_oncotree, is
         # codes where source code is in history (this should at most be 1 node - because its the same URI)
         future_codes = get_future_related_oncotree_codes_for_source_code(source_oncotree_code, target_oncotree, HISTORY_FIELD)
         if len(future_codes) > 1:
-            print >> sys.stderr, "ERROR: Future OncoTree has multiple codes with code %s in history" % (source_oncotree_code)
+            print("ERROR: Future OncoTree has multiple codes with code %s in history" % (source_oncotree_code), file=sys.stderr)
             sys.exit(1)
         if len(future_codes) == 1:
             possible_target_oncotree_codes.update(future_codes)
@@ -400,7 +402,7 @@ def get_closest_common_parent(possible_target_oncotree_codes, target_oncotree):
         oncotree_code_to_ancestors_mapping[oncotree_code] = get_ancestors(oncotree_code, oncotree_code_ancestors, target_oncotree)
     min_length = min([len(ancestor_list) for ancestor_list in oncotree_code_to_ancestors_mapping.values()])
     # look across lists to find the earliest point where codes differ
-    closest_common_parent = get_earliest_common_parent(min_length, oncotree_code_to_ancestors_mapping.values())
+    closest_common_parent = get_earliest_common_parent(min_length, list(oncotree_code_to_ancestors_mapping.values()))
     return closest_common_parent
 
 #--------------------------------------------------------------
@@ -448,7 +450,7 @@ def write_to_target_file(translated_source_file_mapped_list, target_file, header
             formatted_data = map(lambda x: record.get(x,''), header)
             f.write('\t'.join(formatted_data) + '\n')
             line_num += 1
-    print >> sys.stdout, "Primary target file written to %s" % (target_file)
+    print("Primary target file written to %s" % (target_file), file=sys.stdout)
 
 #--------------------------------------------------------------
 # sorts logging map based on resolution type
@@ -537,12 +539,12 @@ def write_summary_file(target_file, source_version, target_version):
         for oncotree_code in completely_resolved_codes:
             f.write("<p><b>Original Code</b>: %s<br>\n" % (oncotree_code))
             f.write("<b>New Code</b>: %s<br>\n" % ','.join(GLOBAL_LOG_MAP[oncotree_code][CHOICES_FIELD]))
-    print >> sys.stdout, "Mapping summary HTML file written out to %s" % (html_summary_file)
+    print("Mapping summary HTML file written out to %s" % (html_summary_file), file=sys.stdout)
 
 def usage(parser, message):
     if message:
-        print >> sys.stderr, message
-    print >> sys.stderr, parser.print_help()
+        print(message, file=sys.stderr)
+    print(parser.print_help(), file=sys.stderr)
     sys.exit(1)
 
 #--------------------------------------------------------------
@@ -570,7 +572,7 @@ def main():
         usage(parse, "Error: missing arguments")
 
     if not os.path.isfile(source_file):
-        print >> sys.stderr, "Error: cannot access source file (%s) : no such file" % (source_file)
+        print("Error: cannot access source file (%s) : no such file" % (source_file), file=sys.stderr)
         sys.exit(1)
 
     source_oncotree_version_release_date, target_oncotree_version_release_date = validate_and_fetch_oncotree_version_release_dates(source_version, target_version, oncotree_api_url_base)
@@ -581,7 +583,7 @@ def main():
     translated_source_file_mapped_list = translate_oncotree_codes(source_file_mapped_list, source_oncotree, target_oncotree, is_backwards_mapping)
     write_to_target_file(translated_source_file_mapped_list, target_file, header, header_and_comment_lines)
     write_summary_file(target_file, source_version, target_version)
-    print >> sys.stdout, "OncoTree version conversion completed."
+    print("OncoTree version conversion completed.", file=sys.stdout)
 
 if __name__ == '__main__':
    main()

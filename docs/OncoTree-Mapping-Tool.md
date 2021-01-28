@@ -8,7 +8,10 @@ The OncoTree Mapping tool was developed to facilitate the mapping of OncoTree co
 
 ## Setting up and downloading the tool
 
+As of January 2020, the sun has set on [Python 2.X](https://www.python.org/doc/sunset-python-2/).  If you are still using Python 2.X, we encourage you to use Python 3.6 and above, but here is the [last version of the code](https://github.com/cBioPortal/oncotree/blob/a9fac02d21b66b2ea1097a0a5b00e1369cfc2b7a/scripts/oncotree_to_oncotree.py) to work with Python 2.X.  In the future, only Python 3.X versions of this tool will be supported.
+
 Click here to download the script: <span class="text-primary" style="font-size:1.5em; font-weight:bold;">[oncotree_to_oncotree.py <span class="text-primary oi oi-data-transfer-download"></span>](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py)</span>
+
 
 ## Running the tool
 
@@ -16,7 +19,7 @@ The OncoTree Mapping tool can be run with the following command:
 
 
 ```
-python <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --source-version <source_oncotree_version> --target-version <target_oncotree_version>
+python3 <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --source-version <source_oncotree_version> --target-version <target_oncotree_version>
 ```
 
 **Options**
