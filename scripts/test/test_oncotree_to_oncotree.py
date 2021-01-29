@@ -12,8 +12,15 @@ class TestCrossVersionOncotreeTranslator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.original_version = cls.get_original_version()
+        for code in (cls.original_version):
+            GLOBAL_LOG_MAP[code] = {
+                NEIGHBORS_FIELD : [],
+                CHOICES_FIELD : [],
+                CLOSEST_COMMON_PARENT_FIELD : "",
+                IS_LOGGED_FLAG : False
+            }
         cls.latest_version = cls.get_latest_version()
-        for code in (cls.original_version.keys() + cls.latest_version.keys()):
+        for code in (cls.latest_version):
             GLOBAL_LOG_MAP[code] = {
                 NEIGHBORS_FIELD : [],
                 CHOICES_FIELD : [],
