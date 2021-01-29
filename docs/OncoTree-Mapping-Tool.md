@@ -12,7 +12,6 @@ As of January 2020, the sun has set on [Python 2.X](https://www.python.org/doc/s
 
 Click here to download the script: <span class="text-primary" style="font-size:1.5em; font-weight:bold;">[oncotree_to_oncotree.py <span class="text-primary oi oi-data-transfer-download"></span>](http://oncotree.mskcc.org/downloads/oncotree_to_oncotree.py)</span>
 
-
 ## Running the tool
 
 The OncoTree Mapping tool can be run with the following command:
