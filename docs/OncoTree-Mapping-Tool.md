@@ -16,7 +16,6 @@ Click here to download the script: <span class="text-primary" style="font-size:1
 
 The OncoTree Mapping tool can be run with the following command:
 
-
 ```
 python3 <path/to/scripts/oncotree_to_oncotree.py> --source-file <path/to/source/file> --target-file <path/to/target/file> --source-version <source_oncotree_version> --target-version <target_oncotree_version>
 ```
