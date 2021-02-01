@@ -199,7 +199,7 @@ def accumulate_codes_from_version(topbraid_uris_to_prior_code_set, topbraid_uris
         topbraid_uris_to_prior_code_set[uri] |= topbraid_uris_to_properties_to_values[uri]['code']
 
 def usage():
-    sys.stdout.write('python validate_topbraid_uris.py --curated-file [path/to/curated/file] --properties-file [path/to/properties/file]\n')
+    sys.stdout.write('python3 validate_topbraid_uris.py --curated-file [path/to/curated/file] --properties-file [path/to/properties/file]\n')
 
 def main():
     # get command line stuff
@@ -267,7 +267,7 @@ def main():
     # print warnings to stderr and exit with failure error code
     if errors:
         for error in errors:
-            sys.stderr.write("ERROR: %s\n" % ((error))
+            sys.stderr.write("ERROR: %s\n" % (error))
         sys.exit(1)
 
 if __name__ == '__main__':
