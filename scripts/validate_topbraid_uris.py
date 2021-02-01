@@ -11,7 +11,7 @@ import os.path
 import sys
 import csv
 import re
-import ConfigParser
+import configparser
 import urllib.request
 from collections import defaultdict
 
@@ -228,13 +228,13 @@ def main():
         usage()
         sys.exit(2)
 
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     config.readfp(DefaultSectionHeadOnPropertiesFile(open(properties_filename)))
     try:
         topbraid_url = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_URL_PROPERTY_NAME)
         topbraid_username = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_USERNAME_PROPERTY_NAME)
         topbraid_password = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_PASSWORD_PROPERTY_NAME)
-    except ConfigParser.NoOptionError as noe:
+    except configparser.NoOptionError as noe:
         sys.stderr.write("ERROR: %s in properties file\n" % (noe))
         sys.exit(2)
 
