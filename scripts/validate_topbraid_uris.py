@@ -12,7 +12,7 @@ import sys
 import csv
 import re
 import ConfigParser
-import requests
+import urllib.request
 from collections import defaultdict
 
 TOPBRAID_REFERENCE_VERSION_ID='urn:x-evn-master:oncotree_candidate_release'
@@ -78,7 +78,7 @@ class DefaultSectionHeadOnPropertiesFile:
 
 def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password):
     # first we just hit the page and get a session id
-    session = requests.Session()
+    session = urllib.request.Session()
     response = session.get(topbraid_url)
     if response.status_code != 200:
         sys.stderr.write("ERROR: Initial connection to '%s' failed, response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
@@ -93,11 +93,11 @@ def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password)
     return logged_in_session_id
 
 def query_topbraid(query, topbraid_url, logged_in_session_id):
-    session = requests.Session()
+    session = urllib.request.Session()
     data = {"format" : "json-simple", "query" : query}
     response = session.post(topbraid_url, cookies={ JSESSION_ID_COOKIE_NAME : logged_in_session_id}, data=data)
     if response.status_code != 200:
-        print >> sys.stderr, "ERROR: Failed to query '%s', response status code is '%d', body is '%s'" % (topbraid_url, response.status_code, response.text)
+        sys.stderr.write("ERROR: Failed to query '%s', response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
         sys.exit(2)
     return response.json()
 
@@ -199,7 +199,7 @@ def accumulate_codes_from_version(topbraid_uris_to_prior_code_set, topbraid_uris
         topbraid_uris_to_prior_code_set[uri] |= topbraid_uris_to_properties_to_values[uri]['code']
 
 def usage():
-    print 'python validate_topbraid_uris.py --curated-file [path/to/curated/file] --properties-file [path/to/properties/file]'
+    sys.stdout.write('python validate_topbraid_uris.py --curated-file [path/to/curated/file] --properties-file [path/to/properties/file]\n')
 
 def main():
     # get command line stuff
