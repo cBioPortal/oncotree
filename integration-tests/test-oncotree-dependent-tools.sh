@@ -142,7 +142,7 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     fi
 
     $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v oncotree_candidate_release
-    $PYTHON_EXECUTABLE $INTEGRATION_TEST_DIRECTORY/verify_oncotree_code_converter_output.py $TEST_ONCOTREE_VERSION_FILENAME
+    $PYTHON2_EXECUTABLE $INTEGRATION_TEST_DIRECTORY/verify_oncotree_code_converter_output.py $TEST_ONCOTREE_VERSION_FILENAME
     if [ $? -gt 0 ] ; then
         echo "call to test ONCOTREE resulted in unexpected output -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
