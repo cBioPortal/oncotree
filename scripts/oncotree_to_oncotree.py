@@ -332,7 +332,10 @@ def resolve_possible_target_oncotree_codes(source_oncotree_code, possible_target
             GLOBAL_LOG_MAP[source_oncotree_code][NEIGHBORS_FIELD].extend(neighboring_target_oncotree_codes)
             GLOBAL_LOG_MAP[source_oncotree_code][CLOSEST_COMMON_PARENT_FIELD] = closest_common_parent
     else:
-        oncotree_code_options = format_oncotree_code_options(source_oncotree_code, "{%s}" % ','.join(possible_target_oncotree_codes), number_of_new_children)
+        ordered_possible_target_oncotree_codes = possible_target_oncotree_codes
+        if type(possible_target_oncotree_codes) is set:
+            ordered_possible_target_oncotree_codes = sorted(list(possible_target_oncotree_codes))
+        oncotree_code_options = format_oncotree_code_options(source_oncotree_code, "{%s}" % ','.join(ordered_possible_target_oncotree_codes), number_of_new_children)
         if not GLOBAL_LOG_MAP[source_oncotree_code][IS_LOGGED_FLAG]:
             GLOBAL_LOG_MAP[source_oncotree_code][CHOICES_FIELD].extend(possible_target_oncotree_codes)
             if number_of_new_children:
