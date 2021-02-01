@@ -13,6 +13,7 @@ CMO_PIPELINES_DIRECTORY=$ROOT_WORKSPACE/cmo-pipelines
 ONCOTREE_DIRECTORY=$ROOT_WORKSPACE/oncotree
 ONCOTREE_SCRIPTS_DIRECTORY=$ONCOTREE_DIRECTORY/scripts
 PYTHON_EXECUTABLE=python3
+PYTHON2_EXECUTABLE=python
 ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH=$ONCOTREE_DIRECTORY/resources/resource_uri_to_oncocode_mapping.txt
 
 ONCOTREE_JAR=$ONCOTREE_DIRECTORY/web/target/oncotree.jar
@@ -126,21 +127,21 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_FILENAME
 
     # add headers using test ONCOTREE - failure means new ONCOTREE schema not compatible (i.e invalid endpoint, invalid returned json)
-    $PYTHON_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_DEFAULT_FILENAME -o $ONCOTREE_URL
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_DEFAULT_FILENAME -o $ONCOTREE_URL
     if [ $? -gt 0 ] ; then
         echo "call to test ONCOTREE failed -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
         ONCOTREE_CODE_CONVERTER_TEST_SUCCESS=1
     fi
 
-    $PYTHON_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v invalid_oncotree_version
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v invalid_oncotree_version
     if [ $? -eq 0 ] ; then
         echo "call to test ONCOTREE with invalid version succeeded -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
         FAKE_ONCOTREE_VERSION_TEST_SUCCESS=1
     fi
 
-    $PYTHON_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v oncotree_candidate_release
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v oncotree_candidate_release
     $PYTHON_EXECUTABLE $INTEGRATION_TEST_DIRECTORY/verify_oncotree_code_converter_output.py $TEST_ONCOTREE_VERSION_FILENAME
     if [ $? -gt 0 ] ; then
         echo "call to test ONCOTREE resulted in unexpected output -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
