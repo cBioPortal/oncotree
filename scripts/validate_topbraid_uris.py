@@ -87,7 +87,7 @@ def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password)
     # now we login using that session id
     response = session.get(topbraid_url + "/j_security_check?j_username=" + topbraid_username + "&j_password=" + topbraid_password, cookies={ JSESSION_ID_COOKIE_NAME : initial_jsession_id })
     if response.status_code != 200:
-        sys.stderr.write("ERROR: Failed to log into '%s', response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text)
+        sys.stderr.write("ERROR: Failed to log into '%s', response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
         sys.exit(2)
     logged_in_session_id = session.cookies.get_dict()[JSESSION_ID_COOKIE_NAME]
     return logged_in_session_id
