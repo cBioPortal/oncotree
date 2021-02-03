@@ -11,8 +11,8 @@ import os.path
 import sys
 import csv
 import re
-import configparser
-import urllib.request
+import ConfigParser
+import requests
 from collections import defaultdict
 
 TOPBRAID_REFERENCE_VERSION_ID='urn:x-evn-master:oncotree_candidate_release'
@@ -78,7 +78,7 @@ class DefaultSectionHeadOnPropertiesFile:
 
 def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password):
     # first we just hit the page and get a session id
-    session = urllib.request.Session()
+    session = requests.Session()
     response = session.get(topbraid_url)
     if response.status_code != 200:
         sys.stderr.write("ERROR: Initial connection to '%s' failed, response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
@@ -93,7 +93,7 @@ def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password)
     return logged_in_session_id
 
 def query_topbraid(query, topbraid_url, logged_in_session_id):
-    session = urllib.request.Session()
+    session = requests.Session()
     data = {"format" : "json-simple", "query" : query}
     response = session.post(topbraid_url, cookies={ JSESSION_ID_COOKIE_NAME : logged_in_session_id}, data=data)
     if response.status_code != 200:
@@ -228,13 +228,13 @@ def main():
         usage()
         sys.exit(2)
 
-    config = configparser.RawConfigParser()
+    config = ConfigParser.RawConfigParser()
     config.readfp(DefaultSectionHeadOnPropertiesFile(open(properties_filename)))
     try:
         topbraid_url = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_URL_PROPERTY_NAME)
         topbraid_username = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_USERNAME_PROPERTY_NAME)
         topbraid_password = config.get(DEFAULT_SECTION_HEAD_FOR_PROPERTIES_FILE, TOPBRAID_PASSWORD_PROPERTY_NAME)
-    except configparser.NoOptionError as noe:
+    except ConfigParser.NoOptionError as noe:
         sys.stderr.write("ERROR: %s in properties file\n" % (noe))
         sys.exit(2)
 
