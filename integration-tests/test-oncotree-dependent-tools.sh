@@ -166,7 +166,7 @@ fi
 rm -rf $TESTING_DIRECTORY_TEMP
 
 # test that the resource_uri_to_oncocode_mapping.txt is valid and matches TopBraid
-$PYTHON_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
+$PYTHON2_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
 if [ $? -gt 0 ] ; then
     echo "validate_topbraid_uris.py failed, resource_uri_to_oncocode_mapping.txt is invalid or in conflict with TopBraid"
 else
