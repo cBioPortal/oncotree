@@ -7,7 +7,7 @@ import csv
 
 oncotree_code_converter_output = sys.argv[1]
 if not os.path.exists(oncotree_code_converter_output):
-    print "Error, specified file not found: " + oncotree_code_converter_output
+    sys.stderr.write("Error, specified file not found: %s\n" % (oncotree_code_converter_output))
     sys.exit(1)
 
 REQUIRED_HEADERS = ["ONCOTREE_CODE", "CANCER_TYPE", "CANCER_TYPE_DETAILED"]
@@ -27,10 +27,10 @@ def get_required_columns(oncotree_code_converter_output):
                     if line[header].rstrip():
                         to_return[header].append(line[header])
                     else:
-                        print "Error, missing value in column " + header
+                        sys.stderr.write("Error, missing value in column %s\n" % (header))
                         sys.exit(1)
                 except KeyError:
-                    print "Error, output file is missing some of the required header: " + header
+                    sys.stderr.write("Error, output file is missing some of the required header: %s\n" % (header))
                     sys.exit(1)
     return to_return
 
@@ -38,5 +38,5 @@ def get_required_columns(oncotree_code_converter_output):
 columns_to_check = get_required_columns(oncotree_code_converter_output)
 for column_name, column_values in columns_to_check.items():
     if all([True if column_value == "NA" else False for column_value in column_values]):
-        print "Error, all column values in " + column_name + " are NA, please check returned OncoTree schema"
+        sys.stderr.write("Error, all column values in %s are NA, please check returned OncoTree schema\n" % (column_name))
         sys.exit(1)
