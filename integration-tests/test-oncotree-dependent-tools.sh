@@ -12,6 +12,8 @@ ROOT_WORKSPACE=`pwd`
 CMO_PIPELINES_DIRECTORY=$ROOT_WORKSPACE/cmo-pipelines
 ONCOTREE_DIRECTORY=$ROOT_WORKSPACE/oncotree
 ONCOTREE_SCRIPTS_DIRECTORY=$ONCOTREE_DIRECTORY/scripts
+PYTHON_EXECUTABLE=python3
+PYTHON2_EXECUTABLE=python
 ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH=$ONCOTREE_DIRECTORY/resources/resource_uri_to_oncocode_mapping.txt
 
 ONCOTREE_JAR=$ONCOTREE_DIRECTORY/web/target/oncotree.jar
@@ -125,22 +127,22 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_FILENAME
 
     # add headers using test ONCOTREE - failure means new ONCOTREE schema not compatible (i.e invalid endpoint, invalid returned json)
-    python $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_DEFAULT_FILENAME -o $ONCOTREE_URL
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_DEFAULT_FILENAME -o $ONCOTREE_URL
     if [ $? -gt 0 ] ; then
         echo "call to test ONCOTREE failed -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
         ONCOTREE_CODE_CONVERTER_TEST_SUCCESS=1
     fi
 
-    python $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v invalid_oncotree_version
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v invalid_oncotree_version
     if [ $? -eq 0 ] ; then
         echo "call to test ONCOTREE with invalid version succeeded -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
         FAKE_ONCOTREE_VERSION_TEST_SUCCESS=1
     fi
 
-    python $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v oncotree_candidate_release
-    python $INTEGRATION_TEST_DIRECTORY/verify_oncotree_code_converter_output.py $TEST_ONCOTREE_VERSION_FILENAME
+    $PYTHON2_EXECUTABLE $IMPORT_SCRIPTS_DIRECTORY/oncotree_code_converter.py -c $TEST_ONCOTREE_VERSION_FILENAME -o $ONCOTREE_URL -v oncotree_candidate_release
+    $PYTHON2_EXECUTABLE $INTEGRATION_TEST_DIRECTORY/verify_oncotree_code_converter_output.py $TEST_ONCOTREE_VERSION_FILENAME
     if [ $? -gt 0 ] ; then
         echo "call to test ONCOTREE resulted in unexpected output -- new ONCOTREE code incompatible with CMO pipelines (oncotree_code_converter.py)"
     else
@@ -152,7 +154,7 @@ if [ $ONCOTREE_DEPLOYMENT_SUCCESS -gt 0 ] ; then
     TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version.txt
     TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME=$TESTING_DIRECTORY_TEMP/test_oncotree_mapper_version_output.txt
     cp $MOCK_ONCOTREE_FILE $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME
-    python $ONCOTREE_SCRIPTS_DIRECTORY/oncotree_to_oncotree.py -u "$ONCOTREE_URL/api/" -s oncotree_2019_03_01 -t oncotree_2018_05_01 -i $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME -o $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
+    $PYTHON_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/oncotree_to_oncotree.py -u "$ONCOTREE_URL/api/" -s oncotree_2019_03_01 -t oncotree_2018_05_01 -i $TEST_ONCOTREE_VERSION_MAPPER_INPUT_FILENAME -o $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
     diff $EXPECTED_ONCOTREE_VERSION_MAPPER_OUTPUT $TEST_ONCOTREE_VERSION_MAPPER_OUTPUT_FILENAME
     if [ $? -gt 0 ] ; then
         echo "oncotree_to_oncotree.py output differs from expected output"
@@ -164,7 +166,7 @@ fi
 rm -rf $TESTING_DIRECTORY_TEMP
 
 # test that the resource_uri_to_oncocode_mapping.txt is valid and matches TopBraid
-python $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
+$PYTHON2_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
 if [ $? -gt 0 ] ; then
     echo "validate_topbraid_uris.py failed, resource_uri_to_oncocode_mapping.txt is invalid or in conflict with TopBraid"
 else
