@@ -1,4 +1,30 @@
 ### News
+#### November 2, 2021
+ *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_10_01*.
+ *   **New nodes added:**
+     * Desmoplastic/Nodular Medulloblastoma, NOS (DMBLNOS)
+     * Desmoplastic/Nodular Medulloblastoma, SHH Subtype (DMBLSHH)
+     * Anaplastic Medulloblastoma, NOS (AMBLNOS)
+     * Anaplastic Medulloblastoma, Non-WNT, Non-SHH (AMBLNWS)
+     * Anaplastic Medulloblastoma, Group 3 (AMBLNWSG3)
+     * Anaplastic Medulloblastoma, Group 4 (AMBLNWSG4)
+     * Anaplastic Medulloblastoma, SHH Subtype (AMBLSHH)
+     * Medulloblastoma, NOS (MBLNOS)
+     * Medulloblastoma, Non-WNT, Non-SHH (MBLNWS)
+     * Medulloblastoma, Group 3 (MBLG3)
+     * Medulloblastoma, Group 4 (MBLG4)
+     * Medulloblastoma, SHH Subtype (MBLSHH)
+     * Medulloblastoma, WNT Subtype (MBLWNT)
+     * Medulloblastoma with Extensive Nodularity, NOS (MBENNOS)
+     * Medulloblastoma with Extensive Nodularity, SHH Subtype (MBENSHH)
+ *   **Nodes reclassified**
+     * The following list of oncotree codes had the mainType shortened to drop the suffix "NOS": ADRENAL_GLAND, AMPULLA_OF_VATER, BILIARY_TRACT, BLADDER, BONE, BOWEL, BRAIN, BREAST, CERVIX, EYE, HEAD_NECK, KIDNEY, LIVER, LUNG, LYMPH, MYELOID, OTHER, OVARY, PANCREAS, PENIS, PERITONEUM, PLEURA, PNS, PROSTATE, SKIN, SOFT_TISSUE, STOMACH, TESTIS, THYMUS, THYROID, UTERUS, VULVA
+     * Cholangiocarcinoma (CHOL) now has direct parent Intraductal Papillary Neoplasm of the Bile Duct (IPN) [previously: Biliary Tract (BILIARY_TRACT)]
+     * Gallbladder Cancer (GBC) now has direct parent Intracholecystic Papillary Neoplasm (ICPN) [previously: Biliary Tract (BILIARY_TRACT)]
+ *   **oncotree candidate release version additions:**
+     * Three new nodes intended only for oncotree_candidate release were added (NVRINT, MPNWP, MDSWP). These nodes will not be incorperated into oncotree latest stable.
+ *   **resources added**
+ *   * rdf formatted OWL ontology and taxomomy files for recent oncotree versions have been added to our github repository. They can be explored [here <span class="text-primary oi oi-external-link"></span>](https://github.com/cBioPortal/oncotree/tree/master/resources/rdf)
 #### November 4, 2020
  *   **Ontology to Ontology Mapping tool available**
      * The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently support mapping between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
