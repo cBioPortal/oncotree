@@ -21,6 +21,7 @@ IMPORT_SCRIPTS_DIRECTORY=$CMO_PIPELINES_DIRECTORY/import-scripts
 
 JENKINS_USER_HOME_DIRECTORY=/var/lib/jenkins
 JENKINS_PROPERTIES_DIRECTORY=$JENKINS_USER_HOME_DIRECTORY/pipelines-configuration/properties
+JENKINS_TEST_APPLICATION_PROPERTIES=jenkins.test.application.properties
 APPLICATION_PROPERTIES=application.properties
 TEST_APPLICATION_PROPERTIES=test.application.properties
 
@@ -72,7 +73,7 @@ function find_free_port {
 }
 
 # Copy in ONCOTREE properties and build jar
-rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/web/src/main/resources
+rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$JENKINS_TEST_APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/web/src/main/resources/$APPLICATION_PROPERTIES
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/log4j.properties $ONCOTREE_DIRECTORY/web/src/main/resources
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$TEST_APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/core/src/test/resources/$APPLICATION_PROPERTIES
 cd $ONCOTREE_DIRECTORY ; mvn package -Dpackaging.type=jar
@@ -166,7 +167,7 @@ fi
 rm -rf $TESTING_DIRECTORY_TEMP
 
 # test that the resource_uri_to_oncocode_mapping.txt is valid and matches TopBraid
-$PYTHON2_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$APPLICATION_PROPERTIES
+$PYTHON2_EXECUTABLE $ONCOTREE_SCRIPTS_DIRECTORY/validate_topbraid_uris.py --curated-file $ONCOTREE_URI_TO_ONCOTREE_CODE_MAPPING_FILEPATH --properties-file $JENKINS_PROPERTIES_DIRECTORY/oncotree/$JENKINS_TEST_APPLICATION_PROPERTIES
 if [ $? -gt 0 ] ; then
     echo "validate_topbraid_uris.py failed, resource_uri_to_oncocode_mapping.txt is invalid or in conflict with TopBraid"
 else
