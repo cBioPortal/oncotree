@@ -17,14 +17,15 @@
      * Medulloblastoma, WNT Subtype (MBLWNT)
      * Medulloblastoma with Extensive Nodularity, NOS (MBENNOS)
      * Medulloblastoma with Extensive Nodularity, SHH Subtype (MBENSHH)
+     * Pancreatic Neuroendocrine Carcinoma (PANEC) *"in the original version of this news release this node was accidentally omitted*
  *   **Nodes reclassified**
      * The following list of oncotree codes had the mainType shortened to drop the suffix "NOS": ADRENAL_GLAND, AMPULLA_OF_VATER, BILIARY_TRACT, BLADDER, BONE, BOWEL, BRAIN, BREAST, CERVIX, EYE, HEAD_NECK, KIDNEY, LIVER, LUNG, LYMPH, MYELOID, OTHER, OVARY, PANCREAS, PENIS, PERITONEUM, PLEURA, PNS, PROSTATE, SKIN, SOFT_TISSUE, STOMACH, TESTIS, THYMUS, THYROID, UTERUS, VULVA
      * Cholangiocarcinoma (CHOL) now has direct parent Intraductal Papillary Neoplasm of the Bile Duct (IPN) [previously: Biliary Tract (BILIARY_TRACT)]
      * Gallbladder Cancer (GBC) now has direct parent Intracholecystic Papillary Neoplasm (ICPN) [previously: Biliary Tract (BILIARY_TRACT)]
  *   **oncotree candidate release version additions:**
-     * Three new nodes intended only for oncotree_candidate release were added (NVRINT, MPNWP, MDSWP). These nodes will not be incorperated into oncotree latest stable.
+     * Three new nodes intended only for version oncotree_candidate_release were added (NVRINT, MPNWP, MDSWP). These nodes will not be incorperated into oncotree latest stable.
  *   **resources added**
- *   * rdf formatted OWL ontology and taxomomy files for recent oncotree versions have been added to our github repository. They can be explored [here <span class="text-primary oi oi-external-link"></span>](https://github.com/cBioPortal/oncotree/tree/master/resources/rdf)
+     * rdf formatted OWL ontology and taxomomy files for recent oncotree versions have been added to our github repository. They can be explored [here <span class="text-primary oi oi-external-link"></span>](https://github.com/cBioPortal/oncotree/tree/master/resources/rdf).
 #### November 4, 2020
  *   **Ontology to Ontology Mapping tool available**
      * The Ontology Mapping tool was developed to facilitate the mapping between different cancer classification systems. We currently support mapping between OncoTree, ICD-O, NCIt, UMLS and HemeOnc systems.
