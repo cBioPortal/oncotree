@@ -17,7 +17,7 @@
      * Medulloblastoma, WNT Subtype (MBLWNT)
      * Medulloblastoma with Extensive Nodularity, NOS (MBENNOS)
      * Medulloblastoma with Extensive Nodularity, SHH Subtype (MBENSHH)
-     * Pancreatic Neuroendocrine Carcinoma (PANEC) *"in the original version of this news release this node was accidentally omitted*
+     * Pancreatic Neuroendocrine Carcinoma (PANEC) *in the original version of this news release this node was accidentally omitted*
  *   **Nodes reclassified**
      * The following list of oncotree codes had the mainType shortened to drop the suffix "NOS": ADRENAL_GLAND, AMPULLA_OF_VATER, BILIARY_TRACT, BLADDER, BONE, BOWEL, BRAIN, BREAST, CERVIX, EYE, HEAD_NECK, KIDNEY, LIVER, LUNG, LYMPH, MYELOID, OTHER, OVARY, PANCREAS, PENIS, PERITONEUM, PLEURA, PNS, PROSTATE, SKIN, SOFT_TISSUE, STOMACH, TESTIS, THYMUS, THYROID, UTERUS, VULVA
      * Cholangiocarcinoma (CHOL) now has direct parent Intraductal Papillary Neoplasm of the Bile Duct (IPN) [previously: Biliary Tract (BILIARY_TRACT)]
