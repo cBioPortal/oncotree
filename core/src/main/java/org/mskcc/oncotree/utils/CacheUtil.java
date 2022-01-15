@@ -82,6 +82,8 @@ public class CacheUtil {
         }
     }
 
+    This introduces an intential error to test the catching of compile errors during the running of integration tests by jenkins
+    
     public void resetCache() throws FailedCacheRefreshException {
         logger.info("resetCache() -- refilling tumor types cache");
         Map<Version, Map<String, TumorType>> latestTumorTypesCache = new HashMap<>();
