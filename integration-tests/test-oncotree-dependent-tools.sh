@@ -76,7 +76,12 @@ function find_free_port {
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$JENKINS_TEST_APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/web/src/main/resources/$APPLICATION_PROPERTIES
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/log4j.properties $ONCOTREE_DIRECTORY/web/src/main/resources
 rsync $JENKINS_PROPERTIES_DIRECTORY/oncotree/$TEST_APPLICATION_PROPERTIES $ONCOTREE_DIRECTORY/core/src/test/resources/$APPLICATION_PROPERTIES
-cd $ONCOTREE_DIRECTORY ; mvn package -Dpackaging.type=jar
+cd $ONCOTREE_DIRECTORY
+mvn clean install -Dpackaging.type=jar
+if [ $? -gt 0 ] ; then
+    echo "Build of ONCOTREE source code failed - integration tests cannot be run."
+    exit 1
+fi
 
 #start up ONCOTREE on some port on dashi-dev
 ONCOTREE_PORT=`find_free_port`
