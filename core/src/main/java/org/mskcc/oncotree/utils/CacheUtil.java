@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 - 2020 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2016 - 2020, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -31,8 +31,8 @@ import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.error.InvalidVersionException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.graphite.OncoTreeNode;
+import org.mskcc.oncotree.graphite.GraphiteException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,18 +88,18 @@ public class CacheUtil {
         ArrayList<Version> oncoTreeVersions = new ArrayList<Version>();
         ArrayList<String> failedVersions = new ArrayList<String>();
         // use this to store and look up previous oncoTree codes
-        HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes = new HashMap<String, ArrayList<String>>();
+        HashMap<String, ArrayList<String>> internalIdsToOncotreeCodes = new HashMap<String, ArrayList<String>>();
 
         boolean failedOncoTreeVersionsCacheRefresh = false;
         boolean failedVersionedOncoTreeNodesCacheRefresh = false;
         // update EHCache with newest versions available
         try {
             oncoTreePersistentCache.updateOncoTreeVersionsInPersistentCache();
-        } catch (TopBraidException exception) {
+        } catch (GraphiteException exception) {
             logger.error("resetCache() -- failed to pull versions from repository");
             failedOncoTreeVersionsCacheRefresh = true;
         }
-        // attmpt to get versions from EHCache -- RuntimeException thrown when ALL options are exhausted (ehcache, topbraid, backup)
+        // attmpt to get versions from EHCache -- RuntimeException thrown when ALL options are exhausted (ehcache, graphite, backup)
         try {
             oncoTreeVersions = oncoTreePersistentCache.getOncoTreeVersionsFromPersistentCache();
         } catch (RuntimeException e) {
@@ -122,11 +122,11 @@ public class CacheUtil {
             if (version != null) {
                 try {
                     oncoTreePersistentCache.updateOncoTreeNodesInPersistentCache(version);
-                } catch (TopBraidException e) {
+                } catch (GraphiteException e) {
                     logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository : " + e.toString());
                     failedVersionedOncoTreeNodesCacheRefresh = true;
                 }
-                // attempt to get nodes from EHCache -- RuntimeException thrown when ALL options are exhausted (ehcache, topbraid, backup)
+                // attempt to get nodes from EHCache -- RuntimeException thrown when ALL options are exhausted (ehcache, graphite, backup)
                 // store versions for which nodes cannot be successfully loaded (either due to inaccessible data or invalid data)
                 try {
                     oncoTreeNodes = oncoTreePersistentCache.getOncoTreeNodesFromPersistentCache(version);
@@ -144,7 +144,7 @@ public class CacheUtil {
                     }
                 }
                 try {
-                    latestTumorTypes = tumorTypesUtil.getAllTumorTypesFromOncoTreeNodes(oncoTreeNodes, version, topBraidURIsToOncotreeCodes);
+                    latestTumorTypes = tumorTypesUtil.getAllTumorTypesFromOncoTreeNodes(oncoTreeNodes, version, internalIdsToOncotreeCodes);
                 } catch (InvalidOncoTreeDataException exception) {
                     logger.error("Unable to get tumor types from oncotree nodes");
                     failedVersions.add(version.getVersion());
@@ -168,7 +168,7 @@ public class CacheUtil {
         }
 
         tumorTypesCache = latestTumorTypesCache;
-        // cache is filled, but indicate to endpoint that we did not successfully pull updated data from TopBraid
+        // cache is filled, but indicate to endpoint that we did not successfully pull updated data from Graphite
         if (failedOncoTreeVersionsCacheRefresh || failedVersionedOncoTreeNodesCacheRefresh) {
             throw new FailedCacheRefreshException("Failed to refresh cache - composite error");
         } else {

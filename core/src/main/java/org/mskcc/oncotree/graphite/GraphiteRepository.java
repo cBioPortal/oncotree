@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -16,28 +16,25 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.topbraid;
+package org.mskcc.oncotree.graphite;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,25 +43,27 @@ import org.springframework.web.client.RestTemplate;
  * @author Manda Wilson
  **/
 @Repository
-public abstract class TopBraidRepository<T> {
+public abstract class GraphiteRepository<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(TopBraidRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(GraphiteRepository.class);
 
-    @Value("${topbraid.url}")
-    private String topBraidURL;
+    @Value("${graphite.url}")
+    private String graphiteURL;
 
-    @Autowired
-    private TopBraidSessionConfiguration topBraidSessionConfiguration;
+    @Value("${graphite.username}")
+    private String graphiteUsername;
 
-    protected List<T> query(String query, ParameterizedTypeReference<List<T>> parameterizedType)
-            throws TopBraidException {
+    @Value("${graphite.password}")
+    private String graphitePassword;
+
+    protected T query(String query, ParameterizedTypeReference<T> parameterizedType)
+            throws GraphiteException {
         return query(query, parameterizedType, true);
     }
 
-    private List<T> query(String query, ParameterizedTypeReference<List<T>> parameterizedType, boolean refreshSessionOnFailure)
-            throws TopBraidException {
-        String sessionId = topBraidSessionConfiguration.getSessionId();
-        logger.debug("query() -- sessionId: " + sessionId);
+    private T query(String query, ParameterizedTypeReference<T> parameterizedType, boolean attemptAgainOnFailure)
+            throws GraphiteException {
+        String encodedCredentials = Base64.getEncoder().encodeToString((graphiteUsername + ":" + graphitePassword).getBytes(StandardCharsets.UTF_8));
         RestTemplate restTemplate = new RestTemplate();
 
         // the default supported types for MappingJackson2HttpMessageConverter are:
@@ -74,35 +73,32 @@ public abstract class TopBraidRepository<T> {
         //   would not have to add the message converter to the rest template
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
         messageConverter.setSupportedMediaTypes(Collections.singletonList(
-            new MediaType("application","sparql-results+json-simple")));
+            new MediaType("application","sparql-results+json")));
         restTemplate.getMessageConverters().add(messageConverter);
 
-        // set our JSESSIONID cookie and our params
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Cookie", "JSESSIONID=" + sessionId);
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("format", "json-simple");
-        map.add("query", query);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Basic " + encodedCredentials);
+
+        String requestBody = "query=" + query;
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
         // NOTE ParameterizedTypeReference cannot be made generic, that is why child class passes it
         // See: http://stackoverflow.com/questions/21987295/using-spring-resttemplate-in-generic-method-with-generic-parameter
         try {
-            ResponseEntity<List<T>> response = restTemplate.exchange(topBraidURL,
+            ResponseEntity<T> response = restTemplate.exchange(graphiteURL,
                     HttpMethod.POST,
-                    request,
+                    entity,
                     parameterizedType);
-            logger.debug("query() -- response.getBody(): '" + response.getBody() + "'");
             return response.getBody();
         } catch (RestClientException e) {
             logger.debug("query() -- caught RestClientException");
-            // see if we should try again, maybe the session expired
-            if (refreshSessionOnFailure == true) {
-                // force refresh of the session id
-                sessionId = topBraidSessionConfiguration.getFreshSessionId();
+            // see if we should try again
+            if (attemptAgainOnFailure == true) {
                 return query(query, parameterizedType, false); // do not make a second attempt
             }
-            throw new TopBraidException("Failed to connect to TopBraid", e);
+            throw new GraphiteException("Failed to connect to Graphite", e);
         }
     }
 }

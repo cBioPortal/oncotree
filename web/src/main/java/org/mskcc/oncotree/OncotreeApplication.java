@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2020 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2020, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -63,7 +63,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
             return apiInfoBuilder
                     .title("OncoTree API")
                     .description("OncoTree API definition from MSKCC")
-                    .version("1.0.0")
+                    .version("2.0.0")
                     .build();
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS
@@ -13,7 +13,7 @@
  * Center has been advised of the possibility of such damage.
  */
 
-package org.mskcc.oncotree.topbraid;
+package org.mskcc.oncotree.graphite;
 
 /**
  *
@@ -39,6 +39,7 @@ import java.io.Serializable;
     "code",
     "name",
     "mainType",
+    "clinicalCasesSubset",
     "color",
     "parentCode",
     "revocations",
@@ -57,6 +58,9 @@ public class OncoTreeNode implements Serializable {
 
     @JsonProperty("mainType")
     private String mainType;
+
+    @JsonProperty("clinicalCasesSubset")
+    private String clinicalCasesSubset;
 
     @JsonProperty("color")
     private String color;
@@ -80,6 +84,7 @@ public class OncoTreeNode implements Serializable {
         this.code = otherOncoTreeNode.code;
         this.name = otherOncoTreeNode.name;
         this.mainType = otherOncoTreeNode.mainType;
+        this.clinicalCasesSubset = otherOncoTreeNode.clinicalCasesSubset;
         this.color = otherOncoTreeNode.color;
         this.parentCode = otherOncoTreeNode.parentCode;
         // shallow copies
@@ -126,6 +131,16 @@ public class OncoTreeNode implements Serializable {
     @JsonProperty("mainType")
     public void setMainType(String mainType) {
         this.mainType = mainType;
+    }
+
+    @JsonProperty("clinicalCasesSubset")
+    public String getClinicalCasesSubset() {
+        return clinicalCasesSubset;
+    }
+
+    @JsonProperty("clinicalCasesSubset")
+    public void setClinicalCasesSubset(String clinicalCasesSubset) {
+        this.clinicalCasesSubset = clinicalCasesSubset;
     }
 
     @JsonProperty("color")

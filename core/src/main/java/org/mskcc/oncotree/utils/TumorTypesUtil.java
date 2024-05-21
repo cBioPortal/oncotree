@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017-2019, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -30,8 +30,8 @@ import org.mskcc.oncotree.error.InvalidOncoTreeDataException;
 import org.mskcc.oncotree.error.InvalidQueryException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.graphite.OncoTreeNode;
+import org.mskcc.oncotree.graphite.OncoTreeRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,6 @@ public class TumorTypesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(TumorTypesUtil.class);
     public final static String TSV_HEADER = "level_1\tlevel_2\tlevel_3\tlevel_4\tlevel_5\tlevel_6\tlevel_7\tmetamaintype\tmetacolor\tmetanci\tmetaumls\thistory";
-    private static final String TOPBRAID_BASE_URI = "http://data.mskcc.org/ontologies/oncotree/";
 
     @Autowired
     private CacheUtil cacheUtil;
@@ -58,7 +57,7 @@ public class TumorTypesUtil {
     @Autowired
     private MSKConceptCache mskConceptCache;
 
-    public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "color");
+    public static List<String> TumorTypeKeys = Arrays.asList("code", "name", "nci", "level", "umls", "maintype", "clinicalcasessubset", "color");
 
     public List<TumorType> findTumorTypesByVersion(String key, String keyword, Boolean exactMatch, Version version, Boolean includeParent) throws InvalidOncoTreeDataException, InvalidQueryException {
         logger.debug("Searching for key '" + key + "' and keyword '" + keyword + "'");
@@ -246,7 +245,7 @@ public class TumorTypesUtil {
         }
     }
 
-    public Map<String, TumorType> getAllTumorTypesFromOncoTreeNodes(List<OncoTreeNode> oncoTreeNodes, Version version, HashMap<String, ArrayList<String>> topBraidURIsToOncotreeCodes) throws InvalidOncoTreeDataException {
+    public Map<String, TumorType> getAllTumorTypesFromOncoTreeNodes(List<OncoTreeNode> oncoTreeNodes, Version version, HashMap<String, ArrayList<String>> internalIdsToOncotreeCodes) throws InvalidOncoTreeDataException {
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
         HashSet<String> duplicateCodeSet = new HashSet<>();
@@ -263,41 +262,40 @@ public class TumorTypesUtil {
                 rootNodeCodeSet.add(thisNodeCode);
             }
 
-            // get all codes defined so far for this topbraid uri and save in history
-            if (topBraidURIsToOncotreeCodes.containsKey(thisNode.getURI())) {
+            String thisInternalId = thisNode.getClinicalCasesSubset();
+            // get all codes defined so far for this internal id and save in history
+            if (internalIdsToOncotreeCodes.containsKey(thisInternalId)) {
                 // do not add this code to the history, but add any others
-                HashSet<String> allButThisNode = new HashSet<String>(topBraidURIsToOncotreeCodes.get(thisNode.getURI()));
+                HashSet<String> allButThisNode = new HashSet<String>(internalIdsToOncotreeCodes.get(thisInternalId));
                 allButThisNode.remove(thisNode.getCode());
                 tumorType.setHistory(new ArrayList<String>(allButThisNode));
             } else {
-                topBraidURIsToOncotreeCodes.put(thisNode.getURI(), new ArrayList<String>());
+                internalIdsToOncotreeCodes.put(thisInternalId, new ArrayList<String>());
             }
-            for (String topBraidURI : thisNode.getRevocations()) {
-                String fullTopBraidURI = TOPBRAID_BASE_URI + topBraidURI;
-                if (topBraidURIsToOncotreeCodes.containsKey(fullTopBraidURI)) {
-                    ArrayList<String> nodeHistory = topBraidURIsToOncotreeCodes.get(fullTopBraidURI);
-                    // last node is most recent for this URI
+            for (String revocationInternalId : thisNode.getRevocations()) {
+                if (internalIdsToOncotreeCodes.containsKey(revocationInternalId)) {
+                    ArrayList<String> nodeHistory = internalIdsToOncotreeCodes.get(revocationInternalId);
+                    // last node is most recent for this
                     tumorType.addRevocations(nodeHistory.get(nodeHistory.size() - 1));
                 }
                 else {
-                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
-                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in revocations field for topBraidURI " + thisNode.getURI());
+                    logger.error("loadFromRepository() -- unknown internal id " + revocationInternalId + " in revocations field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
+                    throw new InvalidOncoTreeDataException("Unknown internal id " + revocationInternalId + " in revocations field for URI" + thisNode.getURI() + " (" + thisInternalId + ")");
                 }
             }
-            for (String topBraidURI : thisNode.getPrecursors()) {
-                String fullTopBraidURI = TOPBRAID_BASE_URI + topBraidURI;
-                if (topBraidURIsToOncotreeCodes.containsKey(fullTopBraidURI)) {
-                    ArrayList<String> nodeHistory = topBraidURIsToOncotreeCodes.get(fullTopBraidURI);
+            for (String precursorInternalId : thisNode.getPrecursors()) {
+                if (internalIdsToOncotreeCodes.containsKey(precursorInternalId)) {
+                    ArrayList<String> nodeHistory = internalIdsToOncotreeCodes.get(precursorInternalId);
                     // last node is most recent for this URI
                     tumorType.addPrecursors(nodeHistory.get(nodeHistory.size() - 1));
                 }
                 else {
-                    logger.error("loadFromRepository() -- unknown topBraidURI " + fullTopBraidURI + " in precursors field for topBraidURI " + thisNode.getURI());
-                    throw new InvalidOncoTreeDataException("Unknown topBraidURI " + fullTopBraidURI + " in precursors field for topBraidURI " + thisNode.getURI());
+                    logger.error("loadFromRepository() -- unknown internal id " + precursorInternalId + " in precursors field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
+                    throw new InvalidOncoTreeDataException("Unknown internal id " + precursorInternalId + " in precursors field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
                 }
             }
-            // now save this as onoctree code history for this topbraid uri
-            topBraidURIsToOncotreeCodes.get(thisNode.getURI()).add(thisNode.getCode());
+            // now save this as onoctree code history for this internal id
+            internalIdsToOncotreeCodes.get(thisInternalId).add(thisNode.getCode());
         }
         validateOncoTreeOrThrowException(rootNodeCodeSet, duplicateCodeSet, allNodes);
         // fill in children property, based on parent
@@ -336,6 +334,7 @@ public class TumorTypesUtil {
         // we do not have level or tissue
         TumorType tumorType = new TumorType();
         tumorType.setMainType(oncoTreeNode.getMainType());
+        tumorType.setClinicalCasesSubset(oncoTreeNode.getClinicalCasesSubset());
         tumorType.setCode(oncoTreeNode.getCode());
         tumorType.setName(oncoTreeNode.getName());
         tumorType.setColor(oncoTreeNode.getColor());
@@ -411,6 +410,17 @@ public class TumorTypesUtil {
                     match = currentTumorType == null ? false :
                         (currentTumorType.getMainType() == null ? false :
                                 StringUtils.containsIgnoreCase(currentTumorType.getMainType(), keyword));
+                }
+                break;
+            case "clinicalcasessubset":
+                if (exactMatch) {
+                    match = currentTumorType == null ? false :
+                        (currentTumorType.getClinicalCasesSubset() == null ? false :
+                                currentTumorType.getClinicalCasesSubset().equals(keyword));
+                } else {
+                    match = currentTumorType == null ? false :
+                        (currentTumorType.getClinicalCasesSubset() == null ? false :
+                                StringUtils.containsIgnoreCase(currentTumorType.getClinicalCasesSubset(), keyword));
                 }
                 break;
             case "level":
