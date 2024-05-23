@@ -51,6 +51,7 @@ public class OncoTreeVersionRepository extends GraphiteRepository<Response> {
 
     // NOTE we MUST order by release_date
     private String getQuery() {
+        logger.debug("query() -- oncotree version list graph id: " + oncotreeVersionListGraphId);
         if (query == null) {
             query = "PREFIX otvl:<" + oncotreeVersionNamespacePrefix + "> " +
                     "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +

@@ -63,6 +63,7 @@ public abstract class GraphiteRepository<T> {
 
     private T query(String query, ParameterizedTypeReference<T> parameterizedType, boolean attemptAgainOnFailure)
             throws GraphiteException {
+        logger.debug("query() -- graphite url: " + graphiteURL);
         String encodedCredentials = Base64.getEncoder().encodeToString((graphiteUsername + ":" + graphitePassword).getBytes(StandardCharsets.UTF_8));
         RestTemplate restTemplate = new RestTemplate();
 
