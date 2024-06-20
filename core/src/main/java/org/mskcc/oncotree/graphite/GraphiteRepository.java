@@ -83,14 +83,14 @@ public abstract class GraphiteRepository<T> {
         headers.set("Authorization", "Basic " + encodedCredentials);
 
         String requestBody = "query=" + query;
-        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
         // NOTE ParameterizedTypeReference cannot be made generic, that is why child class passes it
         // See: http://stackoverflow.com/questions/21987295/using-spring-resttemplate-in-generic-method-with-generic-parameter
         try {
             ResponseEntity<T> response = restTemplate.exchange(graphiteURL,
                     HttpMethod.POST,
-                    entity,
+                    request,
                     parameterizedType);
             return response.getBody();
         } catch (RestClientException e) {

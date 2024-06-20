@@ -44,7 +44,7 @@ public class OncoTreeVersionRepository extends GraphiteRepository<Response> {
     @Value("${graphite.oncotree_version_namespace_prefix:http://data.mskcc.org/ontologies/oncotree-version#}")
     private String oncotreeVersionNamespacePrefix;
 
-    @Value("${graphite.oncotree_version_list_graph_id:https://preprod3.msk.synaptica.net/concept_scheme/3bb2d189-54c5-7cf7-e44b-e44a727611e6}")
+    @Value("${graphite.oncotree_version_list_graph_id}")
     private String oncotreeVersionListGraphId;
 
     private String query = null;

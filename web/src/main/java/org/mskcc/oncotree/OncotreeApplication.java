@@ -63,7 +63,7 @@ public class OncotreeApplication extends SpringBootServletInitializer {
             return apiInfoBuilder
                     .title("OncoTree API")
                     .description("OncoTree API definition from MSKCC")
-                    .version("2.0.0")
+                    .version("1.0.0")
                     .build();
     }
 
