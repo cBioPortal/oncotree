@@ -1,4 +1,4 @@
-/** Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -26,8 +26,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.OncoTreeRepository;
+import org.mskcc.oncotree.graphite.OncoTreeNode;
+import org.mskcc.oncotree.graphite.OncoTreeRepository;
 import org.mskcc.oncotree.config.OncoTreeAppConfig;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.springframework.beans.factory.annotation.Autowired;

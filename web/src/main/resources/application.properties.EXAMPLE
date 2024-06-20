@@ -2,13 +2,13 @@ springfox.documentation.swagger.v2.path=/api-docs
 
 server.port=${port:38080}
 
-# for topbraid e.g. https://evn.mskcc.org/evn/tbl/sparql
-topbraid.url=
-topbraid.username=
-topbraid.password=
-topbraid.oncotree_namespace_prefix=
-topbraid.oncotree_version_namespace_prefix=
-topbraid.oncotree_version_list_graph_id=
+# for graphite e.g. http://localhost:7200/repositories/graphite
+graphite.url=
+graphite.username=
+graphite.password=
+graphite.oncotree_namespace_prefix=
+graphite.oncotree_version_namespace_prefix=
+graphite.oncotree_version_list_graph_id=
 
 # for slack alerts
 slack.url=

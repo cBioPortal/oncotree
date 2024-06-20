@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2020 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2020, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -26,10 +26,10 @@ import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.error.*;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.OncoTreeRepository;
-import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
-import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.graphite.OncoTreeNode;
+import org.mskcc.oncotree.graphite.OncoTreeRepository;
+import org.mskcc.oncotree.graphite.OncoTreeVersionRepository;
+import org.mskcc.oncotree.graphite.GraphiteException;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.mskcc.oncotree.utils.OncoTreePersistentCache;
 import org.mskcc.oncotree.utils.SlackUtil;
@@ -65,7 +65,7 @@ public class MSKConceptCache {
 
     @EventListener(ApplicationReadyEvent.class)
     @Scheduled(cron="0 0 3 * * SUN") // call every Sunday at 3am
-    // this only fails if TopBraid + EHCache is unavailable (and only breaks webapp if it occurs on startup)
+    // this only fails if Graphite + EHCache is unavailable (and only breaks webapp if it occurs on startup)
     // the actual returned MSKConcept is not necessary for webapp deployment
     private void resetCache() throws Exception {
         logger.info("resetCache() -- attempting to refresh Crosswalk MSKConcept cache");

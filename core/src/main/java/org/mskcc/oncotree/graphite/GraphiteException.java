@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -16,7 +16,7 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.topbraid;
+package org.mskcc.oncotree.graphite;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +25,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author Manda Wilson
  **/
-public class TopBraidException extends RuntimeException {
+public class GraphiteException extends RuntimeException {
 
-    private static final Logger logger = LoggerFactory.getLogger(TopBraidException.class);
+    private static final Logger logger = LoggerFactory.getLogger(GraphiteException.class);
 
-    public TopBraidException(String message) {
+    public GraphiteException(String message) {
         super(message);
         logger.error(message + ": (Check that authentication is working)");
     }
 
-    public TopBraidException(String message, Throwable cause) {
+    public GraphiteException(String message, Throwable cause) {
         super(message, cause);
         logger.error(message + ": " + cause + " (Check that authentication is working)");
     }

@@ -1,4 +1,4 @@
-/** Copyright (c) 2017-2018 Memorial Sloan-Kettering Cancer Center.
+/** Copyright (c) 2017-2018, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.Test;
 import org.mskcc.oncotree.error.InvalidVersionException;
-import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.graphite.OncoTreeVersionRepository;
 import org.mskcc.oncotree.model.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -145,9 +145,9 @@ public class VersionUtilTest {
     }
 
     /*
-     * Test that changes to TopBraid will not change VersionUtil
+     * Test that changes to Graphite will not change VersionUtil
      * Changes should only take effect after a cache refresh
-     * VersionUtil should only communicate with cache (not TopBraid repository) so OncoTree will be functional during TopBraid downtime
+     * VersionUtil should only communicate with cache (not Graphite repository) so OncoTree will be functional during Graphite downtime
      */
     @Test
     public void testVersionUtilCacheDependency() throws Exception {
@@ -155,8 +155,8 @@ public class VersionUtilTest {
         StringBuilder failureReport  = new StringBuilder();
         int failureCount = 0;
         List<Version> versionsFromUtil = versionUtil.getVersions();
-        // change OncoTreeVersionRepository to throw exception from Topbraid (mimic broken topbraid)
-        // cache is not refreshed (exception thrown instead) i.e if cache is stale and a cron-scheduled refresh occured when TopBraid was down
+        // change OncoTreeVersionRepository to throw exception from Graphite (mimic broken graphite)
+        // cache is not refreshed (exception thrown instead) i.e if cache is stale and a cron-scheduled refresh occured when Graphite was down
         config.resetNotWorkingVersionRepository(oncoTreeVersionRepository);
         try {
             cacheUtil.resetCache();
@@ -165,14 +165,14 @@ public class VersionUtilTest {
         }
         int currentNumberOfVersions = versionUtil.getVersions().size();
         if (currentNumberOfVersions != oncoTreeVersionRepositoryMockResponse.size()) {
-            failureReport.append("An invalid recache attempt was recognized by VersionUtil. OncoTree will fail during TopBraid downtime. Expected number of versions: " + String.valueOf(oncoTreeVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
+            failureReport.append("An invalid recache attempt was recognized by VersionUtil. OncoTree will fail during Graphite downtime. Expected number of versions: " + String.valueOf(oncoTreeVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
             failureCount = failureCount +1;
         }
         config.resetAdditionalVersionRepository(oncoTreeVersionRepository);
         cacheUtil.resetCache();
         currentNumberOfVersions = versionUtil.getVersions().size();
         if (currentNumberOfVersions != oncoTreeAdditionalVersionRepositoryMockResponse.size()) {
-            failureReport.append("Changes to TopBraid repository were not recognized by VersionUtil after cache refresh. Expected number of versions: " + String.valueOf(oncoTreeAdditionalVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
+            failureReport.append("Changes to Graphite repository were not recognized by VersionUtil after cache refresh. Expected number of versions: " + String.valueOf(oncoTreeAdditionalVersionRepositoryMockResponse.size()) + ", Returned number of versions: " + String.valueOf(currentNumberOfVersions) + "\n");
             failureCount = failureCount +1;
         }
         if (failureCount > 0) {

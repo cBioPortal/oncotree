@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2016-2019, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -18,6 +18,7 @@
 package org.mskcc.oncotree.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,7 @@ public class TumorType {
     private String color = null;
     private String name = null;
     private String mainType = null;
+    private String clinicalCasesSubset = null;
     private Map<String, List<String>> externalReferences = new HashMap<String, List<String>>();
     private String tissue = null;
     private Map<String, TumorType> children = new HashMap<String, TumorType>();
@@ -49,6 +51,7 @@ public class TumorType {
         this.color = otherTumorType.color;
         this.name = otherTumorType.name;
         this.mainType = otherTumorType.mainType;
+        this.clinicalCasesSubset = otherTumorType.clinicalCasesSubset;
         // shallow copy
         this.externalReferences = new HashMap<String, List<String>>(otherTumorType.externalReferences);
         this.tissue = otherTumorType.tissue;
@@ -67,6 +70,7 @@ public class TumorType {
         newTumorType.color = this.color;
         newTumorType.name = this.name;
         newTumorType.mainType = this.mainType;
+        newTumorType.clinicalCasesSubset = this.clinicalCasesSubset;
         newTumorType.externalReferences = new HashMap<String, List<String>>(this.externalReferences);
         newTumorType.tissue = this.tissue;
         newTumorType.children = new HashMap<String, TumorType>(this.children.size());
@@ -130,6 +134,19 @@ public class TumorType {
 
     public void setMainType(String mainType) {
         this.mainType = mainType;
+    }
+
+    /**
+     * Our internal id for a Onctoree concept.
+     * Do not make this a JSON property, we do not return it to the user.
+     **/
+    @JsonIgnore
+    public String getClinicalCasesSubset() {
+        return clinicalCasesSubset;
+    }
+
+    public void setClinicalCasesSubset(String clinicalCasesSubset) {
+        this.clinicalCasesSubset = clinicalCasesSubset;
     }
 
     /**
@@ -287,6 +304,7 @@ public class TumorType {
             Objects.equals(color, tumorType.color) &&
             Objects.equals(name, tumorType.name) &&
             Objects.equals(mainType, tumorType.mainType) &&
+            Objects.equals(clinicalCasesSubset, tumorType.clinicalCasesSubset) &&
             Objects.equals(externalReferences, tumorType.externalReferences) &&
             Objects.equals(tissue, tumorType.tissue) &&
             Objects.equals(children, tumorType.children) &&
@@ -298,7 +316,7 @@ public class TumorType {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, color, name, mainType, externalReferences, tissue, children, parent, history, revocations, precursors);
+        return Objects.hash(code, color, name, mainType, clinicalCasesSubset, externalReferences, tissue, children, parent, history, revocations, precursors);
     }
 
     @Override
@@ -309,6 +327,7 @@ public class TumorType {
         sb.append("  color: ").append(color).append("\n");
         sb.append("  name: ").append(name).append("\n");
         sb.append("  mainType: ").append(mainType).append("\n");
+        sb.append("  clinicalCasesSubset: ").append(clinicalCasesSubset).append("\n");
         for (String type : externalReferences.keySet()) {
             sb.append("  ").append(type).append(": ").append(StringUtils.join(externalReferences.get(type), ",")).append("\n");
         }

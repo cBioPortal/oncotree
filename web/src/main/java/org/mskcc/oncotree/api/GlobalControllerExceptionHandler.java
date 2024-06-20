@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 - 2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2017 - 2018, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.error.*;
-import org.mskcc.oncotree.topbraid.TopBraidException;
+import org.mskcc.oncotree.graphite.GraphiteException;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 
 import org.springframework.http.HttpStatus;
@@ -44,9 +44,9 @@ class GlobalControllerExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
-    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to TopBraid")
-    @ExceptionHandler(TopBraidException.class)
-    public void handleTopBraidException() {}
+    @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to connect to Graphite")
+    @ExceptionHandler(GraphiteException.class)
+    public void handleGraphiteException() {}
 
     @ResponseStatus(code = HttpStatus.SERVICE_UNAVAILABLE, reason = "Failed to refresh metadata cache")
     @ExceptionHandler(FailedCacheRefreshException.class)
