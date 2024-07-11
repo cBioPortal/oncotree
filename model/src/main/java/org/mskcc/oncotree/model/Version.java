@@ -35,7 +35,8 @@ import java.io.Serializable;
 @JsonPropertyOrder({
     "api_identifier",
     "graph_uri",
-    "description"
+    "description",
+    "release_date"
 })
 public class Version implements Serializable {
 

@@ -53,17 +53,19 @@ public class OncoTreeVersionRepository extends GraphiteRepository<Response> {
     private String getQuery() {
         logger.debug("query() -- oncotree version list graph id: " + oncotreeVersionListGraphId);
         if (query == null) {
-            query = "PREFIX otvl:<" + oncotreeVersionNamespacePrefix + "> " +
-                    "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible " +
-                    "WHERE { " +
-                    "   GRAPH <" + oncotreeVersionListGraphId + "> { " +
-                    "       ?s otvl:retrievalidentifier ?graph_uri. " +
-                    "       ?s otvl:apiidentifier ?api_identifier. " +
-                    "       ?s otvl:releasedate ?release_date. " +
-                    "       OPTIONAL{?s otvl:description ?description.} " +
-                    "       ?s otvl:visible ?visible. " +
-                    "   } " +
-                    "} ORDER BY ASC(?release_date)";
+            query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
+                    "PREFIX otvl:<" + oncotreeVersionNamespacePrefix + "> " +
+                    "PREFIX g:<http://schema.synaptica.com/oasis#> " +
+                    "SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible WHERE { " +
+                        "?s skos:inScheme <" + oncotreeVersionListGraphId + "> . " +
+                        "?s otvl:retrievalidentifier ?graph_uri. " +
+                        "?s otvl:apiidentifier ?api_identifier. " +
+                        "?s otvl:releasedate ?release_date. " +
+                        "OPTIONAL{?s otvl:description ?description.} " +
+                        "?s otvl:visible ?visible. " +
+                        "OPTIONAL{?s g:conceptStatus ?concept_status.} " +
+                        "FILTER (?concept_status = 'Published') " +
+                        "} ORDER BY ASC(?release_date)";
         }
         return query;
     }

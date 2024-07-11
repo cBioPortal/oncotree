@@ -50,9 +50,9 @@ public class OncoTreeRepository extends GraphiteRepository<Response> {
         if (query == null) {
             query = "PREFIX skos:<http://www.w3.org/2004/02/skos/core#> " +
                     "PREFIX ottt:<" + oncotreeNamespacePrefix + "> " +
-                    "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors ?clinicalCasesSubset " +
-                    "WHERE { " +
-                    "   GRAPH <%s> { " +
+                    "PREFIX g:<http://schema.synaptica.com/oasis#> " +
+                    "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors ?clinicalCasesSubset WHERE { " +
+                    "   ?s skos:inScheme <%s> . " +
                     "       ?s skos:prefLabel ?name;" +
                     "       skos:notation ?code." +
                     "       OPTIONAL{?s skos:broader ?broader." +
@@ -62,14 +62,15 @@ public class OncoTreeRepository extends GraphiteRepository<Response> {
                     "       OPTIONAL{?s ottt:revocations ?revocations}." +
                     "       OPTIONAL{?s ottt:precursors ?precursors}." +
                     "       ?s ottt:clinicalcasessubset ?clinicalCasesSubset." +
-                    "   }" +
+                    "       OPTIONAL{?s g:conceptStatus ?concept_status.} " +
+                    "       FILTER (?concept_status = 'Published') " +
                     "}";
         }
         return query;
     }
 
     public ArrayList<OncoTreeNode> getOncoTree(Version version) throws GraphiteException {
-        logger.debug("getOncoTree() -- version: " + version.getVersion());
+        logger.debug("getOncoTree() -- version: " + version.getVersion() + ", graphURI: " + version.getGraphURI());
         return map(super.query(String.format(getQuery(), version.getGraphURI()), new ParameterizedTypeReference<Response>(){}));
     }
 
