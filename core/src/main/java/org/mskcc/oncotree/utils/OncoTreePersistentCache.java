@@ -74,7 +74,6 @@ public class OncoTreePersistentCache {
     // retrieve cached Graphite responses from default EHCache location
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     public ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCache(Version version) {
-        logger.debug("getOncoTreeNodesFromPersistentCache() -- version: " + version.getVersion());
         ArrayList<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
         try {
             oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
@@ -82,7 +81,6 @@ public class OncoTreePersistentCache {
             logger.error("Unable to get oncotree nodes from Graphite ... attempting to read from backup.");
             try {
                 oncoTreeNodes = getOncoTreeNodesFromPersistentCacheBackup(version);
-
                 if (oncoTreeNodes == null) {
                     logger.error("No oncotree nodes were found in backup.");
                     throw new RuntimeException("No oncotree nodes were found in backup.");

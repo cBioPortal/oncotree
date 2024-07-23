@@ -82,6 +82,7 @@ public abstract class GraphiteRepository<T> {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Basic " + encodedCredentials);
 
+        logger.debug(query);
         String requestBody = "query=" + query;
         HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 

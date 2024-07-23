@@ -16,7 +16,7 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.graphite.oncotree;
+package org.mskcc.oncotree.graphite.jsonmodeling.oncotree;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

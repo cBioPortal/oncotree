@@ -25,8 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.graphite.version.Binding;
-import org.mskcc.oncotree.graphite.version.Response;
+import org.mskcc.oncotree.graphite.jsonmodeling.version.Binding;
+import org.mskcc.oncotree.graphite.jsonmodeling.version.Response;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

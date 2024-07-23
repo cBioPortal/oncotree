@@ -16,24 +16,21 @@
  * has been advised of the possibility of such damage.
 */
 
-package org.mskcc.oncotree.graphite.oncotree;
+package org.mskcc.oncotree.graphite.jsonmodeling.oncotree;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+public class Field {
 
-public class Results {
+    @JsonProperty("value")
+    private String value;
 
-    @JsonProperty("bindings")
-    private List<Binding> bindings;
-
-    public List<Binding> getBindings() {
-        return bindings;
+    public String getValue() {
+        return value;
     }
 
-    public void setBindings(List<Binding> bindings) {
-        this.bindings = bindings;
+    public void setValue(String value) {
+        this.value = value;
     }
 
 }
-

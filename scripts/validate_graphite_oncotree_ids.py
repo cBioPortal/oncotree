@@ -16,39 +16,41 @@ import requests
 from requests.auth import HTTPBasicAuth
 from collections import defaultdict
 
-# TODO URI has to point to production system (2 places)
 GRAPHITE_REFERENCE_VERSION_ID = 'https://preprod3.msk.synaptica.net/concept_scheme/2df299e4-596b-cbd6-45f8-48cbf287bb95'
 GRAPHITE_VERSION_QUERY = """
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
 PREFIX otvl:<http://data.mskcc.org/ontologies/oncotree-version#>
-        SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible
-        WHERE {
-            GRAPH <https://preprod3.msk.synaptica.net/concept_scheme/3bb2d189-54c5-7cf7-e44b-e44a727611e6> {
-                ?s otvl:retrievalidentifier ?graph_uri. 
-                ?s otvl:apiidentifier ?api_identifier. 
-                ?s otvl:releasedate ?release_date. 
-                OPTIONAL{?s otvl:description ?description.} 
-                ?s otvl:visible ?visible. 
-            }
-        } ORDER BY ASC(?release_date)
+PREFIX g:<http://schema.synaptica.com/oasis#>
+SELECT ?api_identifier ?graph_uri ?description ?release_date ?visible ?concept_status WHERE {
+    ?s skos:inScheme <https://preprod3.msk.synaptica.net/concept_scheme/3bb2d189-54c5-7cf7-e44b-e44a727611e6> .
+    ?s otvl:retrievalidentifier ?graph_uri.
+    ?s otvl:apiidentifier ?api_identifier.
+    ?s otvl:releasedate ?release_date.
+    OPTIONAL{?s otvl:description ?description.}
+    ?s otvl:visible ?visible.
+    OPTIONAL{?s g:conceptStatus ?concept_status.}
+    FILTER (?concept_status = 'Published')
+} ORDER BY ASC(?release_date)
 """
 
 GRAPHITE_DATA_QUERY = """
 PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
-        PREFIX ottt:<http://data.mskcc.org/ontologies/oncotree#>
+PREFIX ottt:<http://data.mskcc.org/ontologies/oncotree#>
+PREFIX g:<http://schema.synaptica.com/oasis#>
 SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors ?clinicalCasesSubset
-        WHERE {
-           GRAPH <%s> {
-               ?s skos:prefLabel ?name;
-               skos:notation ?code.
-               OPTIONAL{?s skos:broader ?broader.
-                   ?broader skos:notation ?parentCode}.
-               OPTIONAL{?s ottt:maintype ?mainType}.
-               OPTIONAL{?s ottt:color ?color}.
-               OPTIONAL{?s ottt:revocations ?revocations}.
-               OPTIONAL{?s ottt:precursors ?precursors}.
-               ?s ottt:clinicalcasessubset ?clinicalCasesSubset.
-           }
-        }
+WHERE {    ?s skos:inScheme <%s> .
+    ?s skos:prefLabel ?name;
+    skos:notation ?code.
+    OPTIONAL{?s skos:broader ?broader.
+        ?broader skos:notation ?parentCode}.
+    OPTIONAL{?s ottt:maintype ?mainType}.
+    OPTIONAL{?s ottt:color ?color}.
+    OPTIONAL{?s ottt:revocations ?revocations}.
+    OPTIONAL{?s ottt:precursors ?precursors}.
+    ?s ottt:clinicalcasessubset ?clinicalCasesSubset.
+    OPTIONAL{?s g:conceptStatus ?concept_status.}
+    FILTER (?concept_status = 'Published')
+}
 """
 NUM_FIELDS_IN_CURATED_FILE = 3
 URI_PATTERN_STR = "^ONC[0-9]{6}$" # e.g. ONC000873

@@ -196,20 +196,20 @@ public class TumorTypesUtil {
         return false;
     }
 
-    private void validateOncoTreeOrThrowException(Set<String> rootNodeCodeSet, Set<String> duplicateCodeSet, Map<String, TumorType> allNodes) throws InvalidOncoTreeDataException {
+    private void validateOncoTreeOrThrowException(Version version, Set<String> rootNodeCodeSet, Set<String> duplicateCodeSet, Map<String, TumorType> allNodes) throws InvalidOncoTreeDataException {
         StringBuilder errorMessageBuilder = new StringBuilder();
         //check for one root node
         if (rootNodeCodeSet.size() == 0) {
-            errorMessageBuilder.append("\toncotree has no root node (a node where parent is empty)\n");
+            errorMessageBuilder.append("\toncotree version '" + version.getVersion() + "' has no root node (a node where parent is empty)\n");
         } else if (rootNodeCodeSet.size() > 1) {
-            errorMessageBuilder.append("\toncotree has more than one root node (nodes where parent is empty):\n");
+            errorMessageBuilder.append("\toncotree '" + version.getVersion() + "' has more than one root node (nodes where parent is empty):\n");
             for (String code : rootNodeCodeSet) {
                 errorMessageBuilder.append("\t\t" + code + "\n");
             }
         }
         //check for no duplicated OncoTree codes
         if (duplicateCodeSet.size() > 0) {
-            errorMessageBuilder.append("\tduplication : OncoTree has more than one node containing each of the following OncoTree codes:\n");
+            errorMessageBuilder.append("\tduplication : OncoTree version '" + version.getVersion() + "' has more than one node containing each of the following OncoTree codes:\n");
             for (String code : duplicateCodeSet) {
                 errorMessageBuilder.append("\t\t" + code + "\n");
             }
@@ -223,7 +223,7 @@ public class TumorTypesUtil {
                 continue; //by definition, root nodes have no parent
             } else {
                 if (!allCodeSet.contains(parentCode)) {
-                    errorMessageBuilder.append("\tnode " + thisNodeCode + " has parent code '" + parentCode + "', which is not a code for any node in the tree\n");
+                    errorMessageBuilder.append("\tnode " + thisNodeCode + " has parent code '" + parentCode + "', which is not a code for any node in the tree '" + version.getVersion() + "'\n");
                 }
             }
         }
@@ -249,17 +249,22 @@ public class TumorTypesUtil {
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
         HashSet<String> duplicateCodeSet = new HashSet<>();
+        logger.debug("MEW: all internal ids we know of so far, looking at version {}: {}", version.getVersion(), internalIdsToOncotreeCodes.keySet());
+        logger.debug("MEW: number of nodes in this tree, looking at version {}: {}", version.getVersion(), oncoTreeNodes.size()); 
         // construct basic nodes
         for (OncoTreeNode thisNode : oncoTreeNodes) {
-            logger.debug("OncoTreeNode: code='" + thisNode.getCode() + "', name='" + thisNode.getName() + "'");
             TumorType tumorType = initTumorType(thisNode, version);
+            logger.debug("OncoTreeNode: code='" + thisNode.getCode() + "', name='" + thisNode.getName() + "', parent='" + tumorType.getParent() + "', hasNoParent()?='" + hasNoParent(tumorType) + "'");
             String thisNodeCode = tumorType.getCode();
             if (allNodes.containsKey(thisNodeCode)) {
                 duplicateCodeSet.add(thisNodeCode);
             }
             allNodes.put(thisNodeCode, tumorType);
             if (hasNoParent(tumorType)) {
+                logger.debug("MEW: thisNodeCode is the root: " + thisNodeCode);
                 rootNodeCodeSet.add(thisNodeCode);
+                logger.debug("MEW: rootNodeCodeSet: {}, version: {}" + rootNodeCodeSet.toArray(), version.getVersion());
+
             }
 
             String thisInternalId = thisNode.getClinicalCasesSubset();
@@ -279,7 +284,7 @@ public class TumorTypesUtil {
                     tumorType.addRevocations(nodeHistory.get(nodeHistory.size() - 1));
                 }
                 else {
-                    logger.error("loadFromRepository() -- unknown internal id " + revocationInternalId + " in revocations field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
+                    logger.error("getAllTumorTypesFromOncoTreeNodes() -- oncotree version '" + version.getVersion() + "'  unknown internal id " + revocationInternalId + " in revocations field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
                     throw new InvalidOncoTreeDataException("Unknown internal id " + revocationInternalId + " in revocations field for URI" + thisNode.getURI() + " (" + thisInternalId + ")");
                 }
             }
@@ -290,14 +295,14 @@ public class TumorTypesUtil {
                     tumorType.addPrecursors(nodeHistory.get(nodeHistory.size() - 1));
                 }
                 else {
-                    logger.error("loadFromRepository() -- unknown internal id " + precursorInternalId + " in precursors field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
+                    logger.error("getAllTumorTypesFromOncoTreeNodes() -- oncotree version '" + version.getVersion() + "' unknown internal id " + precursorInternalId + " in precursors field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
                     throw new InvalidOncoTreeDataException("Unknown internal id " + precursorInternalId + " in precursors field for URI " + thisNode.getURI() + " (" + thisInternalId + ")");
                 }
             }
             // now save this as onoctree code history for this internal id
             internalIdsToOncotreeCodes.get(thisInternalId).add(thisNode.getCode());
         }
-        validateOncoTreeOrThrowException(rootNodeCodeSet, duplicateCodeSet, allNodes);
+        validateOncoTreeOrThrowException(version, rootNodeCodeSet, duplicateCodeSet, allNodes);
         // fill in children property, based on parent
         // also set NCI and UMLS codes
         for (TumorType tumorType : allNodes.values()) {
@@ -410,17 +415,6 @@ public class TumorTypesUtil {
                     match = currentTumorType == null ? false :
                         (currentTumorType.getMainType() == null ? false :
                                 StringUtils.containsIgnoreCase(currentTumorType.getMainType(), keyword));
-                }
-                break;
-            case "clinicalcasessubset":
-                if (exactMatch) {
-                    match = currentTumorType == null ? false :
-                        (currentTumorType.getClinicalCasesSubset() == null ? false :
-                                currentTumorType.getClinicalCasesSubset().equals(keyword));
-                } else {
-                    match = currentTumorType == null ? false :
-                        (currentTumorType.getClinicalCasesSubset() == null ? false :
-                                StringUtils.containsIgnoreCase(currentTumorType.getClinicalCasesSubset(), keyword));
                 }
                 break;
             case "level":

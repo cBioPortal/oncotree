@@ -26,7 +26,6 @@ import javax.annotation.Resource;
 import org.mskcc.oncotree.error.InvalidVersionException;
 import org.mskcc.oncotree.model.TumorType;
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.graphite.GraphiteException;
 import org.mskcc.oncotree.graphite.OncoTreeVersionRepository;
 import org.mskcc.oncotree.utils.FailedCacheRefreshException;
 import org.mskcc.oncotree.utils.VersionUtil;
