@@ -120,11 +120,9 @@ public class CacheUtil {
             ArrayList<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
             failedVersionedOncoTreeNodesCacheRefresh = false;
             if (version != null) {
-                logger.debug("MEW: Looking at version: '" + version.getVersion() + "'");
                 try {
                     // this returns something but we don't need it -- it should be in the cache now, but to debug I will save it
                     ArrayList<OncoTreeNode> tmpOncoTreeNodes = oncoTreePersistentCache.updateOncoTreeNodesInPersistentCache(version);
-                    logger.debug("MEW: We retrieved " + tmpOncoTreeNodes.size() + " from Graphite and should have stored them in the persistent cache");
                 } catch (GraphiteException e) {
                     logger.error("resetCache() -- failed to pull tumor types for version '" + version.getVersion() + "' from repository : " + e.toString());
                     failedVersionedOncoTreeNodesCacheRefresh = true;
@@ -133,7 +131,6 @@ public class CacheUtil {
                 // store versions for which nodes cannot be successfully loaded (either due to inaccessible data or invalid data)
                 try {
                     oncoTreeNodes = oncoTreePersistentCache.getOncoTreeNodesFromPersistentCache(version);
-                    logger.debug("MEW: We found " + oncoTreeNodes.size() + " in the persistent cache");
                 } catch (RuntimeException e) {
                     failedVersions.add(version.getVersion());
                     logger.warn("resetCache() -- failed to retrieve version '" + version.getVersion() + "'");
@@ -148,10 +145,7 @@ public class CacheUtil {
                     }
                 }
                 try {
-                    logger.debug("MEW: for version {}, we have {} nodes", version.getVersion(), oncoTreeNodes.size());
                     latestTumorTypes = tumorTypesUtil.getAllTumorTypesFromOncoTreeNodes(oncoTreeNodes, version, internalIdsToOncotreeCodes);
-                    logger.debug("MEW: latestTumorTypes.size() = " + latestTumorTypes.size());
-                    logger.debug("MEW: all internal ids we know of so far: {}", internalIdsToOncotreeCodes.keySet());
                 } catch (InvalidOncoTreeDataException exception) {
                     logger.error("Unable to get tumor types from oncotree nodes");
                     failedVersions.add(version.getVersion());
