@@ -249,8 +249,6 @@ public class TumorTypesUtil {
         Map<String, TumorType> allNodes = new HashMap<>();
         HashSet<String> rootNodeCodeSet = new HashSet<>();
         HashSet<String> duplicateCodeSet = new HashSet<>();
-        logger.debug("MEW: all internal ids we know of so far, looking at version {}: {}", version.getVersion(), internalIdsToOncotreeCodes.keySet());
-        logger.debug("MEW: number of nodes in this tree, looking at version {}: {}", version.getVersion(), oncoTreeNodes.size()); 
         // construct basic nodes
         for (OncoTreeNode thisNode : oncoTreeNodes) {
             TumorType tumorType = initTumorType(thisNode, version);
@@ -261,9 +259,7 @@ public class TumorTypesUtil {
             }
             allNodes.put(thisNodeCode, tumorType);
             if (hasNoParent(tumorType)) {
-                logger.debug("MEW: thisNodeCode is the root: " + thisNodeCode);
                 rootNodeCodeSet.add(thisNodeCode);
-                logger.debug("MEW: rootNodeCodeSet: {}, version: {}" + rootNodeCodeSet.toArray(), version.getVersion());
 
             }
 
