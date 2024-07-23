@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2016-2018, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -35,13 +35,15 @@ import java.io.Serializable;
 @JsonPropertyOrder({
     "api_identifier",
     "graph_uri",
-    "description"
+    "description",
+    "release_date"
 })
 public class Version implements Serializable {
 
     @JsonProperty("api_identifier")
     private String version;
 
+    // we don't want this to be returned to users
     private String graphURI;
 
     @JsonProperty("description")
@@ -49,6 +51,9 @@ public class Version implements Serializable {
 
     @JsonProperty("visible")
     private boolean visible;
+
+    @JsonProperty("release_date")
+    private String releaseDate;
 
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -91,6 +96,16 @@ public class Version implements Serializable {
     @JsonProperty("visible")
     public boolean getVisible() {
         return visible;
+    }
+
+    @JsonProperty("release_date")
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    @JsonProperty("release_date")
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
     @JsonAnyGetter

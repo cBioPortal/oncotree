@@ -1,4 +1,20 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
+# Copyright (c) 2021, 2024 Memorial Sloan-Kettering Cancer Center.
+#
+# This library is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
+# MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  The software and
+# documentation provided hereunder is on an "as is" basis, and
+# Memorial Sloan-Kettering Cancer Center
+# has no obligations to provide maintenance, support,
+# updates, enhancements or modifications.  In no event shall
+# Memorial Sloan-Kettering Cancer Center
+# be liable to any party for direct, indirect, special,
+# incidental or consequential damages, including lost profits, arising
+# out of the use of this software and its documentation, even if
+# Memorial Sloan-Kettering Cancer Center
+# has been advised of the possibility of such damage.
 
 import sys
  
@@ -80,7 +96,8 @@ def get_concept_line_blocks(lines):
 def get_concept_id_from_block_beginning(line):
     """Extracts the concept definition URI from an rdf OWL concept block first line
     """
-    no_prefix_line = line.strip()[28:]
+    line = line.strip()
+    no_prefix_line = line[line.index("#")+1:]
     quote_pos = no_prefix_line.find('"')
     if quote_pos == -1:
         sys.stderr.write("Error : malformed concept uri : " + line + "\n")
@@ -95,7 +112,8 @@ def line_is_concept_parent_line(line):
 def get_parent_concept_id_from_parent_line(line):
     """Extracts the concept link URI from an rdf OWL parent line
     """
-    no_prefix_line = line.strip()[28:]
+    line = line.strip()
+    no_prefix_line = line[line.index("#")+1:]
     quote_pos = no_prefix_line.find('"')
     if quote_pos == -1:
         sys.stderr.write("Error : malformed broader concept uri : " + line + "'" + no_prefix_line + "'" + "\n")
@@ -162,7 +180,7 @@ def get_simple_concept_uri_to_full_uri_map(concept_uri_list):
     return simple_uri_to_full_uri_map
 
 def usage():
-    sys.stderr.write("usage : " + sys.argv[0] + " input_filename Uri1 Uri2 ... (Uri like ONC000001)\n")
+    sys.stderr.write("usage : " + sys.argv[0] + " input_filename Uri1 Uri2 ... (Uri like 51e5654d-c912-447d-a8e9-e22d283d33a7)\n")
 
 def exit_if_not_all_filter_uri_are_present(filter_uri_set, simple_to_full_uri_map):
     missing_uri_list = []

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Memorial Sloan-Kettering Cancer Center.
+ * Copyright (c) 2019 - 2020, 2024 Memorial Sloan-Kettering Cancer Center.
  *
  * This library is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -30,10 +30,10 @@ import org.mskcc.oncotree.crosswalk.CrosswalkRepository;
 import org.mskcc.oncotree.crosswalk.MSKConcept;
 
 import org.mskcc.oncotree.model.Version;
-import org.mskcc.oncotree.topbraid.TopBraidException;
-import org.mskcc.oncotree.topbraid.OncoTreeNode;
-import org.mskcc.oncotree.topbraid.OncoTreeRepository;
-import org.mskcc.oncotree.topbraid.OncoTreeVersionRepository;
+import org.mskcc.oncotree.graphite.GraphiteException;
+import org.mskcc.oncotree.graphite.OncoTreeNode;
+import org.mskcc.oncotree.graphite.OncoTreeRepository;
+import org.mskcc.oncotree.graphite.OncoTreeVersionRepository;
 import org.mskcc.oncotree.error.*;
 
 import org.slf4j.Logger;
@@ -71,14 +71,14 @@ public class OncoTreePersistentCache {
         return cacheManager;
     }
 
-    // retrieve cached TopBraid responses from default EHCache location
+    // retrieve cached Graphite responses from default EHCache location
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     public ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCache(Version version) {
         ArrayList<OncoTreeNode> oncoTreeNodes = new ArrayList<OncoTreeNode>();
         try {
             oncoTreeNodes = oncoTreeRepository.getOncoTree(version);
-        } catch (TopBraidException e) {
-            logger.error("Unable to get oncotree nodes from TopBraid... attempting to read from backup.");
+        } catch (GraphiteException e) {
+            logger.error("Unable to get oncotree nodes from Graphite ... attempting to read from backup.");
             try {
                 oncoTreeNodes = getOncoTreeNodesFromPersistentCacheBackup(version);
                 if (oncoTreeNodes == null) {
@@ -98,8 +98,8 @@ public class OncoTreePersistentCache {
         ArrayList<Version> versions = new ArrayList<Version>();
         try {
             versions = oncoTreeVersionRepository.getOncoTreeVersions();
-        } catch (TopBraidException e) {
-            logger.error("Unable to get versions from TopBraid... attempting to read from backup.");
+        } catch (GraphiteException e) {
+            logger.error("Unable to get versions from Graphite ... attempting to read from backup.");
             try {
                 versions = getOncoTreeVersionsFromPersistentCacheBackup();
                 if (versions == null) {
@@ -139,13 +139,13 @@ public class OncoTreePersistentCache {
 
     @CachePut(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     public ArrayList<OncoTreeNode> updateOncoTreeNodesInPersistentCache(Version version) {
-        logger.info("updating EHCache with updated oncotree nodes from TopBraid for version " + version.getVersion());
+        logger.info("updating EHCache with updated oncotree nodes from Graphite for version " + version.getVersion());
         return oncoTreeRepository.getOncoTree(version);
     }
 
     @CachePut(value = "oncoTreeVersionsEHCache", key = "#root.target.ONCOTREE_VERSIONS_CACHE_KEY", unless = "#result==null")
     public ArrayList<Version> updateOncoTreeVersionsInPersistentCache() {
-        logger.info("updating EHCache with updated versions from TopBraid");
+        logger.info("updating EHCache with updated versions from Graphite");
         return oncoTreeVersionRepository.getOncoTreeVersions();
     }
 
@@ -168,7 +168,7 @@ public class OncoTreePersistentCache {
         be using a cache that another method (or the same method) is closing.
     */
 
-    // retrieve cache TopBraid responses from backup EHCache location (and re-populate default EHCache locatin)
+    // retrieve cache Graphite responses from backup EHCache location (and re-populate default EHCache locatin)
     @Cacheable(value = "oncoTreeNodesEHCache", key = "#version.version", unless = "#result==null")
     private synchronized ArrayList<OncoTreeNode> getOncoTreeNodesFromPersistentCacheBackup(Version version) throws Exception {
         CacheManager cacheManager = null;

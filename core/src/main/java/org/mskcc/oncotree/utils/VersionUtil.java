@@ -37,7 +37,7 @@ public class VersionUtil {
     }
 
     public Version getDefaultVersion() throws InvalidVersionException {
-        // note we will throw an InvalidVersionException if this is not found in TopBraid
+        // note we will throw an InvalidVersionException if this is not found in Graphite
         return getVersion(DEFAULT_VERSION);
     }
 }

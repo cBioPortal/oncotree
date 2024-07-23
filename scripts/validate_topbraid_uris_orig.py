@@ -79,13 +79,13 @@ class DefaultSectionHeadOnPropertiesFile:
 def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password):
     # first we just hit the page and get a session id
     session = requests.Session()
-    response = session.get(topbraid_url)
+    response = session.get(topbraid_url, verify=False)
     if response.status_code != 200:
         sys.stderr.write("ERROR: Initial connection to '%s' failed, response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
         sys.exit(2)
     initial_jsession_id = session.cookies.get_dict()[JSESSION_ID_COOKIE_NAME]
     # now we login using that session id
-    response = session.get(topbraid_url + "/j_security_check?j_username=" + topbraid_username + "&j_password=" + topbraid_password, cookies={ JSESSION_ID_COOKIE_NAME : initial_jsession_id })
+    response = session.get(topbraid_url + "/j_security_check?j_username=" + topbraid_username + "&j_password=" + topbraid_password, cookies={ JSESSION_ID_COOKIE_NAME : initial_jsession_id }, verify=False)
     if response.status_code != 200:
         sys.stderr.write("ERROR: Failed to log into '%s', response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
         sys.exit(2)
@@ -95,7 +95,7 @@ def get_logged_in_session_id(topbraid_url, topbraid_username, topbraid_password)
 def query_topbraid(query, topbraid_url, logged_in_session_id):
     session = requests.Session()
     data = {"format" : "json-simple", "query" : query}
-    response = session.post(topbraid_url, cookies={ JSESSION_ID_COOKIE_NAME : logged_in_session_id}, data=data)
+    response = session.post(topbraid_url, cookies={ JSESSION_ID_COOKIE_NAME : logged_in_session_id}, data=data, verify=False)
     if response.status_code != 200:
         sys.stderr.write("ERROR: Failed to query '%s', response status code is '%d', body is '%s'\n" % (topbraid_url, response.status_code, response.text))
         sys.exit(2)
