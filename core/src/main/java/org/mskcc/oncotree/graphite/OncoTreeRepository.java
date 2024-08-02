@@ -52,7 +52,7 @@ public class OncoTreeRepository extends GraphiteRepository<Response> {
                     "PREFIX ottt:<" + oncotreeNamespacePrefix + "> " +
                     "PREFIX g:<http://schema.synaptica.com/oasis#> " +
                     "SELECT DISTINCT (?s AS ?uri) ?code ?name ?mainType ?color ?parentCode ?revocations ?precursors ?clinicalCasesSubset WHERE { " +
-                    "   ?s skos:inScheme <%s> . " +
+                    "   ?s skos:inScheme <%s> { " +
                     "       ?s skos:prefLabel ?name;" +
                     "       skos:notation ?code." +
                     "       OPTIONAL{?s skos:broader ?broader." +
@@ -64,7 +64,7 @@ public class OncoTreeRepository extends GraphiteRepository<Response> {
                     "       ?s ottt:clinicalcasessubset ?clinicalCasesSubset." +
                     "       OPTIONAL{?s g:conceptStatus ?concept_status.} " +
                     "       FILTER (?concept_status = 'Published') " +
-                    "}";
+                    "}}";
         }
         return query;
     }
