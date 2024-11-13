@@ -1,0 +1,18 @@
+name: Application CI
+on: [push, pull_request]
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 20.12.2
+      - name: Navigate to frontend directory
+        run: cd web/src/main/javascript
+      - name: Install node modules
+        run: npm install
+      - name: Build application
+        run: npm run build
+      - name: Run unit tests
+        run: npm test

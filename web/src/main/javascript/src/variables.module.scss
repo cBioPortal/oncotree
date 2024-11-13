@@ -1,0 +1,16 @@
+$oncotree-blue: #004187;
+$light-grey: #f8f9fa;
+
+$primary: $oncotree-blue;
+$secondary: $light-grey;
+
+$header-height: 8%;
+$header-min-height: 85px;
+$app-content-height: calc(100% - max($header-height, $header-min-height));
+
+$shadow: 0 2px 7px rgba(0,0,0,0.15),0px 5px 17px rgba(0,0,0,0.2);
+
+:export {
+    primary: $primary;
+    secondary: $secondary;
+}
