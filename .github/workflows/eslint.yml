@@ -12,6 +12,6 @@ jobs:
         with:
           node-version: 20.12.2
       - name: Install node modules
-        run: cd web/src/main/javascript && npm install
+        run: npm install
       - name: Run ESLint
-        run: cd web/src/main/javascript && npm run lint
+        run: npm run lint
