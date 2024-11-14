@@ -22,8 +22,8 @@ in [constants.ts](/web/src/main/javascript/src/shared/constants.ts). During deve
 Make sure you are using node version >=20.12.2.
 
 To begin development run:
-```bash
-cd /web/src/main/javascript
+```
+cd ./web/src/main/javascript
 npm install && npm run dev
 ```
 
@@ -34,8 +34,8 @@ The frontend must be transpiled to static assets before bundling into a jar. To 
 1. Ensure that the correct `ONCOTREE_BASE_URL` is specified in [constants.ts](/web/src/main/javascript/src/shared/constants.ts).
 2. Run the following:
 
-    ```bash
-    cd /web/src/main/javascript
+    ```
+    cd ./web/src/main/javascript
     npm install && npm run build
     ```
 3. The frontend assets are now up to date, and you are ready to bundle the jar.
