@@ -1,0 +1,42 @@
+@import '../../variables.module.scss';
+
+.header {
+    background-color: $primary;
+    height: $header-height;
+    min-height: $header-min-height;
+    position: relative;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+}
+
+.header-link {
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: white;
+    cursor: pointer;
+}
+
+.header-link:hover {
+    color: lightblue !important
+}
+
+.mobile-container {
+    position: absolute;
+    display: flex;
+    align-items: end;
+    padding-bottom: 20px;
+    z-index: 6;
+    width: 100%;
+    transition: 0.25s ease-out;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.15),0px 5px 17px rgba(0,0,0,0.2);
+}
+
+.mobile-links {
+    background-color: $primary;
+}
+
+.mobile-search {
+    padding-top: 20px;
+    background-color: white;
+}

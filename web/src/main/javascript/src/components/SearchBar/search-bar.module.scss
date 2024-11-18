@@ -1,0 +1,13 @@
+@import '../../variables.module.scss';
+
+.search-bar-option {
+    display: flex;
+    align-items: center;
+    cursor: default;
+    padding: 4px 12px;
+    color-scheme: light;
+}
+
+.search-bar-option:hover {
+    background-color: #DEEBFF;
+}

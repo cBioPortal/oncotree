@@ -13,6 +13,33 @@ Read about our latest developments on our [News page](/docs/News.md).
 
 Users may submit their OncoTree related questions to the [OncoTree Users Google Group](https://groups.google.com/forum/#!forum/oncotree-users).
 
+## Frontend Development
+
+All of the frontend code can be found at [/web/src/main/javascript](/web/src/main/javascript). The only configuration needed is to set `ONCOTREE_BASE_URL` 
+in [constants.ts](/web/src/main/javascript/src/shared/constants.ts). During development, it may be easiest to simply point to the public instance of 
+[OncoTree](https://oncotree.mskcc.org).
+
+Make sure you are using node version >=20.12.2.
+
+To begin development run:
+```
+cd ./web/src/main/javascript
+npm install && npm run dev
+```
+
+## Building the Frotend
+
+The frontend must be transpiled to static assets before bundling into a jar. To do this follow the following steps:
+
+1. Ensure that the correct `ONCOTREE_BASE_URL` is specified in [constants.ts](/web/src/main/javascript/src/shared/constants.ts).
+2. Run the following:
+
+    ```
+    cd ./web/src/main/javascript
+    npm install && npm run build
+    ```
+3. The frontend assets are now up to date, and you are ready to bundle the jar.
+
 ## OncoTree Mapping Tool
 
 The OncoTree Mapping Tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. To learn more about the OncoTree Converter tool, please refer to the [OncoTree Mapping documentation](/docs/OncoTree-Mapping-Tool.md).

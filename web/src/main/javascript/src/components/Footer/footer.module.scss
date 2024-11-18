@@ -1,0 +1,39 @@
+@import '../../variables.module.scss';
+
+.footer {
+    pointer-events: none;
+    bottom: 0;
+    min-height: 68px;
+    width: 100%;
+    color: black;
+    position: absolute;
+    background: transparent;
+}
+
+.footer-container {
+    font-size: .95rem;
+    margin-bottom: 10px;
+    display: flex;
+    height: 68px;
+    align-items: end;
+    justify-content: space-between;
+    padding-top: 3px;
+    padding-left: 28px;
+    padding-right: 28px;
+}
+
+@media (max-width: 645px) {
+    .mobile-hidden {
+      display: none;
+    }
+
+    .mobile-community-group {
+      margin-left: 40px;
+      margin-right: unset !important;
+      max-width: 100px;
+    }
+
+    .mobile-citation {
+      max-width: 150px;
+    }
+  }
