@@ -30,6 +30,7 @@ export interface ISearchBarProps {
   oncoTreeData: OncoTreeNode;
   oncoTree: OncoTree | undefined;
   mobileView?: boolean;
+  disabled?: boolean;
 }
 
 const NEXT_BUTTON_DATA_TYPE = "nextButton";
@@ -40,6 +41,7 @@ export default function SearchBar({
   oncoTreeData,
   oncoTree,
   mobileView = false,
+  disabled = false,
 }: ISearchBarProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
@@ -205,6 +207,7 @@ export default function SearchBar({
       <ReactSelect
         inputValue={input}
         value={getSearchBarValue()}
+        isDisabled={disabled}
         placeholder={
           isValidField(field)
             ? SEARCH_BY_FIELD_INFO[field].searchBarPlaceHolder
@@ -301,6 +304,31 @@ export default function SearchBar({
       );
     }
 
+    const getPreviousResult = resultsAndIndexDefined
+    ? () => {
+        let newIndex = cancerTypeResults.length - 1;
+        if (cancerTypeResultsIndex !== 0) {
+          newIndex = cancerTypeResultsIndex - 1;
+        }
+        oncoTree?.focus(cancerTypeResults[newIndex]);
+        setCancerTypeResultsIndex(newIndex);
+      }
+    : undefined;
+
+    const getNextResult = resultsAndIndexDefined
+    ? () => {
+        let newIndex = 0;
+        if (
+          cancerTypeResultsIndex !==
+          cancerTypeResults.length - 1
+        ) {
+          newIndex = cancerTypeResultsIndex + 1;
+        }
+        oncoTree?.focus(cancerTypeResults[newIndex]);
+        setCancerTypeResultsIndex(newIndex);
+      }
+    : undefined
+
     return (
       <>
         {getResultsNumberSpan()}
@@ -309,18 +337,8 @@ export default function SearchBar({
             <div
               data-type={PREV_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={
-                resultsAndIndexDefined
-                  ? () => {
-                      let newIndex = cancerTypeResults.length - 1;
-                      if (cancerTypeResultsIndex !== 0) {
-                        newIndex = cancerTypeResultsIndex - 1;
-                      }
-                      oncoTree?.focus(cancerTypeResults[newIndex]);
-                      setCancerTypeResultsIndex(newIndex);
-                    }
-                  : undefined
-              }
+              onClick={mobileView ? undefined : getPreviousResult}
+              onTouchStart={mobileView ? getPreviousResult : undefined}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
@@ -330,21 +348,8 @@ export default function SearchBar({
             <div
               data-type={NEXT_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={
-                resultsAndIndexDefined
-                  ? () => {
-                      let newIndex = 0;
-                      if (
-                        cancerTypeResultsIndex !==
-                        cancerTypeResults.length - 1
-                      ) {
-                        newIndex = cancerTypeResultsIndex + 1;
-                      }
-                      oncoTree?.focus(cancerTypeResults[newIndex]);
-                      setCancerTypeResultsIndex(newIndex);
-                    }
-                  : undefined
-              }
+              onClick={mobileView ? undefined : getNextResult}
+              onTouchStart={mobileView ? getNextResult : undefined}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
