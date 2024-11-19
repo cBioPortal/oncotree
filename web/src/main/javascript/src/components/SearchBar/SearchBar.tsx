@@ -30,6 +30,7 @@ export interface ISearchBarProps {
   oncoTreeData: OncoTreeNode;
   oncoTree: OncoTree | undefined;
   mobileView?: boolean;
+  disabled?: boolean;
 }
 
 const NEXT_BUTTON_DATA_TYPE = "nextButton";
@@ -40,6 +41,7 @@ export default function SearchBar({
   oncoTreeData,
   oncoTree,
   mobileView = false,
+  disabled = false,
 }: ISearchBarProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
@@ -205,6 +207,7 @@ export default function SearchBar({
       <ReactSelect
         inputValue={input}
         value={getSearchBarValue()}
+        isDisabled={disabled}
         placeholder={
           isValidField(field)
             ? SEARCH_BY_FIELD_INFO[field].searchBarPlaceHolder

@@ -114,7 +114,7 @@ export default function Header({
             }}
           >
             <SearchBySelect />
-            <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} />
+            <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} disabled={searchSectionHidden} />
             <div style={{ marginRight: 20 }} />
             <VersionSelect
               onVersionChange={onVersionChange}
