@@ -111,15 +111,16 @@ export default function Header({
               flexShrink: 0,
               alignItems: "center",
               visibility: searchSectionHidden ? "hidden" : "unset",
+              pointerEvents: searchSectionHidden ? 'none' : 'unset'
             }}
           >
-            <SearchBySelect />
-            <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} disabled={searchSectionHidden} />
-            <div style={{ marginRight: 20 }} />
-            <VersionSelect
-              onVersionChange={onVersionChange}
-              stats={treeStats}
-            />
+              <SearchBySelect />
+              <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} />
+              <div style={{ marginRight: 20 }} />
+              <VersionSelect
+                onVersionChange={onVersionChange}
+                stats={treeStats}
+              />
           </div>
         )}
         <div style={{ flexGrow: 1 }} />
