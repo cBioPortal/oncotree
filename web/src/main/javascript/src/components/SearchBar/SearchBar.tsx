@@ -226,7 +226,7 @@ export default function SearchBar({
         }}
         options={options}
         components={{
-          ClearIndicator: (props) => <ClearIndicator {...props} searchResults={cancerTypeResults} searchResultsIndex={cancerTypeResultsIndex} />,
+          ClearIndicator,
           Control,
         }}
         styles={{
@@ -259,31 +259,25 @@ export default function SearchBar({
     </div>
   );
 
-  interface IClearIndicatorProps extends  ClearIndicatorProps<
-  OncoTreeSearchOption,
-  false,
-  GroupBase<OncoTreeSearchOption>
-> {
-    searchResults: D3OncoTreeNode[] | undefined,
-    searchResultsIndex: number | undefined
-  }
-
   function ClearIndicator(
-    {searchResults, searchResultsIndex, ...props}: IClearIndicatorProps,
+    props: ClearIndicatorProps<
+    OncoTreeSearchOption,
+    false,
+    GroupBase<OncoTreeSearchOption>>,
   ) {
     const inputStyle = props.getStyles("input", { ...props, isHidden: false });
     const inputColor = inputStyle.color ?? "black";
     const clearIndicatorClass = css(props.getStyles("clearIndicator", props));
 
     const resultsAndIndexDefined =
-      searchResults !== undefined && searchResultsIndex !== undefined;
+      cancerTypeResults !== undefined && cancerTypeResultsIndex !== undefined;
 
     function getResultsNumberSpan() {
       if (!resultsAndIndexDefined) {
         return undefined;
       }
 
-      if (searchResults.length === 0) {
+      if (cancerTypeResults.length === 0) {
         return (
           <span
             className={clearIndicatorClass}
@@ -302,24 +296,24 @@ export default function SearchBar({
           style={{
             color: Array.isArray(inputColor) ? inputColor[0] : inputColor,
           }}
-        >{`${searchResultsIndex + 1}/${searchResults.length}`}</span>
+        >{`${cancerTypeResultsIndex + 1}/${cancerTypeResults.length}`}</span>
       );
     }
 
-    const getPreviousResult = useCallback(() => {
+    const getPreviousResult = () => {
       if (!resultsAndIndexDefined) {
         return;
       }
 
-      let newIndex = searchResults.length - 1;
+      let newIndex = cancerTypeResults.length - 1;
         if (cancerTypeResultsIndex !== 0) {
-          newIndex = searchResultsIndex - 1;
+          newIndex = cancerTypeResultsIndex - 1;
         }
-        oncoTree?.focus(searchResults[newIndex]);
+        oncoTree?.focus(cancerTypeResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }, [resultsAndIndexDefined, searchResults, searchResultsIndex]);
+    }
 
-    const getNextResult = useCallback(() => {
+    const getNextResult = () => {
       if (!resultsAndIndexDefined) {
         return;
       }
@@ -327,20 +321,20 @@ export default function SearchBar({
       let newIndex = 0;
         if (
           cancerTypeResultsIndex !==
-          searchResults.length - 1
+          cancerTypeResults.length - 1
         ) {
-          newIndex = searchResultsIndex + 1;
+          newIndex = cancerTypeResultsIndex + 1;
         }
-        oncoTree?.focus(searchResults[newIndex]);
+        oncoTree?.focus(cancerTypeResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }, [resultsAndIndexDefined, searchResults, searchResultsIndex]);
+    }
 
     const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     return (
       <>
         {getResultsNumberSpan()}
-        {resultsAndIndexDefined && searchResults.length > 0 && (
+        {resultsAndIndexDefined && cancerTypeResults.length > 0 && (
           <div style={{ userSelect: "none", display: "flex" }}>
             <div
               data-type={PREV_BUTTON_DATA_TYPE}
