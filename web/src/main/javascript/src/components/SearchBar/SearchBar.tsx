@@ -226,7 +226,7 @@ export default function SearchBar({
         }}
         options={options}
         components={{
-          ClearIndicator,
+          ClearIndicator: (props) => <ClearIndicator {...props} searchResults={cancerTypeResults} searchResultsIndex={cancerTypeResultsIndex} />,
           Control,
         }}
         styles={{
@@ -259,26 +259,31 @@ export default function SearchBar({
     </div>
   );
 
+  interface IClearIndicatorProps extends  ClearIndicatorProps<
+  OncoTreeSearchOption,
+  false,
+  GroupBase<OncoTreeSearchOption>
+> {
+    searchResults: D3OncoTreeNode[] | undefined,
+    searchResultsIndex: number | undefined
+  }
+
   function ClearIndicator(
-    props: ClearIndicatorProps<
-      OncoTreeSearchOption,
-      false,
-      GroupBase<OncoTreeSearchOption>
-    >,
+    {searchResults, searchResultsIndex, ...props}: IClearIndicatorProps,
   ) {
     const inputStyle = props.getStyles("input", { ...props, isHidden: false });
     const inputColor = inputStyle.color ?? "black";
     const clearIndicatorClass = css(props.getStyles("clearIndicator", props));
 
     const resultsAndIndexDefined =
-      cancerTypeResults !== undefined && cancerTypeResultsIndex !== undefined;
+      searchResults !== undefined && searchResultsIndex !== undefined;
 
     function getResultsNumberSpan() {
       if (!resultsAndIndexDefined) {
         return undefined;
       }
 
-      if (cancerTypeResults.length === 0) {
+      if (searchResults.length === 0) {
         return (
           <span
             className={clearIndicatorClass}
@@ -297,7 +302,7 @@ export default function SearchBar({
           style={{
             color: Array.isArray(inputColor) ? inputColor[0] : inputColor,
           }}
-        >{`${cancerTypeResultsIndex + 1}/${cancerTypeResults.length}`}</span>
+        >{`${searchResultsIndex + 1}/${searchResults.length}`}</span>
       );
     }
 
@@ -306,13 +311,13 @@ export default function SearchBar({
         return;
       }
 
-      let newIndex = cancerTypeResults.length - 1;
+      let newIndex = searchResults.length - 1;
         if (cancerTypeResultsIndex !== 0) {
-          newIndex = cancerTypeResultsIndex - 1;
+          newIndex = searchResultsIndex - 1;
         }
-        oncoTree?.focus(cancerTypeResults[newIndex]);
+        oncoTree?.focus(searchResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }, [resultsAndIndexDefined, cancerTypeResults, cancerTypeResultsIndex]);
+    }, [resultsAndIndexDefined, searchResults, searchResultsIndex]);
 
     const getNextResult = useCallback(() => {
       if (!resultsAndIndexDefined) {
@@ -322,24 +327,26 @@ export default function SearchBar({
       let newIndex = 0;
         if (
           cancerTypeResultsIndex !==
-          cancerTypeResults.length - 1
+          searchResults.length - 1
         ) {
-          newIndex = cancerTypeResultsIndex + 1;
+          newIndex = searchResultsIndex + 1;
         }
-        oncoTree?.focus(cancerTypeResults[newIndex]);
+        oncoTree?.focus(searchResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }, [resultsAndIndexDefined, cancerTypeResults, cancerTypeResultsIndex]);
+    }, [resultsAndIndexDefined, searchResults, searchResultsIndex]);
+
+    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     return (
       <>
         {getResultsNumberSpan()}
-        {resultsAndIndexDefined && cancerTypeResults.length > 0 && (
+        {resultsAndIndexDefined && searchResults.length > 0 && (
           <div style={{ userSelect: "none", display: "flex" }}>
             <div
               data-type={PREV_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={mobileView ? undefined : getPreviousResult}
-              onTouchStart={mobileView ? getPreviousResult : undefined}
+              onClick={isMobile ? undefined : getPreviousResult}
+              onTouchStart={isMobile ? getPreviousResult : undefined}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
@@ -349,8 +356,8 @@ export default function SearchBar({
             <div
               data-type={NEXT_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={mobileView ? undefined : getNextResult}
-              onTouchStart={mobileView ? getNextResult : undefined}
+              onClick={isMobile ? undefined : getNextResult}
+              onTouchStart={isMobile ? getNextResult : undefined}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
