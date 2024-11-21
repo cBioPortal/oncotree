@@ -304,7 +304,7 @@ export default function SearchBar({
       );
     }
 
-    const getPreviousResult = () => {
+    const getPreviousResult = useCallback(() => {
       if (!resultsAndIndexDefined) {
         return;
       }
@@ -315,9 +315,9 @@ export default function SearchBar({
         }
         oncoTree?.focus(cancerTypeResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }
+    }, [resultsAndIndexDefined])
 
-    const getNextResult = () => {
+    const getNextResult = useCallback(() => {
       if (!resultsAndIndexDefined) {
         return;
       }
@@ -331,9 +331,11 @@ export default function SearchBar({
         }
         oncoTree?.focus(cancerTypeResults[newIndex]);
         setCancerTypeResultsIndex(newIndex);
-    }
+    }, [resultsAndIndexDefined])
 
     useEffect(() => {
+      const prevButton = prevButtonRef.current;
+      const nextButton = nextButtonRef.current
       const prevButtonTouchHandler = (event: TouchEvent) => {
         getPreviousResult();
         event.preventDefault();
@@ -342,14 +344,14 @@ export default function SearchBar({
         getNextResult();
         event.preventDefault();
       };
-      prevButtonRef.current?.addEventListener("touchstart", prevButtonTouchHandler);
-      nextButtonRef.current?.addEventListener("touchstart", nextButtonTouchHandler)
+      prevButton?.addEventListener("touchstart", prevButtonTouchHandler);
+      nextButton?.addEventListener("touchstart", nextButtonTouchHandler)
   
       return () => {
-        prevButtonRef.current?.removeEventListener("touchstart", prevButtonTouchHandler);
-        nextButtonRef.current?.removeEventListener("touchstart", nextButtonTouchHandler);
+        prevButton?.removeEventListener("touchstart", prevButtonTouchHandler);
+        nextButton?.removeEventListener("touchstart", nextButtonTouchHandler);
       }
-    }, []);
+    }, [getNextResult, getPreviousResult]);
 
     return (
       <>
