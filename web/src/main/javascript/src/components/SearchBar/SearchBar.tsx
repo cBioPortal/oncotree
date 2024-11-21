@@ -3,7 +3,7 @@ import OncoTree, {
   OncoTreeNode,
   OncoTreeSearchOption,
 } from "@oncokb/oncotree";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactSelect, {
   ClearIndicatorProps,
   ControlProps,
@@ -266,6 +266,9 @@ export default function SearchBar({
       GroupBase<OncoTreeSearchOption>
     >,
   ) {
+    const prevButtonRef = useRef<HTMLDivElement>(null);
+    const nextButtonRef = useRef<HTMLDivElement>(null);
+
     const inputStyle = props.getStyles("input", { ...props, isHidden: false });
     const inputColor = inputStyle.color ?? "black";
     const clearIndicatorClass = css(props.getStyles("clearIndicator", props));
@@ -330,7 +333,23 @@ export default function SearchBar({
         setCancerTypeResultsIndex(newIndex);
     }
 
-    const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    useEffect(() => {
+      const prevButtonTouchHandler = (event: TouchEvent) => {
+        getPreviousResult();
+        event.preventDefault();
+      };
+      const nextButtonTouchHandler = (event: TouchEvent) => {
+        getNextResult();
+        event.preventDefault();
+      };
+      prevButtonRef.current?.addEventListener("touchstart", prevButtonTouchHandler);
+      nextButtonRef.current?.addEventListener("touchstart", nextButtonTouchHandler)
+  
+      return () => {
+        prevButtonRef.current?.removeEventListener("touchstart", prevButtonTouchHandler);
+        nextButtonRef.current?.removeEventListener("touchstart", nextButtonTouchHandler);
+      }
+    }, []);
 
     return (
       <>
@@ -338,10 +357,10 @@ export default function SearchBar({
         {resultsAndIndexDefined && cancerTypeResults.length > 0 && (
           <div style={{ userSelect: "none", display: "flex" }}>
             <div
+              ref={prevButtonRef}
               data-type={PREV_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={isMobile ? undefined : getPreviousResult}
-              onTouchStart={isMobile ? getPreviousResult : undefined}
+              onClick={getPreviousResult}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
@@ -349,10 +368,10 @@ export default function SearchBar({
               />
             </div>
             <div
+              ref={nextButtonRef}
               data-type={NEXT_BUTTON_DATA_TYPE}
               className={clearIndicatorClass}
-              onClick={isMobile ? undefined : getNextResult}
-              onTouchStart={isMobile ? getNextResult : undefined}
+              onClick={getNextResult}
             >
               <FontAwesomeIcon
                 style={{ pointerEvents: "none" }}
