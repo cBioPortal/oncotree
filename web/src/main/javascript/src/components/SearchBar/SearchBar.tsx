@@ -261,9 +261,10 @@ export default function SearchBar({
 
   function ClearIndicator(
     props: ClearIndicatorProps<
-    OncoTreeSearchOption,
-    false,
-    GroupBase<OncoTreeSearchOption>>,
+      OncoTreeSearchOption,
+      false,
+      GroupBase<OncoTreeSearchOption>
+    >,
   ) {
     const inputStyle = props.getStyles("input", { ...props, isHidden: false });
     const inputColor = inputStyle.color ?? "black";
