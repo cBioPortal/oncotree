@@ -114,13 +114,13 @@ export default function Header({
               pointerEvents: searchSectionHidden ? 'none' : 'unset'
             }}
           >
-              <SearchBySelect />
-              <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} />
-              <div style={{ marginRight: 20 }} />
-              <VersionSelect
-                onVersionChange={onVersionChange}
-                stats={treeStats}
-              />
+            <SearchBySelect />
+            <SearchBar oncoTreeData={oncoTreeData} oncoTree={oncoTree} />
+            <div style={{ marginRight: 20 }} />
+            <VersionSelect
+              onVersionChange={onVersionChange}
+              stats={treeStats}
+            />
           </div>
         )}
         <div style={{ flexGrow: 1 }} />
