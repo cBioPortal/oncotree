@@ -18,7 +18,7 @@ import About from "./pages/About/About";
 
 function App() {
   const location = useLocation();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
@@ -33,7 +33,12 @@ function App() {
   }
 
   useEffect(() => {
-    fetchData(DEFAULT_VERSION);
+    const version = searchParams.get('version');
+    if (version) {
+      fetchData(version);
+    } else {
+      fetchData(DEFAULT_VERSION);
+    }
   }, []);
 
   useEffect(() => {
