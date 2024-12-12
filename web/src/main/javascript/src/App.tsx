@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import News from "./pages/News/News";
 import {
-  DEFAULT_VERSION,
   ONCOTREE_TREE_URL,
   PageRoutes,
 } from "./shared/constants";
@@ -36,10 +35,8 @@ function App() {
     const version = searchParams.get('version');
     if (version) {
       fetchData(version);
-    } else {
-      fetchData(DEFAULT_VERSION);
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (location.pathname !== PageRoutes.HOME) {
