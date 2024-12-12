@@ -5,9 +5,10 @@ import "./app.scss";
 import OncoTree, { OncoTreeNode } from "@oncokb/oncotree";
 import { useCallback, useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import News from "./pages/News/News";
 import {
+  DEFAULT_VERSION,
   ONCOTREE_TREE_URL,
   PageRoutes,
 } from "./shared/constants";
@@ -33,8 +34,10 @@ function App() {
 
   useEffect(() => {
     const version = searchParams.get('version');
-    if (version) {
-      fetchData(version);
+    try {
+      version ? fetchData(version) : fetchData(DEFAULT_VERSION);
+    } catch {
+      toast.error("Error fetching OncoTree data");
     }
   }, [searchParams]);
 
