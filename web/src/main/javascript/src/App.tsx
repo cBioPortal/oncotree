@@ -5,7 +5,7 @@ import "./app.scss";
 import OncoTree, { OncoTreeNode } from "@oncokb/oncotree";
 import { useCallback, useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import News from "./pages/News/News";
 import {
   DEFAULT_VERSION,
@@ -18,7 +18,7 @@ import About from "./pages/About/About";
 
 function App() {
   const location = useLocation();
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
@@ -33,8 +33,13 @@ function App() {
   }
 
   useEffect(() => {
-    fetchData(DEFAULT_VERSION);
-  }, []);
+    const version = searchParams.get('version');
+    try {
+      version ? fetchData(version) : fetchData(DEFAULT_VERSION);
+    } catch {
+      toast.error("Error fetching OncoTree data");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (location.pathname !== PageRoutes.HOME) {
