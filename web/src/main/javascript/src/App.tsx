@@ -19,6 +19,7 @@ import About from "./pages/About/About";
 function App() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const version = searchParams.get("version");
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
@@ -33,13 +34,12 @@ function App() {
   }
 
   useEffect(() => {
-    const version = searchParams.get('version');
     try {
       version ? fetchData(version) : fetchData(DEFAULT_VERSION);
     } catch {
       toast.error("Error fetching OncoTree data");
     }
-  }, [searchParams]);
+  }, [version]);
 
   useEffect(() => {
     if (location.pathname !== PageRoutes.HOME) {
