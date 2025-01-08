@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2024 Memorial Sloan-Kettering Cancer Center.
+# Copyright (c) 2025 Memorial Sloan-Kettering Cancer Center.
 #
 # This library is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY, WITHOUT EVEN THE IMPLIED WARRANTY OF
@@ -16,10 +16,8 @@
 # Memorial Sloan-Kettering Cancer Center
 # has been advised of the possibility of such damage.
 
-# TODO maybe only show changes to precursors/revocations? instead of the whole history
-# 1. validate
-# 2. say what has changed and confirm they are wanted
-# 3. generate rdf from the data
+# TODO maybe only show changes to precursors/revocations?
+# instead of the whole history
 
 from collections import defaultdict
 from deepdiff import DeepDiff
@@ -30,13 +28,37 @@ import os
 import requests
 import sys
 
-COLUMN_NAME_YAML_FILENAME = os.path.join(os.path.dirname(os.path.realpath(__file__)), "./graphite_csv_column_names.yaml")
 GITHUB_RESOURCE_URI_TO_ONCOCODE_MAPPING_FILE_URL = "https://raw.githubusercontent.com/cBioPortal/oncotree/refs/heads/master/resources/resource_uri_to_oncocode_mapping.txt"
 HELP_FOR_FILE_FORMAT = "In the Graphite 'Concept Manager' left sidebar 'Hierarchy' tab, select your oncotree version, then click on the 'Export' tab in the main panel.  For 'File Format' select 'CSV (Dynamic Property Columns)'. In the 'Include' section uncheck everything except 'Non-primary concept URI' and 'Status'.  In the 'Select Properties to Export' all fields in both 'OncoTree Tumor Type' and 'SKOS' should be selected."
-EXPECTED_HEADER = [graphite.CSV_RESOURCE_URI, graphite.CSV_LABEL, graphite.CSV_SCHEME_URI, graphite.CSV_STATUS, graphite.CSV_INTERNAL_ID, graphite.CSV_COLOR, graphite.CSV_MAIN_TYPE, graphite.CSV_ONCOTREE_CODE, graphite.CSV_PRECURSORS, graphite.CSV_PREFERRED_LABEL, graphite.CSV_REVOCATIONS, graphite.CSV_PARENT_RESOURCE_URI, graphite.CSV_PARENT_LABEL]
+EXPECTED_HEADER = [graphite.CSV_RESOURCE_URI, \
+    graphite.CSV_LABEL, \
+    graphite.CSV_SCHEME_URI, \
+    graphite.CSV_STATUS, \
+    graphite.CSV_INTERNAL_ID, \
+    graphite.CSV_COLOR, \
+    graphite.CSV_MAIN_TYPE, \
+    graphite.CSV_ONCOTREE_CODE, \
+    graphite.CSV_PRECURSORS, \
+    graphite.CSV_PREFERRED_LABEL, \
+    graphite.CSV_REVOCATIONS, \
+    graphite.CSV_PARENT_RESOURCE_URI, \
+    graphite.CSV_PARENT_LABEL]
 EXPECTED_HEADER_MODIFIED_FILE = EXPECTED_HEADER + [graphite.CSV_PARENT_ONCOTREE_CODE]
-REQUIRED_FIELDS = [graphite.CSV_LABEL, graphite.CSV_SCHEME_URI, graphite.CSV_STATUS, graphite.CSV_INTERNAL_ID, graphite.CSV_COLOR, graphite.CSV_MAIN_TYPE, graphite.CSV_ONCOTREE_CODE, graphite.CSV_PREFERRED_LABEL]
-TISSUE_NODE_REQUIRED_FIELDS = [graphite.CSV_RESOURCE_URI, graphite.CSV_LABEL, graphite.CSV_SCHEME_URI, graphite.CSV_STATUS, graphite.CSV_INTERNAL_ID, graphite.CSV_ONCOTREE_CODE, graphite.CSV_PREFERRED_LABEL]
+REQUIRED_FIELDS = [graphite.CSV_LABEL, \
+    graphite.CSV_SCHEME_URI, \
+    graphite.CSV_STATUS, \
+    graphite.CSV_INTERNAL_ID, \
+    graphite.CSV_COLOR, \
+    graphite.CSV_MAIN_TYPE, \
+    graphite.CSV_ONCOTREE_CODE, \
+    graphite.CSV_PREFERRED_LABEL]
+TISSUE_NODE_REQUIRED_FIELDS = [graphite.CSV_RESOURCE_URI, \
+    graphite.CSV_LABEL, \
+    graphite.CSV_SCHEME_URI, \
+    graphite.CSV_STATUS, \
+    graphite.CSV_INTERNAL_ID, \
+    graphite.CSV_ONCOTREE_CODE, \
+    graphite.CSV_PREFERRED_LABEL]
 
 def confirm_change(message):
     print(f"\n{message}")
@@ -48,52 +70,21 @@ def confirm_change(message):
 def construct_pretty_label_for_row(internal_id, code, label):
     return f"{internal_id}: {label} ({code})"
 
+# TODO move these comments somewhere
 # C01 + C02 + C03 -> C04
 # C01, C02, and C03 become precursors to C04
 # C05 -> C06 + C07 + C08
 # C05 is a precursor to C06, C07, and C08
 # you can have one concept be a precursor to many concepts
-def get_all_precursors(csv_file):
-    with open(csv_file, 'r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        precursor_id_to_internal_ids = defaultdict(set)
-        for row in reader:
-            if row[graphite.CSV_PRECURSORS]:
-                for precursor_id in row[graphite.CSV_PRECURSORS].split(): # space separated
-                    precursor_id_to_internal_ids[precursor_id].add(row[graphite.CSV_INTERNAL_ID])
-        return precursor_id_to_internal_ids
-
 # C01 + C02 + C03 -> C01
 # C02 and CO3 become revocations in C01
 # don't revoke anything with precursors (according to Rob's document "Oncotree History Modeling") - check that anything in revocations is not a precursor
 # a concept can only be revoked by a pre-existing concept
-def get_all_revocations(csv_file):
-    with open(csv_file, 'r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        revocation_id_to_internal_ids = defaultdict(set)
-        for row in reader:
-            if row[graphite.CSV_REVOCATIONS]:
-                for revocation_id in row[graphite.CSV_REVOCATIONS].split(): # space separated
-                    revocation_id_to_internal_ids[revocation_id].add(row[graphite.CSV_INTERNAL_ID])
-        return revocation_id_to_internal_ids   
-
-def get_resource_uri_to_internal_ids(csv_file):
-    with open(csv_file, 'r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        resource_uri_to_internal_ids = {}
-        for row in reader:
-            resource_uri_to_internal_ids[row[graphite.CSV_RESOURCE_URI]] = row[graphite.CSV_INTERNAL_ID]
-        return resource_uri_to_internal_ids
-
-def get_oncotree_codes_to_internal_ids(csv_file):
-    with open(csv_file, 'r', encoding='utf-8-sig') as file:
-        reader = csv.DictReader(file)
-        oncotree_codes_to_internal_ids = {}
-        for row in reader:
-            oncotree_codes_to_internal_ids[row[graphite.CSV_ONCOTREE_CODE]] = row[graphite.CSV_INTERNAL_ID]
-        return oncotree_codes_to_internal_ids
 
 def get_parent_internal_id(child_internal_id, parent_resource_uri, parent_oncotree_code, oncotree_codes_to_internal_ids, resource_uri_to_internal_ids):
+    """This will use either the parent oncotree code, or if that isn't given, the parent resource uri
+    to look up the parent's internal id.  If the parent cannot be found this will throw an error."""
+    # TODO have we validated these already? If so, skip the error checks?
     if parent_oncotree_code:
         if parent_oncotree_code in oncotree_codes_to_internal_ids:    
             return oncotree_codes_to_internal_ids[parent_oncotree_code]
@@ -132,12 +123,6 @@ def confirm_changes(original_oncotree,
     removed_internal_ids = original_internal_id_set - modified_internal_id_set
     new_internal_ids = modified_internal_id_set - original_internal_id_set
     in_both_internal_ids = original_internal_id_set & modified_internal_id_set
-
-    #print(removed_internal_ids)
-    #print(new_internal_ids)
-    #print(in_both_internal_ids)
-
-    all_changes_are_intentional = True
 
     print("\nRemoved internal ids:")
     if removed_internal_ids:
@@ -290,19 +275,42 @@ def confirm_changes(original_oncotree,
 def output_rdf_file(oncotree, output_filename):
     graphite.write_rdf(oncotree, output_filename)
 
-def get_oncotree(csv_file):
+def get_oncotree_data_from_csv_file(csv_file):
+    """Reads a Graphite CSV file and returns the following maps:
+        internal_id_to_data,
+        resource_uri_to_internal_ids,
+        precursor_id_to_internal_ids,
+        revocation_id_to_internal_ids,
+        oncotree_codes_to_internal_ids"""
     with open(csv_file, 'r', encoding='utf-8-sig') as file:
         reader = csv.DictReader(file)
         internal_id_to_data = {} 
+        resource_uri_to_internal_ids = {}
+        precursor_id_to_internal_ids = defaultdict(set)
+        revocation_id_to_internal_ids = defaultdict(set)
+        oncotree_codes_to_internal_ids = {}
         for row in reader:
             internal_id = row[graphite.CSV_INTERNAL_ID]
             pretty_label = construct_pretty_label_for_row(internal_id, row[graphite.CSV_ONCOTREE_CODE], row[graphite.CSV_LABEL])
-            # TODO move to validation section
             if row[graphite.CSV_STATUS] != 'Published':
                 print(f"WARNING: do not know what to do with node '{pretty_label}' which has a status of '{row[graphite.CSV_STATUS]}', excluding it from the output file")
             else:
                 internal_id_to_data[internal_id] = row
-        return internal_id_to_data
+                oncotree_codes_to_internal_ids[row[graphite.CSV_ONCOTREE_CODE]] = row[graphite.CSV_INTERNAL_ID]
+                if row[graphite.CSV_RESOURCE_URI]:
+                    print(f"row[graphite.CSV_RESOURCE_URI]={row[graphite.CSV_RESOURCE_URI]}")
+                    resource_uri_to_internal_ids[row[graphite.CSV_RESOURCE_URI]] = row[graphite.CSV_INTERNAL_ID]
+                if row[graphite.CSV_PRECURSORS]:
+                    for precursor_id in row[graphite.CSV_PRECURSORS].split(): # space separated
+                        precursor_id_to_internal_ids[precursor_id].add(row[graphite.CSV_INTERNAL_ID])
+                if row[graphite.CSV_REVOCATIONS]:
+                    for revocation_id in row[graphite.CSV_REVOCATIONS].split(): # space separated
+                        revocation_id_to_internal_ids[revocation_id].add(row[graphite.CSV_INTERNAL_ID])
+        return internal_id_to_data, \
+            resource_uri_to_internal_ids, \
+            precursor_id_to_internal_ids, \
+            revocation_id_to_internal_ids, \
+            oncotree_codes_to_internal_ids
 
 def field_is_required(field, field_name, internal_id, csv_file):
     if not field:
@@ -310,39 +318,60 @@ def field_is_required(field, field_name, internal_id, csv_file):
         sys.exit(1)
 
 def field_is_unique(field, field_name, column_set, internal_id, csv_file):
-    # don't count "" duplicates -- these should be dealth with in required field check
+    # don't count "" duplicates -- these should be dealt with in required field check
     if field != "" and field in column_set:
         print(f"{field_name} must be unique.  There is more than one record with '{field}' in '{csv_file}'", file=sys.stderr)
         sys.exit(1)
 
-def parent_oncotree_code_is_valid(child_internal_id, parent_resource_uri, parent_oncotree_code, oncotree_codes_to_internal_ids, resource_uri_to_internal_ids):
-    # make sure that the code is valid
-    # make sure that if we have this code, is doesn't conflict with the parent resource uri (if we have that)
-    return not (parent_oncotree_code and \
-       parent_resource_uri and \
-       resource_uri_to_internal_ids[parent_resource_uri] != oncotree_codes_to_internal_ids[parent_oncotree_code])
+def parent_oncotree_code_is_valid(row, 
+                                  oncotree_codes_to_internal_ids):
+    return row[graphite.CSV_PARENT_ONCOTREE_CODE] in oncotree_codes_to_internal_ids
+   
+def parent_definition_in_conflict(row,
+                                  oncotree_codes_to_internal_ids,              
+                                  resource_uri_to_internal_ids): 
+    """There is a conflict if we have both the parent oncotree code
+       and the parent resource uri and they don't point to the same child"""
+    return (row[graphite.CSV_PARENT_RESOURCE_URI] and
+            row[graphite.CSV_PARENT_ONCOTREE_CODE] and
+            resource_uri_to_internal_ids[row[graphite.CSV_PARENT_RESOURCE_URI]] != \
+                oncotree_codes_to_internal_ids[row[graphite.CSV_PARENT_ONCOTREE_CODE]])
 
-def parent_resource_uri_and_label_are_valid(parent_resource_uri, parent_label, child_to_parent_resource_uris, child_uri_to_child_label, child_to_parent_labels):
-    return parent_label in child_to_parent_labels \
-                  and parent_label in child_to_parent_resource_uris \
-                  and (child_uri_to_child_label[parent_label] == parent_label)
+def parent_resource_uri_and_label_are_valid(row,
+                                            child_to_parent_resource_uris,
+                                            child_uri_to_child_label)
+    """Both the parent label and URI must be defined in this file
+        and the parent URI must point to a child with the label we
+        have defined for the parent."""
+    return (row[graphite.CSV_PARENT_RESOURCE_URI] in child_to_parent_resource_uris and
+            row[graphite.CSV_PARENT_LABEL] == child_uri_to_child_label[row[graphite.CSV_PARENT_RESOURCE_URI]])
 
-def parent_is_defined(oncotree_code, parent_resource_uri, parent_label, parent_oncotree_code):
+def parent_is_defined(oncotree_code,
+                      parent_resource_uri,
+                      parent_label,
+                      parent_oncotree_code):
     if not (parent_oncotree_code or (parent_resource_uri and parent_label)):
         print(f"'{oncotree_code}' does not have a parent defined either by the '{graphite.CSV_PARENT_ONCOTREE_CODE}' or both '{graphite.CSV_PARENT_RESOURCE_URI}' and '{graphite.CSV_PARENT_LABEL}'")
         sys.exit(1)
 
-def validate_csv_file(csv_file, expected_header):
-    # TODO anything we need to use everywhere just get here
+def using_oncotree_code_to_define_parent(row):
+ return graphite.CSV_PARENT_ONCOTREE_CODE in row and row[graphite.CSV_PARENT_ONCOTREE_CODE]
+
+def is_tissue_node(row):
+    return row[graphite.CSV_ONCOTREE_CODE] == "TISSUE"
+
+def validate_csv_file(csv_file,
+                      expected_header,
+                      resource_uri_to_internal_ids,
+                      oncotree_codes_to_internal_ids):
+    # read the file once to do some checks and also to collect data
+    # so we can do more checks in a second pass at reading the file
     # load all child->parent relationships
-    # also check header and uniqueness and required values for some columns
-    child_to_parent_resource_uris = {}
-    child_to_parent_labels = {}
+    # TODO get this from earlier too
     child_uri_to_child_label = {} # make sure the parent uri + label match the child uri + label pair
-    oncotree_codes_to_internal_ids = {}
-    resource_uri_to_internal_ids = {}
 
     # these fields are required and must be unique
+    # TODO get these from somewhere else
     resource_uri_set = set([])
     internal_id_set = set([])
     oncotree_code_set = set([])
@@ -356,18 +385,16 @@ def validate_csv_file(csv_file, expected_header):
 
         for row in reader:
             # save child->parent relationships
-            child_to_parent_resource_uris[row[graphite.CSV_RESOURCE_URI]] = row[graphite.CSV_PARENT_RESOURCE_URI] 
             child_uri_to_child_label[row[graphite.CSV_RESOURCE_URI]] = row[graphite.CSV_LABEL]
             child_to_parent_labels[row[graphite.CSV_LABEL]] = row[graphite.CSV_PARENT_LABEL] 
             oncotree_codes_to_internal_ids[row[graphite.CSV_ONCOTREE_CODE]] = row[graphite.CSV_INTERNAL_ID]
-            resource_uri_to_internal_ids[row[graphite.CSV_RESOURCE_URI]] = row[graphite.CSV_INTERNAL_ID]
 
             # check all colunns are not empty
-            required_fields = TISSUE_NODE_REQUIRED_FIELDS if row[graphite.CSV_ONCOTREE_CODE] == "TISSUE" else REQUIRED_FIELDS
+            required_fields = TISSUE_NODE_REQUIRED_FIELDS if is_tissue_node(row) else REQUIRED_FIELDS
             for field in required_fields:
                 field_is_required(row[field], field, row[graphite.CSV_INTERNAL_ID], csv_file)  
            
-            if row[graphite.CSV_ONCOTREE_CODE] != 'TISSUE': 
+            if not is_tissue_node(row):
                 parent_oncotree_code = "" if graphite.CSV_PARENT_ONCOTREE_CODE not in row else row[graphite.CSV_PARENT_ONCOTREE_CODE] 
                 parent_is_defined(row[graphite.CSV_ONCOTREE_CODE], row[graphite.CSV_PARENT_RESOURCE_URI], row[graphite.CSV_PARENT_LABEL], parent_oncotree_code)
 
@@ -388,22 +415,30 @@ def validate_csv_file(csv_file, expected_header):
         for row in reader:
             if row[graphite.CSV_LABEL] != row[graphite.CSV_PREFERRED_LABEL]:
                 label_mismatch_errors.append(f"{row[graphite.CSV_INTERNAL_ID]}: '{row[graphite.CSV_LABEL]}' != '{row[graphite.CSV_PREFERRED_LABEL]}'")
-            # if this isn't the TISSUE node, we need to make sure the parent resource uri/label pair matches exists in the file
-            # of course sometimes we are using the parent oncotree code intead (e.g. ALM)
-            if row[graphite.CSV_ONCOTREE_CODE] != "TISSUE" and \
-                parent_resource_uri_and_label_are_valid(row[graphite.CSV_PARENT_RESOURCE_URI], row[graphite.CSV_PARENT_LABEL], child_to_parent_resource_uris, child_uri_to_child_label, child_to_parent_labels):
-                parent_invalid_errors.append(f"{row[graphite.CSV_INTERNAL_ID]}: URI '{row[graphite.CSV_PARENT_RESOURCE_URI]}' and label '{row[graphite.CSV_PARENT_LABEL]}'")
-            elif row[graphite.CSV_ONCOTREE_CODE] == "TISSUE":
-                if row[graphite.CSV_PARENT_RESOURCE_URI] or row[graphite.CSV_PARENT_LABEL] or (graphite.CSV_PARENT_ONCOTREE_CODE in row and row[graphite.CSV_PARENT_ONCOTREE_CODE]):
+            if is_tissue_node(row):
+                # the TISSUE node cannot have any parents set
+                if (row[graphite.CSV_PARENT_RESOURCE_URI] or
+                    row[graphite.CSV_PARENT_LABEL] or
+                    using_oncotree_code_to_define_parent(row)):
                     print(f"The 'TISSUE' node must not have any of these fields set: '{graphite.CSV_PARENT_RESOURCE_URI}', '{graphite.CSV_PARENT_LABEL}', '{graphite.CSV_PARENT_LABEL}' but at least one is in '{csv_file}'", file=sys.stderr)
                     sys.exit(1)
-            elif graphite.CSV_PARENT_ONCOTREE_CODE in row \
-                and not parent_oncotree_code_is_valid(row[graphite.CSV_INTERNAL_ID],
-                        row[graphite.CSV_PARENT_RESOURCE_URI],
-                        row[graphite.CSV_PARENT_ONCOTREE_CODE],
-                        oncotree_codes_to_internal_ids,
-                        resource_uri_to_internal_ids):
-                parent_invalid_errors.append(f"Error: Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which maps to internal id '{oncotree_codes_to_internal_ids[row[graphite.CSV_PARENT_ONCOTREE_CODE]]}' this is in conflict with the resource uri defined for the parent '{row[graphite.CSV_PARENT_RESOURCE_URI]}' which maps to internal id '{resource_uri_to_internal_ids[row[graphite.CSV_PARENT_RESOURCE_URI]]}'.  Which one is the parent?")
+            # this isn't the TISSUE node
+            # we are defining the parent using the oncotree code, so check that is valid
+            elif using_oncotree_code_to_define_parent(row):
+                if not parent_oncotree_code_is_valid(row, oncotree_codes_to_internal_ids): 
+                    parent_invalid_errors.append(f"Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which doesn't map to anything in file '{csv_file}'")
+                elif parent_definition_in_conflict(row,
+                                                   oncotree_codes_to_internal_ids,
+                                                   resource_uri_to_internal_ids):
+                    parent_invalid_errors.append(f"Error: Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which maps to internal id '{oncotree_codes_to_internal_ids[row[graphite.CSV_PARENT_ONCOTREE_CODE]]}' this is in conflict with the resource uri defined for the parent '{row[graphite.CSV_PARENT_RESOURCE_URI]}' which maps to internal id '{resource_uri_to_internal_ids[row[graphite.CSV_PARENT_RESOURCE_URI]]}'.  Which one is the parent?")
+            # we are defining the parent with the resource uri + label
+            # we need to make sure the parent resource uri/label pair
+            # matches what exists in the file
+            elif not parent_resource_uri_and_label_are_valid(row,
+                   child_to_parent_resource_uris,
+                   child_uri_to_child_label,
+                   child_to_parent_labels):
+                parent_invalid_errors.append(f"{row[graphite.CSV_INTERNAL_ID]}: URI '{row[graphite.CSV_PARENT_RESOURCE_URI]}' and label '{row[graphite.CSV_PARENT_LABEL]}'")
 
     if label_mismatch_errors:
         print(f"ERROR: '{graphite.CSV_LABEL}' and '{graphite.CSV_PREFERRED_LABEL}' columns must be identical.  Mis-matched fields in '{csv_file}':")
@@ -438,9 +473,19 @@ def usage(parser, message):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--original-file", help = f"Original csv file from Graphite. {HELP_FOR_FILE_FORMAT}", required = True)
-    parser.add_argument("-m", "--modified-file", help = f"Modified csv file from user.  This should be a modified copy of the original csv file from Graphite, with an additional column at the end called '{graphite.CSV_PARENT_ONCOTREE_CODE}'.", required = True)
-    parser.add_argument("-t", "--output-file", help = f"Generated rdf file to be uploaded to Graphite.", required = True)
+    parser.add_argument("-o", \
+        "--original-file", \
+        help = f"Original csv file from Graphite. {HELP_FOR_FILE_FORMAT}", \
+        required = True)
+    parser.add_argument("-m", \
+        "--modified-file", \
+        help = f"Modified csv file from user.  This should be a modified copy of the original csv file from Graphite, \
+        with an additional column at the end called '{graphite.CSV_PARENT_ONCOTREE_CODE}'.", \
+        required = True)
+    parser.add_argument("-t", \
+        "--output-file", \
+        help = f"Generated rdf file to be uploaded to Graphite.", \
+        required = True)
     args = parser.parse_args()
 
     original_file = args.original_file
@@ -465,19 +510,35 @@ def get_args():
     return original_file, modified_file, output_file
 
 def main():
+    # 0. get the command line arguments
     original_file, modified_file, output_file = get_args()
-    validate_csv_file(original_file, EXPECTED_HEADER)
-    validate_csv_file(modified_file, EXPECTED_HEADER_MODIFIED_FILE)
-    original_oncotree = get_oncotree(original_file)
-    modified_oncotree = get_oncotree(modified_file)
+
+    # 1. query Github for the offical internal id to oncotree code mapping
     internal_id_to_oncocodes = get_internal_id_to_oncocodes()
-    # get_all_precursors, get_all_revocations, get_resource_uri_to_internal_ids, get_oncotree_codes_to_resource_uris could be combined into one function
-    # we aren't reading the file over and over but this seems clearer
-    precursor_id_to_internal_ids = get_all_precursors(modified_file)
-    revocation_id_to_internal_ids = get_all_revocations(modified_file)
-    original_resource_uri_to_internal_ids = get_resource_uri_to_internal_ids(original_file)
-    modified_resource_uri_to_internal_ids = get_resource_uri_to_internal_ids(modified_file)
-    oncotree_codes_to_internal_ids = get_oncotree_codes_to_internal_ids(modified_file)
+
+    # 2. read the csv data and put into various data structures to look things up later
+    original_oncotree, \
+        original_resource_uri_to_internal_ids, \
+        _, \
+        _, \
+        original_oncotree_codes_to_internal_ids = get_oncotree_data_from_csv_file(original_file)
+    modified_oncotree, \
+        modified_resource_uri_to_internal_ids, \
+        precursor_id_to_internal_ids, \
+        revocation_id_to_internal_ids, \
+        modified_oncotree_codes_to_internal_ids = get_oncotree_data_from_csv_file(modified_file)
+
+    # 3. validate
+    validate_csv_file(original_file, \ 
+                      EXPECTED_HEADER, \ 
+                      original_resource_uri_to_internal_ids, \ 
+                      original_oncotree_codes_to_internal_ids)
+    validate_csv_file(modified_file, \ 
+                      EXPECTED_HEADER_MODIFIED_FILE, \ 
+                      modified_resource_uri_to_internal_ids, \ 
+                      modified_oncotree_codes_to_internal_ids)
+
+    # 4. say what has changed and confirm they are wanted
     confirm_changes(original_oncotree,
                     modified_oncotree,
                     precursor_id_to_internal_ids,
@@ -486,6 +547,8 @@ def main():
                     modified_resource_uri_to_internal_ids,
                     internal_id_to_oncocodes,
                     oncotree_codes_to_internal_ids)
+
+    # 5. generate rdf from the data
     output_rdf_file(modified_oncotree, output_file)
 
 if __name__ == '__main__':
