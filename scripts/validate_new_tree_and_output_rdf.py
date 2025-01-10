@@ -30,7 +30,7 @@ import sys
 
 GITHUB_RESOURCE_URI_TO_ONCOCODE_MAPPING_FILE_URL = "https://raw.githubusercontent.com/cBioPortal/oncotree/refs/heads/master/resources/resource_uri_to_oncocode_mapping.txt"
 HELP_FOR_FILE_FORMAT = "In the Graphite 'Concept Manager' left sidebar 'Hierarchy' tab, select your oncotree version, then click on the 'Export' tab in the main panel.  For 'File Format' select 'CSV (Dynamic Property Columns)'. In the 'Include' section uncheck everything except 'Non-primary concept URI' and 'Status'.  In the 'Select Properties to Export' all fields in both 'OncoTree Tumor Type' and 'SKOS' should be selected."
-EXPECTED_HEADER = [graphite.CSV_RESOURCE_URI,
+CSV_EXPECTED_HEADER = [graphite.CSV_RESOURCE_URI,
     graphite.CSV_LABEL,
     graphite.CSV_SCHEME_URI,
     graphite.CSV_STATUS,
@@ -43,7 +43,7 @@ EXPECTED_HEADER = [graphite.CSV_RESOURCE_URI,
     graphite.CSV_REVOCATIONS,
     graphite.CSV_PARENT_RESOURCE_URI,
     graphite.CSV_PARENT_LABEL]
-EXPECTED_HEADER_MODIFIED_FILE = EXPECTED_HEADER + [graphite.CSV_PARENT_ONCOTREE_CODE]
+CSV_EXPECTED_HEADER_MODIFIED_FILE = CSV_EXPECTED_HEADER + [graphite.CSV_PARENT_ONCOTREE_CODE]
 REQUIRED_FIELDS = [graphite.CSV_LABEL,
     graphite.CSV_SCHEME_URI,
     graphite.CSV_STATUS,
@@ -53,7 +53,7 @@ REQUIRED_FIELDS = [graphite.CSV_LABEL,
     graphite.CSV_ONCOTREE_CODE,
     graphite.CSV_PREFERRED_LABEL]
 REQUIRED_FIELDS_ORIGINAL_FILE = REQUIRED_FIELDS + [graphite.CSV_RESOURCE_URI,
-    graphite.CSV_PARENT_RESOURCE_URI,                                          
+    graphite.CSV_PARENT_RESOURCE_URI,
     graphite.CSV_PARENT_LABEL]
 TISSUE_NODE_REQUIRED_FIELDS = [graphite.CSV_RESOURCE_URI,
     graphite.CSV_LABEL,
@@ -65,7 +65,7 @@ TISSUE_NODE_REQUIRED_FIELDS = [graphite.CSV_RESOURCE_URI,
 
 def confirm_change(message):
     print(f"\n{message}")
-    answer = input("Enter [y]es if the changes were intentional, [n]o if not: ")
+    answer = input("Enter [y]es, [n]o if not: ")
     if answer.lower() in ["y","yes"]:
         return True
     return False
@@ -74,15 +74,6 @@ def construct_pretty_label_for_row(internal_id, code, label):
     return f"{internal_id}: {label} ({code})"
 
 # TODO move these comments somewhere
-# C01 + C02 + C03 -> C04
-# C01, C02, and C03 become precursors to C04
-# C05 -> C06 + C07 + C08
-# C05 is a precursor to C06, C07, and C08
-# you can have one concept be a precursor to many concepts
-# C01 + C02 + C03 -> C01
-# C02 and CO3 become revocations in C01
-# don't revoke anything with precursors (according to Rob's document "Oncotree History Modeling") - check that anything in revocations is not a precursor
-# a concept can only be revoked by a pre-existing concept
 
 def get_parent_internal_id(child_internal_id, parent_resource_uri, parent_oncotree_code, oncotree_codes_to_internal_ids, resource_uri_to_internal_ids):
     """This will use either the parent oncotree code, or if that isn't given, the parent resource uri
@@ -100,12 +91,12 @@ def get_parent_internal_id(child_internal_id, parent_resource_uri, parent_oncotr
     # we must have the parent_resource_uri instead
     return resource_uri_to_internal_ids[parent_resource_uri]
 
-def get_oncotree_code_from_internal_id(oncotree_codes_to_internal_ids, internal_id):
-    for code in oncotree_codes_to_internal_ids:
-        if oncotree_codes_to_internal_ids[code] == internal_id:
-            return code
-    print(f"Error: could not find an oncotree code for internal id {internal_id}", file=sys.stderr)
-    sys.exit(1)
+#def get_oncotree_code_from_internal_id(oncotree_codes_to_internal_ids, internal_id):
+#    for code in oncotree_codes_to_internal_ids:
+#        if oncotree_codes_to_internal_ids[code] == internal_id:
+#            return code
+#    print(f"Error: could not find an oncotree code for internal id {internal_id}", file=sys.stderr)
+#    sys.exit(1)
 
 def display_removed_internal_ids(removed_internal_ids, original_oncotree):
     print("\nRemoved internal ids:")
@@ -116,14 +107,13 @@ def display_removed_internal_ids(removed_internal_ids, original_oncotree):
                                                           data[graphite.CSV_ONCOTREE_CODE],
                                                           data[graphite.CSV_LABEL])
             print(f"\t{pretty_label}")
-        print(f"\n****** All removed Oncotree nodes must be manually deleted from Graphite")
     else:
         print("\tNone")
 
 def validate_and_display_new_internal_ids(new_internal_ids,
-                             modified_oncotree,
-                             oncotree_codes_to_internal_ids,
-                             modified_resource_uri_to_internal_ids):
+                                          modified_oncotree,
+                                          oncotree_codes_to_internal_ids,
+                                          modified_resource_uri_to_internal_ids):
     """Displays new internal ids and also throws an error if we have a new id
        with a resource uri defined"""
     print("\nNew internal ids:")
@@ -151,12 +141,17 @@ def validate_and_display_new_internal_ids(new_internal_ids,
     else:
         print("\tNone")
 
+# C01 + C02 + C03 -> C04
+# C01, C02, and C03 become precursors to C04
+# C05 -> C06 + C07 + C08
+# C05 is a precursor to C06, C07, and C08
+# you can have one concept be a precursor to many concepts
 def validate_and_display_modified_precursors(modified_precursor_id_to_internal_ids,
-                                internal_ids_to_oncotree_codes,
-                                modified_internal_id_set,
-                                modified_oncotree):
+                                             modified_oncotree,
+                                             internal_ids_to_oncotree_codes,
+                                             modified_internal_id_set):
     """Displays precursors in the modified csv file.  Throws an error if the
-       precursor is also defined in the current file."""
+       precursor is also defined as a node in the current file."""
     print("\nPrecurors:")
     if modified_precursor_id_to_internal_ids:
         for precursor_id in sorted(modified_precursor_id_to_internal_ids.keys()):
@@ -175,12 +170,16 @@ def validate_and_display_modified_precursors(modified_precursor_id_to_internal_i
     else:
         print("\tNone")
 
+# C01 + C02 + C03 -> C01
+# C02 and CO3 become revocations in C01
+# don't revoke anything with precursors (according to Rob's document "Oncotree History Modeling") - check that anything in revocations is not a precursor
+# a concept can only be revoked by a pre-existing concept -- TODO check that I validate this
 def validate_and_display_modified_revocations(modified_revocation_id_to_internal_ids,
-                                 internal_ids_to_oncotree_codes,
-                                 modified_oncotree,
-                                 modified_internal_id_set,
-                                 modified_precursor_id_to_internal_ids,
-                                 new_internal_ids):
+                                              modified_oncotree,
+                                              internal_ids_to_oncotree_codes,
+                                              modified_internal_id_set,
+                                              modified_precursor_id_to_internal_ids,
+                                              new_internal_ids):
     print("\nRevocations:")
     if modified_revocation_id_to_internal_ids:
         for revocation_id in sorted(modified_revocation_id_to_internal_ids.keys()):
@@ -231,6 +230,96 @@ def display_possible_id_changes(removed_internal_ids,
         for changed_id in changed_ids:
             print(changed_id)
 
+def get_parent_oncotree_code(internal_id,
+                             data,
+                             oncotree_codes_to_internal_ids,
+                             resource_uri_to_internal_ids,
+                             internal_ids_to_oncotree_codes):
+    # we either have been given the parent oncotree code
+    # or will look the oncotree code up using the parent resource uri
+    if (graphite.CSV_PARENT_ONCOTREE_CODE in data and
+        data[graphite.CSV_PARENT_ONCOTREE_CODE]):
+        return data[graphite.CSV_PARENT_ONCOTREE_CODE]
+    # then get the oncotree code using resource uri -> internal id -> oncotree code
+    parent_internal_id = get_parent_internal_id(internal_id,
+                                                data[graphite.CSV_PARENT_RESOURCE_URI],
+                                                data[graphite.CSV_PARENT_ONCOTREE_CODE] if graphite.CSV_PARENT_ONCOTREE_CODE in data else None,
+                                                oncotree_codes_to_internal_ids,
+                                                resource_uri_to_internal_ids)
+    return internal_ids_to_oncotree_codes[parent_internal_id]
+
+def parent_changed(internal_id,
+                   original_data,
+                   modified_data,
+                   oncotree_codes_to_internal_ids,
+                   internal_ids_to_oncotree_codes,
+                   original_resource_uri_to_internal_ids,
+                   modified_resource_uri_to_internal_ids):
+    modified_parent_oncotree_code = get_parent_oncotree_code(internal_id,
+                                                             modified_data,
+                                                             oncotree_codes_to_internal_ids,
+                                                             modified_resource_uri_to_internal_ids,
+                                                             internal_ids_to_oncotree_codes)
+
+    original_parent_oncotree_code = get_parent_oncotree_code(internal_id,      
+                                                             original_data,    
+                                                             oncotree_codes_to_internal_ids,
+                                                             original_resource_uri_to_internal_ids,
+                                                             internal_ids_to_oncotree_codes)
+
+    return original_parent_oncotree_code != modified_parent_oncotree_code
+
+def validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
+                                                          original_oncotree,
+                                                          modified_oncotree,
+                                                          oncotree_codes_to_internal_ids,
+                                                          original_resource_uri_to_internal_ids,
+                                                          modified_resource_uri_to_internal_ids,
+                                                          internal_ids_to_oncotree_codes):
+    code_change_messages = []
+    parent_change_messages = []
+    for internal_id in in_both_internal_ids:
+        original_data = original_oncotree[internal_id]
+        modified_data = modified_oncotree[internal_id]
+        original_pretty_label = construct_pretty_label_for_row(original_data[graphite.CSV_INTERNAL_ID],
+                                                               original_data[graphite.CSV_ONCOTREE_CODE],
+                                                               original_data[graphite.CSV_LABEL])
+        modified_pretty_label = construct_pretty_label_for_row(modified_data[graphite.CSV_INTERNAL_ID],
+                                                               modified_data[graphite.CSV_ONCOTREE_CODE],
+                                                               modified_data[graphite.CSV_LABEL])
+
+        if original_data[graphite.CSV_RESOURCE_URI] != modified_data[graphite.CSV_RESOURCE_URI]:
+            print(f"ERROR: Resource URI has changed for '{modified_pretty_label}', this is not allowed when the internal id '{original_data[graphite.CSV_INTERNAL_ID]}' has not changed", file=sys.stderr)
+            sys.exit(1)
+
+        if original_data[graphite.CSV_ONCOTREE_CODE] != modified_data[graphite.CSV_ONCOTREE_CODE]:
+            code_change_messages.append(f"\t'{original_pretty_label}' -> '{modified_pretty_label}'")
+
+        if not is_tissue_node(modified_data): # tissue has no parents
+            if parent_changed(internal_id,
+                              original_data,
+                              modified_data,
+                              oncotree_codes_to_internal_ids,
+                              internal_ids_to_oncotree_codes,
+                              original_resource_uri_to_internal_ids,
+                              modified_resource_uri_to_internal_ids):
+                # TODO move this to the function which finds it above
+                parent_change_messages.append(f"\tchild: '{original_pretty_label}' parent: '{original_parent_oncotree_code}' -> child: '{modified_pretty_label}' parent: '{modified_parent_oncotree_code}'")
+
+    print("\nOncotree code/label changes with no internal id change.  This is allowed as long as the new code/label covers the exact same set of cancer cases")
+    if code_change_messages:
+        for message in code_change_messages:
+            print(message)
+    else:
+        print("\tNone")
+
+    print("\nParent change")
+    if parent_change_messages:
+        for message in parent_change_messages:
+            print(message)
+    else:
+        print("\tNone")
+
 def validate_and_confirm_changes(original_oncotree,
                     modified_oncotree,
                     modified_precursor_id_to_internal_ids,
@@ -254,94 +343,38 @@ def validate_and_confirm_changes(original_oncotree,
 
     # the following display information about changes
     # they also do throw errors if problems are found
-    # TODO pass params in same order
     display_removed_internal_ids(removed_internal_ids, original_oncotree)
     validate_and_display_new_internal_ids(new_internal_ids,
-                             modified_oncotree,
-                             oncotree_codes_to_internal_ids,
-                             modified_resource_uri_to_internal_ids)
+                                          modified_oncotree,
+                                          oncotree_codes_to_internal_ids,
+                                          modified_resource_uri_to_internal_ids)
     validate_and_display_modified_precursors(modified_precursor_id_to_internal_ids,
-                                internal_ids_to_oncotree_codes,
-                                modified_internal_id_set,
-                                modified_oncotree)
+                                             modified_oncotree,
+                                             internal_ids_to_oncotree_codes,
+                                             modified_internal_id_set)
     validate_and_display_modified_revocations(modified_revocation_id_to_internal_ids,
-                                 internal_ids_to_oncotree_codes,
-                                 modified_oncotree,
-                                 modified_internal_id_set,
-                                 modified_precursor_id_to_internal_ids,
-                                 new_internal_ids)
+                                              modified_oncotree,
+                                              internal_ids_to_oncotree_codes,
+                                              modified_internal_id_set,
+                                              modified_precursor_id_to_internal_ids,
+                                              new_internal_ids)
     display_possible_id_changes(removed_internal_ids,
                                 new_internal_ids,
                                 original_oncotree,
                                 modified_oncotree)
-
-    # now we look at all interal ids that are in both files, what has changed about the data?
-    code_change_messages = []
-    parent_change_messages = []
-    for internal_id in in_both_internal_ids:
-        original_data = original_oncotree[internal_id]
-        modified_data = modified_oncotree[internal_id]
-        original_pretty_label = construct_pretty_label_for_row(original_data[graphite.CSV_INTERNAL_ID],
-                                                               original_data[graphite.CSV_ONCOTREE_CODE],
-                                                               original_data[graphite.CSV_LABEL])
-        modified_pretty_label = construct_pretty_label_for_row(modified_data[graphite.CSV_INTERNAL_ID],
-                                                               modified_data[graphite.CSV_ONCOTREE_CODE],
-                                                               modified_data[graphite.CSV_LABEL])
-
-        # confirm we have resource uri in original file, we don't have to check modified file because we check if it has changed
-        if original_data[graphite.CSV_RESOURCE_URI].strip() == "":
-            print(f"ERROR: Resource URI is required for all records in the original file but is missing for '{original_pretty_label}'", file=sys.stderr)
-            sys.exit(1)
-
-        if original_data[graphite.CSV_RESOURCE_URI] != modified_data[graphite.CSV_RESOURCE_URI]:
-            print(f"ERROR: Resource URI has changed for '{modified_pretty_label}', this is not allowed", file=sys.stderr)
-            sys.exit(1)
-
-        if original_data[graphite.CSV_ONCOTREE_CODE] != modified_data[graphite.CSV_ONCOTREE_CODE]:
-            code_change_messages.append(f"\t'{original_pretty_label}' -> '{modified_pretty_label}'")
-
-        if internal_id != "ONC000001": # tissue has no parents
-            # check if parent has changed
-            # use oncotree codes (we will get either have the oncotree code, or will get it using the resource uri)
-            modified_parent_oncotree_code = modified_data[graphite.CSV_PARENT_ONCOTREE_CODE]
-            if not modified_parent_oncotree_code:
-                # then get the oncotree code using resource uri -> internal id -> oncotree code
-                modified_parent_internal_id = get_parent_internal_id(internal_id,
-                                                                     modified_data[graphite.CSV_PARENT_RESOURCE_URI],
-                                                                     modified_data[graphite.CSV_PARENT_ONCOTREE_CODE],
-                                                                     oncotree_codes_to_internal_ids,
-                                                                     modified_resource_uri_to_internal_ids)
-                modified_parent_oncotree_code = get_oncotree_code_from_internal_id(oncotree_codes_to_internal_ids,
-                                                                                   modified_parent_internal_id)
-
-            # get the original parent oncotree code
-            # in the original file we will have to look up the oncotree code using resource uri -> internal id -> oncotree code
-            original_parent_internal_id = get_parent_internal_id(internal_id,
-                                                                 original_data[graphite.CSV_PARENT_RESOURCE_URI],
-                                                                 None, # this file doesn't have a parent oncotree code column
-                                                                 oncotree_codes_to_internal_ids,
-                                                                 original_resource_uri_to_internal_ids)
-            original_parent_oncotree_code = get_oncotree_code_from_internal_id(oncotree_codes_to_internal_ids, original_parent_internal_id)
-            if original_parent_oncotree_code != modified_parent_oncotree_code:
-                parent_change_messages.append(f"\tchild: '{original_pretty_label}' parent: '{original_parent_oncotree_code}' -> child: '{modified_pretty_label}' parent: '{modified_parent_oncotree_code}'")
-
-
-    print("\nOncotree code/label changes with no internal id change.  This is allowed as long as the new code/label covers the exact same set of cancer cases")
-    if code_change_messages:
-        for message in code_change_messages:
-            print(message)
-    else:
-        print("\tNone")
-
-    print("\nParent change")
-    if parent_change_messages:
-        for message in parent_change_messages:
-            print(message)
-    else:
-        print("\tNone")
+    validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
+                                                          original_oncotree,
+                                                          modified_oncotree,
+                                                          oncotree_codes_to_internal_ids,
+                                                          original_resource_uri_to_internal_ids,
+                                                          modified_resource_uri_to_internal_ids,
+                                                          internal_ids_to_oncotree_codes)
 
     if not confirm_change("\nPlease confirm that all of the above changes are intentional."):
         print("ERROR: You  have said that not all changes are intentional.  Please correct your input file and run this script again.", file=sys.stderr)
+        sys.exit(2)
+    if not confirm_change("\nYou must manually delete all removed oncotree codes.  Please confirm you will do this."):
+        print("ERROR: You have not confirmed that you will delete all removed oncotree codes manually.  Please run this script again and confirm.", file=sys.stderr)
         sys.exit(2)
 
 def output_rdf_file(oncotree, output_filename):
@@ -431,7 +464,7 @@ def using_oncotree_code_to_define_parent(row):
 def is_tissue_node(row):
     return row[graphite.CSV_ONCOTREE_CODE] == "TISSUE"
 
-def required_fields_defined(row, required_fields):
+def required_fields_defined(row, required_fields, csv_file):
     row_required_fields = TISSUE_NODE_REQUIRED_FIELDS if is_tissue_node(row) else required_fields
     for field in row_required_fields:
         field_is_required(row[field], field, row[graphite.CSV_INTERNAL_ID], csv_file)
@@ -472,8 +505,8 @@ def validate_csv_file(csv_file,
         label_mismatch_errors = []
         parent_invalid_errors = []
         for row in reader:
-            required_fields_defined(row, required_fields)
-            parent_is_defined_if_not_tissue(row) 
+            required_fields_defined(row, required_fields, csv_file)
+            parent_is_defined_if_not_tissue(row)
 
             # check these columns are unique
             field_is_unique(row[graphite.CSV_RESOURCE_URI], graphite.CSV_RESOURCE_URI, resource_uri_set, row[graphite.CSV_INTERNAL_ID], csv_file)
@@ -489,7 +522,7 @@ def validate_csv_file(csv_file,
 
             if is_tissue_node(row):
                 has_no_parents(row)
-            elif using_oncotree_code_to_define_parent(row): # this isn't the TISSUE node 
+            elif using_oncotree_code_to_define_parent(row): # this isn't the TISSUE node
                 # we are defining the parent using the oncotree code, so check that is valid
                 if not parent_oncotree_code_is_valid(row, oncotree_codes_to_internal_ids):
                     parent_invalid_errors.append(f"Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which doesn't map to anything in file '{csv_file}'")
@@ -497,8 +530,8 @@ def validate_csv_file(csv_file,
                                                    oncotree_codes_to_internal_ids,
                                                    resource_uri_to_internal_ids):
                     parent_invalid_errors.append(f"Error: Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which maps to internal id '{oncotree_codes_to_internal_ids[row[graphite.CSV_PARENT_ONCOTREE_CODE]]}' this is in conflict with the resource uri defined for the parent '{row[graphite.CSV_PARENT_RESOURCE_URI]}' which maps to internal id '{resource_uri_to_internal_ids[row[graphite.CSV_PARENT_RESOURCE_URI]]}'.  Which one is the parent?")
-    
-            elif not parent_resource_uri_and_label_are_valid(row, # this isn't the TISSUE node 
+
+            elif not parent_resource_uri_and_label_are_valid(row, # this isn't the TISSUE node, and we don't have a parent oncotree code defined
                    resource_uri_to_internal_ids,
                    resource_uri_to_labels):
                 # we are defining the parent with the resource uri + label
@@ -598,13 +631,13 @@ def main():
 
     # 3. validate
     validate_csv_file(original_file,
-                      EXPECTED_HEADER,
+                      CSV_EXPECTED_HEADER,
                       REQUIRED_FIELDS_ORIGINAL_FILE,
                       original_resource_uri_to_internal_ids,
                       oncotree_codes_to_internal_ids,
                       original_resource_uri_to_labels)
     validate_csv_file(modified_file,
-                      EXPECTED_HEADER_MODIFIED_FILE,
+                      CSV_EXPECTED_HEADER_MODIFIED_FILE,
                       REQUIRED_FIELDS,
                       modified_resource_uri_to_internal_ids,
                       oncotree_codes_to_internal_ids,
