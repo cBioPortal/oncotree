@@ -16,9 +16,6 @@
 # Memorial Sloan-Kettering Cancer Center
 # has been advised of the possibility of such damage.
 
-# TODO maybe only show changes to precursors/revocations?
-# instead of the whole history
-
 from collections import defaultdict
 from deepdiff import DeepDiff
 import argparse
@@ -132,18 +129,29 @@ def validate_and_display_new_internal_ids(new_internal_ids,
     else:
         print("\tNone")
 
+def display_precursor_or_revocation_of_list(precursor_id,
+                                            internal_ids_to_oncotree_codes,
+                                            precursor_id_to_internal_ids,
+                                            oncotree):
+    precursor_code = internal_ids_to_oncotree_codes[precursor_id] if precursor_id in internal_ids_to_oncotree_codes else "unknown"
+    print(f"\t\t'{precursor_id}' ('{precursor_code}')'")
+    precursor_of_set = precursor_id_to_internal_ids[precursor_id]
+    for internal_id in sorted(precursor_of_set):
+        data = oncotree[internal_id]
+        pretty_label = construct_pretty_label_for_row(data[graphite.CSV_INTERNAL_ID],
+                                                      data[graphite.CSV_ONCOTREE_CODE],
+                                                      data[graphite.CSV_LABEL])
+        print(f"\t\t\t'{pretty_label}'")
+
 # C01 + C02 + C03 -> C04
 # C01, C02, and C03 become precursors to C04
 # C05 -> C06 + C07 + C08
 # C05 is a precursor to C06, C07, and C08
 # you can have one concept be a precursor to many concepts
-def validate_and_display_modified_precursors(modified_precursor_id_to_internal_ids,
-                                             modified_oncotree,
-                                             internal_ids_to_oncotree_codes,
-                                             modified_internal_id_set):
-    """Displays precursors in the modified csv file.  Throws an error if the
-       precursor is also defined as a node in the current file."""
-    print("\nPrecurors:")
+def validate_precursors(modified_precursor_id_to_internal_ids,
+                        internal_ids_to_oncotree_codes,
+                        modified_internal_id_set):
+    """Throws an error if the precursor is also defined as a node in the current file."""
     if modified_precursor_id_to_internal_ids:
         for precursor_id in sorted(modified_precursor_id_to_internal_ids.keys()):
             precursor_code = internal_ids_to_oncotree_codes[precursor_id] if precursor_id in internal_ids_to_oncotree_codes else "unknown"
@@ -151,13 +159,59 @@ def validate_and_display_modified_precursors(modified_precursor_id_to_internal_i
             if precursor_id in modified_internal_id_set:
                 print(f"Error: '{precursor_id}' ('{precursor_code}') is a precuror to '{','.join(modified_precursor_id_to_internal_ids[precursor_id])}' but '{precursor_id}' is still in this file as a current record", file=sys.stderr)
                 sys.exit(1)
-            precursor_of_set = modified_precursor_id_to_internal_ids[precursor_id]
-            for internal_id in precursor_of_set:
-                data = modified_oncotree[internal_id]
-                pretty_label = construct_pretty_label_for_row(data[graphite.CSV_INTERNAL_ID],
-                                                              data[graphite.CSV_ONCOTREE_CODE],
-                                                              data[graphite.CSV_LABEL])
-                print(f"\t'{precursor_id}' ('{precursor_code}') -> '{pretty_label}'")
+
+def display_precursors_or_revocations(original_precursor_id_to_internal_ids,
+                       modified_precursor_id_to_internal_ids,
+                       original_oncotree,
+                       modified_oncotree,
+                       internal_ids_to_oncotree_codes,
+                       modified_internal_id_set):
+    # now see if there are any changes
+    original_precursor_ids = set(original_precursor_id_to_internal_ids.keys())
+    modified_precursor_ids = set(modified_precursor_id_to_internal_ids.keys())
+    removed_precursors = original_precursor_ids - modified_precursor_ids
+    new_precursors = modified_precursor_ids - original_precursor_ids
+    in_both_precursors = original_precursor_ids & modified_precursor_ids
+    changed_precursors = set({})
+    if in_both_precursors:
+        for precursor_id in in_both_precursors:
+            if (original_precursor_id_to_internal_ids[precursor_id] !=
+                    modified_precursor_id_to_internal_ids[precursor_id]):
+                changed_precursors.add(precursor_id)
+
+    if new_precursors or changed_precursors or removed_precursors:
+        if new_precursors:
+            print("\tNew:")
+            for precursor_id in sorted(new_precursors):
+                display_precursor_or_revocation_of_list(precursor_id,
+                                                        internal_ids_to_oncotree_codes,
+                                                        modified_precursor_id_to_internal_ids,
+                                                        modified_oncotree)
+
+        if changed_precursors:
+            print("\tChanged:")
+            for precursor_id in sorted(changed_precursors):
+                original_precursor_of_set = set(original_precursor_id_to_internal_ids[precursor_id])
+                modified_precursor_of_set = set(modified_precursor_id_to_internal_ids[precursor_id])
+                print("\t\tBefore")
+                display_precursor_or_revocation_of_list(precursor_id,
+                                                        internal_ids_to_oncotree_codes,
+                                                        original_precursor_id_to_internal_ids,
+                                                        original_oncotree)
+                print("\t\tAfter")
+                display_precursor_or_revocation_of_list(precursor_id,
+                                                        internal_ids_to_oncotree_codes,
+                                                        modified_precursor_id_to_internal_ids,
+                                                        modified_oncotree)
+
+        if removed_precursors:
+            print("\tRemoved -- ARE YOU SURE YOU MEANT TO DO THIS?")
+            # TODO is this an error?
+            for precursor_id in sorted(removed_precursors):
+                display_precursor_or_revocation_of_list(precursor_id,
+                                          internal_ids_to_oncotree_codes,
+                                          original_precursor_id_to_internal_ids,
+                                          original_oncotree)
     else:
         print("\tNone")
 
@@ -165,13 +219,12 @@ def validate_and_display_modified_precursors(modified_precursor_id_to_internal_i
 # C02 and CO3 become revocations in C01
 # don't revoke anything with precursors (according to Rob's document "Oncotree History Modeling")
 # a concept can only be revoked by a pre-existing concept
-def validate_and_display_modified_revocations(modified_revocation_id_to_internal_ids,
-                                              modified_oncotree,
-                                              internal_ids_to_oncotree_codes,
-                                              modified_internal_id_set,
-                                              modified_precursor_id_to_internal_ids,
-                                              new_internal_ids):
-    print("\nRevocations:")
+def validate_revocations(modified_revocation_id_to_internal_ids,
+                         modified_oncotree,
+                         internal_ids_to_oncotree_codes,
+                         modified_internal_id_set,
+                         modified_precursor_id_to_internal_ids,
+                         new_internal_ids):
     if modified_revocation_id_to_internal_ids:
         for revocation_id in sorted(modified_revocation_id_to_internal_ids.keys()):
             revocation_code = internal_ids_to_oncotree_codes[revocation_id] if revocation_id in internal_ids_to_oncotree_codes else "unknown"
@@ -186,13 +239,6 @@ def validate_and_display_modified_revocations(modified_revocation_id_to_internal
                 if internal_id in new_internal_ids:
                     print(f"Error: '{revocation_id}' ('{revocation_code}') revokes '{internal_id}' but '{internal_id}' is a new concept. Only a pre-existing concept can revoke something", file=sys.stderr)
                     sys.exit(1)
-                data = modified_oncotree[internal_id]
-                pretty_label = construct_pretty_label_for_row(data[graphite.CSV_INTERNAL_ID],
-                                                              data[graphite.CSV_ONCOTREE_CODE],
-                                                              data[graphite.CSV_LABEL])
-                print(f"\t'{revocation_id}' ('{revocation_code}') -> '{pretty_label}'")
-    else:
-        print("\tNone")
 
 def display_possible_id_changes(removed_internal_ids,
                                 new_internal_ids,
@@ -321,7 +367,9 @@ def validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
 
 def validate_and_confirm_changes(original_oncotree,
                                  modified_oncotree,
+                                 original_precursor_id_to_internal_ids,
                                  modified_precursor_id_to_internal_ids,
+                                 original_revocation_id_to_internal_ids,
                                  modified_revocation_id_to_internal_ids,
                                  original_resource_uri_to_internal_ids,
                                  modified_resource_uri_to_internal_ids,
@@ -347,16 +395,29 @@ def validate_and_confirm_changes(original_oncotree,
                                           modified_oncotree,
                                           oncotree_codes_to_internal_ids,
                                           modified_resource_uri_to_internal_ids)
-    validate_and_display_modified_precursors(modified_precursor_id_to_internal_ids,
-                                             modified_oncotree,
-                                             internal_ids_to_oncotree_codes,
-                                             modified_internal_id_set)
-    validate_and_display_modified_revocations(modified_revocation_id_to_internal_ids,
-                                              modified_oncotree,
-                                              internal_ids_to_oncotree_codes,
-                                              modified_internal_id_set,
-                                              modified_precursor_id_to_internal_ids,
-                                              new_internal_ids)
+    validate_precursors(modified_precursor_id_to_internal_ids,
+                        internal_ids_to_oncotree_codes,
+                        modified_internal_id_set)
+    print("\nPrecursors:")
+    display_precursors_or_revocations(original_precursor_id_to_internal_ids,
+                       modified_precursor_id_to_internal_ids,
+                       original_oncotree,
+                       modified_oncotree,
+                       internal_ids_to_oncotree_codes,
+                       modified_internal_id_set)
+    validate_revocations(modified_revocation_id_to_internal_ids,
+                         modified_oncotree,
+                         internal_ids_to_oncotree_codes,
+                         modified_internal_id_set,
+                         modified_precursor_id_to_internal_ids,
+                         new_internal_ids)
+    print("\nRevocations:")
+    display_precursors_or_revocations(original_revocation_id_to_internal_ids,
+                       modified_revocation_id_to_internal_ids,
+                       original_oncotree,
+                       modified_oncotree,
+                       internal_ids_to_oncotree_codes,
+                       modified_internal_id_set)
     display_possible_id_changes(removed_internal_ids,
                                 new_internal_ids,
                                 original_oncotree,
@@ -631,8 +692,8 @@ def main():
     # 2. read the csv data and put into various data structures to look things up later
     original_oncotree, \
         original_resource_uri_to_internal_ids, \
-        _, \
-        _, \
+        original_precursor_id_to_internal_ids, \
+        original_revocation_id_to_internal_ids, \
         original_resource_uri_to_labels = get_oncotree_data_from_csv_file(original_file)
     modified_oncotree, \
         modified_resource_uri_to_internal_ids, \
@@ -657,7 +718,9 @@ def main():
     # 4. say what has changed and confirm they are wanted
     validate_and_confirm_changes(original_oncotree,
                     modified_oncotree,
+                    original_precursor_id_to_internal_ids,
                     modified_precursor_id_to_internal_ids,
+                    original_revocation_id_to_internal_ids,
                     modified_revocation_id_to_internal_ids,
                     original_resource_uri_to_internal_ids,
                     modified_resource_uri_to_internal_ids,
