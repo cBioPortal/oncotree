@@ -212,8 +212,12 @@ def display_possible_id_changes(removed_internal_ids,
 
         if not diff['values_changed']: # do we care about anything besides values_changed?
             found_id_change_with_no_data_change = True
-            original_pretty_label = construct_pretty_label_for_row(original_data[graphite.CSV_INTERNAL_ID], original_data[graphite.CSV_ONCOTREE_CODE], original_data[graphite.CSV_LABEL])
-            modified_pretty_label = construct_pretty_label_for_row(modified_data[graphite.CSV_INTERNAL_ID], modified_data[graphite.CSV_ONCOTREE_CODE], modified_data[graphite.CSV_LABEL])
+            original_pretty_label = construct_pretty_label_for_row(original_data[graphite.CSV_INTERNAL_ID],
+                                                                   original_data[graphite.CSV_ONCOTREE_CODE],
+                                                                   original_data[graphite.CSV_LABEL])
+            modified_pretty_label = construct_pretty_label_for_row(modified_data[graphite.CSV_INTERNAL_ID],
+                                                                   modified_data[graphite.CSV_ONCOTREE_CODE],
+                                                                   modified_data[graphite.CSV_LABEL])
             # what changes really are important?  probably not color for example
             changed_ids.add(f"\t'{original_pretty_label}' -> '{modified_pretty_label}'")
     if changed_ids:
