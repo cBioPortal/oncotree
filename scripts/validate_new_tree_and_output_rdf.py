@@ -129,14 +129,14 @@ def validate_and_display_new_internal_ids(new_internal_ids,
     else:
         print("\tNone")
 
-def display_precursor_or_revocation_of_list(precursor_id,
+def display_precursor_or_revocation_of_list(precursor_or_revocation_id,
                                             internal_ids_to_oncotree_codes,
-                                            precursor_id_to_internal_ids,
+                                            precursor_or_revocation_id_to_internal_ids,
                                             oncotree):
-    precursor_code = internal_ids_to_oncotree_codes[precursor_id] if precursor_id in internal_ids_to_oncotree_codes else "unknown"
-    print(f"\t\t'{precursor_id}' ('{precursor_code}')'")
-    precursor_of_set = precursor_id_to_internal_ids[precursor_id]
-    for internal_id in sorted(precursor_of_set):
+    oncotree_code = internal_ids_to_oncotree_codes[precursor_or_revocation_id] if precursor_or_revocation_id in internal_ids_to_oncotree_codes else "unknown"
+    print(f"\t\t'{precursor_or_revocation_id}' ('{oncotree_code}')'")
+    precursor_or_revocation_of_set = precursor_or_revocation_id_to_internal_ids[precursor_or_revocation_id]
+    for internal_id in sorted(precursor_or_revocation_of_set):
         data = oncotree[internal_id]
         pretty_label = construct_pretty_label_for_row(data[graphite.CSV_INTERNAL_ID],
                                                       data[graphite.CSV_ONCOTREE_CODE],
@@ -160,57 +160,57 @@ def validate_precursors(modified_precursor_id_to_internal_ids,
                 print(f"Error: '{precursor_id}' ('{precursor_code}') is a precuror to '{','.join(modified_precursor_id_to_internal_ids[precursor_id])}' but '{precursor_id}' is still in this file as a current record", file=sys.stderr)
                 sys.exit(1)
 
-def display_precursors_or_revocations(original_precursor_id_to_internal_ids,
-                       modified_precursor_id_to_internal_ids,
+def display_precursors_or_revocations(original_precursor_or_revocation_id_to_internal_ids,
+                       modified_precursor_or_revocation_id_to_internal_ids,
                        original_oncotree,
                        modified_oncotree,
                        internal_ids_to_oncotree_codes,
                        modified_internal_id_set):
     # now see if there are any changes
-    original_precursor_ids = set(original_precursor_id_to_internal_ids.keys())
-    modified_precursor_ids = set(modified_precursor_id_to_internal_ids.keys())
-    removed_precursors = original_precursor_ids - modified_precursor_ids
-    new_precursors = modified_precursor_ids - original_precursor_ids
-    in_both_precursors = original_precursor_ids & modified_precursor_ids
-    changed_precursors = set({})
-    if in_both_precursors:
-        for precursor_id in in_both_precursors:
-            if (original_precursor_id_to_internal_ids[precursor_id] !=
-                    modified_precursor_id_to_internal_ids[precursor_id]):
-                changed_precursors.add(precursor_id)
+    original_precursor_or_revocation_ids = set(original_precursor_or_revocation_id_to_internal_ids.keys())
+    modified_precursor_or_revocation_ids = set(modified_precursor_or_revocation_id_to_internal_ids.keys())
+    removed_precursor_or_revocations = original_precursor_or_revocation_ids - modified_precursor_or_revocation_ids
+    new_precursor_or_revocations = modified_precursor_or_revocation_ids - original_precursor_or_revocation_ids
+    in_both_precursor_or_revocations = original_precursor_or_revocation_ids & modified_precursor_or_revocation_ids
+    changed_precursor_or_revocations = set({})
+    if in_both_precursor_or_revocations:
+        for precursor_or_revocation_id in in_both_precursor_or_revocations:
+            if (original_precursor_or_revocation_id_to_internal_ids[precursor_or_revocation_id] !=
+                    modified_precursor_or_revocation_id_to_internal_ids[precursor_or_revocation_id]):
+                changed_precursor_or_revocations.add(precursor_or_revocation_id)
 
-    if new_precursors or changed_precursors or removed_precursors:
-        if new_precursors:
+    if new_precursor_or_revocations or changed_precursor_or_revocations or removed_precursor_or_revocations:
+        if new_precursor_or_revocations:
             print("\tNew:")
-            for precursor_id in sorted(new_precursors):
-                display_precursor_or_revocation_of_list(precursor_id,
+            for precursor_or_revocation_id in sorted(new_precursor_or_revocations):
+                display_precursor_or_revocation_or_revocation_of_list(precursor_or_revocation_id,
                                                         internal_ids_to_oncotree_codes,
-                                                        modified_precursor_id_to_internal_ids,
+                                                        modified_precursor_or_revocation_id_to_internal_ids,
                                                         modified_oncotree)
 
-        if changed_precursors:
+        if changed_precursor_or_revocations:
             print("\tChanged:")
-            for precursor_id in sorted(changed_precursors):
-                original_precursor_of_set = set(original_precursor_id_to_internal_ids[precursor_id])
-                modified_precursor_of_set = set(modified_precursor_id_to_internal_ids[precursor_id])
+            for precursor_or_revocation_id in sorted(changed_precursor_or_revocations):
+                original_precursor_or_revocation_of_set = set(original_precursor_or_revocation_id_to_internal_ids[precursor_or_revocation_id])
+                modified_precursor_or_revocation_of_set = set(modified_precursor_or_revocation_id_to_internal_ids[precursor_or_revocation_id])
                 print("\t\tBefore")
-                display_precursor_or_revocation_of_list(precursor_id,
+                display_precursor_or_revocation_of_list(precursor_or_revocation_id,
                                                         internal_ids_to_oncotree_codes,
-                                                        original_precursor_id_to_internal_ids,
+                                                        original_precursor_or_revocation_id_to_internal_ids,
                                                         original_oncotree)
                 print("\t\tAfter")
-                display_precursor_or_revocation_of_list(precursor_id,
+                display_precursor_or_revocation_of_list(precursor_or_revocation_id,
                                                         internal_ids_to_oncotree_codes,
-                                                        modified_precursor_id_to_internal_ids,
+                                                        modified_precursor_or_revocation_id_to_internal_ids,
                                                         modified_oncotree)
 
-        if removed_precursors:
+        if removed_precursor_or_revocations:
             print("\tRemoved -- ARE YOU SURE YOU MEANT TO DO THIS?")
             # TODO is this an error?
-            for precursor_id in sorted(removed_precursors):
-                display_precursor_or_revocation_of_list(precursor_id,
+            for precursor_or_revocation_id in sorted(removed_precursor_or_revocations):
+                display_precursor_or_revocation_of_list(precursor_or_revocation_id,
                                           internal_ids_to_oncotree_codes,
-                                          original_precursor_id_to_internal_ids,
+                                          original_precursor_or_revocation_id_to_internal_ids,
                                           original_oncotree)
     else:
         print("\tNone")
