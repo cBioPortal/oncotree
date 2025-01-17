@@ -433,7 +433,7 @@ def validate_and_confirm_changes(original_oncotree,
     if not confirm_change("\nPlease confirm that all of the above changes are intentional."):
         print("ERROR: You  have said that not all changes are intentional.  Please correct your input file and run this script again.", file=sys.stderr)
         sys.exit(2)
-    if not confirm_change("\nYou must manually delete all removed oncotree codes.  Please confirm you will do this."):
+    if not confirm_change("\nYou must manually delete all removed oncotree codes.  They should all be at the root level of the tree (at the tissue level).  They no longer have parents.  Please confirm you will manually delete these."):
         print("ERROR: You have not confirmed that you will delete all removed oncotree codes manually.  Please run this script again and confirm.", file=sys.stderr)
         sys.exit(2)
 
@@ -481,7 +481,7 @@ def field_is_required(field, field_name, internal_id, csv_file):
         print(f"'{field_name}' is a required field in '{csv_file}'. It is empty for '{internal_id}'", file=sys.stderr)
         sys.exit(1)
 
-def field_is_unique(field, field_name, column_set, internal_id, csv_file):
+def field_is_unique(field, field_name, column_set, csv_file):
     # don't count "" duplicates -- these should be dealt with in required field check
     if field != "" and field in column_set:
         print(f"{field_name} must be unique.  There is more than one record with '{field}' in '{csv_file}'", file=sys.stderr)
@@ -572,17 +572,14 @@ def validate_csv_file(csv_file,
             field_is_unique(row[graphite.CSV_RESOURCE_URI],
                             graphite.CSV_RESOURCE_URI,
                             resource_uri_set,
-                            row[graphite.CSV_INTERNAL_ID],
                             csv_file)
             field_is_unique(row[graphite.CSV_INTERNAL_ID],
                             graphite.CSV_INTERNAL_ID,
                             internal_id_set,
-                            row[graphite.CSV_ONCOTREE_CODE],
                             csv_file)
             field_is_unique(row[graphite.CSV_ONCOTREE_CODE],
                             graphite.CSV_ONCOTREE_CODE,
                             oncotree_code_set,
-                            row[graphite.CSV_INTERNAL_ID],
                             csv_file)
             resource_uri_set.add(row[graphite.CSV_RESOURCE_URI])
             internal_id_set.add(row[graphite.CSV_INTERNAL_ID])
