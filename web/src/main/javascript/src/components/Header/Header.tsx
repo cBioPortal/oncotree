@@ -153,8 +153,15 @@ export default function Header({
           >
             Mapping
           </Link>
-          <Link className={style["header-link"]} to={PageRoutes.ABOUT}>
-            About
+          <Link
+            className={style["header-link"]}
+            style={{ marginRight: 40 }}
+            to={PageRoutes.ABOUT}
+          >
+            ABOUT
+          </Link>
+          <Link className={style["header-link"]} to={PageRoutes.FAQ}>
+            FAQ
           </Link>
         </div>
         {headerLinksHidden && (
@@ -238,6 +245,7 @@ export default function Header({
           </Link>
           <Link
             className={style["header-link"]}
+            style={{ marginBottom: 10 }}
             to={PageRoutes.ABOUT}
             onClick={() => {
               setShowMobileLinks(false);
@@ -245,6 +253,16 @@ export default function Header({
             }}
           >
             About
+          </Link>
+          <Link
+            className={style["header-link"]}
+            to={PageRoutes.FAQ}
+            onClick={() => {
+              setShowMobileLinks(false);
+              setShowMobileSearch(false);
+            }}
+          >
+            FAQ
           </Link>
         </div>
       </div>
