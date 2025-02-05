@@ -321,6 +321,7 @@ def validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
                                                           internal_ids_to_oncotree_codes):
     code_change_messages = []
     parent_change_messages = []
+    main_type_change_messages = []
     for internal_id in in_both_internal_ids:
         original_data = original_oncotree[internal_id]
         modified_data = modified_oncotree[internal_id]
@@ -337,6 +338,9 @@ def validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
 
         if original_data[graphite.CSV_ONCOTREE_CODE] != modified_data[graphite.CSV_ONCOTREE_CODE]:
             code_change_messages.append(f"\t'{original_pretty_label}' -> '{modified_pretty_label}'")
+
+        if original_data[graphite.CSV_MAIN_TYPE] != modified_data[graphite.CSV_MAIN_TYPE]:
+            main_type_change_messages.append(f"\t'{original_data[graphite.CSV_MAIN_TYPE]}' -> '{modified_data[graphite.CSV_MAIN_TYPE]}'")
 
         if not is_tissue_node(modified_data): # tissue has no parents
             # these will be None if there wasn't a change
@@ -362,6 +366,13 @@ def validate_and_display_changes_for_in_both_internal_ids(in_both_internal_ids,
     if parent_change_messages:
         for message in parent_change_messages:
             print(message)
+    else:
+        print("\tNone")
+
+    print("\nMain type change")
+    if main_type_change_messages:
+        for message in main_type_change_messages:
+            print(message) 
     else:
         print("\tNone")
 
@@ -547,6 +558,7 @@ def validate_csv_file(csv_file,
                       required_fields,
                       resource_uri_to_internal_ids,
                       oncotree_codes_to_internal_ids,
+                      internal_ids_to_oncotree_codes,
                       resource_uri_to_labels):
     # these fields are required and must be unique
     resource_uri_set = set([])
@@ -564,6 +576,7 @@ def validate_csv_file(csv_file,
 
         label_mismatch_errors = []
         parent_invalid_errors = []
+        internal_id_errors = []
         for row in reader:
             required_fields_defined(row, required_fields, csv_file)
             parent_is_defined_if_not_tissue(row)
@@ -589,12 +602,18 @@ def validate_csv_file(csv_file,
             if row[graphite.CSV_LABEL] != row[graphite.CSV_PREFERRED_LABEL]:
                 label_mismatch_errors.append(f"{row[graphite.CSV_INTERNAL_ID]}: '{row[graphite.CSV_LABEL]}' != '{row[graphite.CSV_PREFERRED_LABEL]}'")
 
+            # check that the internal_id is already defined (and commited) in Github
+            if (row[graphite.CSV_INTERNAL_ID] not in internal_ids_to_oncotree_codes):
+                internal_id_errors.append(construct_pretty_label_for_row(row[graphite.CSV_INTERNAL_ID],
+                                                                         row[graphite.CSV_ONCOTREE_CODE],
+                                                                         row[graphite.CSV_LABEL]))
+                
             if is_tissue_node(row):
                 validate_has_no_parents(row)
             elif using_oncotree_code_to_define_parent(row): # this isn't the TISSUE node
                 # we are defining the parent using the oncotree code, so check that is valid
                 if not parent_oncotree_code_is_valid(row, oncotree_codes_to_internal_ids):
-                    parent_invalid_errors.append(f"Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which doesn't map to anything in file '{csv_file}'")
+                    parent_invalid_errors.append(f"Child '{row[graphite.CSV_ONCOTREE_CODE]}' has parent oncotree code '{row[graphite.CSV_PARENT_ONCOTREE_CODE]}' which doesn't map to anything in file '{csv_file}'.  If you have not defined the parent code in the Github file {GITHUB_RESOURCE_URI_TO_ONCOCODE_MAPPING_FILE_URL} you must define it there.")
                 elif parent_definition_in_conflict(row,
                                                    oncotree_codes_to_internal_ids,
                                                    resource_uri_to_internal_ids):
@@ -617,6 +636,11 @@ def validate_csv_file(csv_file,
         print(f"ERROR: Invalid parents found in '{csv_file}'.  Check that the oncotree code is valid if it was entered, or if you are using the resource uri/label pair, that they are defined in '{csv_file}'")
         for message in parent_invalid_errors:
             print(f"\t{message}")
+
+    if internal_id_errors:
+        print(f"ERROR: The following internal ids are not checked into the Github file {GITHUB_RESOURCE_URI_TO_ONCOCODE_MAPPING_FILE_URL}.  Please add them there and commit your changes.")
+        for internal_id in internal_id_errors:
+            print(f"\t{internal_id}")
 
     if label_mismatch_errors or parent_invalid_errors:
         sys.exit(1)
@@ -704,12 +728,14 @@ def main():
                       REQUIRED_FIELDS_ORIGINAL_FILE,
                       original_resource_uri_to_internal_ids,
                       oncotree_codes_to_internal_ids,
+                      internal_ids_to_oncotree_codes,
                       original_resource_uri_to_labels)
     validate_csv_file(modified_file,
                       CSV_EXPECTED_HEADER_MODIFIED_FILE,
                       REQUIRED_FIELDS,
                       modified_resource_uri_to_internal_ids,
                       oncotree_codes_to_internal_ids,
+                      internal_ids_to_oncotree_codes,
                       modified_resource_uri_to_labels)
 
     # 4. say what has changed and confirm they are wanted
