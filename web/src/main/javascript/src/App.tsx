@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import News from "./pages/News/News";
+import FAQ from "./pages/FAQ/FAQ";
 import {
   DEFAULT_VERSION,
   ONCOTREE_TREE_URL,
@@ -79,6 +80,7 @@ function App() {
           <Route path={PageRoutes.NEWS} element={<News />} />
           <Route path={PageRoutes.MAPPING} element={<Mapping />} />
           <Route path={PageRoutes.ABOUT} element={<About />} />
+          <Route path={PageRoutes.FAQ} element={<FAQ />} />
         </Routes>
       </div>
       <Footer />
