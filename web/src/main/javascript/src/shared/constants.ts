@@ -16,6 +16,7 @@ export enum PageRoutes {
   NEWS = "/news",
   MAPPING = "/mapping",
   ABOUT = "/about",
+  FAQ = "/faq",
 }
 
 export enum SearchByField {
