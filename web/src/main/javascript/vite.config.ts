@@ -7,5 +7,8 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     outDir: '../resources/static'
+  },
+  define: {
+    'process.env.API_URL': JSON.stringify(process.env.API_URL),
   }
 })

@@ -31,7 +31,7 @@ npm install && npm run dev
 
 The frontend must be transpiled to static assets before bundling into a jar. To do this follow the following steps:
 
-1. Ensure that the correct `ONCOTREE_BASE_URL` is specified in [constants.ts](/web/src/main/javascript/src/shared/constants.ts).
+1. Ensure that the correct `API_URL` is specified as an environment variable. Otherwise it will default to `"https://oncotree.mskcc.org"` as seen in in [constants.ts](/web/src/main/javascript/src/shared/constants.ts)
 2. Run the following:
 
     ```
