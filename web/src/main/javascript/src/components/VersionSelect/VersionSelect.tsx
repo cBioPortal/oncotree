@@ -47,8 +47,6 @@ export default function VersionSelect({
         const response = await fetch(ONCOTREE_VERSIONS_URL);
         const data: Version[] = await response.json();
 
-        // TODO: do we want to parse out when 'visible === false'? Currenly not doing that
-
         const versionOptions: VersionOption[] = [];
         for (const version of data) {
           const versionOption: VersionOption = {
@@ -58,6 +56,17 @@ export default function VersionSelect({
           };
           versionOptions.push(versionOption);
         }
+
+        versionOptions.sort((version1, version2) => {
+          if (version1.data.visible && !version2.data.visible) {
+            return -1;
+          }
+          if (!version1.data.visible && version2.data.visible) {
+            return 1;
+          }
+          return 0
+        })
+
         setVersionOptions(versionOptions);
       } catch {
         toast.error("Error fetching versions");
