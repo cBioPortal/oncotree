@@ -57,16 +57,6 @@ export default function VersionSelect({
           versionOptions.push(versionOption);
         }
 
-        versionOptions.sort((version1, version2) => {
-          if (version1.data.visible && !version2.data.visible) {
-            return -1;
-          }
-          if (!version1.data.visible && version2.data.visible) {
-            return 1;
-          }
-          return 0
-        })
-
         setVersionOptions(versionOptions);
       } catch {
         toast.error("Error fetching versions");
@@ -115,12 +105,15 @@ export default function VersionSelect({
         <ReactSelect
           placeholder={version || DEFAULT_VERSION}
           value={getSelectedVersion()}
-          options={versionOptions?.sort(
-            (a, b) =>
-              (new Date(a.data.release_date).getTime() -
-                new Date(b.data.release_date).getTime()) *
-              -1,
-          )}
+          options={versionOptions?.sort((a, b) => {
+            if (a.data.visible && !b.data.visible) {
+              return -1;
+            }
+            if (!a.data.visible && b.data.visible) {
+              return 1;
+            }
+            return (new Date(a.data.release_date).getTime() - new Date(b.data.release_date).getTime()) * -1;
+          })}
           onChange={(newValue) => {
             if (newValue) {
               searchParams.set("version", newValue.value);
