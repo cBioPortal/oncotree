@@ -1,5 +1,13 @@
 ### News
-#### November 2, 2021
+#### April 8, 2025
+ *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2021_11_02*.
+*   **New nodes added:**
+     * NUTM1 Renal Cell Carcinoma (NRCC)
+     * Adenocarcinoma in Retrorectal Cystic Hamartoma (ARCH)
+     * Xanthogranuloma (XGA)
+     * Three new nodes (NVRINT, MPNWP, MDSWP)initially intended only oncotree_candidate_release were added to this release.
+ *   **New mappings added** OncoTree now includes expanded NCI and UMLS mappings, improving coverage for previously missing cancer classifications.    
+ #### November 2, 2021
  *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_10_01*.
  *   **New nodes added:**
      * Desmoplastic/Nodular Medulloblastoma, NOS (DMBLNOS)
@@ -22,9 +30,9 @@
      * The following list of oncotree codes had the mainType shortened to drop the suffix "NOS": ADRENAL_GLAND, AMPULLA_OF_VATER, BILIARY_TRACT, BLADDER, BONE, BOWEL, BRAIN, BREAST, CERVIX, EYE, HEAD_NECK, KIDNEY, LIVER, LUNG, LYMPH, MYELOID, OTHER, OVARY, PANCREAS, PENIS, PERITONEUM, PLEURA, PNS, PROSTATE, SKIN, SOFT_TISSUE, STOMACH, TESTIS, THYMUS, THYROID, UTERUS, VULVA
      * Cholangiocarcinoma (CHOL) now has direct parent Intraductal Papillary Neoplasm of the Bile Duct (IPN) [previously: Biliary Tract (BILIARY_TRACT)]
      * Gallbladder Cancer (GBC) now has direct parent Intracholecystic Papillary Neoplasm (ICPN) [previously: Biliary Tract (BILIARY_TRACT)]
- *   **oncotree candidate release version additions:**
+ *   **Oncotree candidate release version additions:**
      * Three new nodes intended only for version oncotree_candidate_release were added (NVRINT, MPNWP, MDSWP). These nodes will not be incorperated into oncotree latest stable.
- *   **resources added**
+ *   **Resources added**
      * rdf formatted OWL ontology and taxomomy files for recent oncotree versions have been added to our github repository. They can be explored [here <span class="text-primary oi oi-external-link"></span>](https://github.com/cBioPortal/oncotree/tree/master/resources/rdf).
 #### November 4, 2020
  *   **Ontology to Ontology Mapping tool available**
