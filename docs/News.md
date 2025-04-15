@@ -1,6 +1,6 @@
 ### News
 #### April 8, 2025
- *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2021_11_02*.
+ *   **New Stable Release** OncoTree version *oncotree_2025_04_08* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2021_11_02*.
 *   **New nodes added:**
      * NUTM1 Renal Cell Carcinoma (NRCC)
      * Adenocarcinoma in Retrorectal Cystic Hamartoma (ARCH)
