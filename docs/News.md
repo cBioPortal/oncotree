@@ -5,7 +5,7 @@
      * NUTM1 Renal Cell Carcinoma (NRCC)
      * Adenocarcinoma in Retrorectal Cystic Hamartoma (ARCH)
      * Xanthogranuloma (XGA)
-     * Three new nodes (NVRINT, MPNWP, MDSWP)initially intended only oncotree_candidate_release were added to this release.
+     * Three new nodes (NVRINT, MPNWP, MDSWP) initially intended only oncotree_candidate_release were added to this release.
  *   **New mappings added** OncoTree now includes expanded NCI and UMLS mappings, improving coverage for previously missing cancer classifications.    
  #### November 2, 2021
  *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_10_01*.
