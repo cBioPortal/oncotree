@@ -1,4 +1,12 @@
-# News
+### News
+## April 8, 2025
+ *   **New Stable Release** OncoTree version *oncotree_2025_04_08* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2021_11_02*.
+ *   **New nodes added:**
+     * NUTM1 Renal Cell Carcinoma (NRCC)
+     * Adenocarcinoma in Retrorectal Cystic Hamartoma (ARCH)
+     * Xanthogranuloma (XGA)
+     * Three new nodes (NVRINT, MPNWP, MDSWP) initially intended only oncotree_candidate_release were added to this release.
+ *   **New mappings added** OncoTree now includes expanded NCI and UMLS mappings, improving coverage for previously missing cancer classifications.    
 ## November 2, 2021
  *   **New Stable Release** OncoTree version *oncotree_2021_11_02* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2020_10_01*.
  *   **New nodes added:**
