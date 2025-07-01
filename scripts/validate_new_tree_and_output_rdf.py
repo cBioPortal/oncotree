@@ -183,7 +183,7 @@ def display_precursors_or_revocations(original_precursor_or_revocation_id_to_int
         if new_precursor_or_revocations:
             print("\tNew:")
             for precursor_or_revocation_id in sorted(new_precursor_or_revocations):
-                display_precursor_or_revocation_or_revocation_of_list(precursor_or_revocation_id,
+                display_precursor_or_revocation_of_list(precursor_or_revocation_id,
                                                         internal_ids_to_oncotree_codes,
                                                         modified_precursor_or_revocation_id_to_internal_ids,
                                                         modified_oncotree)
