@@ -19,7 +19,7 @@ import About from "./pages/About/About";
 function App() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const version = searchParams.get("version");
+  const version = searchParams.get("version") ?? DEFAULT_VERSION;
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
@@ -35,7 +35,7 @@ function App() {
 
   useEffect(() => {
     try {
-      version ? fetchData(version) : fetchData(DEFAULT_VERSION);
+      fetchData(version);
     } catch {
       toast.error("Error fetching OncoTree data");
     }
