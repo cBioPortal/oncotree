@@ -24,6 +24,11 @@ func main() {
 	}
 
 	fileToErrors := make(map[string][]string)
+	missingMappings := make(map[string]struct{}, len(sortedTreeFiles)-1)
+	for i := 0; i < len(sortedTreeFiles)-1; i++ {
+		missingMappings[sortedTreeFiles[i].Name] = struct{}{}
+	}
+
 	for _, file := range mappingFiles {
 		mappingFileName := file.Name()
 		errors := make([]string, 0)
@@ -63,6 +68,7 @@ func main() {
 			fileToErrors[mappingFileName] = errors
 			continue
 		}
+		delete(missingMappings, mappedFrom+".json")
 
 		mappedFromTree, err := internal.ReadTreeFromFile(mappedFrom + ".json")
 		if err != nil {
@@ -146,12 +152,23 @@ func main() {
 		}
 	}
 
-	for key, val := range fileToErrors {
-		fmt.Println(key)
-		for _, err := range val {
-			println(err)
+	var errorMessage strings.Builder
+	if len(missingMappings) > 0 {
+		errorMessage.WriteString("General Errors:")
+		for key := range missingMappings {
+			errorMessage.WriteString(fmt.Sprintf("\n\t* Missing mapping for '%v'", internal.RemoveJsonFilenameExtension(key)))
 		}
-		fmt.Println()
+		errorMessage.WriteString("\n")
+	}
+	for file, errors := range fileToErrors {
+		errorMessage.WriteString(fmt.Sprintf("\nErrors for %v:", file))
+		for _, err := range errors {
+			errorMessage.WriteString(fmt.Sprintf("\n\t* %v", err))
+		}
+		errorMessage.WriteString("\n")
+	}
+	if errorMessage.Len() > 0 {
+		log.Fatal(errorMessage.String())
 	}
 }
 
