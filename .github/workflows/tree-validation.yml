@@ -23,10 +23,24 @@ jobs:
       run: go run ./cmd/validate-trees/main.go
       working-directory: ./web/src/main/go
     
+    - name: Validate mappings
+      id: validate-mappings
+      run: go run ./cmd/validate-mappings/main.go
+      continue-on-error: true
+      working-directory: ./web/src/main/go
+
     - name: Generate mappings
+      if: steps.validate-mappings.outcome == 'failure'
       run: go run ./cmd/generate-mappings/main.go
       working-directory: ./web/src/main/go
-    
-    - name: Validate mappings
-      run: go run ./cmd/validate-mappings/main.go
-      working-directory: ./web/src/main/go
+
+    - name: Upload generated mappings
+      if: steps.validate-mappings.outcome == 'failure'
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-mappings
+        path: trees/mappings/**
+
+    - name: Fail workflow if validation failed
+      if: steps.validate-mappings.outcome == 'failure'
+      run: exit 1
