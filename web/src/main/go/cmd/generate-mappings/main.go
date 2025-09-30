@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cBioPortal/oncotree/web/src/main/go/internal"
+	"github.com/cBioPortal/oncotree/internal"
 )
 
 func main() {
