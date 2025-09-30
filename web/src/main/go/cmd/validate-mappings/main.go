@@ -31,6 +31,10 @@ func main() {
 
 	for _, file := range mappingFiles {
 		mappingFileName := file.Name()
+		if mappingFileName == ".gitkeep" {
+			continue
+		}
+
 		errors := make([]string, 0)
 
 		// File name validations

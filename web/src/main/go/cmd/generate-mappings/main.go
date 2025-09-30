@@ -63,11 +63,6 @@ func main() {
 			}
 		}
 
-		err = os.MkdirAll(internal.MAPPING_FILES_PATH, os.ModePerm)
-		if err != nil {
-			log.Fatalf("error creating mapping files directory: %v", err)
-		}
-
 		err = os.WriteFile(mappingFilepath, []byte(mappingFile.String()), os.ModePerm)
 		if err != nil {
 			log.Fatalf("error writing mapping file '%v': %v", mappingFilename, err)
