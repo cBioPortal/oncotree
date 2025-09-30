@@ -6,7 +6,9 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -26,6 +28,33 @@ func ReadTreeFromFile(name string) (Tree, error) {
 }
 
 var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2}).json$`)
+
+type DatedFile struct {
+	Name string
+	Date time.Time
+}
+
+func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
+	treeFiles, err := os.ReadDir(TREE_FILES_PATH)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading '%v' directory: %v", TREE_FILES_PATH, err)
+	}
+
+	filesWithDate := make([]DatedFile, 0)
+	for _, file := range treeFiles {
+		if !file.IsDir() {
+			date, err := GetDateFromFilename(file.Name())
+			if err == nil {
+				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date})
+			}
+		}
+	}
+	sort.Slice(filesWithDate, func(i, j int) bool {
+		return filesWithDate[i].Date.Before(filesWithDate[j].Date)
+	})
+
+	return filesWithDate, nil
+}
 
 func GetDateFromFilename(name string) (time.Time, error) {
 	matches := filenameWithDateRegex.FindStringSubmatch(name)
@@ -53,6 +82,21 @@ func GetDateFromFilename(name string) (time.Time, error) {
 	return date, nil
 }
 
+func GetCodes(tree Tree) (map[string]struct{}, error) {
+	codes := make(map[string]struct{})
+	err := tree.BFS(func(node TreeNode) {
+		codes[node.Code] = struct{}{}
+	})
+	if err != nil {
+		return nil, err
+	}
+	return codes, nil
+}
+
 func GetTreeFilepath(name string) string {
-	return filepath.Join("./trees", name)
+	return filepath.Join(TREE_FILES_PATH, name)
+}
+
+func RemoveJsonFilenameExtension(name string) string {
+	return strings.Replace(name, ".json", "", 1)
 }

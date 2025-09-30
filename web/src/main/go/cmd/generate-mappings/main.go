@@ -6,37 +6,19 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
-	"time"
 
 	"github.com/cBioPortal/oncotree/web/src/main/go/internal"
 )
 
 func main() {
-	treeFiles, err := os.ReadDir(internal.TREE_FILES_PATH)
-	if err != nil {
-		log.Fatalf("Error reading '%v' directory: %v", internal.TREE_FILES_PATH, err)
-	}
-
-	filesWithDate := make([]DatedFile, 0)
-	for _, file := range treeFiles {
-		if !file.IsDir() {
-			date, err := internal.GetDateFromFilename(file.Name())
-			if err == nil {
-				filesWithDate = append(filesWithDate, DatedFile{name: file.Name(), date: date})
-			}
-		}
-	}
-	sort.Slice(filesWithDate, func(i, j int) bool {
-		return filesWithDate[i].date.Before(filesWithDate[j].date)
-	})
+	filesWithDate, err := internal.GetSortedTreeFilesWithDate()
 
 	for i := range len(filesWithDate) - 1 {
-		prevFilename := filesWithDate[i].name
-		nextFilename := filesWithDate[i+1].name
-		mappingFilename := removeJsonFilenameExtension(prevFilename) + "_to_" + removeJsonFilenameExtension(nextFilename) + ".tsv"
-		mappingFilepath := filepath.Join(internal.TREE_FILES_PATH, "mappings", mappingFilename)
+		prevFilename := filesWithDate[i].Name
+		nextFilename := filesWithDate[i+1].Name
+		mappingFilename := internal.RemoveJsonFilenameExtension(prevFilename) + "_to_" + internal.RemoveJsonFilenameExtension(nextFilename) + ".tsv"
+		mappingFilepath := filepath.Join(internal.MAPPING_FILES_PATH, mappingFilename)
 
 		_, err = os.Stat(mappingFilepath)
 		if err == nil {
@@ -56,18 +38,18 @@ func main() {
 			log.Fatal(err)
 		}
 
-		prevTreeCodes, err := getCodes(prevTree)
+		prevTreeCodes, err := internal.GetCodes(prevTree)
 		if err != nil {
 			log.Fatalf("error retrieving codes from '%v': %v", prevFilename, err)
 		}
 
-		nextTreeCodes, err := getCodes(nextTree)
+		nextTreeCodes, err := internal.GetCodes(nextTree)
 		if err != nil {
 			log.Fatalf("error retrieving codes from '%v': %v", nextFilename, err)
 		}
 
 		var mappingFile strings.Builder
-		mappingFile.WriteString(fmt.Sprintf("%v\t%v", removeJsonFilenameExtension(prevFilename), removeJsonFilenameExtension(nextFilename)))
+		mappingFile.WriteString(fmt.Sprintf("%v\t%v", internal.RemoveJsonFilenameExtension(prevFilename), internal.RemoveJsonFilenameExtension(nextFilename)))
 		for code := range prevTreeCodes {
 			_, exists := nextTreeCodes[code]
 			newCode := ""
@@ -86,24 +68,4 @@ func main() {
 			log.Fatalf("error writing mapping file '%v': %v", mappingFilename, err)
 		}
 	}
-}
-
-func getCodes(tree internal.Tree) (map[string]struct{}, error) {
-	codes := make(map[string]struct{})
-	err := tree.BFS(func(node internal.TreeNode) {
-		codes[node.Code] = struct{}{}
-	})
-	if err != nil {
-		return nil, err
-	}
-	return codes, nil
-}
-
-func removeJsonFilenameExtension(name string) string {
-	return strings.Replace(name, ".json", "", 1)
-}
-
-type DatedFile struct {
-	name string
-	date time.Time
 }
