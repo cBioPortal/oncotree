@@ -43,4 +43,6 @@ jobs:
 
     - name: Fail workflow if validation failed
       if: steps.validate-mappings.outcome == 'failure'
-      run: exit 1
+      run: |
+        echo "Mapping validation failed. See the 'Validate Mappings' step for more details."
+        exit 1
