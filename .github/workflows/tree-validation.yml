@@ -1,7 +1,6 @@
-name: Run Go Commands
+name: Validate Tree and Mappings
 
-on:
-  on: [push, pull_request]
+on: [push, pull_request]
 
 jobs:
   run-go-commands:
