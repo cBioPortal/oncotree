@@ -1,12 +1,7 @@
 name: Run Go Commands
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  # Allows manual trigger from Actions tab
-  workflow_dispatch:
+  on: [push, pull_request]
 
 jobs:
   run-go-commands:
