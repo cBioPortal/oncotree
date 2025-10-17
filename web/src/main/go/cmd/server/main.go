@@ -8,12 +8,16 @@ import (
 	"strings"
 	"time"
 
+	_ "github.com/cBioPortal/oncotree/docs"
 	"github.com/cBioPortal/oncotree/internal"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+
 	logrus "github.com/sirupsen/logrus"
+
 	swaggerFiles "github.com/swaggo/files"
+
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
@@ -131,7 +135,13 @@ func main() {
 	router.GET("/mapping.html", func(c *gin.Context) { c.File("../resources/static/mapping.html") })
 	router.GET("/about.html", func(c *gin.Context) { c.File("../resources/static/about.html") })
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// TODO: Get swagger working
+	url := ginSwagger.URL("doc.json") // or use your actual doc path
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler,
+		ginSwagger.DocExpansion("none"),
+		ginSwagger.DefaultModelsExpandDepth(-1),
+		url,
+	))
 
 	// Register API routes
 	router.GET("/api/versions", versionsHandler)
@@ -149,6 +159,7 @@ func serveIndex(c *gin.Context) {
 }
 
 // @Summary Get all OncoTree versions
+// @Tags TreeVersions
 // @Produce json
 // @Success 200 {array} Version
 // @Failure 503 {string} string "Service Unavailable"
@@ -166,6 +177,7 @@ func versionsHandler(c *gin.Context) {
 }
 
 // @Summary Get Tumor Types TXT
+// @Tags TumorTypesTxt
 // @Description Returns tumor types in tab-separated plain text format from a specified OncoTree JSON version
 // @Produce plain
 // @Param version query string false "Tree version (e.g. 2024_01_01). Defaults to latest stable."
@@ -183,6 +195,7 @@ func tumorTypesTxtHandler(c *gin.Context) {
 	treeFile := fmt.Sprintf("%s.json", version)
 
 	content, err := generateTumorTypesTSV(treeFile)
+
 	if err != nil {
 		c.Error(fmt.Errorf("failed to generate tumor types TXT: %w", err))
 		c.String(http.StatusInternalServerError, "Failed to generate tumor types TXT")
@@ -193,6 +206,7 @@ func tumorTypesTxtHandler(c *gin.Context) {
 }
 
 // MainTypes handler
+// @Tags MainTypes
 // @Summary Get all main tumor types
 // @Produce json
 // @Param version query string false "The version of tumor types. Defaults to latest stable."
@@ -218,6 +232,7 @@ func mainTypesHandler(c *gin.Context) {
 }
 
 // @Summary Get flattened tumor types list
+// @Tags TumorTypes
 // @Produce json
 // @Param version query string false "The version of tumor types. Defaults to latest stable."
 // @Success 200 {array} internal.TreeNode
@@ -225,6 +240,11 @@ func mainTypesHandler(c *gin.Context) {
 // @Router /api/tumorTypes [get]
 func tumorTypesFlatHandler(c *gin.Context) {
 	version := c.DefaultQuery("version", GetDefaultTreeVersion())
+	if !isValidVersion(version) {
+		c.String(http.StatusBadRequest, "Invalid version")
+		return
+	}
+
 	treeFile := fmt.Sprintf("%s.json", version)
 
 	tree, err := internal.ReadTreeFromFile(treeFile)
@@ -239,6 +259,7 @@ func tumorTypesFlatHandler(c *gin.Context) {
 }
 
 // @Summary Get nested tumor types tree
+// @Tags TumorTypes
 // @Produce json
 // @Param version query string false "The version of tumor types. Defaults to latest stable."
 // @Success 200 {object} map[string]internal.TreeNode
@@ -246,6 +267,11 @@ func tumorTypesFlatHandler(c *gin.Context) {
 // @Router /api/tumorTypes/tree [get]
 func tumorTypesTreeHandler(c *gin.Context) {
 	version := c.DefaultQuery("version", GetDefaultTreeVersion())
+	if !isValidVersion(version) {
+		c.String(http.StatusBadRequest, "Invalid version")
+		return
+	}
+
 	treeFile := fmt.Sprintf("%s.json", version)
 
 	raw, err := os.ReadFile(internal.GetTreeFilepath(treeFile))
@@ -258,6 +284,7 @@ func tumorTypesTreeHandler(c *gin.Context) {
 }
 
 // @Summary Search tumor types by type and query
+// @Tags TumorTypes
 // @Produce json
 // @Param type path string true "Query type: code, name, mainType, etc."
 // @Param query path string true "Query string"
@@ -284,8 +311,12 @@ func tumorTypesSearchHandler(c *gin.Context) {
 	queryType := c.Param("type")
 	queryStr := c.Param("query")
 	version := c.DefaultQuery("version", GetDefaultTreeVersion())
+	if !isValidVersion(version) {
+		c.String(http.StatusBadRequest, "Invalid version")
+		return
+	}
 	exactMatch := c.DefaultQuery("exactMatch", "true") == "true"
-	levelsStr := c.DefaultQuery("levels", "1,2,3,4,5")
+	levelsStr := c.DefaultQuery("levels", "1,2,3,4,5,6,7")
 
 	treeFile := fmt.Sprintf("%s.json", version)
 
