@@ -1,0 +1,348 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "OncoTree API definition from MSKCC",
+        "title": "OncoTree API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/api/mainTypes": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MainTypes"
+                ],
+                "summary": "Get all main tumor types",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Required data source unavailable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tumorTypes": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TumorTypes"
+                ],
+                "summary": "Get flattened tumor types list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal.TreeNode"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tumorTypes/search/{type}/{query}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TumorTypes"
+                ],
+                "summary": "Search tumor types by type and query",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Query type: code, name, mainType, etc.",
+                        "name": "type",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Query string",
+                        "name": "query",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tree version",
+                        "name": "version",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Exact match (default true)",
+                        "name": "exactMatch",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal.TreeNode"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tumorTypes/tree": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TumorTypes"
+                ],
+                "summary": "Get nested tumor types tree",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "#/definitions/internal.TreeNode"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tumor_types.txt": {
+            "get": {
+                "description": "Returns tumor types in tab-separated plain text format from a specified OncoTree JSON version",
+                "produces": [
+                    "text/plain"
+                ],
+                "tags": [
+                    "TumorTypesTxt"
+                ],
+                "summary": "Get Tumor Types TXT",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tree version (e.g. 2024_01_01). Defaults to latest stable.",
+                        "name": "version",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "TSV content as plain text",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/versions": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TreeVersions"
+                ],
+                "summary": "Get all OncoTree versions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Version"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "internal.ExternalReferences": {
+            "type": "object",
+            "properties": {
+                "nci": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "umls": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "internal.Tree": {
+            "type": "object",
+            "additionalProperties": {
+                "$ref": "#/definitions/internal.TreeNode"
+            }
+        },
+        "internal.TreeNode": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "$ref": "#/definitions/internal.Tree"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "externalReferences": {
+                    "$ref": "#/definitions/internal.ExternalReferences"
+                },
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "mainType": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent": {
+                    "type": "string"
+                },
+                "precursors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "revocations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "tissue": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.Version": {
+            "type": "object",
+            "properties": {
+                "api_identifier": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
