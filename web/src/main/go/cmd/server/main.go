@@ -137,6 +137,7 @@ func main() {
 
 	// TODO: Get swagger working
 	url := ginSwagger.URL("doc.json") // or use your actual doc path
+	router.GET("/swagger-ui.html", serveSwaggerUIHtml)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler,
 		ginSwagger.DocExpansion("none"),
 		ginSwagger.DefaultModelsExpandDepth(-1),
@@ -156,6 +157,9 @@ func main() {
 
 func serveIndex(c *gin.Context) {
 	c.File("../resources/static/index.html")
+}
+func serveSwaggerUIHtml(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "/swagger/index.html")
 }
 
 // @Summary Get all OncoTree versions
