@@ -1,4 +1,40 @@
 # News
+## October 9, 2025
+ *   **New Stable Release** OncoTree version *oncotree_2025_10_03* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2025_04_08*.
+ *   **New nodes added:**
+	 * Adult-Type Diffuse Glioma (ADIFG)
+	 * Astrocytoma, IDH-Mutant, Grade 2 (ASTR2)
+	 * Astrocytoma, IDH-Mutant, Grade 3 (ASTR3)
+	 * Astrocytoma, IDH-Mutant, Grade 4 (ASTR4)
+	 * Pediatric-Type Diffuse High-Grade Glioma (PDIFHG)
+	 * Pediatric-Type Diffuse Low-Grade Glioma (PDIFLG)
+	 * Oligodendroglioma, IDH-mutant, and 1p/19q-Codeleted, Grade 2 (ODG2)
+	 * Oligodendroglioma, IDH-mutant, and 1p/19q-Codeleted, Grade 3 (ODG3)
+	 * Diffuse Hemispheric Glioma, H3 G34-Mutant (DHG)
+	 * Diffuse Midline Glioma, H3 K27-Altered (DMG)
+	 * Diffuse Pediatric-Type High-Grade Glioma, H3-Wildtype and IDH-Wildtype (DPHGG)
+	 * Infant-Type Hemispheric Glioma (IHG)
+	 * Diffuse Low-Grade Glioma, MAPK Pathway-Altered (DLGGMAPK)
+ *   **Nodes reclassified**
+	 * Astrocytoma, IDH-Mutant (ASTR) now has direct parent Adult-Type Diffuse Glioma (ADIFG) [previously: Diffuse Glioma (DIFG)]
+	 * Glioblastoma, IDH-Wildtype (GB)now has direct parent Adult-Type Diffuse Glioma (ADIFG) [previously: Diffuse Glioma (DIFG)]
+	 * Oligodendroglioma, IDH-mutant, and 1p/19q-Codeleted (ODG) now has direct parent Adult-Type Diffuse Glioma (ADIFG) [previously: Diffuse Glioma (DIFG)]
+	 * Angiocentric Glioma (ANGL) now has direct parent Pediatric-Type Diffuse Low-Grade Glioma (PDIFLG) [previously: Miscellaneous Neuroepithelial Tumor (MNET)]
+	 * Diffuse Astrocytoma (DASTR) now has direct parent Pediatric-Type Diffuse Low-Grade Glioma (PDIFLG) [previously: Diffuse Glioma (DIFG)]
+	 * Low-Grade Neuroepithelial Tumor (LGNET) now has direct parent Pediatric-Type Diffuse Low-Grade Glioma (PDIFLG) [previously: Miscellaneous Brain Tumor (MBT)]
+ *   **Nodes with updated names:**
+	 * Astrocytoma, IDH-Mutant (ASTR) [previously: Astrocytoma (ASTR)]
+	 * Diffuse Astrocytoma, MYB- or MYBL1-Altered (DASTR) [previously: Diffuse Astrocytoma (DASTR)]
+	 * Glioblastoma, IDH-Wildtype (GB)  [previously: Glioblastoma (GB)]
+	 * Oligodendroglioma, IDH-mutant, and 1p/19q-Codeleted (ODG) [previously: Oligodendroglioma (ODG)
+	 * Polymorphous Low-Grade Neuroepithelial Tumor of the Young (LGNET) [previously: Low-Grade Neuroepithelial Tumor (LGNET)]
+ *   **Node deleted:**
+	 * Glioblastoma Multiforme (GBM)
+	 * Anaplastic Astrocytoma (AASTR)
+	 * Anaplastic Oligoastrocytoma (AOAST)
+	 * Anaplastic Oligodendroglioma (AODG)
+	 * Diffuse Intrinsic Pontine Glioma (DIPG)
+	 * Oligoastrocytoma (OAST)
 ## April 8, 2025
  *   **New Stable Release** OncoTree version *oncotree_2025_04_08* is now the latest stable release. The previous stable version is still accessible as version *oncotree_2021_11_02*.
  *   **New nodes added:**
