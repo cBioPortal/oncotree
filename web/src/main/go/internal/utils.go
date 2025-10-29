@@ -1,11 +1,15 @@
 package internal
 
 import (
+	"encoding/csv"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -27,12 +31,19 @@ func ReadTreeFromFile(name string) (Tree, error) {
 	return tree, nil
 }
 
-var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2}).json$`)
+var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})\.(json|txt)$`)
 
 type DatedFile struct {
 	Name string
 	Date time.Time
 }
+
+type DatedFileFormat int
+
+const (
+	JSON DatedFileFormat = iota
+	TXT
+)
 
 func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
 	treeFiles, err := os.ReadDir(TREE_FILES_PATH)
@@ -40,11 +51,31 @@ func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
 		return nil, fmt.Errorf("Error reading '%v' directory: %v", TREE_FILES_PATH, err)
 	}
 
+	tsvFiles, err := os.ReadDir(TSV_FILES_PATH)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading '%v' directory: %v", TSV_FILES_PATH, err)
+	}
+
 	filesWithDate := make([]DatedFile, 0)
-	for _, file := range treeFiles {
+	for _, file := range tsvFiles {
 		if !file.IsDir() {
 			date, err := GetDateFromFilename(file.Name())
 			if err == nil {
+				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date})
+			}
+		}
+	}
+	for _, file := range treeFiles {
+		if !file.IsDir() {
+			date, err := GetDateFromFilename(file.Name())
+			alreadyContainsDate := false
+			for _, file := range filesWithDate {
+				if file.Date.Equal(date) {
+					alreadyContainsDate = true
+					break
+				}
+			}
+			if err == nil && !alreadyContainsDate {
 				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date})
 			}
 		}
@@ -82,14 +113,55 @@ func GetDateFromFilename(name string) (time.Time, error) {
 	return date, nil
 }
 
-func GetCodes(tree Tree) (map[string]struct{}, error) {
+func GetCodes(filename string) (map[string]struct{}, error) {
 	codes := make(map[string]struct{})
-	err := tree.BFS(func(node TreeNode) {
-		codes[node.Code] = struct{}{}
-	})
-	if err != nil {
-		return nil, err
+
+	if strings.HasSuffix(filename, ".json") {
+		tree, err := ReadTreeFromFile(filename)
+		if err != nil {
+			return nil, err
+		}
+
+		err = tree.BFS(func(node *TreeNode, _ uint) {
+			codes[node.Code] = struct{}{}
+		})
+		if err != nil {
+			return nil, err
+		}
+		return codes, nil
+	} else {
+		file, err := os.Open(filepath.Join(TSV_FILES_PATH, filename))
+		if err != nil {
+			return nil, fmt.Errorf("error reading file '%v': %v", file.Name, err)
+		}
+
+		reader := csv.NewReader(file)
+		reader.Comma = '\t'
+
+		headerRow, err := reader.Read()
+		if err == io.EOF {
+			return nil, errors.New("missing header row")
+		} else if err != nil {
+			return nil, fmt.Errorf("error parsing header row: %s", err)
+		}
+
+		codeIndex := slices.Index(headerRow, CODE_HEADER)
+		if codeIndex == -1 {
+			return nil, fmt.Errorf("header row missing '%v' column", CODE_HEADER)
+		}
+
+		rowNumber := 1
+		for {
+			row, err := reader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return nil, fmt.Errorf("error parsing row %v", rowNumber)
+			}
+			codes[row[codeIndex]] = struct{}{}
+		}
 	}
+
 	return codes, nil
 }
 
@@ -97,6 +169,7 @@ func GetTreeFilepath(name string) string {
 	return filepath.Join(TREE_FILES_PATH, name)
 }
 
-func RemoveJsonFilenameExtension(name string) string {
+func (file *DatedFile) GetDatedFilenameWithoutExtension() string {
+	name := strings.Replace(file.Name, ".txt", "", 1)
 	return strings.Replace(name, ".json", "", 1)
 }

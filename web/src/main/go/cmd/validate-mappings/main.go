@@ -26,7 +26,7 @@ func main() {
 	fileToErrors := make(map[string][]string)
 	missingMappings := make(map[string]struct{}, len(sortedTreeFiles)-1)
 	for i := 0; i < len(sortedTreeFiles)-1; i++ {
-		missingMappings[sortedTreeFiles[i].Name] = struct{}{}
+		missingMappings[sortedTreeFiles[i].GetDatedFilenameWithoutExtension()] = struct{}{}
 	}
 
 	for _, file := range mappingFiles {
@@ -50,10 +50,10 @@ func main() {
 		exists := false
 		expectedMappedTo := ""
 		for i, treeFile := range sortedTreeFiles {
-			if internal.RemoveJsonFilenameExtension(treeFile.Name) == mappedFrom {
+			if treeFile.GetDatedFilenameWithoutExtension() == mappedFrom {
 				exists = true
 				if i < len(sortedTreeFiles)-1 {
-					expectedMappedTo = internal.RemoveJsonFilenameExtension(sortedTreeFiles[i+1].Name)
+					expectedMappedTo = sortedTreeFiles[i+1].GetDatedFilenameWithoutExtension()
 				}
 				break
 			}
@@ -72,24 +72,27 @@ func main() {
 			fileToErrors[mappingFileName] = errors
 			continue
 		}
-		delete(missingMappings, mappedFrom+".json")
+		delete(missingMappings, mappedFrom)
 
-		mappedFromTree, err := internal.ReadTreeFromFile(mappedFrom + ".json")
+		mappedFromFilename := ""
+		mappedToFilename := ""
+		for _, file := range sortedTreeFiles {
+			if file.GetDatedFilenameWithoutExtension() == mappedFrom {
+				mappedFromFilename = file.Name
+			} else if file.GetDatedFilenameWithoutExtension() == mappedTo {
+				mappedToFilename = file.Name
+			}
+			if mappedFromFilename != "" && mappedToFilename != "" {
+				break
+			}
+		}
+
+		mappedFromCodes, err := internal.GetCodes(mappedFromFilename)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		mappedToTree, err := internal.ReadTreeFromFile(mappedTo + ".json")
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		mappedFromCodes, err := internal.GetCodes(mappedFromTree)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		mappedToCodes, err := internal.GetCodes(mappedToTree)
+		mappedToCodes, err := internal.GetCodes(mappedToFilename)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -160,7 +163,7 @@ func main() {
 	if len(missingMappings) > 0 {
 		errorMessage.WriteString("General Errors:")
 		for key := range missingMappings {
-			errorMessage.WriteString(fmt.Sprintf("\n\t* Missing mapping for '%v'", internal.RemoveJsonFilenameExtension(key)))
+			errorMessage.WriteString(fmt.Sprintf("\n\t* Missing mapping for '%v'", key))
 		}
 		errorMessage.WriteString("\n")
 	}
