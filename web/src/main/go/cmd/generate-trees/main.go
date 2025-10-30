@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/cBioPortal/oncotree/internal"
@@ -99,6 +100,18 @@ func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
 	}
 
 	codeToEquivalentCodes := make(map[string][]string)
+	firstTree, err := internal.ReadTreeFromFile(sortedMappingFiles[0].OldTree + ".json")
+	if err != nil {
+		return nil, err
+	}
+
+	firstTree.BFS(func(node *internal.TreeNode, _ uint) {
+		prevCodes := slices.Concat(node.Revocations, node.Precursors)
+		if len(prevCodes) > 0 {
+			codeToEquivalentCodes[node.Code] = prevCodes
+		}
+	})
+
 	for _, mappingFileData := range sortedMappingFiles {
 		if mappingFileData.OldTree == strings.Replace(filepath.Base(path), ".txt", "", 1) {
 			break
@@ -191,6 +204,9 @@ func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
 		newNode.History = []string{}
 		newNode.Revocations = []string{}
 		newNode.Precursors = codeToEquivalentCodes[code]
+		if newNode.Precursors == nil {
+			newNode.Precursors = []string{}
+		}
 
 		children, exists := codeToChildren[code]
 		if !exists {
