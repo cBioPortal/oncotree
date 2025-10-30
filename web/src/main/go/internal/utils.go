@@ -31,7 +31,7 @@ func ReadTreeFromFile(name string) (Tree, error) {
 	return tree, nil
 }
 
-var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})\.(json|txt)$`)
+var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})(?:\.(json|txt))?$`)
 
 type DatedFile struct {
 	Name string
@@ -163,6 +163,41 @@ func GetCodes(filename string) (map[string]struct{}, error) {
 	}
 
 	return codes, nil
+}
+
+type MappingFile struct {
+	OldTree string
+	NewTree string
+}
+
+func (file *MappingFile) GetName() string {
+	return file.OldTree + "_to_" + file.NewTree + ".txt"
+}
+
+func GetSortedMappingFilesWithDate() ([]MappingFile, error) {
+	mappingFileDirEntries, err := os.ReadDir(MAPPING_FILES_PATH)
+	if err != nil {
+		return nil, fmt.Errorf("error reading '%v' directory: %v", MAPPING_FILES_PATH, err)
+	}
+
+	mappingFiles := []MappingFile{}
+	for _, file := range mappingFileDirEntries {
+		if file.Name() == ".gitkeep" {
+			continue
+		}
+
+		pieces := strings.Split(strings.Replace(file.Name(), ".txt", "", 1), "_to_")
+		mappingFiles = append(mappingFiles, MappingFile{OldTree: pieces[0], NewTree: pieces[1]})
+	}
+
+	sort.Slice(mappingFiles, func(i, j int) bool {
+		// Don't check error: mapping files have been validated at this point
+		startDate1, _ := GetDateFromFilename(mappingFiles[i].OldTree)
+		startDate2, _ := GetDateFromFilename(mappingFiles[j].OldTree)
+
+		return startDate1.Before(startDate2)
+	})
+	return mappingFiles, nil
 }
 
 func GetTreeFilepath(name string) string {

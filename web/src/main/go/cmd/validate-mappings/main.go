@@ -40,7 +40,7 @@ func main() {
 		// File name validations
 		mappedTrees := strings.Split(file.Name(), "_to_")
 		mappedFrom := mappedTrees[0]
-		mappedTo := strings.Replace(mappedTrees[1], ".tsv", "", 1)
+		mappedTo := strings.Replace(mappedTrees[1], ".txt", "", 1)
 
 		if len(mappedTrees) != 2 {
 			errors = append(errors, fmt.Sprintf("Error: mapping file has invalid name: '%v'", mappingFileName))

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -21,7 +22,27 @@ func main() {
 
 	for _, file := range tsvs {
 		if !file.IsDir() {
-			CreateOncoTreeFromFile(filepath.Join(internal.TSV_FILES_PATH, file.Name()))
+			treeFilename := strings.Replace(file.Name(), ".txt", ".json", 1)
+			treeFilepath := internal.GetTreeFilepath(treeFilename)
+			_, err = os.Stat(treeFilepath)
+			if err == nil {
+				log.Printf("tree file '%v' already exists, skipping...", treeFilename)
+				continue
+			} else if !errors.Is(err, os.ErrNotExist) {
+				log.Fatalf("error getting file info for '%v'", treeFilename)
+			}
+
+			tree, err := CreateOncoTreeFromFile(filepath.Join(internal.TSV_FILES_PATH, file.Name()))
+			if err != nil {
+				log.Fatalf("error creating tree from file '%v': %v", file.Name(), tree)
+			}
+
+			treeBytes, err := json.Marshal(tree)
+			if err != nil {
+				log.Fatalf("error marshalling tree '%v': %v", treeFilename, err)
+			}
+
+			err = os.WriteFile(treeFilepath, treeBytes, os.ModePerm)
 		}
 	}
 }
@@ -72,6 +93,73 @@ func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
 		}
 	}
 
+	sortedMappingFiles, err := internal.GetSortedMappingFilesWithDate()
+	if err != nil {
+		return nil, err
+	}
+
+	codeToEquivalentCodes := make(map[string][]string)
+	for _, mappingFileData := range sortedMappingFiles {
+		if mappingFileData.OldTree == strings.Replace(filepath.Base(path), ".txt", "", 1) {
+			break
+		}
+
+		mappingFile, err := os.Open(filepath.Join(internal.MAPPING_FILES_PATH, mappingFileData.GetName()))
+		if err != nil {
+			return nil, err
+		}
+
+		mappingFileReader := csv.NewReader(mappingFile)
+		mappingFileReader.Comma = '\t'
+		_, err = mappingFileReader.Read()
+		if err == io.EOF {
+			return nil, errors.New("missing header row")
+		} else if err != nil {
+			return nil, fmt.Errorf("error parsing header row: %s", err)
+		}
+
+		rowNumber := 1
+		newCodeToEquivalentCodes := make(map[string][]string)
+		for {
+			row, err := mappingFileReader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return nil, fmt.Errorf("error parsing mapping file row %v", rowNumber)
+			}
+
+			if row[0] != row[1] {
+				newEquivalentCodes, exists := newCodeToEquivalentCodes[row[1]]
+				if exists {
+					newCodeToEquivalentCodes[row[1]] = append(newEquivalentCodes, row[0])
+				} else {
+					newCodeToEquivalentCodes[row[1]] = []string{row[0]}
+				}
+
+				codesToAdd, exists := codeToEquivalentCodes[row[0]]
+				if exists {
+					equivalentCodes, exists := codeToEquivalentCodes[row[1]]
+					if exists {
+						codeToEquivalentCodes[row[1]] = append(equivalentCodes, codesToAdd...)
+					} else {
+						codeToEquivalentCodes[row[1]] = codesToAdd
+					}
+				}
+			}
+			rowNumber++
+		}
+		mappingFile.Close()
+
+		for code, newEquivalentCodes := range newCodeToEquivalentCodes {
+			equivalentCodes, exists := codeToEquivalentCodes[code]
+			if exists {
+				codeToEquivalentCodes[code] = append(equivalentCodes, newEquivalentCodes...)
+			} else {
+				codeToEquivalentCodes[code] = newEquivalentCodes
+			}
+		}
+	}
+
 	root := internal.Tree{}
 	rowNumber := 1
 	codeToChildren := make(map[string]internal.Tree)
@@ -101,6 +189,8 @@ func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
 		parentCode := row[parentIndex]
 		newNode.Parent = stringToPointer(parentCode)
 		newNode.History = []string{}
+		newNode.Revocations = []string{}
+		newNode.Precursors = codeToEquivalentCodes[code]
 
 		children, exists := codeToChildren[code]
 		if !exists {
