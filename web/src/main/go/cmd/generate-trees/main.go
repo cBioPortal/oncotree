@@ -21,6 +21,7 @@ func main() {
 		log.Fatalf("Error reading '%v' directory: %v", internal.TSV_FILES_PATH, err)
 	}
 
+	previousCodeGetter := realPreviousCodeGetter{}
 	for _, file := range tsvs {
 		if !file.IsDir() {
 			treeFilename := strings.Replace(file.Name(), ".txt", ".json", 1)
@@ -33,7 +34,7 @@ func main() {
 				log.Fatalf("error getting file info for '%v'", treeFilename)
 			}
 
-			tree, err := CreateOncoTreeFromFile(filepath.Join(internal.TSV_FILES_PATH, file.Name()))
+			tree, err := CreateOncoTreeFromFile(filepath.Join(internal.TSV_FILES_PATH, file.Name()), &previousCodeGetter)
 			if err != nil {
 				log.Fatalf("error creating tree from file '%v': %v", file.Name(), tree)
 			}
@@ -48,7 +49,7 @@ func main() {
 	}
 }
 
-func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
+func CreateOncoTreeFromFile(path string, previousCodeGetter PreviousCodeGetter) (internal.Tree, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -94,83 +95,9 @@ func CreateOncoTreeFromFile(path string) (internal.Tree, error) {
 		}
 	}
 
-	sortedMappingFiles, err := internal.GetSortedMappingFilesWithDate()
+	codeToEquivalentCodes, err := previousCodeGetter.GetPreviousCodes(strings.Replace(filepath.Base(path), ".txt", "", 1))
 	if err != nil {
 		return nil, err
-	}
-
-	codeToEquivalentCodes := make(map[string][]string)
-	firstTree, err := internal.ReadTreeFromFile(sortedMappingFiles[0].OldTree + ".json")
-	if err != nil {
-		return nil, err
-	}
-
-	firstTree.BFS(func(node *internal.TreeNode, _ uint) {
-		prevCodes := slices.Concat(node.Revocations, node.Precursors)
-		if len(prevCodes) > 0 {
-			codeToEquivalentCodes[node.Code] = prevCodes
-		}
-	})
-
-	for _, mappingFileData := range sortedMappingFiles {
-		if mappingFileData.OldTree == strings.Replace(filepath.Base(path), ".txt", "", 1) {
-			break
-		}
-
-		mappingFile, err := os.Open(filepath.Join(internal.MAPPING_FILES_PATH, mappingFileData.GetName()))
-		if err != nil {
-			return nil, err
-		}
-
-		mappingFileReader := csv.NewReader(mappingFile)
-		mappingFileReader.Comma = '\t'
-		_, err = mappingFileReader.Read()
-		if err == io.EOF {
-			return nil, errors.New("missing header row")
-		} else if err != nil {
-			return nil, fmt.Errorf("error parsing header row: %s", err)
-		}
-
-		rowNumber := 1
-		newCodeToEquivalentCodes := make(map[string][]string)
-		for {
-			row, err := mappingFileReader.Read()
-			if err == io.EOF {
-				break
-			} else if err != nil {
-				return nil, fmt.Errorf("error parsing mapping file row %v", rowNumber)
-			}
-
-			if row[0] != row[1] {
-				newEquivalentCodes, exists := newCodeToEquivalentCodes[row[1]]
-				if exists {
-					newCodeToEquivalentCodes[row[1]] = append(newEquivalentCodes, row[0])
-				} else {
-					newCodeToEquivalentCodes[row[1]] = []string{row[0]}
-				}
-
-				codesToAdd, exists := codeToEquivalentCodes[row[0]]
-				if exists {
-					equivalentCodes, exists := codeToEquivalentCodes[row[1]]
-					if exists {
-						codeToEquivalentCodes[row[1]] = append(equivalentCodes, codesToAdd...)
-					} else {
-						codeToEquivalentCodes[row[1]] = codesToAdd
-					}
-				}
-			}
-			rowNumber++
-		}
-		mappingFile.Close()
-
-		for code, newEquivalentCodes := range newCodeToEquivalentCodes {
-			equivalentCodes, exists := codeToEquivalentCodes[code]
-			if exists {
-				codeToEquivalentCodes[code] = append(equivalentCodes, newEquivalentCodes...)
-			} else {
-				codeToEquivalentCodes[code] = newEquivalentCodes
-			}
-		}
 	}
 
 	root := internal.Tree{}
@@ -238,4 +165,93 @@ func stringToPointer(str string) *string {
 		return nil
 	}
 	return &str
+}
+
+type PreviousCodeGetter interface {
+	GetPreviousCodes(treeName string) (map[string][]string, error)
+}
+
+type realPreviousCodeGetter struct{}
+
+func (previousCodeGetter *realPreviousCodeGetter) GetPreviousCodes(treeName string) (map[string][]string, error) {
+	sortedMappingFiles, err := internal.GetSortedMappingFilesWithDate()
+	if err != nil {
+		return nil, err
+	}
+
+	codeToEquivalentCodes := make(map[string][]string)
+	firstTree, err := internal.ReadTreeFromFile(sortedMappingFiles[0].OldTree + ".json")
+	if err != nil {
+		return nil, err
+	}
+
+	firstTree.BFS(func(node *internal.TreeNode, _ uint) {
+		prevCodes := slices.Concat(node.Revocations, node.Precursors)
+		if len(prevCodes) > 0 {
+			codeToEquivalentCodes[node.Code] = prevCodes
+		}
+	})
+
+	for _, mappingFileData := range sortedMappingFiles {
+		if mappingFileData.OldTree == treeName {
+			break
+		}
+
+		mappingFile, err := os.Open(filepath.Join(internal.MAPPING_FILES_PATH, mappingFileData.GetName()))
+		if err != nil {
+			return nil, err
+		}
+
+		mappingFileReader := csv.NewReader(mappingFile)
+		mappingFileReader.Comma = '\t'
+		_, err = mappingFileReader.Read()
+		if err == io.EOF {
+			return nil, errors.New("missing header row")
+		} else if err != nil {
+			return nil, fmt.Errorf("error parsing header row: %s", err)
+		}
+
+		rowNumber := 1
+		newCodeToEquivalentCodes := make(map[string][]string)
+		for {
+			row, err := mappingFileReader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return nil, fmt.Errorf("error parsing mapping file row %v", rowNumber)
+			}
+
+			if row[0] != row[1] {
+				newEquivalentCodes, exists := newCodeToEquivalentCodes[row[1]]
+				if exists {
+					newCodeToEquivalentCodes[row[1]] = append(newEquivalentCodes, row[0])
+				} else {
+					newCodeToEquivalentCodes[row[1]] = []string{row[0]}
+				}
+
+				codesToAdd, exists := codeToEquivalentCodes[row[0]]
+				if exists {
+					equivalentCodes, exists := codeToEquivalentCodes[row[1]]
+					if exists {
+						codeToEquivalentCodes[row[1]] = append(equivalentCodes, codesToAdd...)
+					} else {
+						codeToEquivalentCodes[row[1]] = codesToAdd
+					}
+				}
+			}
+			rowNumber++
+		}
+		mappingFile.Close()
+
+		for code, newEquivalentCodes := range newCodeToEquivalentCodes {
+			equivalentCodes, exists := codeToEquivalentCodes[code]
+			if exists {
+				codeToEquivalentCodes[code] = append(equivalentCodes, newEquivalentCodes...)
+			} else {
+				codeToEquivalentCodes[code] = newEquivalentCodes
+			}
+		}
+	}
+
+	return codeToEquivalentCodes, nil
 }

@@ -18,11 +18,7 @@ jobs:
     - name: Install dependencies
       run: go mod download
       working-directory: ./web/src/main/go
-    
-    - name: Validate trees
-      run: go run ./cmd/validate-trees/main.go
-      working-directory: ./web/src/main/go
-    
+        
     - name: Validate mappings
       id: validate-mappings
       run: go run ./cmd/validate-mappings/main.go
@@ -32,6 +28,15 @@ jobs:
     - name: Generate mappings
       if: steps.validate-mappings.outcome == 'failure'
       run: go run ./cmd/generate-mappings/main.go
+      working-directory: ./web/src/main/go
+
+    - name: Generate trees
+      if: steps.validate-mappings.outcome == 'success'
+      run: go run ./cmd/generate-trees/main.go
+      working-directory: ./web/src/main/go
+
+    - name: Validate trees
+      run: go run ./cmd/validate-trees/main.go
       working-directory: ./web/src/main/go
 
     - name: Upload generated mappings

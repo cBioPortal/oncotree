@@ -19,7 +19,7 @@ func TestCreateOncoTreeFromFile(t *testing.T) {
 		t.Errorf("Error getting current working directory: %v", err)
 	}
 
-	tree, err := CreateOncoTreeFromFile(filepath.Join(path, testFile))
+	tree, err := CreateOncoTreeFromFile(filepath.Join(path, testFile), &MockPreviousCodeGetter{})
 	if err != nil {
 		t.Errorf("Error creating OncoTree from file: %v", err)
 	}
@@ -53,6 +53,12 @@ func TestCreateOncoTreeFromFile(t *testing.T) {
 
 	tr, _ := json.Marshal(tree)
 	fmt.Println(string(tr))
+}
+
+type MockPreviousCodeGetter struct{}
+
+func (previousCodeGetter *MockPreviousCodeGetter) GetPreviousCodes(treeName string) (map[string][]string, error) {
+	return make(map[string][]string), nil
 }
 
 func reportError(t *testing.T, expected map[uint][]string, actual map[uint][]string) {
