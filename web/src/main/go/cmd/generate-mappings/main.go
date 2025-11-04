@@ -15,9 +15,9 @@ func main() {
 	filesWithDate, err := internal.GetSortedTreeFilesWithDate()
 
 	for i := range len(filesWithDate) - 1 {
-		prevFilename := filesWithDate[i].Name
-		nextFilename := filesWithDate[i+1].Name
-		mappingFilename := internal.RemoveJsonFilenameExtension(prevFilename) + "_to_" + internal.RemoveJsonFilenameExtension(nextFilename) + ".tsv"
+		prevFile := filesWithDate[i]
+		nextFile := filesWithDate[i+1]
+		mappingFilename := prevFile.GetDatedFilenameWithoutExtension() + "_to_" + nextFile.GetDatedFilenameWithoutExtension() + ".txt"
 		mappingFilepath := filepath.Join(internal.MAPPING_FILES_PATH, mappingFilename)
 
 		_, err = os.Stat(mappingFilepath)
@@ -28,28 +28,18 @@ func main() {
 			log.Fatalf("error getting file info for '%v'", mappingFilename)
 		}
 
-		prevTree, err := internal.ReadTreeFromFile(prevFilename)
+		prevTreeCodes, err := internal.GetCodes(prevFile.Name)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("error retrieving codes from '%v': %v", prevFile.Name, err)
 		}
 
-		nextTree, err := internal.ReadTreeFromFile(nextFilename)
+		nextTreeCodes, err := internal.GetCodes(nextFile.Name)
 		if err != nil {
-			log.Fatal(err)
-		}
-
-		prevTreeCodes, err := internal.GetCodes(prevTree)
-		if err != nil {
-			log.Fatalf("error retrieving codes from '%v': %v", prevFilename, err)
-		}
-
-		nextTreeCodes, err := internal.GetCodes(nextTree)
-		if err != nil {
-			log.Fatalf("error retrieving codes from '%v': %v", nextFilename, err)
+			log.Fatalf("error retrieving codes from '%v': %v", nextFile, err)
 		}
 
 		var mappingFile strings.Builder
-		mappingFile.WriteString(fmt.Sprintf("%v\t%v", internal.RemoveJsonFilenameExtension(prevFilename), internal.RemoveJsonFilenameExtension(nextFilename)))
+		mappingFile.WriteString(fmt.Sprintf("%v\t%v", prevFile.GetDatedFilenameWithoutExtension(), nextFile.GetDatedFilenameWithoutExtension()))
 		for code := range prevTreeCodes {
 			_, exists := nextTreeCodes[code]
 			newCode := ""

@@ -125,7 +125,7 @@ func generateTumorTypesTSV(treeFile string) (string, error) {
 	var root internal.TreeNode
 	for _, node := range tree {
 		if node.Level == 0 {
-			root = node
+			root = *node
 			break
 		}
 	}
@@ -150,7 +150,7 @@ func generateTumorTypesTSV(treeFile string) (string, error) {
 func getMaxLevel(node internal.TreeNode) int {
 	max := int(node.Level)
 	for _, child := range node.Children {
-		if level := getMaxLevel(child); level > max {
+		if level := getMaxLevel(*child); level > max {
 			max = level
 		}
 	}
@@ -192,7 +192,7 @@ func writeTSVRows(node internal.TreeNode, levels []string, sb *strings.Builder) 
 func sortChildrenByName(children internal.Tree) []internal.TreeNode {
 	nodes := make([]internal.TreeNode, 0, len(children))
 	for _, node := range children {
-		nodes = append(nodes, node)
+		nodes = append(nodes, *node)
 	}
 	sort.Slice(nodes, func(i, j int) bool {
 		return nodes[i].Name < nodes[j].Name
@@ -216,7 +216,7 @@ func getMainTypes(treeFile string) ([]string, error) {
 
 	mainTypeSet := make(map[string]struct{})
 
-	err = tree.BFS(func(node internal.TreeNode) {
+	err = tree.BFS(func(node *internal.TreeNode, _ uint) {
 		if node.MainType != nil && *node.MainType != "" {
 			mainTypeSet[*node.MainType] = struct{}{}
 		}
@@ -236,10 +236,10 @@ func getMainTypes(treeFile string) ([]string, error) {
 
 func flattenTumorTypes(tree internal.Tree) []internal.TreeNode {
 	var flat []internal.TreeNode
-	_ = tree.BFS(func(node internal.TreeNode) {
+	_ = tree.BFS(func(node *internal.TreeNode, _ uint) {
 		if node.Level > 0 { // exclude root
 			node.Children = nil
-			flat = append(flat, node)
+			flat = append(flat, *node)
 		}
 	})
 	return flat

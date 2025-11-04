@@ -36,7 +36,7 @@ func main() {
 
 			codes := make(map[string]struct{})
 			codesWithMultipleNodes := make([]string, 0)
-			err = tree.BFS(func(node internal.TreeNode) {
+			err = tree.BFS(func(node *internal.TreeNode, _ uint) {
 				_, exists := codes[node.Code]
 				if exists && !slices.Contains(codesWithMultipleNodes, node.Code) {
 					codesWithMultipleNodes = append(codesWithMultipleNodes, node.Code)
