@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -25,7 +24,23 @@ type Version struct {
 	Visible       bool   `json:"visible"`
 }
 
+// LatestStableFile returns the filename and release date of the latest stable OncoTree file.
+func LatestStableVersionFile() (string, string, error) {
+	datedFiles, err := internal.GetSortedTreeFilesWithDate()
+	if err != nil {
+		return "", "", fmt.Errorf("failed to read tree files: %w", err)
+	}
+
+	latest := datedFiles[len(datedFiles)-1]
+
+	latestVersion := strings.TrimSuffix(latest.Name, filepath.Ext(latest.Name))
+	releaseDate := latest.Date.Format("2006-01-02")
+
+	return latestVersion, releaseDate, nil
+}
+
 func getHardcodedVersions() []Version {
+	_, latestReleaseDate, _ := LatestStableVersionFile()
 	return []Version{
 		{
 			ApiIdentifier: "oncotree_legacy_1.1",
@@ -48,14 +63,14 @@ func getHardcodedVersions() []Version {
 		{
 			ApiIdentifier: "oncotree_latest_stable",
 			Description:   "This is the latest approved version for public use.",
-			ReleaseDate:   "2025-10-03",
+			ReleaseDate:   latestReleaseDate,
 			Visible:       true,
 		},
 	}
 }
 
-func getTreeVersions(treeDir string) ([]Version, error) {
-	files, err := os.ReadDir(treeDir)
+func getTreeVersions() ([]Version, error) {
+	files, err := os.ReadDir(TreeDir)
 	if err != nil {
 		return nil, err
 	}
@@ -91,26 +106,27 @@ func getTreeVersions(treeDir string) ([]Version, error) {
 	return versions, nil
 }
 
-func GetAvailableVersionIdentifiers(treeDir string) ([]string, error) {
-	versions, err := getTreeVersions(treeDir)
-	if err != nil {
-		return nil, err
+func resolveAndValidateVersion(version string) (string, error) {
+	if version == "oncotree_latest_stable" {
+		latestVersion, _, err := LatestStableVersionFile()
+		if err != nil {
+			return "", err
+		}
+		if latestVersion == "" {
+			return "", fmt.Errorf("no stable version found")
+		}
+		version = latestVersion
+	} else {
+		filename := filepath.Join(TreeDir, fmt.Sprintf("%s.json", version))
+		if _, err := os.Stat(filename); err != nil {
+			if os.IsNotExist(err) {
+				return "", fmt.Errorf("invalid version: %s (file not found)", version)
+			}
+			return "", fmt.Errorf("error accessing version file: %w", err)
+		}
 	}
 
-	ids := make([]string, 0, len(versions))
-	for _, v := range versions {
-		ids = append(ids, v.ApiIdentifier)
-	}
-	return ids, nil
-}
-
-func isValidVersion(version string) bool {
-	treeDir := "../../../../trees"
-	versions, err := GetAvailableVersionIdentifiers(treeDir)
-	if err != nil {
-		return false
-	}
-	return slices.Contains(versions, version)
+	return version, nil
 }
 
 func generateTumorTypesTSV(treeFile string) (string, error) {
@@ -119,9 +135,7 @@ func generateTumorTypesTSV(treeFile string) (string, error) {
 		return "", fmt.Errorf("failed to read tree: %w", err)
 	}
 
-	var sb strings.Builder
-
-	// Assume only one root node (level 0)
+	// Find root node (Level 0)
 	var root internal.TreeNode
 	for _, node := range tree {
 		if node.Level == 0 {
@@ -130,66 +144,54 @@ func generateTumorTypesTSV(treeFile string) (string, error) {
 		}
 	}
 
-	// Compute maximum depth of the tree
-	maxLevel := getMaxLevel(root)
+	var rows []string
+	var maxLevel int
 
-	// Write TSV header
+	// Recursive DFS traversal
+	var dfs func(node internal.TreeNode, levels []string)
+	dfs = func(node internal.TreeNode, levels []string) {
+		level := int(node.Level)
+		if len(levels) < level {
+			for len(levels) < level {
+				levels = append(levels, "")
+			}
+		} else {
+			levels = levels[:level]
+		}
+
+		if node.Level > 0 {
+			levels[level-1] = fmt.Sprintf("%s (%s)", node.Name, node.Code)
+			rows = append(rows, nodeToTSVRow(node, levels))
+			if level > maxLevel {
+				maxLevel = level
+			}
+		}
+
+		// Sort children before recursion
+		for _, child := range sortedChildren(node.Children) {
+			dfs(child, levels)
+		}
+	}
+
+	dfs(root, nil)
+
+	// Build TSV output
+	var sb strings.Builder
 	for i := 1; i <= maxLevel; i++ {
 		sb.WriteString(fmt.Sprintf("level_%d\t", i))
 	}
 	sb.WriteString("metamaintype\tmetacolor\tmetanci\tmetaumls\thistory\n")
 
-	// Write rows via DFS
-	for _, child := range sortChildrenByName(root.Children) {
-		writeTSVRows(child, []string{}, &sb)
+	for _, row := range rows {
+		sb.WriteString(row)
+		sb.WriteByte('\n')
 	}
 
 	return sb.String(), nil
 }
 
-func getMaxLevel(node internal.TreeNode) int {
-	max := int(node.Level)
-	for _, child := range node.Children {
-		if level := getMaxLevel(*child); level > max {
-			max = level
-		}
-	}
-	return max
-}
-
-func writeTSVRows(node internal.TreeNode, levels []string, sb *strings.Builder) {
-	level := int(node.Level)
-
-	// Resize levels slice
-	if len(levels) < level {
-		for len(levels) < level {
-			levels = append(levels, "")
-		}
-	} else {
-		levels = levels[:level]
-	}
-
-	// Set current level
-	levels[level-1] = fmt.Sprintf("%s (%s)", node.Name, node.Code)
-
-	// Metadata fields
-	metamaintype := safeStr(node.MainType)
-	metacolor := safeStr(node.Color)
-	metanci := strings.Join(node.ExternalReferences.NCI, ",")
-	metaumls := strings.Join(node.ExternalReferences.UMLS, ",")
-	history := strings.Join(node.History, ",")
-
-	// Write row
-	sb.WriteString(strings.Join(levels, "\t") + "\t")
-	sb.WriteString(fmt.Sprintf("%s\t%s\t%s\t%s\t%s\n", metamaintype, metacolor, metanci, metaumls, history))
-
-	// Recurse into sorted children
-	for _, child := range sortChildrenByName(node.Children) {
-		writeTSVRows(child, levels, sb)
-	}
-}
-
-func sortChildrenByName(children internal.Tree) []internal.TreeNode {
+// Helper to convert node.Children (a map) into a sorted slice by name
+func sortedChildren(children internal.Tree) []internal.TreeNode {
 	nodes := make([]internal.TreeNode, 0, len(children))
 	for _, node := range children {
 		nodes = append(nodes, *node)
@@ -198,6 +200,19 @@ func sortChildrenByName(children internal.Tree) []internal.TreeNode {
 		return nodes[i].Name < nodes[j].Name
 	})
 	return nodes
+}
+
+func nodeToTSVRow(node internal.TreeNode, levels []string) string {
+	metamaintype := safeStr(node.MainType)
+	metacolor := safeStr(node.Color)
+	metanci := strings.Join(node.ExternalReferences.NCI, ",")
+	metaumls := strings.Join(node.ExternalReferences.UMLS, ",")
+	history := strings.Join(node.History, ",")
+
+	return fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s",
+		strings.Join(levels, "\t"),
+		metamaintype, metacolor, metanci, metaumls, history,
+	)
 }
 
 func safeStr(s *string) string {
@@ -284,7 +299,7 @@ func getValueByType(node internal.TreeNode, searchType string) string {
 		return node.Code
 	case "name":
 		return node.Name
-	case "maintype":
+	case "mainType":
 		if node.MainType != nil {
 			return *node.MainType
 		}

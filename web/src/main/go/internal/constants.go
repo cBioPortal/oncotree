@@ -1,8 +1,19 @@
 package internal
 
-import "path/filepath"
+import (
+	"os"
+	"path/filepath"
+)
 
-const TREE_FILES_PATH = "../../../../trees"
+var TREE_FILES_PATH string
+
+func init() {
+	treeDir := os.Getenv("TREE_DIR")
+	if treeDir == "" {
+		treeDir = "../../../../trees"
+	}
+	TREE_FILES_PATH, _ = filepath.Abs(treeDir)
+}
 
 var MAPPING_FILES_PATH = filepath.Join(TREE_FILES_PATH, "mappings")
 var TSV_FILES_PATH = filepath.Join(TREE_FILES_PATH, "tsv")

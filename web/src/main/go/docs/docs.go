@@ -27,7 +27,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "description": "The version of tumor types. For example, oncotree_latest_stable. Please see the versions api documentation for released versions.",
                         "name": "version",
                         "in": "query"
                     }
@@ -63,7 +63,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "description": "The version of tumor types. For example, oncotree_latest_stable. Please see the versions api documentation for released versions.",
                         "name": "version",
                         "in": "query"
                     }
@@ -99,21 +99,21 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Query type: code, name, mainType, etc.",
+                        "description": "Query type. It could be 'code', 'name', 'mainType', 'level', 'nci', 'umls' or 'color'",
                         "name": "type",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Query string",
+                        "description": "The query content",
                         "name": "query",
                         "in": "path",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "Tree version",
+                        "description": "The version of tumor types. For example, oncotree_latest_stable. Please see the versions api documentation for released versions.",
                         "name": "version",
                         "in": "query"
                     },
@@ -121,6 +121,13 @@ const docTemplate = `{
                         "type": "boolean",
                         "description": "Exact match (default true)",
                         "name": "exactMatch",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "\"1,2,3,4,5,6,7\"",
+                        "description": "Levels to include",
+                        "name": "levels",
                         "in": "query"
                     }
                 ],
@@ -167,7 +174,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The version of tumor types. Defaults to latest stable.",
+                        "description": "The version of tumor types. For example, oncotree_latest_stable. Please see the versions api documentation for released versions.",
                         "name": "version",
                         "in": "query"
                     }
@@ -204,7 +211,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Tree version (e.g. 2024_01_01). Defaults to latest stable.",
+                        "description": "The version of tumor types. For example, oncotree_latest_stable. Please see the versions api documentation for released versions.",
                         "name": "version",
                         "in": "query"
                     }
