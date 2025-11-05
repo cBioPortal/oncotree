@@ -271,13 +271,13 @@ const docTemplate = `{
         "internal.ExternalReferences": {
             "type": "object",
             "properties": {
-                "nci": {
+                "NCI": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "umls": {
+                "UMLS": {
                     "type": "array",
                     "items": {
                         "type": "string"

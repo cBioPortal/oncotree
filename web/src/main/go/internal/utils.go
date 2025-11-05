@@ -34,16 +34,10 @@ func ReadTreeFromFile(name string) (Tree, error) {
 var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})(?:\.(json|txt))?$`)
 
 type DatedFile struct {
-	Name string
-	Date time.Time
+	Name   string
+	Date   time.Time
+	HasTSV bool
 }
-
-type DatedFileFormat int
-
-const (
-	JSON DatedFileFormat = iota
-	TXT
-)
 
 func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
 	treeFiles, err := os.ReadDir(TREE_FILES_PATH)
@@ -61,7 +55,7 @@ func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
 		if !file.IsDir() {
 			date, err := GetDateFromFilename(file.Name())
 			if err == nil {
-				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date})
+				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date, HasTSV: true})
 			}
 		}
 	}
@@ -76,7 +70,7 @@ func GetSortedTreeFilesWithDate() ([]DatedFile, error) {
 				}
 			}
 			if err == nil && !alreadyContainsDate {
-				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date})
+				filesWithDate = append(filesWithDate, DatedFile{Name: file.Name(), Date: date, HasTSV: false})
 			}
 		}
 	}

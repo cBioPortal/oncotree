@@ -26,7 +26,9 @@ func main() {
 	fileToErrors := make(map[string][]string)
 	missingMappings := make(map[string]struct{}, len(sortedTreeFiles)-1)
 	for i := 0; i < len(sortedTreeFiles)-1; i++ {
-		missingMappings[sortedTreeFiles[i].GetDatedFilenameWithoutExtension()] = struct{}{}
+		if sortedTreeFiles[i+1].HasTSV {
+			missingMappings[sortedTreeFiles[i].GetDatedFilenameWithoutExtension()] = struct{}{}
+		}
 	}
 
 	for _, file := range mappingFiles {

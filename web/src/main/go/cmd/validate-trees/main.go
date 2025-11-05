@@ -23,9 +23,9 @@ func main() {
 
 			filename := file.Name()
 			if _, err := internal.GetDateFromFilename(filename); err != nil &&
-				filename != "oncotree_latest_stable.json" &&
-				filename != "oncotree_development.json" &&
-				filename != "oncotree_candidate_release.json" {
+				filename != internal.DEV_TREE_IDENTIFIER+".json" &&
+				filename != internal.CANDIDATE_TREE_IDENTIFIER+".json" &&
+				filename != internal.LEGACY_TREE_IDENTIFIER+".json" {
 				errors = append(errors, fmt.Sprintf("Invalid filename: %v", err))
 			}
 

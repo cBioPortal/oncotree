@@ -6,6 +6,8 @@ import (
 )
 
 var TREE_FILES_PATH string
+var MAPPING_FILES_PATH string
+var TSV_FILES_PATH string
 
 func init() {
 	treeDir := os.Getenv("TREE_DIR")
@@ -13,10 +15,16 @@ func init() {
 		treeDir = "../../../../trees"
 	}
 	TREE_FILES_PATH, _ = filepath.Abs(treeDir)
+	MAPPING_FILES_PATH = filepath.Join(TREE_FILES_PATH, "mappings")
+	TSV_FILES_PATH = filepath.Join(TREE_FILES_PATH, "tsv")
 }
 
-var MAPPING_FILES_PATH = filepath.Join(TREE_FILES_PATH, "mappings")
-var TSV_FILES_PATH = filepath.Join(TREE_FILES_PATH, "tsv")
+const (
+	LEGACY_TREE_IDENTIFIER        = "oncotree_legacy_1.1"
+	CANDIDATE_TREE_IDENTIFIER     = "oncotree_candidate_release"
+	DEV_TREE_IDENTIFIER           = "oncotree_development"
+	LATEST_STABLE_TREE_IDENTIFIER = "oncotree_latest_stable"
+)
 
 const (
 	CODE_HEADER      = "Code"

@@ -17,6 +17,13 @@ func main() {
 	for i := range len(filesWithDate) - 1 {
 		prevFile := filesWithDate[i]
 		nextFile := filesWithDate[i+1]
+
+		if !nextFile.HasTSV {
+			// fmt.Println(nextFile.Name)
+			continue
+		}
+		fmt.Println(nextFile.Name)
+
 		mappingFilename := prevFile.GetDatedFilenameWithoutExtension() + "_to_" + nextFile.GetDatedFilenameWithoutExtension() + ".txt"
 		mappingFilepath := filepath.Join(internal.MAPPING_FILES_PATH, mappingFilename)
 

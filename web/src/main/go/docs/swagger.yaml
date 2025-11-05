@@ -2,11 +2,11 @@ basePath: /
 definitions:
   internal.ExternalReferences:
     properties:
-      nci:
+      NCI:
         items:
           type: string
         type: array
-      umls:
+      UMLS:
         items:
           type: string
         type: array
@@ -68,7 +68,8 @@ paths:
   /api/mainTypes:
     get:
       parameters:
-      - description: The version of tumor types. Defaults to latest stable.
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
         in: query
         name: version
         type: string
@@ -93,7 +94,8 @@ paths:
       description: Returns tumor types in tab-separated plain text format from a specified
         OncoTree JSON version
       parameters:
-      - description: Tree version (e.g. 2024_01_01). Defaults to latest stable.
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
         in: query
         name: version
         type: string
@@ -118,7 +120,8 @@ paths:
   /api/tumorTypes:
     get:
       parameters:
-      - description: The version of tumor types. Defaults to latest stable.
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
         in: query
         name: version
         type: string
@@ -141,17 +144,19 @@ paths:
   /api/tumorTypes/search/{type}/{query}:
     get:
       parameters:
-      - description: 'Query type: code, name, mainType, etc.'
+      - description: Query type. It could be 'code', 'name', 'mainType', 'level',
+          'nci', 'umls' or 'color'
         in: path
         name: type
         required: true
         type: string
-      - description: Query string
+      - description: The query content
         in: path
         name: query
         required: true
         type: string
-      - description: Tree version
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
         in: query
         name: version
         type: string
@@ -159,6 +164,11 @@ paths:
         in: query
         name: exactMatch
         type: boolean
+      - default: '"1,2,3,4,5,6,7"'
+        description: Levels to include
+        in: query
+        name: levels
+        type: string
       produces:
       - application/json
       responses:
@@ -186,7 +196,8 @@ paths:
   /api/tumorTypes/tree:
     get:
       parameters:
-      - description: The version of tumor types. Defaults to latest stable.
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
         in: query
         name: version
         type: string
