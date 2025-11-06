@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+static
+public
 *.local
 vitepress/.vitepress/cache
 .eslintcache

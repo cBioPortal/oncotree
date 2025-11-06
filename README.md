@@ -40,6 +40,26 @@ The frontend must be transpiled to static assets before bundling into a jar. To 
     ```
 3. The frontend assets are now up to date, and you are ready to bundle the jar.
 
+## Backend Development
+All backend Go code can be found under /web/src/main/go. The backend provides the API for OncoTree and serves the frontend assets.
+
+From the root of the Go source:
+
+    ```
+    cd oncotree/web/src/main/go
+    swag init -g ./cmd/server/main.go -o ./docs
+    ```
+
+This will generate API documentation in the docs folder.
+
+### Running the Backend
+
+To start the backend server:
+
+    ```
+    go run ./cmd/server
+    ```
+
 ## OncoTree Mapping Tool
 
 The OncoTree Mapping Tool was developed to facilitate the mapping of OncoTree codes between different OncoTree release versions. To learn more about the OncoTree Converter tool, please refer to the [OncoTree Mapping documentation](/docs/OncoTree-Mapping-Tool.md).

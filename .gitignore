@@ -9,4 +9,6 @@ application.properties
 logback.xml
 *.pyc
 *.DS_Store
-
+web/src/main/javascript/public/
+web/src/main/resources/static 
+web/src/main/go/docs

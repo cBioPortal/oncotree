@@ -191,8 +191,8 @@
 ## April 23, 2018
  *   **New Web API Version Available**
      * A new version (v1.0.0) of the OncoTree Web API is available. It can be explored here:
-http://oncotree.mskcc.org/swagger-ui.html <br> The previous version is still available, but is scheduled to be discontinued May 31, 2018
-You can continue to access the previous version (v0.0.1) in its original location summarized here: ~~http://oncotree.mskcc.org/oncotree/swagger-ui.html~~
+http://oncotree.mskcc.org/swagger/index.html <br> The previous version is still available, but is scheduled to be discontinued May 31, 2018
+You can continue to access the previous version (v0.0.1) in its original location summarized here: ~~http://oncotree.mskcc.org/oncotree/swagger/index.html~~
  *   **Details and Migration Guidance**
      * The base URL for accessing all API functionality is being simplified from ~~http://oncotree.mskcc.org/oncotree/~~ to http://oncotree.mskcc.org/
      * <span class="oi oi-warning text-danger" aria-hidden="true"></span> The /api/tumor_types.txt endpoint is now deprecated. It is scheduled for deletion as part of the next API version release.
