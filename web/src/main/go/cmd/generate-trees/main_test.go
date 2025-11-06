@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"slices"
@@ -50,9 +48,6 @@ func TestCreateOncoTreeFromFile(t *testing.T) {
 			}
 		}
 	}
-
-	tr, _ := json.Marshal(tree)
-	fmt.Println(string(tr))
 }
 
 type MockPreviousCodeGetter struct{}

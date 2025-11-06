@@ -43,25 +43,25 @@ func getHardcodedVersions() []Version {
 	_, latestReleaseDate, _ := LatestStableVersionFile()
 	return []Version{
 		{
-			ApiIdentifier: "oncotree_legacy_1.1",
+			ApiIdentifier: internal.LEGACY_TREE_IDENTIFIER,
 			Description:   "This is the closest match in TopBraid for the TumorTypes_txt file associated with release 1.1 of OncoTree (approved by committee)",
 			ReleaseDate:   "2016-03-28",
 			Visible:       false,
 		},
 		{
-			ApiIdentifier: "oncotree_candidate_release",
+			ApiIdentifier: internal.CANDIDATE_TREE_IDENTIFIER,
 			Description:   "This version of the OncoTree reflects upcoming changes which have been approved for the next public release of oncotree. It also includes a small number of nodes which will not be included in the next public release (see the news page for more details). The next public release may possibly include additional oncotree nodes, if approved.",
 			ReleaseDate:   "2021-11-03",
 			Visible:       true,
 		},
 		{
-			ApiIdentifier: "oncotree_development",
+			ApiIdentifier: internal.DEV_TREE_IDENTIFIER,
 			Description:   "Latest OncoTree under development (subject to <b class=text-danger>change without notice</b>)",
 			ReleaseDate:   "2021-11-04",
 			Visible:       true,
 		},
 		{
-			ApiIdentifier: "oncotree_latest_stable",
+			ApiIdentifier: internal.LATEST_STABLE_TREE_IDENTIFIER,
 			Description:   "This is the latest approved version for public use.",
 			ReleaseDate:   latestReleaseDate,
 			Visible:       true,
@@ -253,8 +253,10 @@ func flattenTumorTypes(tree internal.Tree) []internal.TreeNode {
 	var flat []internal.TreeNode
 	_ = tree.BFS(func(node *internal.TreeNode, _ uint) {
 		if node.Level > 0 { // exclude root
-			node.Children = nil
+			children := node.Children
+			node.Children = internal.Tree{}
 			flat = append(flat, *node)
+			node.Children = children
 		}
 	})
 	return flat

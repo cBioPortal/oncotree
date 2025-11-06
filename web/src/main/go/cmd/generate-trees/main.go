@@ -23,7 +23,7 @@ func main() {
 
 	previousCodeGetter := realPreviousCodeGetter{}
 	for _, file := range tsvs {
-		if !file.IsDir() {
+		if !file.IsDir() && file.Name() != ".gitkeep" {
 			treeFilename := strings.Replace(file.Name(), ".txt", ".json", 1)
 			treeFilepath := internal.GetTreeFilepath(treeFilename)
 			_, err = os.Stat(treeFilepath)
