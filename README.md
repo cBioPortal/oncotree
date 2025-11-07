@@ -27,7 +27,7 @@ cd ./web/src/main/javascript
 npm install && npm run dev
 ```
 
-## Building the Frotend
+## Building the Frontend
 
 The frontend must be transpiled to static assets before bundling into a jar. To do this follow the following steps:
 
