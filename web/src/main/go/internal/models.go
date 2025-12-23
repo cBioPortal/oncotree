@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type Tree map[string]TreeNode
+type Tree map[string]*TreeNode
 
 type TreeNode struct {
 	Code               string             `json:"code"`
@@ -22,12 +22,12 @@ type TreeNode struct {
 }
 
 type ExternalReferences struct {
-	UMLS []string
-	NCI  []string
+	UMLS []string `json:"UMLS,omitempty"`
+	NCI  []string `json:"NCI,omitempty"`
 }
 
-func (tree Tree) BFS(onNodeVisited func(node TreeNode)) error {
-	nodes := make([]TreeNode, 0)
+func (tree Tree) BFS(onNodeVisited func(node *TreeNode, depth uint)) error {
+	nodes := make([]*TreeNode, 0)
 	for _, node := range tree {
 		nodes = append(nodes, node)
 	}
@@ -36,15 +36,17 @@ func (tree Tree) BFS(onNodeVisited func(node TreeNode)) error {
 		return fmt.Errorf("Error: tree has %v root nodes, expected 1", len(nodes))
 	}
 
+	var depth uint = 0
 	for len(nodes) > 0 {
-		newNodes := make([]TreeNode, 0)
+		newNodes := make([]*TreeNode, 0)
 		for _, node := range nodes {
-			onNodeVisited(node)
+			onNodeVisited(node, depth)
 			for _, newNode := range node.Children {
 				newNodes = append(newNodes, newNode)
 			}
 		}
 		nodes = newNodes
+		depth++
 	}
 
 	return nil

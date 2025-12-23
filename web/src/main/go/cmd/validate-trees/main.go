@@ -23,9 +23,9 @@ func main() {
 
 			filename := file.Name()
 			if _, err := internal.GetDateFromFilename(filename); err != nil &&
-				filename != "oncotree_latest_stable.json" &&
-				filename != "oncotree_development.json" &&
-				filename != "oncotree_candidate_release.json" {
+				filename != internal.DEV_TREE_IDENTIFIER+".json" &&
+				filename != internal.CANDIDATE_TREE_IDENTIFIER+".json" &&
+				filename != internal.LEGACY_TREE_IDENTIFIER+".json" {
 				errors = append(errors, fmt.Sprintf("Invalid filename: %v", err))
 			}
 
@@ -36,7 +36,7 @@ func main() {
 
 			codes := make(map[string]struct{})
 			codesWithMultipleNodes := make([]string, 0)
-			err = tree.BFS(func(node internal.TreeNode) {
+			err = tree.BFS(func(node *internal.TreeNode, _ uint) {
 				_, exists := codes[node.Code]
 				if exists && !slices.Contains(codesWithMultipleNodes, node.Code) {
 					codesWithMultipleNodes = append(codesWithMultipleNodes, node.Code)
