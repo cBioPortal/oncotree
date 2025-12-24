@@ -11,11 +11,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://oncotree.mskcc.org',
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
-        secure: true,
-      },
-    },
+        secure: false,
+      }
+    }
   },
 })

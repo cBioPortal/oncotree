@@ -1,0 +1,238 @@
+basePath: /
+definitions:
+  internal.ExternalReferences:
+    properties:
+      NCI:
+        items:
+          type: string
+        type: array
+      UMLS:
+        items:
+          type: string
+        type: array
+    type: object
+  internal.Tree:
+    additionalProperties:
+      $ref: '#/definitions/internal.TreeNode'
+    type: object
+  internal.TreeNode:
+    properties:
+      children:
+        $ref: '#/definitions/internal.Tree'
+      code:
+        type: string
+      color:
+        type: string
+      externalReferences:
+        $ref: '#/definitions/internal.ExternalReferences'
+      history:
+        items:
+          type: string
+        type: array
+      level:
+        type: integer
+      mainType:
+        type: string
+      name:
+        type: string
+      parent:
+        type: string
+      precursors:
+        items:
+          type: string
+        type: array
+      revocations:
+        items:
+          type: string
+        type: array
+      tissue:
+        type: string
+    type: object
+  main.Version:
+    properties:
+      api_identifier:
+        type: string
+      description:
+        type: string
+      release_date:
+        type: string
+      visible:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: OncoTree API definition from MSKCC
+  title: OncoTree API
+  version: 1.0.0
+paths:
+  /api/mainTypes:
+    get:
+      parameters:
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
+        in: query
+        name: version
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "503":
+          description: Required data source unavailable
+          schema:
+            type: string
+      summary: Get all main tumor types
+      tags:
+      - MainTypes
+  /api/tumor_types.txt:
+    get:
+      description: Returns tumor types in tab-separated plain text format from a specified
+        OncoTree JSON version
+      parameters:
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
+        in: query
+        name: version
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: TSV content as plain text
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Tumor Types TXT
+      tags:
+      - TumorTypesTxt
+  /api/tumorTypes:
+    get:
+      parameters:
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
+        in: query
+        name: version
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal.TreeNode'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Get flattened tumor types list
+      tags:
+      - TumorTypes
+  /api/tumorTypes/search/{type}/{query}:
+    get:
+      parameters:
+      - description: Query type. It could be 'code', 'name', 'mainType', 'level',
+          'nci', 'umls' or 'color'
+        in: path
+        name: type
+        required: true
+        type: string
+      - description: The query content
+        in: path
+        name: query
+        required: true
+        type: string
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
+        in: query
+        name: version
+        type: string
+      - description: Exact match (default true)
+        in: query
+        name: exactMatch
+        type: boolean
+      - default: '"1,2,3,4,5,6,7"'
+        description: Levels to include
+        in: query
+        name: levels
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal.TreeNode'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Search tumor types by type and query
+      tags:
+      - TumorTypes
+  /api/tumorTypes/tree:
+    get:
+      parameters:
+      - description: The version of tumor types. For example, oncotree_latest_stable.
+          Please see the versions api documentation for released versions.
+        in: query
+        name: version
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/internal.TreeNode'
+            type: object
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Get nested tumor types tree
+      tags:
+      - TumorTypes
+  /api/versions:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Version'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            type: string
+      summary: Get all OncoTree versions
+      tags:
+      - TreeVersions
+swagger: "2.0"
