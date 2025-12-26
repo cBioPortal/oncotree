@@ -1,1 +1,0 @@
-import{_ as e,c as t,o,a3 as a}from"./chunks/framework.CyEiTwkJ.js";const m=JSON.parse('{"title":"Contents","description":"","frontmatter":{},"headers":[],"relativePath":"mapping.md","filePath":"mapping.md"}'),d={name:"mapping.md"},r=a("",88),n=[r];function c(i,l,s,h,p,u){return o(),t("div",null,n)}const O=e(d,[["render",c]]);export{m as __pageData,O as default};
