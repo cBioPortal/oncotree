@@ -31,4 +31,5 @@ ENV STATIC_DIR=/root/backend/frontend/static
 
 EXPOSE 8080
 ENV GIN_MODE=release
+ENV APP_ENV=production
 CMD ["./main"]

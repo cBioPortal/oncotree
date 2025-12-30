@@ -20,6 +20,10 @@ func init() {
 }
 
 const (
+	DEV_TREE_GITHUB_RAW_URL = "https://raw.githubusercontent.com/cBioPortal/oncotree/master/trees/oncotree_development.json"
+)
+
+const (
 	LEGACY_TREE_IDENTIFIER        = "oncotree_legacy_1.1"
 	CANDIDATE_TREE_IDENTIFIER     = "oncotree_candidate_release"
 	DEV_TREE_IDENTIFIER           = "oncotree_development"
