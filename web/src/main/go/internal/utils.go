@@ -201,9 +201,9 @@ func (file *DatedFile) GetDatedFilenameWithoutExtension() string {
 }
 
 func GetTreeFilepath(name string) string {
-	env := os.Getenv("ENV")
+	appEnv := os.Getenv("APP_ENV")
 
-	if name == DEV_TREE_IDENTIFIER+".json" && env == "production" {
+	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
 		devTreePath := filepath.Join(TREE_FILES_PATH, DEV_TREE_IDENTIFIER+".json")
 		_ = fetchDevTreeIfChanged(devTreePath)
 	}
