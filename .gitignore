@@ -12,3 +12,5 @@ logback.xml
 web/src/main/javascript/public/
 web/src/main/resources/static 
 web/src/main/go/docs
+trees/oncotree_development.json.etag
+web/src/main/javascript/public/assets

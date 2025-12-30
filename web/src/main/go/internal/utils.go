@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"net/http"
 )
 
 func ReadTreeFromFile(name string) (Tree, error) {
@@ -194,11 +195,67 @@ func GetSortedMappingFilesWithDate() ([]MappingFile, error) {
 	return mappingFiles, nil
 }
 
-func GetTreeFilepath(name string) string {
-	return filepath.Join(TREE_FILES_PATH, name)
-}
-
 func (file *DatedFile) GetDatedFilenameWithoutExtension() string {
 	name := strings.Replace(file.Name, ".txt", "", 1)
 	return strings.Replace(name, ".json", "", 1)
+}
+
+func GetTreeFilepath(name string) string {
+	env := os.Getenv("ENV")
+
+	if name == DEV_TREE_IDENTIFIER+".json" && env == "production" {
+		devTreePath := filepath.Join(TREE_FILES_PATH, DEV_TREE_IDENTIFIER+".json")
+		_ = fetchDevTreeIfChanged(devTreePath)
+	}
+
+	return filepath.Join(TREE_FILES_PATH, name)
+}
+
+func fetchDevTreeIfChanged(devTreePath string) error {
+	etagPath := devTreePath + ".etag"
+
+	req, err := http.NewRequest("GET", DEV_TREE_GITHUB_RAW_URL, nil)
+	if err != nil {
+		return err
+	}
+
+	// Include If-None-Match header if we have a saved ETag
+	if etag, err := os.ReadFile(etagPath); err == nil {
+		req.Header.Set("If-None-Match", string(etag))
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	switch resp.StatusCode {
+	case http.StatusNotModified:
+		return nil // already up-to-date
+
+	case http.StatusOK:
+		tmp := devTreePath + ".tmp"
+		out, err := os.Create(tmp)
+		if err != nil {
+			return err
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, resp.Body); err != nil {
+			return err
+		}
+
+		if err := os.Rename(tmp, devTreePath); err != nil {
+			return err
+		}
+
+		if etag := resp.Header.Get("ETag"); etag != "" {
+			_ = os.WriteFile(etagPath, []byte(etag), 0644)
+		}
+		return nil
+
+	default:
+		return fmt.Errorf("unexpected status from GitHub: %s", resp.Status)
+	}
 }
