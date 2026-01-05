@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -14,10 +15,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"net/http"
 )
 
 func ReadTreeFromFile(name string) (Tree, error) {
+	if err := maybeUpdateDevTree(name); err != nil {
+		return nil, err
+	}
+
 	treeBytes, err := os.ReadFile(GetTreeFilepath(name))
 	if err != nil {
 		return nil, fmt.Errorf("error reading file '%v': %v", name, err)
@@ -30,6 +34,17 @@ func ReadTreeFromFile(name string) (Tree, error) {
 	}
 
 	return tree, nil
+}
+
+func maybeUpdateDevTree(name string) error {
+	appEnv := os.Getenv("APP_ENV")
+
+	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
+		devTreePath := filepath.Join(TREE_FILES_PATH, name)
+		return fetchDevTreeIfChanged(devTreePath)
+	}
+
+	return nil
 }
 
 var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})(?:\.(json|txt))?$`)
@@ -195,31 +210,30 @@ func GetSortedMappingFilesWithDate() ([]MappingFile, error) {
 	return mappingFiles, nil
 }
 
+func GetTreeFilepath(name string) string {
+	return filepath.Join(TREE_FILES_PATH, name)
+}
+
 func (file *DatedFile) GetDatedFilenameWithoutExtension() string {
 	name := strings.Replace(file.Name, ".txt", "", 1)
 	return strings.Replace(name, ".json", "", 1)
 }
 
-func GetTreeFilepath(name string) string {
-	appEnv := os.Getenv("APP_ENV")
-
-	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
-		devTreePath := filepath.Join(TREE_FILES_PATH, DEV_TREE_IDENTIFIER+".json")
-		_ = fetchDevTreeIfChanged(devTreePath)
+func fetchDevTreeIfChanged(devTreePath string) error {
+	cacheDir := filepath.Join(TREE_FILES_PATH, "..", "cache")
+	if err := os.MkdirAll(cacheDir, 0755); err != nil {
+		return fmt.Errorf("failed to create cache dir: %w", err)
 	}
 
-	return filepath.Join(TREE_FILES_PATH, name)
-}
+	base := filepath.Base(devTreePath)
+	tmpPath := filepath.Join(cacheDir, base+".tmp")
+	etagPath := filepath.Join(cacheDir, base+".etag")
 
-func fetchDevTreeIfChanged(devTreePath string) error {
-	etagPath := devTreePath + ".etag"
-
-	req, err := http.NewRequest("GET", DEV_TREE_GITHUB_RAW_URL, nil)
+	req, err := http.NewRequest(http.MethodGet, DEV_TREE_GITHUB_RAW_URL, nil)
 	if err != nil {
 		return err
 	}
 
-	// Include If-None-Match header if we have a saved ETag
 	if etag, err := os.ReadFile(etagPath); err == nil {
 		req.Header.Set("If-None-Match", string(etag))
 	}
@@ -232,11 +246,10 @@ func fetchDevTreeIfChanged(devTreePath string) error {
 
 	switch resp.StatusCode {
 	case http.StatusNotModified:
-		return nil // already up-to-date
+		return nil
 
 	case http.StatusOK:
-		tmp := devTreePath + ".tmp"
-		out, err := os.Create(tmp)
+		out, err := os.Create(tmpPath)
 		if err != nil {
 			return err
 		}
@@ -246,13 +259,16 @@ func fetchDevTreeIfChanged(devTreePath string) error {
 			return err
 		}
 
-		if err := os.Rename(tmp, devTreePath); err != nil {
+		if err := os.Rename(tmpPath, devTreePath); err != nil {
 			return err
 		}
 
 		if etag := resp.Header.Get("ETag"); etag != "" {
-			_ = os.WriteFile(etagPath, []byte(etag), 0644)
+			if err := os.WriteFile(etagPath, []byte(etag), 0644); err != nil {
+				return fmt.Errorf("failed to write etag: %w", err)
+			}
 		}
+
 		return nil
 
 	default:
