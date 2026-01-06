@@ -18,8 +18,12 @@ import (
 )
 
 func ReadTreeFromFile(name string) (Tree, error) {
-	if err := maybeUpdateDevTree(name); err != nil {
-		return nil, err
+	appEnv := os.Getenv("APP_ENV")
+	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
+		devTreePath := filepath.Join(TREE_FILES_PATH, name)
+		if err := fetchDevTreeIfChanged(devTreePath); err != nil {
+			return nil, err
+		}
 	}
 
 	treeBytes, err := os.ReadFile(GetTreeFilepath(name))
@@ -34,17 +38,6 @@ func ReadTreeFromFile(name string) (Tree, error) {
 	}
 
 	return tree, nil
-}
-
-func maybeUpdateDevTree(name string) error {
-	appEnv := os.Getenv("APP_ENV")
-
-	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
-		devTreePath := filepath.Join(TREE_FILES_PATH, name)
-		return fetchDevTreeIfChanged(devTreePath)
-	}
-
-	return nil
 }
 
 var filenameWithDateRegex = regexp.MustCompile(`^oncotree_(\d{4})_(\d{2})_(\d{2})(?:\.(json|txt))?$`)
