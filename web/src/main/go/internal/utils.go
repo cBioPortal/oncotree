@@ -18,17 +18,9 @@ import (
 )
 
 func ReadTreeFromFile(name string) (Tree, error) {
-	appEnv := os.Getenv("APP_ENV")
-	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
-		devTreePath := filepath.Join(TREE_FILES_PATH, name)
-		if err := fetchDevTreeIfChanged(devTreePath); err != nil {
-			return nil, err
-		}
-	}
-
-	treeBytes, err := os.ReadFile(GetTreeFilepath(name))
+	treeBytes, err := ReadTreeRaw(name)
 	if err != nil {
-		return nil, fmt.Errorf("error reading file '%v': %v", name, err)
+		return nil, fmt.Errorf("failed to read tree '%s': %w", name, err)
 	}
 
 	var tree Tree
