@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -17,7 +18,7 @@ import (
 )
 
 func ReadTreeFromFile(name string) (Tree, error) {
-	treeBytes, err := os.ReadFile(GetTreeFilepath(name))
+	treeBytes, err := ReadTreeRaw(name)
 	if err != nil {
 		return nil, fmt.Errorf("error reading file '%v': %v", name, err)
 	}
@@ -201,4 +202,73 @@ func GetTreeFilepath(name string) string {
 func (file *DatedFile) GetDatedFilenameWithoutExtension() string {
 	name := strings.Replace(file.Name, ".txt", "", 1)
 	return strings.Replace(name, ".json", "", 1)
+}
+
+func fetchDevTreeIfChanged(devTreePath string) error {
+	cacheDir := filepath.Join(TREE_FILES_PATH, "..", "cache")
+	if err := os.MkdirAll(cacheDir, 0755); err != nil {
+		return fmt.Errorf("failed to create cache dir: %w", err)
+	}
+
+	base := filepath.Base(devTreePath)
+	tmpPath := filepath.Join(cacheDir, base+".tmp")
+	etagPath := filepath.Join(cacheDir, base+".etag")
+
+	req, err := http.NewRequest(http.MethodGet, DEV_TREE_GITHUB_RAW_URL, nil)
+	if err != nil {
+		return err
+	}
+
+	if etag, err := os.ReadFile(etagPath); err == nil {
+		req.Header.Set("If-None-Match", string(etag))
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	switch resp.StatusCode {
+	case http.StatusNotModified:
+		return nil
+
+	case http.StatusOK:
+		out, err := os.Create(tmpPath)
+		if err != nil {
+			return err
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, resp.Body); err != nil {
+			return err
+		}
+
+		if err := os.Rename(tmpPath, devTreePath); err != nil {
+			return err
+		}
+
+		if etag := resp.Header.Get("ETag"); etag != "" {
+			if err := os.WriteFile(etagPath, []byte(etag), 0644); err != nil {
+				return fmt.Errorf("failed to write etag: %w", err)
+			}
+		}
+
+		return nil
+
+	default:
+		return fmt.Errorf("unexpected status from GitHub: %s", resp.Status)
+	}
+}
+
+func ReadTreeRaw(name string) ([]byte, error) {
+	appEnv := os.Getenv("APP_ENV")
+	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
+		devTreePath := filepath.Join(TREE_FILES_PATH, name)
+		if err := fetchDevTreeIfChanged(devTreePath); err != nil {
+			return nil, err
+		}
+	}
+
+	return os.ReadFile(GetTreeFilepath(name))
 }
