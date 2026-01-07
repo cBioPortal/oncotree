@@ -268,3 +268,15 @@ func fetchDevTreeIfChanged(devTreePath string) error {
 		return fmt.Errorf("unexpected status from GitHub: %s", resp.Status)
 	}
 }
+
+func ReadTreeRaw(name string) ([]byte, error) {
+	appEnv := os.Getenv("APP_ENV")
+	if name == DEV_TREE_IDENTIFIER+".json" && appEnv == "production" {
+		devTreePath := filepath.Join(TREE_FILES_PATH, name)
+		if err := fetchDevTreeIfChanged(devTreePath); err != nil {
+			return nil, err
+		}
+	}
+
+	return os.ReadFile(GetTreeFilepath(name))
+}

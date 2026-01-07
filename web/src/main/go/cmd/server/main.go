@@ -298,12 +298,13 @@ func tumorTypesTreeHandler(c *gin.Context) {
 
 	treeFile := fmt.Sprintf("%s.json", resolvedVersion)
 
-	raw, err := os.ReadFile(filepath.Join(TreeDir, treeFile))
+	raw, err := internal.ReadTreeRaw(treeFile)
 	if err != nil {
 		c.Error(fmt.Errorf("Failed to read raw tree file '%s': %w", treeFile, err))
 		c.String(http.StatusServiceUnavailable, "Required data source unavailable")
 		return
 	}
+
 	c.Data(http.StatusOK, "application/json", raw)
 }
 
