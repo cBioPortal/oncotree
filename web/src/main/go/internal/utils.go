@@ -20,7 +20,7 @@ import (
 func ReadTreeFromFile(name string) (Tree, error) {
 	treeBytes, err := ReadTreeRaw(name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read tree '%s': %w", name, err)
+		return nil, fmt.Errorf("error reading file '%v': %v", name, err)
 	}
 
 	var tree Tree
