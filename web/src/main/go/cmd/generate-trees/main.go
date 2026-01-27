@@ -112,7 +112,7 @@ func CreateOncoTreeFromFile(path string, previousCodeGetter PreviousCodeGetter) 
 		}
 
 		newNode := &internal.TreeNode{}
-		code := row[codeIndex]
+		code := strings.TrimSpace(row[codeIndex])
 		newNode.Code = code
 		newNode.Color = stringToPointer(row[colorIndex])
 		newNode.Name = row[nameIndex]
@@ -126,7 +126,7 @@ func CreateOncoTreeFromFile(path string, previousCodeGetter PreviousCodeGetter) 
 		}
 		newNode.ExternalReferences = externalReferences
 		newNode.Tissue = stringToPointer(row[tissueIndex])
-		parentCode := row[parentIndex]
+		parentCode := strings.TrimSpace(row[parentIndex])
 		newNode.Parent = stringToPointer(parentCode)
 		newNode.History = []string{}
 		newNode.Revocations = []string{}
@@ -147,7 +147,7 @@ func CreateOncoTreeFromFile(path string, previousCodeGetter PreviousCodeGetter) 
 			children, exists = codeToChildren[parentCode]
 			if !exists {
 				children = internal.Tree{}
-				codeToChildren[code] = children
+				codeToChildren[parentCode] = children
 			}
 			children[code] = newNode
 		}
