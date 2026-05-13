@@ -1129,3 +1129,27 @@ OED	DarkRed	Oral Epithelial Dysplasia	Oral Epithelial Dysplasia			Head and Neck	
 ASIN	SaddleBrown	Benign Epithelial Tumors and Precursors	Anal Squamous Intraepithelial Neoplasia			Bowel	BOWEL
 STIC	LightBlue	Ovarian Serous Tubular Intraepithelial Carcinoma	Epithelial precursor lesions			Ovary/Fallopian Tube	OVARY
 AAH	Gainsboro	Atypical Adenomatous Hyperplasia	Precursor Glandular Lesions			Lung	LUNG
+UC	SaddleBrown	Ulcerative Colitis	Premalignant Conditions			Bowel	BOWEL
+CD	SaddleBrown	Crohn’s Disease	Premalignant Conditions			Bowel	BOWEL
+HELU	HotPink	Proliferative Disease (Hyperplastic Enlarged Lobular Units)	Benign Epithelial Proliferations and Precursors			Breast	BEPP
+PIA	Cyan	Prostatic Proliferative Inflammatory Atrophy	Benign Epithelial Proliferations and Precursors			Prostate	PROSTATE
+ASC	Teal	Cervical Atypical Squamous Cells	Squamous Precursor Lesions			Cervix	CERVIX
+IMB	Yellow	Intestinal Metaplasia of The Bladder	Epithelial Precursor Lesions			Bladder/Urinary Tract	BLADDER
+PUH	Yellow	Papillary Urothelial Hyperplasia	Benign Epithelial Tumors and Precursors			Bladder/Urinary Tract	BLADDER
+BCIS	Yellow	Bladder Carcinoma In Situ	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
+NIPC	Yellow	Non-Invasive Papillary Carcinoma	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
+IMETS	LightSkyBlue	Intestinal Metaplasia of The Stomach	Precursor Glandular Lesions			Esophagus/Stomach	STOMACH
+XP	Black	Xeroderma Pigmentosum	Premalignant Keratoses and Precursors			Skin	SKIN
+PKM	Black	Porokeratosis Melanocytic	Premalignant Keratoses and Precursors			Skin	SKIN
+SML	Gainsboro	Squamous Metaplasia of The Lung	Benign Epithelial Tumors and Precursors			Lung	LUNG
+OCIS	DarkRed	Oral Carcinoma In Situ	Squamous Epithelial Tumors			Head and Neck	HEAD_NECK
+OPL	DarkRed	Oral Premalignant Lesions	Squamous Precursor Lesions			Head and Neck	HEAD_NECK
+LEP	DarkRed	Leukoplakia	Squamous Precursor Lesions			Head and Neck	OPL
+ERP	DarkRed	Erythroplakia	Squamous Precursor Lesions			Head and Neck	OPL
+LP	DarkRed	Lichen Planus	Squamous Precursor Lesions			Head and Neck	OPL
+AIL	SaddleBrown	Anal Intraepithelial Lesions	Squamous Precursor Lesions			Bowel	BOWEL
+ASCUS	SaddleBrown	Atypical Squamous Cells of Undetermined Significance	Squamous Precursor Lesions			Bowel	BOWEL
+HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			Bowel	BOWEL
+RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	KIDNEY
+VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	KIDNEY
+SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVARY
