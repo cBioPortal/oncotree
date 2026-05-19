@@ -1106,7 +1106,7 @@ CMLCP	LightSalmon	CML Chronic Phase	Leukemia			Hematopoietic	CML
 CMPN	LightSalmon	Non-CML Type Classical MPN	Myeloproliferative Neoplasms			Hematopoietic	MPN
 CFL	LimeGreen	Classic Follicular Lymphoma	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
 FLPDP	LimeGreen	Follicular Lymphoma with Predominantly Diffuse Growth Pattern	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
-MLUAD	Gainsboro	Micropapillary Lung Adenocarcinoma	Non-Small Cell Lung Cancer			Lung	LUAD
+MLUAD	Gainsboro	Lung Adenocarcinoma with a Micropapillary Pattern	Non-Small Cell Lung Cancer			Lung	LUAD
 APHGD	SaddleBrown	Adenomatous Polyp, High-Grade Dysplasia	Benign Epithelial Tumors and Precursors			Bowel	BOWEL
 ADH	HotPink	Atypical Ductal Hyperplasia	Benign Epithelial Proliferations and Precursors			Breast	BEPP
 ALH	HotPink	Atypical Lobular Hyperplasia	Non-Invasive Lobular Neoplasia			Breast	BEPP
