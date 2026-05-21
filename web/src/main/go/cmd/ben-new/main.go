@@ -113,7 +113,7 @@ func main() {
 
 	err = internal.ValidateMappingDir()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error validating mappings files: %v", err)
+		fmt.Fprintf(os.Stderr, "Error validating mapping files: %v", err)
 		os.Exit(1)
 	}
 
@@ -132,6 +132,12 @@ func main() {
 	err = os.WriteFile(filepath.Join(internal.TREE_FILES_PATH, jsonFilename), treeBytes, os.ModePerm)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
+		os.Exit(1)
+	}
+
+	err = internal.ValidateTreeDir()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error validating tree files: %v", err)
 		os.Exit(1)
 	}
 

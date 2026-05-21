@@ -451,3 +451,64 @@ func parseRow(row string) (col1 string, col2 string, err error) {
 	}
 	return content[0], content[1], nil
 }
+
+func ValidateTreeDir() error {
+	treeFiles, err := os.ReadDir(TREE_FILES_PATH)
+	if err != nil {
+		return fmt.Errorf("Error reading '%v' directory: %v", TREE_FILES_PATH, err)
+	}
+
+	fileToErrors := make(map[string][]string)
+	for _, file := range treeFiles {
+		if !file.IsDir() {
+			errors := make([]string, 0)
+
+			filename := file.Name()
+			if _, err := GetDateFromFilename(filename); err != nil &&
+				filename != DEV_TREE_IDENTIFIER+".json" &&
+				filename != CANDIDATE_TREE_IDENTIFIER+".json" &&
+				filename != LEGACY_TREE_IDENTIFIER+".json" {
+				errors = append(errors, fmt.Sprintf("Invalid filename: %v", err))
+			}
+
+			tree, err := ReadTreeFromFile(filename)
+			if err != nil {
+				errors = append(errors, err.Error())
+			}
+
+			codes := make(map[string]struct{})
+			codesWithMultipleNodes := make([]string, 0)
+			err = tree.BFS(func(node *TreeNode, _ uint) {
+				_, exists := codes[node.Code]
+				if exists && !slices.Contains(codesWithMultipleNodes, node.Code) {
+					codesWithMultipleNodes = append(codesWithMultipleNodes, node.Code)
+				} else {
+					codes[node.Code] = struct{}{}
+				}
+			})
+			if err != nil {
+				errors = append(errors, err.Error())
+			}
+			if len(codesWithMultipleNodes) > 0 {
+				errors = append(errors, fmt.Sprintf("Error: the following codes have multiple nodes: %v", strings.Join(codesWithMultipleNodes, ", ")))
+			}
+
+			if len(errors) > 0 {
+				fileToErrors[filename] = errors
+			}
+		}
+	}
+
+	if len(fileToErrors) > 0 {
+		var errorMessage strings.Builder
+		for file, errors := range fileToErrors {
+			errorMessage.WriteString(fmt.Sprintf("\nErrors for %v:", file))
+			for _, err := range errors {
+				errorMessage.WriteString(fmt.Sprintf("\n\t* %v", err))
+			}
+			errorMessage.WriteString("\n")
+		}
+		return errors.New(errorMessage.String())
+	}
+	return nil
+}
