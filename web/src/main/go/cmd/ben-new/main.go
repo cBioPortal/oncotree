@@ -51,6 +51,10 @@ func main() {
 		}
 
 		err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
+			os.Exit(1)
+		}
 		os.Exit(0)
 	}
 
@@ -91,6 +95,45 @@ func main() {
 	}
 
 	err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
+		os.Exit(1)
+	}
+
+	mostRecentTreeCodes, err := internal.GetCodes(mostRecentTree.Name)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error retrieving codes from file %v: %v", mostRecentTree.Name, err)
+		os.Exit(1)
+	}
+
+	newTreeCodes, err := internal.GetCodes(filename)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error retrieving codes from file %v: %v", filename, err)
+		os.Exit(1)
+	}
+
+	var mappingFile strings.Builder
+	mappingFilename := mostRecentTree.GetDatedFilenameWithoutExtension() + "_to_" + filename
+	mappingFile.WriteString(fmt.Sprintf("%v\t%v", mostRecentTree.GetDatedFilenameWithoutExtension(), strings.Replace(filename, ".txt", "", 1)))
+	for code := range mostRecentTreeCodes {
+		_, exists := newTreeCodes[code]
+		newCode := ""
+		if exists {
+			newCode = code
+		}
+		line := fmt.Sprintf("\n%v\t%v", code, newCode)
+		_, err = mappingFile.WriteString(line)
+		if err != nil {
+			log.Fatalf("Error writing line %v to mapping file %v: %v", line, mappingFilename, err)
+		}
+	}
+
+	err = os.WriteFile(filepath.Join(OUTPUT_DIR, mappingFilename), []byte(mappingFile.String()), os.ModePerm)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", mappingFilename, err)
+		os.Exit(1)
+	}
+
 	os.Exit(0)
 }
 
