@@ -32,9 +32,8 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Received: %d file(s): %v\n", len(files), strings.Join(files, ", "))
 		os.Exit(1)
 	}
-	file := files[0]
-	filepathParts := strings.Split(file, "/")
-	filename := filepathParts[len(filepathParts)-1]
+	file := filepath.Join(internal.TSV_FILES_PATH, filepath.Base(files[0]))
+	filename := filepath.Base(files[0])
 	jsonFilename := strings.Replace(filename, ".txt", ".json", 1)
 
 	// only dev and candidate can be overwritten
@@ -51,11 +50,11 @@ func main() {
 			os.Exit(1)
 		}
 
-		err = os.WriteFile(OUTPUT_DIR+"/"+jsonFilename, treeBytes, os.ModePerm)
+		err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
 		os.Exit(0)
 	}
 
-	_, err = os.Stat(internal.TREE_FILES_PATH + "/" + jsonFilename)
+	_, err = os.Stat(filepath.Join(internal.TREE_FILES_PATH, jsonFilename))
 	if err == nil {
 		fmt.Fprintf(os.Stderr, "Error: JSON tree already exists for %v\n", file)
 		os.Exit(1)
@@ -91,7 +90,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = os.WriteFile(OUTPUT_DIR+"/"+jsonFilename, treeBytes, os.ModePerm)
+	err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
 	os.Exit(0)
 }
 
