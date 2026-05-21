@@ -1,8 +1,6 @@
 name: Release Tree
 
-on:
-  pull_request:
-    types: [opened, synchronize]
+on: [push, pull_request]
 
 jobs:
   check-changes:
