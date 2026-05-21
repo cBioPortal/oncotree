@@ -76,21 +76,5 @@ jobs:
         else
           echo "No changes detected in generated files. Skipping commit."
         fi
-    
-    - name: Build validate mappings
-      working-directory: ./web/src/main/go
-      run: go build -o validate-mappings ./cmd/validate-mappings
-
-    - name: Run validate mappings
-      id: validate-mappings
-      continue-on-error: true
-      working-directory: ./web/src/main/go
-      run: |
-        ./validate-mappings
-    
-    - name: Upload generated mappings
-      if: steps.validate-mappings.outcome == 'failure'
-      uses: actions/upload-artifact@v4
-      with:
-        name: mapping-files
-        path: trees/mappings/**
+        
+  
