@@ -15,15 +15,7 @@ import (
 	"github.com/cBioPortal/oncotree/internal"
 )
 
-const OUTPUT_DIR = "./tree-output"
-
 func main() {
-	err := os.MkdirAll(OUTPUT_DIR, os.ModePerm)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating output directory %s: %v\n", OUTPUT_DIR, err)
-		os.Exit(1)
-	}
-
 	files := os.Args[1:]
 
 	if len(files) != 1 {
@@ -50,7 +42,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
+		err = os.WriteFile(filepath.Join(internal.TREE_FILES_PATH, jsonFilename), treeBytes, os.ModePerm)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
 			os.Exit(1)
@@ -58,7 +50,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	_, err = os.Stat(filepath.Join(internal.TREE_FILES_PATH, jsonFilename))
+	_, err := os.Stat(filepath.Join(internal.TREE_FILES_PATH, jsonFilename))
 	if err == nil {
 		fmt.Fprintf(os.Stderr, "Error: JSON tree already exists for %v\n", file)
 		os.Exit(1)
@@ -112,7 +104,7 @@ func main() {
 			}
 		}
 
-		err = os.WriteFile(filepath.Join(OUTPUT_DIR, mappingFilename), []byte(mappingFile.String()), os.ModePerm)
+		err = os.WriteFile(filepath.Join(internal.MAPPING_FILES_PATH, mappingFilename), []byte(mappingFile.String()), os.ModePerm)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing file %v: %v", mappingFilename, err)
 			os.Exit(1)

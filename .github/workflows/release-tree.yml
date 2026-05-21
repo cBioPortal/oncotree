@@ -26,6 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: check-changes
     if: needs.check-changes.outputs.has_tsv_changes == 'true'
+
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout code
@@ -60,8 +63,16 @@ jobs:
       run: |
         ./release-tree $CHANGED_FILES
 
-    - name: Upload Generated JSON Trees
-      uses: actions/upload-artifact@v4
-      with:
-        name: generated-json-tree
-        path: ./web/src/main/go/tree-output/
+    - name: Commit and Push generated files to PR branch
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        
+        git add ./trees/
+        
+        if ! git diff --cached --quiet; then
+          git commit -m "chore: auto-generate tree artifacts [skip ci]"
+          git push origin HEAD:${{ github.head_ref }}
+        else
+          echo "No changes detected in generated files. Skipping commit."
+        fi
