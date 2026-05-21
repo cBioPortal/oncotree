@@ -1,0 +1,46 @@
+name: Release Tree
+
+on: [push, pull_request]
+
+jobs:
+  run-go-commands:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version: '1.24.5'
+    
+    - name: Install dependencies
+      run: go mod download
+      working-directory: ./web/src/main/go
+        
+    - name: Build
+      working-directory: ./web/src/main/go
+      run: go build -o release-tree ./cmd/ben-new
+
+    - name: Get all changed TSV files
+      id: changed-tsv-files
+      uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+      with:
+        files: |
+          trees/tsv/**.txt
+    
+    - name: Run Release Tree Script
+      working-directory: ./web/src/main/go
+      env:
+        CHANGED_FILES: ${{ steps.changed-tsv-files.outputs.all_changed_files }}
+      run: |
+        ./release-tree $CHANGED_FILES
+
+    - name: Upload Generated JSON Trees
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-json-tree
+        path: ./web/src/main/go/tree-output/
