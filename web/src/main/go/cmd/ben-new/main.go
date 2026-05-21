@@ -111,25 +111,29 @@ func main() {
 		}
 	}
 
-	// Now we have to validate
+	err = internal.ValidateMappingDir()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error validating mappings files: %v", err)
+		os.Exit(1)
+	}
 
-	// tree, err := CreateOncoTreeFromFile(file, realPreviousCodeGetter{})
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Error creating tree from %v: %v\n", file, err)
-	// 	os.Exit(1)
-	// }
+	tree, err := CreateOncoTreeFromFile(file, realPreviousCodeGetter{})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating tree from %v: %v\n", file, err)
+		os.Exit(1)
+	}
 
-	// treeBytes, err := json.Marshal(tree)
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Error marshalling tree created from %v: %v\n", file, err)
-	// 	os.Exit(1)
-	// }
+	treeBytes, err := json.Marshal(tree)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error marshalling tree created from %v: %v\n", file, err)
+		os.Exit(1)
+	}
 
-	// err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
-	// 	os.Exit(1)
-	// }
+	err = os.WriteFile(filepath.Join(internal.TREE_FILES_PATH, jsonFilename), treeBytes, os.ModePerm)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
+		os.Exit(1)
+	}
 
 	os.Exit(0)
 }
