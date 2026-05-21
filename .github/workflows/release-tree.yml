@@ -45,7 +45,7 @@ jobs:
       working-directory: ./web/src/main/go
       run: go mod download
         
-    - name: Build
+    - name: Build tree release
       working-directory: ./web/src/main/go
       run: go build -o release-tree ./cmd/ben-new
     
@@ -76,3 +76,12 @@ jobs:
         else
           echo "No changes detected in generated files. Skipping commit."
         fi
+    
+    - name: Build validate mappings
+      working-directory: ./web/src/main/go
+      run: go build -o validate-mappings ./cmd/validate-mappings
+
+    - name: Run validate mappings
+      working-directory: ./web/src/main/go
+      run: |
+        ./validate-mappings

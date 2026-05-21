@@ -67,7 +67,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	mostRecentTree := sortedTreeFiles[len(sortedTreeFiles)-1]
+	mostRecentTree := sortedTreeFiles[len(sortedTreeFiles)-2] // most recent will be the one just uploaded
 
 	if newTreeDate.Before(mostRecentTree.Date) {
 		fmt.Fprintf(os.Stderr, "Error: New tree date %v must be newer than the most recent tree date %v\n", newTreeDate, mostRecentTree.Date)
@@ -111,7 +111,7 @@ func main() {
 		}
 	}
 
-	// No we have to validate
+	// Now we have to validate
 
 	// tree, err := CreateOncoTreeFromFile(file, realPreviousCodeGetter{})
 	// if err != nil {
