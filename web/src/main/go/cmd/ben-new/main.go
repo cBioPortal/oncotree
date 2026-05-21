@@ -82,24 +82,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	tree, err := CreateOncoTreeFromFile(file, realPreviousCodeGetter{})
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating tree from %v: %v\n", file, err)
-		os.Exit(1)
-	}
-
-	treeBytes, err := json.Marshal(tree)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error marshalling tree created from %v: %v\n", file, err)
-		os.Exit(1)
-	}
-
-	err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
-		os.Exit(1)
-	}
-
 	mostRecentTreeCodes, err := internal.GetCodes(mostRecentTree.Name)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error retrieving codes from file %v: %v", mostRecentTree.Name, err)
@@ -112,27 +94,50 @@ func main() {
 		os.Exit(1)
 	}
 
-	var mappingFile strings.Builder
 	mappingFilename := mostRecentTree.GetDatedFilenameWithoutExtension() + "_to_" + filename
-	mappingFile.WriteString(fmt.Sprintf("%v\t%v", mostRecentTree.GetDatedFilenameWithoutExtension(), strings.Replace(filename, ".txt", "", 1)))
-	for code := range mostRecentTreeCodes {
-		_, exists := newTreeCodes[code]
-		newCode := ""
-		if exists {
-			newCode = code
+	_, err = os.Stat(filepath.Join(internal.MAPPING_FILES_PATH, mappingFilename))
+	if err != nil { // Mapping file does not exist
+		var mappingFile strings.Builder
+		mappingFile.WriteString(fmt.Sprintf("%v\t%v", mostRecentTree.GetDatedFilenameWithoutExtension(), strings.Replace(filename, ".txt", "", 1)))
+		for code := range mostRecentTreeCodes {
+			_, exists := newTreeCodes[code]
+			newCode := ""
+			if exists {
+				newCode = code
+			}
+			line := fmt.Sprintf("\n%v\t%v", code, newCode)
+			_, err = mappingFile.WriteString(line)
+			if err != nil {
+				log.Fatalf("Error writing line %v to mapping file %v: %v", line, mappingFilename, err)
+			}
 		}
-		line := fmt.Sprintf("\n%v\t%v", code, newCode)
-		_, err = mappingFile.WriteString(line)
+
+		err = os.WriteFile(filepath.Join(OUTPUT_DIR, mappingFilename), []byte(mappingFile.String()), os.ModePerm)
 		if err != nil {
-			log.Fatalf("Error writing line %v to mapping file %v: %v", line, mappingFilename, err)
+			fmt.Fprintf(os.Stderr, "Error writing file %v: %v", mappingFilename, err)
+			os.Exit(1)
 		}
 	}
 
-	err = os.WriteFile(filepath.Join(OUTPUT_DIR, mappingFilename), []byte(mappingFile.String()), os.ModePerm)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing file %v: %v", mappingFilename, err)
-		os.Exit(1)
-	}
+	// No we have to validate
+
+	// tree, err := CreateOncoTreeFromFile(file, realPreviousCodeGetter{})
+	// if err != nil {
+	// 	fmt.Fprintf(os.Stderr, "Error creating tree from %v: %v\n", file, err)
+	// 	os.Exit(1)
+	// }
+
+	// treeBytes, err := json.Marshal(tree)
+	// if err != nil {
+	// 	fmt.Fprintf(os.Stderr, "Error marshalling tree created from %v: %v\n", file, err)
+	// 	os.Exit(1)
+	// }
+
+	// err = os.WriteFile(filepath.Join(OUTPUT_DIR, jsonFilename), treeBytes, os.ModePerm)
+	// if err != nil {
+	// 	fmt.Fprintf(os.Stderr, "Error writing file %v: %v", jsonFilename, err)
+	// 	os.Exit(1)
+	// }
 
 	os.Exit(0)
 }
