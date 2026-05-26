@@ -1,7 +1,0 @@
-Code	Color	Name	MainType	UMLS	NCI	Tissue	Parent
-TUMOR	#808080	Tumor/Cancer	Neoplasm	C0006826,C1306459	C3259,C9305	All	
-MEL	#FF0000	Melanoma	Neoplasm			Skin	TUMOR
-SKCM	#FF8C00	Skin Cutaneous Melanoma	Melanoma	C0025202,C0751347		Skin	MEL
-UVM	#FFD700	Uveal Melanoma	Melanoma	C0025202,C0042125	C4505,C9305	Eye	MEL
-GBM	#0000FF	Glioblastoma	Neoplasm		C3058	Brain	TUMOR
-LGG	#ADD8E6	Low Grade Glioma	Neoplasm	C0017698,C0024190	C3058,C4148	Brain	TUMOR

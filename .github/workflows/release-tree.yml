@@ -47,7 +47,7 @@ jobs:
         
     - name: Build tree release
       working-directory: ./web/src/main/go
-      run: go build -o release-tree ./cmd/ben-new
+      run: go build -o release-tree ./cmd/release-tree
     
     - name: Get all changed TSV files
       id: changed-tsv-files
