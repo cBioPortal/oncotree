@@ -115,7 +115,7 @@ MLYM	Gray	Malignant Lymphoma	Miscellaneous Brain Tumor	C0024299	C3208	CNS/Brain	
 CMPT	Gainsboro	Ciliated Muconodular Papillary Tumor of the Lung	Non-Small Cell Lung Cancer			Lung	NSCLC
 ISTAD	LightSkyBlue	Intestinal Type Stomach Adenocarcinoma	Esophagogastric Cancer	C0279633	C9157	Esophagus/Stomach	STAD
 COADREAD	SaddleBrown	Colorectal Adenocarcinoma	Colorectal Cancer	C1319315	C5105	Bowel	BOWEL
-PCNSM	Gray	Meningeal Melanoma	Melanocytic Tumors	C1332888	C5505	CNS/Brain	CMMN
+PCNSM	LightSkyBlue	Meningeal Melanoma	Melanocytic Tumors	C1332888	C5505	CNS/Brain	CMMN
 PCNSMT	Gray	Melanocytic Tumors	Melanocytic Tumors			CNS/Brain	BRAIN
 PB	Purple	Pancreatoblastoma	Pancreatic Cancer	C0334489	C4265	Pancreas	PANCREAS
 PANCREAS	Purple	Pancreas	Pancreatic Cancer	C0030274	C12393	Tissue	TISSUE
@@ -253,6 +253,7 @@ CERVIX	Teal	Cervix	Cervical Cancer	C0007874	C12311	Tissue	TISSUE
 SCBC	Yellow	Small Cell Bladder Cancer	Bladder Cancer	C1332564	C9461	Bladder/Urinary Tract	BLADDER
 BLADDER	Yellow	Bladder/Urinary Tract	Bladder/Urinary Tract Cancer	C0005682	C12414	Tissue	TISSUE
 NST	Gray	Nerve Sheath Tumor	Nerve Sheath Tumor	C0206727	C4972	Peripheral Nervous System	PNS
+ONBL	Gray	Olfactory Neuroblastoma	Embryonal Tumor	C0206717	C3789	CNS/Brain	EMBT
 EMBT	Gray	Embryonal Tumor	Embryonal Tumor	C0027654	C3264	CNS/Brain	BRAIN
 UASC	PeachPuff	Uterine Adenosquamous Carcinoma	Endometrial Cancer	C0346202	C4519	Uterus	UCEC
 UCEC	PeachPuff	Endometrial Carcinoma	Endometrial Cancer	C0476089	C7558	Uterus	UTERUS
@@ -260,10 +261,11 @@ PENIS	Blue	Penis	Penile Cancer	C0030851	C12409	Tissue	TISSUE
 LIMNET	MediumSeaGreen	Malignant Nonepithelial Tumor of the Liver	Hepatobiliary Cancer			Liver	LIVER
 DTE	Black	Desmoplastic Trichoepithelioma	Skin Cancer, Non-Melanoma	C0432526	C27524	Skin	SKIN
 AMBLNOS	Gray	Anaplastic Medulloblastoma, NOS	Large Cell/Anaplastic Medulloblastoma			CNS/Brain	AMBL
-AMBL	Gray	Large Cell/Anaplastic Medulloblastoma	Embryonal Tumor	C1266180	C6904	CNS/Brain	MBLHD
+AMBL	Gray	Large Cell/Anaplastic Medulloblastoma	Embryonal Tumor	C1266180	C6904	CNS/Brain	EMBT
 BMGCT	Gray	Mixed Germ Cell Tumor	Germ Cell Tumor	C0334524	C4290	CNS/Brain	BGCT
 ALCL	LimeGreen	Anaplastic Large Cell Lymphoma	Mature T and NK Neoplasms	C0206180	C3720	Hematopoietic	MTNN
 UTUC	Yellow	Upper Tract Urothelial Carcinoma	Bladder Cancer	C0220648	C7716	Bladder/Urinary Tract	BLADDER
+PNET	Gray	Primitive Neuroectodermal Tumor	Embryonal Tumor	C0206663	C3716	CNS/Brain	EMBT
 CESC	Teal	Cervical Squamous Cell Carcinoma	Cervical Cancer	C0279671	C4028	Cervix	CERVIX
 LYMPH	LimeGreen	Lymphoid	Lymphatic Cancer	C0024202	C13252	Hematopoietic	HEMATOPOIETIC
 PSCC	Blue	Penile Squamous Cell Carcinoma	Penile Cancer	C0238348	C7729	Penis	PENIS
@@ -272,7 +274,7 @@ THYC	Purple	Thymic Carcinoma	Thymic Tumor	C0205969	C7569	Thymus	TET
 EMPSGC	Black	Endocrine Mucin Producing Sweat Gland Carcinoma	Skin Cancer, Non-Melanoma			Skin	SKIN
 IMMC	HotPink	Breast Invasive Mixed Mucinous Carcinoma	Breast Cancer	C1334807	C9131	Breast	BRCA
 UCS	PeachPuff	Uterine Carcinosarcoma/Uterine Malignant Mixed Mullerian Tumor	Endometrial Cancer	C0280630	C42700	Uterus	UCEC
-MBLSHH	Gray	Medulloblastoma, SHH-Activated	Medulloblastoma			CNS/Brain	MBLMD
+MBLSHH	Gray	Medulloblastoma, SHH Subtype	Medulloblastoma			CNS/Brain	MBLMD
 MBL	Gray	Medulloblastoma	Embryonal Tumor	C0025149	C3222	CNS/Brain	EMBT
 AMLRBM15MKL1	LightSalmon	AML with RBM15-MRTFA Fusion	Leukemia	C2826173	C82427	Hematopoietic	AMLRGA
 CEGCC	Teal	Glassy Cell Carcinoma of the Cervix	Cervical Cancer	C1516407	C40212	Cervix	CERVIX
@@ -322,7 +324,7 @@ DFL	LimeGreen	Duodenal-Type Follicular Lymphoma	B-Cell Lymphoid Proliferations a
 OPE	LightBlue	Polyembryoma	Germ Cell Tumor	C1514199	C39990	Ovary/Fallopian Tube	OGCT
 AMPCA	Purple	Ampullary Carcinoma	Ampullary Cancer	C0262401	C3908	Ampulla of Vater	AMPULLA_OF_VATER
 AMPULLA_OF_VATER	Purple	Ampulla of Vater	Ampullary Carcinoma	C0042425	C13011	Tissue	TISSUE
-MSCHW	Gray	Malignant Melanotic Nerve Sheath Tumor	Nerve Sheath Tumor	C1306247	C6970	Peripheral Nervous System	SCHW
+MSCHW	Gray	Melanotic Schwannoma	Nerve Sheath Tumor	C1306247	C6970	Peripheral Nervous System	SCHW
 THAP	Teal	Anaplastic Thyroid Cancer	Thyroid Cancer	C0238461	C3878	Thyroid	THYROID
 CDRCC	Orange	Collecting Duct Renal Cell Carcinoma	Renal Cell Carcinoma	C1266044	C6194	Kidney	NCCRCC
 BNNOS	HotPink	Breast Neoplasm, NOS	Breast Cancer			Breast	BREAST
@@ -397,6 +399,7 @@ GCTB	White	Giant Cell Tumor of Bone	Bone Cancer	C0206638	C121932	Bone	BONE
 PBT	Gray	Primary Brain Tumor	Miscellaneous Brain Tumor	C0750974	C4952	CNS/Brain	MBT
 TSTAD	LightSkyBlue	Tubular Stomach Adenocarcinoma	Esophagogastric Cancer	C1333791	C5473	Esophagus/Stomach	STAD
 MLNPDGFRA	LightSalmon	Myeloid/Lymphoid Neoplasms with PDGFRA Rearrangement	Leukemia	C2827360	C84275	Hematopoietic	MLNER
+DMBLSHH	Gray	Desmoplastic/Nodular Medulloblastoma, SHH Subtype	Desmoplastic/Nodular Medulloblastoma			CNS/Brain	DMBL
 DMBL	Gray	Desmoplastic/Nodular Medulloblastoma	Embryonal Tumor	C0751291	C4956	CNS/Brain	MBLHD
 CLPDNK	LimeGreen	NK-Large Granular Lymphocytic Leukemia	T-Cell and NK-Cell Lymphoid Proliferations and Lymphomas	C1512709	C39591	Hematopoietic	MTNL
 BLCA	Yellow	Bladder Urothelial Carcinoma	Bladder Cancer	C0279680	C39851	Bladder/Urinary Tract	BLADDER
@@ -408,10 +411,12 @@ OS	White	Osteosarcoma	Bone Cancer	C0029463	C9145	Bone	BONE
 PRNET	Gray	Primary Neuroepithelial Tumor	Miscellaneous Brain Tumor	C0206715	C3787	CNS/Brain	MBT
 GCLC	Gainsboro	Giant Cell Carcinoma of the Lung	Non-Small Cell Lung Cancer	C0345960	C4452	Lung	LCLC
 USTAD	LightSkyBlue	Undifferentiated Stomach Adenocarcinoma	Esophagogastric Cancer	C1336858	C5476	Esophagus/Stomach	EGC
+DMBLNOS	Gray	Desmoplastic/Nodular Medulloblastoma, NOS	Desmoplastic/Nodular Medulloblastoma			CNS/Brain	DMBL
 MLNPDGFRB	LightSalmon	Myeloid/Lymphoid Neoplasms with PDGFRB Rearrangement	Leukemia	C3472621	C84276	Hematopoietic	MLNER
 ANKL	LimeGreen	Aggressive NK-Cell Leukemia	Mature T and NK Neoplasms	C1292777	C8647	Hematopoietic	MTNL
 ETT	PeachPuff	Epithelioid Trophoblastic Tumor	Gestational Trophoblastic Disease	C1266159	C6900	Uterus	GTD
 GTD	PeachPuff	Gestational Trophoblastic Disease	Gestational Trophoblastic Disease	C1135868	C4699	Uterus	UTERUS
+MDEP	Gray	Medulloepithelioma	Embryonal Tumor	C0334596	C4327	CNS/Brain	EMBT
 BCC	Black	Basal Cell Carcinoma	Skin Cancer, Non-Melanoma	C0007117	C2921	Skin	SKIN
 CHOS	White	Chondroblastic Osteosarcoma	Bone Cancer	C0279603	C4021	Bone	OS
 HGNET	Gray	High-Grade Neuroepithelial Tumor	Miscellaneous Brain Tumor			CNS/Brain	MBT
@@ -433,6 +438,7 @@ LECLC	Gainsboro	Lymphoepithelioma-like Carcinoma of the Lung	Non-Small Cell Lung
 GMN	Gray	Germinoma	Germ Cell Tumor	C0206660	C3753	CNS/Brain	BGCT
 SSRCC	LightSkyBlue	Signet Ring Cell Carcinoma of the Stomach	Esophagogastric Cancer	C1335965	C5250	Esophagus/Stomach	USTAD
 URMM	Yellow	Mucosal Melanoma of the Urethra	Melanoma			Bladder/Urinary Tract	BLADDER
+MMB	Gray	Medullomyoblastoma	Embryonal Tumor	C0205833	C3706	CNS/Brain	EMBT
 CEAS	Teal	Cervical Adenosquamous Carcinoma	Cervical Cancer	C0346202	C4519	Cervix	CERVIX
 HCCIHCH	MediumSeaGreen	Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma	Hepatobiliary Cancer	C0221287	C3828	Liver	LIVER
 UTERUS	PeachPuff	Uterus	Uterine Cancer	C0042149	C12405	Tissue	TISSUE
@@ -443,12 +449,13 @@ BIMT	Gray	Immature Teratoma	Germ Cell Tumor	C1332883	C7014	CNS/Brain	BGCT
 LUAD	Gainsboro	Lung Adenocarcinoma	Non-Small Cell Lung Cancer	C0152013	C3512	Lung	NSCLC
 DF	Black	Dermatofibroma	Skin Cancer, Non-Melanoma	C0002991	C6801	Skin	SKIN
 SRCBC	Yellow	Plasmacytoid/Signet Ring Cell Bladder Carcinoma	Bladder Cancer	C1512742	C39823	Bladder/Urinary Tract	BLADDER
+MMBL	Gray	Melanotic Medulloblastoma	Embryonal Tumor	C1275668	C9497	CNS/Brain	EMBT
 BA	HotPink	Breast Angiosarcoma	Breast Sarcoma	C1332614	C5184	Breast	PBS
 MYCF	LimeGreen	Mycosis Fungoides	Mature T and NK Neoplasms	C0026948	C3246	Hematopoietic	PCTLPL
 AMBLNWSG3	Gray	Anaplastic Medulloblastoma, Group 3	Large Cell/Anaplastic Medulloblastoma			CNS/Brain	AMBLNWS
 TLGL	LimeGreen	T-Large Granular Lymphocytic Leukemia	T-Cell and NK-Cell Lymphoid Proliferations and Lymphomas	C1955861	C4664	Hematopoietic	MTNL
 LUAS	Gainsboro	Lung Adenosquamous Carcinoma	Non-Small Cell Lung Cancer	C0279557	C9133	Lung	NSCLC
-BMGT	Gray	Teratoma with Somatic-Type Malignancy	Germ Cell Tumor	C1336704	C7015	CNS/Brain	BGCT
+BMGT	Gray	Malignant Teratoma	Germ Cell Tumor	C1336704	C7015	CNS/Brain	BGCT
 SCB	Yellow	Sarcomatoid Carcinoma of the Urinary Bladder	Bladder Cancer	C1512743	C39824	Bladder/Urinary Tract	BLADDER
 SS	LimeGreen	Sezary Syndrome	Mature T and NK Neoplasms	C0036920	C3366	Hematopoietic	MTNL
 DFSP	Black	Dermatofibrosarcoma Protuberans	Skin Cancer, Non-Melanoma	C0392784	C4683	Skin	SKIN
@@ -534,7 +541,7 @@ BYST	Gray	Yolk Sac Tumor	Germ Cell Tumor			CNS/Brain	BGCT
 SWDNET	LightSkyBlue	Well-Differentiated Neuroendocrine Tumors of the Stomach	Gastrointestinal Neuroendocrine Tumor	C3272399	C95871	Esophagus/Stomach	GINETES
 ITLPDGI	LimeGreen	Indolent T-Cell Lymphoma of the GI Tract	T-Cell and NK-Cell Lymphoid Proliferations and Lymphomas	C4528218	C139021	Hematopoietic	ITNLPL
 PERL	LightSalmon	Acute Erythroid Leukemia	Leukemia	C4520841	C7467	Hematopoietic	AMLNOS
-MBLWNT	Gray	Medulloblastoma, WNT-Activated	Medulloblastoma			CNS/Brain	MBLMD
+MBLWNT	Gray	Medulloblastoma, WNT Subtype	Medulloblastoma			CNS/Brain	MBLMD
 SCGBC	Green	Small Cell Gallbladder Carcinoma	Hepatobiliary Cancer			Biliary Tract	GBC
 HGSFT	LightBlue	High-Grade Serous Fallopian Tube Cancer	Ovarian Cancer			Ovary/Fallopian Tube	OOVC
 RBL	Green	Retinoblastoma	Retinoblastoma	C0035335	C7541	Eye	EYE
@@ -561,6 +568,7 @@ MSCC	HotPink	Metaplastic Squamous Cell Carcinoma	Breast Cancer	C1336079	C5177	Br
 GCB	LimeGreen	DLBCL, Germinal Center B-Cell Subtype	B-Cell Lymphoid Proliferations and Lymphomas	C1333295 	C36080	Hematopoietic	DLBCLNOS
 DLBCLNOS	LimeGreen	Diffuse Large B-Cell Lymphoma, NOS	B-Cell Lymphoid Proliferations and Lymphomas	C1710498	C45231	Hematopoietic	LBL
 SLCT	LightBlue	Sertoli-Leydig Cell Tumor	Sex Cord Stromal Tumor	C0003810	C2880	Ovary/Fallopian Tube	SCST
+PTCA	Gray	Pituitary Carcinoma	Sellar Tumor	C0346300	C4536	CNS/Brain	SELT
 ROCY	Orange	Renal Oncocytoma	Renal Cell Carcinoma	C0346255	C4526	Kidney	NCCRCC
 MXOV	LightBlue	Mixed Ovarian Carcinoma	Ovarian Cancer	C0279392	C40090	Ovary/Fallopian Tube	OVT
 RCYC	LightSalmon	Childhood Myelodysplastic Neoplasm with Low Blasts	Myelodysplastic Neoplasms	C2826323	C82596	Hematopoietic	MDSC
@@ -568,6 +576,7 @@ SCLG	Green	Squamous Cell Carcinoma of the Lacrimal Gland	Lacrimal Gland Tumor			
 LXSC	DarkRed	Larynx Squamous Cell Carcinoma	Head and Neck Cancer	C0280324	C4044	Head and Neck	HNSC
 MRLS	LightYellow	Myxoid/Round-Cell Liposarcoma	Soft Tissue Sarcoma	C0206634	C27781	Soft Tissue	LIPO
 SBLU	LimeGreen	Splenic B-Cell Lymphomas and Leukemias	B-Cell Lymphoid Proliferations and Lymphomas	C2699507	C80308	Hematopoietic	MBN
+APTAD	Gray	Atypical Pituitary Adenoma	Sellar Tumor			CNS/Brain	SELT
 AMLMD	LightSalmon	AML with Minimal Differentiation	Leukemia	C0522631	C8460	Hematopoietic	AMLNOS
 FT	LightBlue	Fibrothecoma	Sex Cord Stromal Tumor			Ovary/Fallopian Tube	SCST
 SYNS	LightYellow	Synovial Sarcoma	Soft Tissue Sarcoma	C0039101	C3400	Soft Tissue	SOFT_TISSUE
@@ -576,7 +585,7 @@ RSCC	Orange	Renal Small Cell Carcinoma	Renal Cell Carcinoma	CL473652		Kidney	NCC
 SCT	LightBlue	Steroid Cell Tumor, NOS	Sex Cord Stromal Tumor			Ovary/Fallopian Tube	SCST
 AM	LightSalmon	AML with Maturation	Leukemia	C1879321	C3250	Hematopoietic	AMLNOS
 NPC	DarkRed	Nasopharyngeal Carcinoma	Head and Neck Cancer	C2931822	C3871	Head and Neck	HEAD_NECK
-SCOAH	Gray	Spindle Cell Oncocytoma	Sellar Tumor	C2986561	C94537	CNS/Brain	SELT
+SCOAH	Gray	Spindle Cell Oncocytoma of the Adenohypophysis	Sellar Tumor	C2986561	C94537	CNS/Brain	SELT
 PLLS	LightYellow	Pleomorphic Liposarcoma	Soft Tissue Sarcoma	C0205825	C3705	Soft Tissue	LIPO
 NECNOS	Black	Neuroendocrine Carcinoma, NOS	Cancer of Unknown Primary			Other	CUP
 MCD	LightSalmon	Mastocytosis	Mastocytosis	C0024899	C84269	Hematopoietic	MNM
@@ -658,6 +667,7 @@ THRLBCL	LimeGreen	T-Cell/Histiocyte-Rich Large B-Cell Lymphoma	B-Cell Lymphoid P
 ECD	LightSalmon	Erdheim-Chester Disease	Histiocytosis	C0878675	C53972	Hematopoietic	HN
 LUCA	Gainsboro	Lung Carcinoid	Non-Small Cell Lung Cancer	C0280089	C4038	Lung	LNET
 LNET	Gainsboro	Lung Neuroendocrine Tumor	Non-Small Cell Lung Cancer	C1334452	C5670	Lung	LUNG
+EPM	Gray	Ependymoma	Glioma	C0014474	C3017	CNS/Brain	EPMT
 STSC	LightSkyBlue	Small Cell Carcinoma of the Stomach	Esophagogastric Cancer	C1333788	C6764	Esophagus/Stomach	EGC
 EHCH	Green	Extrahepatic Cholangiocarcinoma	Hepatobiliary Cancer			Biliary Tract	CHOL
 CHOL	Green	Cholangiocarcinoma	Hepatobiliary Cancer	C0206698	C4436	Biliary Tract	IPN
@@ -680,6 +690,7 @@ PAAC	Purple	Acinar Cell Carcinoma of the Pancreas	Pancreatic Cancer	C0279661	C79
 URCC	Orange	Unclassified Renal Cell Carcinoma	Renal Cell Carcinoma	C1336853	C27892	Kidney	NCCRCC
 PRAD	Cyan	Prostate Adenocarcinoma	Prostate Cancer	C0007112	C2919	Prostate	PROSTATE
 POCA	Black	Porocarcinoma/Spiroadenocarcinoma	Skin Cancer, Non-Melanoma	C1266065	C5560	Skin	SKIN
+APE	Gray	Anaplastic Ependymoma	CNS Cancer	C0280788	C4049	CNS/Brain	EPMT
 NMZL	LimeGreen	Nodal Marginal Zone Lymphoma	B-Cell Lymphoid Proliferations and Lymphomas	C0855139	C8863	Hematopoietic	MZL
 PHCH	Green	Perihilar Cholangiocarcinoma	Hepatobiliary Cancer	C3273047	C96804	Biliary Tract	CHOL
 ECAD	Teal	Endocervical Adenocarcinoma	Cervical Cancer	C1299237	C28327	Cervix	CEAD
@@ -690,10 +701,11 @@ MCS	HotPink	Metaplastic Carcinosarcoma	Breast Cancer			Breast	MMBC
 EMBCA	Red	Embryonal Carcinoma	Germ Cell Tumor	C0238448	C6341	Testis	NSGCT
 EBVDLBCLNOS	LimeGreen	EBV Positive DLBCL	B-Cell Lymphoid Proliferations and Lymphomas	C5707789	C80281	Hematopoietic	LBL
 PRNE	Cyan	Prostate Neuroendocrine Carcinoma	Prostate Cancer	C1335515	C5545	Prostate	PROSTATE
+CCE	Gray	Clear Cell Ependymoma	CNS Cancer	C1384404	C4714	CNS/Brain	EPMT
 CEMN	Teal	Mesonephric Carcinoma	Cervical Cancer	CL329978		Cervix	CEAD
 PRSCC	Cyan	Prostate Small Cell Carcinoma	Prostate Cancer	C1300585	C6766	Prostate	PROSTATE
 BFN	HotPink	Breast Fibroepithelial Neoplasms	Breast Sarcoma	C1511309	C40405	Breast	BREAST
-ETANTR	Gray	Embryonal Tumor with Multilayered Rosettes	Embryonal Tumor	C0700367	C4915	CNS/Brain	OCNSET
+ETANTR	Gray	Embryonal Tumor with Abundant Neuropil and True Rosettes	Embryonal Tumor	C0700367	C4915	CNS/Brain	OCNSET
 PCNSL	LimeGreen	Primary Large B-Cell Lymphoma of The CNS	B-Cell Lymphoid Proliferations and Lymphomas	C0280803	C9301	Hematopoietic	PLBIPS
 MGCT	Red	Mixed Germ Cell Tumor	Germ Cell Tumor	C1336720	C6347	Testis	NSGCT
 MGUSIGA	LimeGreen	IgA Monoclonal Gammopathy of Undetemined Significance	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	NMGUSIGM
@@ -758,11 +770,11 @@ UCCA	PeachPuff	Choriocarcinoma	Gestational Trophoblastic Disease	C0279677	C27246
 IVBCL	LimeGreen	Intravascular Large B-Cell Lymphoma	B-Cell Lymphoid Proliferations and Lymphomas	C0334660	C4342	Hematopoietic	LBL
 OSACA	DarkRed	Salivary Carcinoma, Other	Salivary Gland Cancer			Head and Neck	SACA
 PAAD	Purple	Pancreatic Adenocarcinoma	Pancreatic Cancer	C0281361	C8294	Pancreas	PANCREAS
-PGNG	Gray	Cauda Equina Neuroendocrine Tumor	Cranial and Paraspinal Nerve Tumors	C0030421	C3308	Peripheral Nervous System	CPSNT
+PGNG	Gray	Paraganglioma	Miscellaneous Neuroepithelial Tumor	C0030421	C3308	Soft Tissue	SOFT_TISSUE
 MCCHL	LimeGreen	Classic Hodgkin Lymphoma, Mixed Cellularity	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	CHL
 AMKL	LightSalmon	Acute Megakaryoblastic Leukemia	Leukemia	C0023462	C3170	Hematopoietic	AMLNOS
 MBLNWS	Gray	Medulloblastoma, Non-WNT, Non-SHH	Medulloblastoma			CNS/Brain	MBLMD
-HSTCL	LimeGreen	Hepatosplenic T-Cell Lymphoma	Mature T and NK Neoplasms	C1333984	C8459	Hematopoietic	MTNN
+HSTCL	LimeGreen	Hepatosplenic T-cell Lymphoma	Mature T and NK Neoplasms	C1333984	C8459	Hematopoietic	MTNN
 UAS	PeachPuff	Uterine Adenosarcoma	Uterine Sarcoma	C1336917	C6336	Uterus	USARC
 AN	Black	Atypical Nevus	Skin Cancer, Non-Melanoma			Skin	SKIN
 OM	Green	Ocular Melanoma	Melanoma	C0558356	C8562	Eye	EYE
@@ -799,6 +811,7 @@ EVN	Gray	Extraventricular Neurocytoma	Miscellaneous Neuroepithelial Tumor	C29851
 CHOM	Gray	Chordoid Meningioma	CNS Cancer	C1370510	C6908	CNS/Brain	MNGT
 UCU	Yellow	Urethral Urothelial Carcinoma	Bladder Cancer	CL448335		Bladder/Urinary Tract	UCA
 MPRDS	LightSalmon	Myeloid Proliferations Related to Down Syndrome	Leukemia	C2826104	C82338	Hematopoietic	MNPAPC
+MBENSHH	Gray	Medulloblastoma with Extensive Nodularity, SHH Subtype	Medulloblastoma with Extensive Nodularity			CNS/Brain	MBEN
 CABC	Teal	Cervical Adenoid Basal Carcinoma	Cervical Cancer	C1516403	C40213	Cervix	CERVIX
 SKLMM	Black	Lentigo Maligna Melanoma	Melanoma	C2739810	C9151	Skin	MEL
 CHBL	White	Chondroblastoma	Bone Cancer	C0008441	C2945	Bone	BONE
@@ -806,6 +819,7 @@ CCM	Gray	Clear cell Meningioma	CNS Cancer	C0431121	C4722	CNS/Brain	MNGT
 LAIS	Gainsboro	Lung Adenocarcinoma In Situ	Non-Small Cell Lung Cancer			Lung	LUNG
 GNC	Gray	Gangliocytoma	Glioma	CL378224	C6934	CNS/Brain	GNT
 GEJ	LightSkyBlue	Adenocarcinoma of the Gastroesophageal Junction	Esophagogastric Cancer	C1332166	C9296	Esophagus/Stomach	EGC
+MBENNOS	Gray	Medulloblastoma with Extensive Nodularity, NOS	Medulloblastoma with Extensive Nodularity			CNS/Brain	MBEN
 TAM	LightSalmon	Transient Abnormal Myelopoiesis	Leukemia	C1834582		Hematopoietic	MPRDS
 EMALT	LimeGreen	Extranodal Marginal Zone Lymphoma of Mucosa-Associated Lymphoid Tissue (MALT lymphoma)	B-Cell Lymphoid Proliferations and Lymphomas	C0242647	C3898	Hematopoietic	MZL
 PLBMESO	Blue	Pleural Mesothelioma, Biphasic Type	Mesothelioma			Pleura	 PLMESO
@@ -826,7 +840,7 @@ AGNG	Gray	Anaplastic Ganglioglioma	Glioma	C0431112	C4717	CNS/Brain	ENCG
 ESCA	LightSkyBlue	Esophageal Adenocarcinoma	Esophagogastric Cancer	C0279628	C4025	Esophagus/Stomach	EGC
 SCGBM	Gray	Small Cell Glioblastoma	Glioma	C1272516	C125890	CNS/Brain	GB
 THFO	Teal	Follicular Thyroid Cancer	Thyroid Cancer	C0206682	C8054	Thyroid	WDTC
-ABC	LimeGreen	DLBCL, Activated B-Cell Subtype	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	DLBCLNOS
+ABC	LimeGreen	DLBCL, Activated B-cell Subtype	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	DLBCLNOS
 GRC	LightSkyBlue	Gastric Remnant Adenocarcinoma	Esophagogastric Cancer			Esophagus/Stomach	EGC
 RHM	Gray	Rhabdoid Meningioma	CNS Cancer	C0259786	C6909	CNS/Brain	MNGT
 LCH	LightSalmon	Langerhans Cell Histiocytosis	Histiocytosis	C0019621	C3107	Hematopoietic	LCN
@@ -836,7 +850,7 @@ LUNE	Gainsboro	Large Cell Neuroendocrine Carcinoma	Non-Small Cell Lung Cancer	C1
 PLSMESO	Blue	Pleural Mesothelioma, Sarcomatoid Type	Mesothelioma			Pleura	 PLMESO
 HGGNOS	Gray	High-Grade Glioma, NOS	Glioma			CNS/Brain	DIFG
 MCC	Black	Merkel Cell Carcinoma	Skin Cancer, Non-Melanoma	C0007129	C9231	Skin	SKIN
-PREBE	lavender	Barrett's Esophagus: Pre-Malignant	Pre-malignant Cancer			Esophagus/Stomach	STOMACH
+PREBE	lavender	Barrett‚Äôs Esophagus: Pre-Malignant	Pre-malignant Cancer			Esophagus/Stomach	STOMACH
 PREHGD	lavender	High-Grade Dysplasia of the Esophagus/Stomach	Pre-malignant Cancer			Esophagus/Stomach	STOMACH
 MLNJAK2	LightSalmon	Myeloid/Lymphoid Neoplasms with JAK2 Rearrangement	Leukemia			Hematopoietic	MLNER
 ARCH	Black	Adenocarcinoma in Retrorectal Cystic Hamartoma	Adenocarcinoma in Retrorectal Cystic Hamartoma			Other	OTHER
@@ -1106,50 +1120,4 @@ CMLCP	LightSalmon	CML Chronic Phase	Leukemia			Hematopoietic	CML
 CMPN	LightSalmon	Non-CML Type Classical MPN	Myeloproliferative Neoplasms			Hematopoietic	MPN
 CFL	LimeGreen	Classic Follicular Lymphoma	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
 FLPDP	LimeGreen	Follicular Lymphoma with Predominantly Diffuse Growth Pattern	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
-MLUAD	Gainsboro	Lung Adenocarcinoma with a Micropapillary Pattern	Non-Small Cell Lung Cancer			Lung	LUAD
-APHGD	SaddleBrown	Adenomatous Polyp, High-Grade Dysplasia	Benign Epithelial Tumors and Precursors			Bowel	BOWEL
-ADH	HotPink	Atypical Ductal Hyperplasia	Benign Epithelial Proliferations and Precursors			Breast	BEPP
-ALH	HotPink	Atypical Lobular Hyperplasia	Non-Invasive Lobular Neoplasia			Breast	BEPP
-CCLFEA	HotPink	Columnar Cell Lesions, Including Flat Epithelial Atypia	Benign Epithelial Proliferations and Precursors			Breast	BEPP
-BEPP	HotPink	Benign Epithelial Proliferations and Precursors	Benign Epithelial Proliferations and Precursors			Breast	BREAST
-PANIN	Purple	Pancreatic Intraepithelial Neoplasia 	Benign Epithelial Tumors and Precursors			Pancreas	PANCREAS
-HGPIN	Cyan	Prostatic Intraepithelial Neoplasia 	Glandular Neoplasm of the Prostate			Prostate	PROSTATE
-CSET	Teal	Squamous Epithelial Tumors	Squamous Epithelial Tumors			Cervix	CERVIX
-LSIL	Teal	Low-Grade Squamous Intraepithelial Lesion	Squamous Epithelial Tumors			Cervix	CSET
-CIN1	Teal	Cervical Intraepithelial Neoplasia, Grade 1	Squamous Epithelial Tumors			Cervix	LSIL
-HSIL	Teal	High-Grade Squamous Intraepithelial Lesion	Squamous Epithelial Tumors			Cervix	CSET
-CIN2	Teal	Cervical Intraepithelial Neoplasia, Grade 2	Squamous Epithelial Tumors			Cervix	HSIL
-CIN3	Teal	Cervical Intraepithelial Neoplasia, Grade 3	Squamous Epithelial Tumors			Cervix	HSIL
-HGGD	LightSkyBlue	High-Grade Gastric Dysplasia	Benign Epithelial Tumors and Precursors			Esophagus/Stomach	STOMACH
-BD	Black	Bowen Disease	Premalignant Keratoses and Precursors			Skin	SKIN
-AK	Black	Actinic Keratoses	Premalignant Keratoses and Precursors			Skin	SKIN
-DN	Black	Dysplastic Nevus	Melanocytic Neoplasms			Skin	SKIN
-SCIS	Gainsboro	Squamous Dysplasia and Squamous Carcinoma In Situ	Squamous Precursor Lesions			Lung	LUNG
-OED	DarkRed	Oral Epithelial Dysplasia	Oral Epithelial Dysplasia			Head and Neck	HEAD_NECK
-ASIN	SaddleBrown	Benign Epithelial Tumors and Precursors	Anal Squamous Intraepithelial Neoplasia			Bowel	BOWEL
-STIC	LightBlue	Ovarian Serous Tubular Intraepithelial Carcinoma	Epithelial precursor lesions			Ovary/Fallopian Tube	OVARY
-AAH	Gainsboro	Atypical Adenomatous Hyperplasia	Precursor Glandular Lesions			Lung	LUNG
-UC	SaddleBrown	Ulcerative Colitis	Premalignant Conditions			Bowel	BOWEL
-CD	SaddleBrown	Crohn’s Disease	Premalignant Conditions			Bowel	BOWEL
-HELU	HotPink	Proliferative Disease (Hyperplastic Enlarged Lobular Units)	Benign Epithelial Proliferations and Precursors			Breast	BEPP
-PIA	Cyan	Prostatic Proliferative Inflammatory Atrophy	Benign Epithelial Proliferations and Precursors			Prostate	PROSTATE
-ASC	Teal	Cervical Atypical Squamous Cells	Squamous Precursor Lesions			Cervix	CERVIX
-IMB	Yellow	Intestinal Metaplasia of The Bladder	Epithelial Precursor Lesions			Bladder/Urinary Tract	BLADDER
-PUH	Yellow	Papillary Urothelial Hyperplasia	Benign Epithelial Tumors and Precursors			Bladder/Urinary Tract	BLADDER
-BCIS	Yellow	Bladder Carcinoma In Situ	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
-NIPC	Yellow	Non-Invasive Papillary Carcinoma	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
-IMETS	LightSkyBlue	Intestinal Metaplasia of The Stomach	Precursor Glandular Lesions			Esophagus/Stomach	STOMACH
-XP	Black	Xeroderma Pigmentosum	Premalignant Keratoses and Precursors			Skin	SKIN
-PKM	Black	Porokeratosis Melanocytic	Premalignant Keratoses and Precursors			Skin	SKIN
-SML	Gainsboro	Squamous Metaplasia of The Lung	Benign Epithelial Tumors and Precursors			Lung	LUNG
-OCIS	DarkRed	Oral Carcinoma In Situ	Squamous Epithelial Tumors			Head and Neck	HEAD_NECK
-OPL	DarkRed	Oral Premalignant Lesions	Squamous Precursor Lesions			Head and Neck	HEAD_NECK
-LEP	DarkRed	Leukoplakia	Squamous Precursor Lesions			Head and Neck	OPL
-ERP	DarkRed	Erythroplakia	Squamous Precursor Lesions			Head and Neck	OPL
-LP	DarkRed	Lichen Planus	Squamous Precursor Lesions			Head and Neck	OPL
-AIL	SaddleBrown	Anal Intraepithelial Lesions	Squamous Precursor Lesions			Bowel	BOWEL
-ASCUS	SaddleBrown	Atypical Squamous Cells of Undetermined Significance	Squamous Precursor Lesions			Bowel	BOWEL
-HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			Bowel	BOWEL
-RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	KIDNEY
-VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	KIDNEY
-SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVARY
+MLUAD	Gainsboro	Micropapillary Lung Adenocarcinoma	Non-Small Cell Lung Cancer			Lung	LUAD
