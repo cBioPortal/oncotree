@@ -76,3 +76,19 @@ jobs:
         else
           echo "No changes detected in generated files. Skipping commit."
         fi
+      
+    - name: Build mapping validation
+      working-directory: ./web/src/main/go
+      run: go build -o validate-mappings ./cmd/validate-mappings
+
+    - name: Validate mappings
+      working-directory: ./web/src/main/go
+      run: ./validate-mappings 
+
+    - name: Build tree validation
+      working-directory: ./web/src/main/go
+      run: go build -o validate-trees ./cmd/validate-trees
+
+    - name: Validate trees
+      working-directory: ./web/src/main/go
+      run: ./validate-trees
