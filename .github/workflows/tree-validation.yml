@@ -25,29 +25,6 @@ jobs:
       continue-on-error: true
       working-directory: ./web/src/main/go
 
-    - name: Generate mappings
-      if: steps.validate-mappings.outcome == 'failure'
-      run: go run ./cmd/generate-mappings/main.go
-      working-directory: ./web/src/main/go
-
-    - name: Generate trees
-      if: steps.validate-mappings.outcome == 'success'
-      run: go run ./cmd/generate-trees/main.go
-      working-directory: ./web/src/main/go
-
     - name: Validate trees
       run: go run ./cmd/validate-trees/main.go
       working-directory: ./web/src/main/go
-
-    - name: Upload generated mappings
-      if: steps.validate-mappings.outcome == 'failure'
-      uses: actions/upload-artifact@v4
-      with:
-        name: generated-mappings
-        path: trees/mappings/**
-
-    - name: Fail workflow if validation failed
-      if: steps.validate-mappings.outcome == 'failure'
-      run: |
-        echo "Mapping validation failed. See the 'Validate Mappings' step for more details."
-        exit 1
