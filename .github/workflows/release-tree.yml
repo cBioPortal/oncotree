@@ -71,7 +71,7 @@ jobs:
         git add ./trees/
         
         if ! git diff --cached --quiet; then
-          git commit -m "chore: auto-generate tree artifacts [skip ci]"
+          git commit -m "chore: auto-generate tree artifacts"
           git push origin HEAD:${{ github.head_ref }}
         else
           echo "No changes detected in generated files. Skipping commit."
