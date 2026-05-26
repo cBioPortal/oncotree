@@ -6,6 +6,7 @@ on:
 
 jobs:
   check-changes:
+      runs-on: ubuntu-latest
       if: github.actor != 'github-actions[bot]'
       outputs:
         has_tsv_changes: ${{ steps.changed-tsv-files.outputs.any_changed }}
