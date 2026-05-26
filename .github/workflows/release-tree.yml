@@ -79,7 +79,7 @@ jobs:
 
     - name: Build tree validation
       working-directory: ./web/src/main/go
-      run: go build -o validate-trees ./cmd/ben-new
+      run: go build -o validate-trees ./cmd/validate-trees
 
     - name: Validate trees
       working-directory: ./web/src/main/go
