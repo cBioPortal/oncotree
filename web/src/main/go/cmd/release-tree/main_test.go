@@ -50,12 +50,6 @@ func TestCreateOncoTreeFromFile(t *testing.T) {
 	}
 }
 
-type MockPreviousCodeGetter struct{}
-
-func (previousCodeGetter *MockPreviousCodeGetter) GetPreviousCodes(treeName string) (map[string][]string, error) {
-	return make(map[string][]string), nil
-}
-
 func reportError(t *testing.T, expected map[uint][]string, actual map[uint][]string) {
 	t.Errorf("Expected BFS result to be equal: expected '%v', got '%v'", expected, actual)
 }
