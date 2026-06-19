@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { OncoTreeNode } from "@oncokb/oncotree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -43,6 +43,15 @@ export default function AnnotationPanel({
   const [text, setText] = useState("");
   const [feedback, setFeedback] = useState<Feedback>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Reflect externally loaded annotations (e.g. from the ?annotations= URL) in
+  // the editor, without clobbering text the user is actively typing.
+  useEffect(() => {
+    if (annotations && Object.keys(annotations).length > 0 && !text.trim()) {
+      setText(JSON.stringify(annotations, null, 2));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [annotations]);
 
   const annotationCount = annotations ? Object.keys(annotations).length : 0;
   const colorScale = useMemo(
