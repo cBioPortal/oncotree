@@ -19,12 +19,12 @@ All of the frontend code can be found at [/web/src/main/javascript](/web/src/mai
 in [constants.ts](/web/src/main/javascript/src/shared/constants.ts). During development, it may be easiest to simply point to the public instance of 
 [OncoTree](https://oncotree.mskcc.org).
 
-Make sure you are using node version >=20.12.2.
+Make sure you are using node version >=20.12.2. The frontend uses [pnpm](https://pnpm.io/) as its package manager (enable it with `corepack enable`).
 
 To begin development run:
 ```
 cd ./web/src/main/javascript
-npm install && npm run dev
+pnpm install && pnpm run dev
 ```
 
 ## Building the Frontend
@@ -36,7 +36,7 @@ The frontend must be transpiled to static assets before bundling into a jar. To 
 
     ```
     cd ./web/src/main/javascript
-    npm install && npm run build
+    pnpm install && pnpm run build
     ```
 3. The frontend assets are now up to date, and you are ready to bundle the jar.
 

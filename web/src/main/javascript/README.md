@@ -1,7 +1,7 @@
 # Running locally
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 # React + TypeScript + Vite
