@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { OncoTreeNode } from "@oncokb/oncotree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,9 +12,7 @@ import { toast } from "react-toastify";
 import {
   AnnotationMap,
   ANNOTATIONS_URL_PARAM,
-  buildColorScale,
   encodeAnnotations,
-  formatNumber,
   parseAnnotations,
   SAMPLE_ANNOTATIONS,
 } from "../../shared/annotations";
@@ -54,10 +52,6 @@ export default function AnnotationPanel({
   }, [annotations]);
 
   const annotationCount = annotations ? Object.keys(annotations).length : 0;
-  const colorScale = useMemo(
-    () => buildColorScale(annotations ?? {}),
-    [annotations],
-  );
 
   function handleApply() {
     const result = parseAnnotations(text, oncoTreeData);
@@ -215,23 +209,10 @@ export default function AnnotationPanel({
           {annotationCount > 0 && (
             <div className={styles.legend}>
               <div className={styles.legendTitle}>Legend</div>
-              <div className={styles.legendRow}>
-                <span className={styles.ringSwatch} />
-                <span>Annotated (node keeps its OncoTree color)</span>
-              </div>
-              {colorScale.hasNumeric && (
-                <>
-                  <div className={styles.gradient} />
-                  <div className={styles.gradientLabels}>
-                    <span>{formatNumber(colorScale.min)}</span>
-                    <span>{formatNumber(colorScale.max)}</span>
-                  </div>
-                  <div className={styles.legendCaption}>value badge color</div>
-                </>
-              )}
-              <div className={styles.legendRow}>
-                <span className={styles.swatch} />
-                <span>Gene list / text label badge</span>
+              <div className={styles.legendCaption}>
+                Each annotated node shows a badge with its value or gene count;
+                hover a node for the full details. Collapsing a node sums its
+                descendants' values and unions their genes.
               </div>
             </div>
           )}

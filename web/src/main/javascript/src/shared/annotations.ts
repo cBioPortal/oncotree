@@ -243,57 +243,6 @@ export function parseAnnotations(
   return result;
 }
 
-export type ColorScale = {
-  hasNumeric: boolean;
-  min: number;
-  max: number;
-  colorFor: (value: number) => string;
-};
-
-const SCALE_LOW: [number, number, number] = [222, 235, 247]; // #deebf7
-const SCALE_HIGH: [number, number, number] = [8, 81, 156]; // #08519c
-
-function mix(
-  low: [number, number, number],
-  high: [number, number, number],
-  t: number,
-): string {
-  const channel = (index: number) =>
-    Math.round(low[index] + (high[index] - low[index]) * t);
-  return `rgb(${channel(0)}, ${channel(1)}, ${channel(2)})`;
-}
-
-/** Build a sequential color scale over the numeric values in the map. */
-export function buildColorScale(annotations: AnnotationMap): ColorScale {
-  const values = Object.values(annotations)
-    .map((annotation) => annotation.value)
-    .filter((value): value is number => typeof value === "number");
-
-  if (values.length === 0) {
-    return {
-      hasNumeric: false,
-      min: 0,
-      max: 0,
-      colorFor: () => mix(SCALE_LOW, SCALE_HIGH, 1),
-    };
-  }
-
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-
-  return {
-    hasNumeric: true,
-    min,
-    max,
-    colorFor: (value: number) => {
-      const raw = max === min ? 1 : (value - min) / (max - min);
-      // Aggregated (summed) values can exceed the per-node max; clamp to scale.
-      const t = Math.max(0, Math.min(1, raw));
-      return mix(SCALE_LOW, SCALE_HIGH, t);
-    },
-  };
-}
-
 export function formatNumber(value: number): string {
   if (Number.isInteger(value)) {
     return value.toLocaleString();

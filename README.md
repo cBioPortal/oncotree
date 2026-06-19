@@ -26,10 +26,10 @@ object combining them, e.g.:
 }
 ```
 
-Numeric values are shown as a color-scaled badge; gene lists and labels as a
-badge with the detail in the hover tooltip. Annotated nodes keep their own
-OncoTree color and gain a marker ring. Collapsing a node rolls up its hidden
-descendants (values summed, gene lists unioned).
+Each annotated node gets a small badge showing its value or gene count;
+hovering the node adds the full detail (value, gene list) to the node's
+tooltip. Collapsing a node rolls up its hidden descendants — values are summed
+and gene lists unioned.
 
 Annotations can be supplied four ways:
 

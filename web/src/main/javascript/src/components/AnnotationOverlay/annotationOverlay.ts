@@ -1,19 +1,18 @@
 import {
   AnnotationMap,
   AnnotationValue,
-  buildColorScale,
-  ColorScale,
   formatNumber,
 } from "../../shared/annotations";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const OVERLAY_CLASS = "annotation-overlay";
 const HALO_CLASS = "annotation-halo";
-// Neutral marker so an annotated node keeps its own OncoTree color; the ring
-// only signals "this node is annotated".
-const ANNOTATED_RING = "#f59f00";
-// Badge color for non-numeric (gene list / text label) annotations.
-const CATEGORICAL_BADGE = "#495057";
+// Marks tooltip rows we inject into the tree library's own node tooltip.
+const TOOLTIP_ITEM_CLASS = "annotation-tooltip-item";
+// Readable badge: white pill, neutral border, dark bold number.
+const BADGE_BG = "#ffffff";
+const BADGE_BORDER = "#adb5bd";
+const BADGE_TEXT = "#212529";
 const REAPPLY_DEBOUNCE_MS = 60;
 
 type DataNode = {
@@ -24,7 +23,8 @@ type DataNode = {
 
 type D3Datum = {
   data?: DataNode;
-  // Set by the tree library when a node is collapsed (its children are hidden).
+  // Visible children, and (when collapsed) hidden children, set by the library.
+  children?: unknown;
   _children?: unknown;
 };
 
@@ -50,6 +50,18 @@ function createSvgElement<K extends keyof SVGElementTagNameMap>(
   tag: K,
 ): SVGElementTagNameMap[K] {
   return document.createElementNS(SVG_NS, tag);
+}
+
+/** Rendered width of a node's label, to place the badge just after it. */
+function nodeLabelWidth(node: SVGGElement): number {
+  const text =
+    node.querySelector<SVGTextElement>("text.nodeText") ??
+    node.querySelector<SVGTextElement>("text");
+  try {
+    return text ? text.getBBox().width : 0;
+  } catch {
+    return 0;
+  }
 }
 
 /** Codes of every descendant of a node (the full original subtree). */
@@ -84,6 +96,7 @@ function aggregate(annotations: AnnotationValue[]): {
   return { value, genes: geneSet.size > 0 ? [...geneSet] : undefined };
 }
 
+/** Short text shown in the on-node badge. */
 function badgeText(effective: EffectiveAnnotation): string | null {
   if (effective.value !== undefined) {
     return formatNumber(effective.value);
@@ -99,89 +112,101 @@ function badgeText(effective: EffectiveAnnotation): string | null {
   return null;
 }
 
-function tooltipLines(
-  datum: D3Datum,
-  effective: EffectiveAnnotation,
-): { title: string; rows: string[] } {
-  const name = datum.data?.name ?? "";
-  const code = datum.data?.code ?? "";
-  const title = name ? `${name} (${code})` : code;
+/** Detail rows appended to the node's tooltip. */
+function annotationTooltipRows(effective: EffectiveAnnotation): string[] {
   const rows: string[] = [];
   if (effective.value !== undefined) {
     rows.push(
       `${effective.rolledUp ? "Sum" : "Value"}: ${formatNumber(effective.value)}`,
     );
+  } else if (effective.label) {
+    rows.push(`Annotation: ${effective.label}`);
   }
   if (effective.genes && effective.genes.length > 0) {
     rows.push(
-      `Genes${effective.rolledUp ? " (union)" : ""}: ${effective.genes.join(", ")}`,
+      `Genes${effective.rolledUp ? " (union)" : ""} (${effective.genes.length}): ${effective.genes.join(", ")}`,
     );
-  }
-  if (
-    effective.label &&
-    !effective.rolledUp &&
-    effective.label !== badgeText(effective)
-  ) {
-    rows.push(effective.label);
   }
   if (effective.rolledUp) {
     rows.push(
-      `Aggregated from ${effective.contributors} annotated ${
-        effective.contributors === 1 ? "node" : "nodes"
+      `Aggregated from ${effective.contributors} node${
+        effective.contributors === 1 ? "" : "s"
       } — expand to see each`,
     );
   }
-  return { title, rows };
+  return rows;
 }
 
 /**
- * Decorates the OncoTree SVG with annotation overlays. The OncoTree package
- * re-renders nodes (with d3 transitions) on every expand/collapse and re-applies
- * its own circle styling, so overlays are appended as extra children of each
- * `g.node` and re-applied whenever the SVG mutates.
+ * Decorates the OncoTree SVG with annotation badges and folds the annotation
+ * detail into the tree library's own node tooltip. The library re-renders nodes
+ * (with d3 transitions) on every expand/collapse and re-applies its own styling,
+ * so badges are appended as extra children of each `g.node` and re-applied
+ * whenever the SVG mutates.
  */
 export default class AnnotationOverlay {
   private container: HTMLElement;
   private annotations: AnnotationMap = {};
-  private colorScale: ColorScale = buildColorScale({});
   private observer: MutationObserver;
+  private tooltipObserver: MutationObserver;
   private reapplyTimer: number | undefined;
-  private tooltip: HTMLDivElement | undefined;
 
   constructor(container: HTMLElement) {
     this.container = container;
     this.observer = new MutationObserver(() => this.scheduleReapply());
+    this.tooltipObserver = new MutationObserver(() => this.augmentTooltip());
   }
 
   setAnnotations(annotations: AnnotationMap | null): void {
     this.annotations = annotations ?? {};
-    this.colorScale = buildColorScale(this.annotations);
     this.apply();
     if (Object.keys(this.annotations).length > 0) {
       this.startObserving();
+      this.observeTooltip();
     } else {
       this.observer.disconnect();
+      this.tooltipObserver.disconnect();
     }
   }
 
   destroy(): void {
     this.observer.disconnect();
+    this.tooltipObserver.disconnect();
     if (this.reapplyTimer !== undefined) {
       window.clearTimeout(this.reapplyTimer);
     }
     this.clearOverlays();
-    this.tooltip?.remove();
-    this.tooltip = undefined;
+    this.getTooltipContainer()
+      ?.querySelectorAll(`.${TOOLTIP_ITEM_CLASS}`)
+      .forEach((element) => element.remove());
   }
 
   private getSvgGroup(): SVGGElement | null {
     return this.container.querySelector("svg g");
   }
 
+  /** The library appends an absolutely-positioned div to the container for its tooltip. */
+  private getTooltipContainer(): HTMLElement | null {
+    const divs = this.container.querySelectorAll<HTMLElement>(":scope > div");
+    for (const div of divs) {
+      if (div.style.position === "absolute") {
+        return div;
+      }
+    }
+    return null;
+  }
+
   private startObserving(): void {
     const group = this.getSvgGroup();
     if (group) {
       this.observer.observe(group, { childList: true, subtree: true });
+    }
+  }
+
+  private observeTooltip(): void {
+    const tooltip = this.getTooltipContainer();
+    if (tooltip) {
+      this.tooltipObserver.observe(tooltip, { childList: true, subtree: true });
     }
   }
 
@@ -209,10 +234,8 @@ export default class AnnotationOverlay {
     if (hasAnnotations) {
       const nodes = this.container.querySelectorAll<SVGGElement>("g.node");
       nodes.forEach((node) => this.decorateNode(node));
-    }
-
-    if (hasAnnotations) {
       this.startObserving();
+      this.observeTooltip();
     }
   }
 
@@ -227,62 +250,51 @@ export default class AnnotationOverlay {
     if (!effective) {
       return;
     }
-
-    // The badge carries the data color (value magnitude); the halo stays a
-    // neutral marker so the node's own OncoTree color remains readable.
-    const badgeColor =
-      effective.value !== undefined && this.colorScale.hasNumeric
-        ? this.colorScale.colorFor(effective.value)
-        : CATEGORICAL_BADGE;
-
-    const halo = createSvgElement("circle");
-    halo.setAttribute("class", HALO_CLASS);
-    halo.setAttribute("r", "9");
-    halo.setAttribute("fill", ANNOTATED_RING);
-    halo.setAttribute("fill-opacity", "0.12");
-    halo.setAttribute("stroke", ANNOTATED_RING);
-    halo.setAttribute("stroke-width", "2.5");
-    halo.style.pointerEvents = "all";
-    halo.style.cursor = "pointer";
-    node.insertBefore(halo, node.firstChild);
-
     const label = badgeText(effective);
-    const overlay = createSvgElement("g");
-    overlay.setAttribute("class", OVERLAY_CLASS);
-    overlay.style.pointerEvents = "all";
-    overlay.style.cursor = "pointer";
-
-    if (label) {
-      const paddingX = 5;
-      const charWidth = 6.2;
-      const width = Math.max(16, label.length * charWidth + paddingX * 2);
-      const height = 15;
-      const y = -23;
-
-      const rect = createSvgElement("rect");
-      rect.setAttribute("x", `${-width / 2}`);
-      rect.setAttribute("y", `${y}`);
-      rect.setAttribute("width", `${width}`);
-      rect.setAttribute("height", `${height}`);
-      rect.setAttribute("rx", "7");
-      rect.setAttribute("ry", "7");
-      rect.setAttribute("fill", badgeColor);
-      overlay.appendChild(rect);
-
-      const text = createSvgElement("text");
-      text.setAttribute("x", "0");
-      text.setAttribute("y", `${y + height / 2}`);
-      text.setAttribute("dy", "0.35em");
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("fill", "#ffffff");
-      text.setAttribute("font-size", "10");
-      text.setAttribute("font-weight", "600");
-      text.textContent = label;
-      overlay.appendChild(text);
+    if (!label) {
+      return;
     }
 
-    this.attachTooltip(halo, datum, effective);
-    this.attachTooltip(overlay, datum, effective);
+    const overlay = createSvgElement("g");
+    overlay.setAttribute("class", OVERLAY_CLASS);
+    // Don't intercept clicks/hovers meant for the node (expand, tooltip).
+    overlay.style.pointerEvents = "none";
+
+    const paddingX = 6;
+    const charWidth = 6.6;
+    const height = 16;
+    const width = Math.max(18, label.length * charWidth + paddingX * 2);
+
+    // Sit on the node's own row (vertically centered) to the right of its label,
+    // so badges never overlap neighbouring rows. Leaf labels render to the right
+    // of the node, parent labels to the left.
+    const hasChildren = !!datum.children || !!datum._children;
+    const left = hasChildren ? 12 : 14 + nodeLabelWidth(node);
+    const y = -height / 2;
+
+    const rect = createSvgElement("rect");
+    rect.setAttribute("x", `${left}`);
+    rect.setAttribute("y", `${y}`);
+    rect.setAttribute("width", `${width}`);
+    rect.setAttribute("height", `${height}`);
+    rect.setAttribute("rx", "8");
+    rect.setAttribute("ry", "8");
+    rect.setAttribute("fill", BADGE_BG);
+    rect.setAttribute("stroke", BADGE_BORDER);
+    rect.setAttribute("stroke-width", "1");
+    overlay.appendChild(rect);
+
+    const text = createSvgElement("text");
+    text.setAttribute("x", `${left + width / 2}`);
+    text.setAttribute("y", "0");
+    text.setAttribute("dy", "0.35em");
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("fill", BADGE_TEXT);
+    text.setAttribute("font-size", "11");
+    text.setAttribute("font-weight", "700");
+    text.textContent = label;
+    overlay.appendChild(text);
+
     node.appendChild(overlay);
   }
 
@@ -321,87 +333,51 @@ export default class AnnotationOverlay {
     };
   }
 
-  private attachTooltip(
-    element: Element,
-    datum: D3Datum,
-    effective: EffectiveAnnotation,
-  ): void {
-    const { title, rows } = tooltipLines(datum, effective);
-    element.addEventListener("mouseenter", (event) => {
-      this.showTooltip(title, rows, event as MouseEvent);
-    });
-    element.addEventListener("mousemove", (event) => {
-      this.positionTooltip(event as MouseEvent);
-    });
-    element.addEventListener("mouseleave", () => this.hideTooltip());
-  }
-
-  private ensureTooltip(): HTMLDivElement {
-    if (!this.tooltip) {
-      const tooltip = document.createElement("div");
-      tooltip.className = "annotation-tooltip";
-      Object.assign(tooltip.style, {
-        position: "fixed",
-        zIndex: "1000",
-        pointerEvents: "none",
-        background: "rgba(33, 37, 41, 0.96)",
-        color: "#fff",
-        padding: "6px 9px",
-        borderRadius: "5px",
-        fontSize: "12px",
-        lineHeight: "1.4",
-        maxWidth: "260px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-        display: "none",
-      } as Partial<CSSStyleDeclaration>);
-      document.body.appendChild(tooltip);
-      this.tooltip = tooltip;
+  private effectiveByCode(code: string): EffectiveAnnotation | null {
+    const node = Array.from(
+      this.container.querySelectorAll<SVGGElement>("g.node"),
+    ).find((element) => getDatum(element)?.data?.code?.toUpperCase() === code);
+    const datum = node ? getDatum(node) : undefined;
+    if (datum?.data) {
+      return this.effectiveAnnotation(datum, code);
     }
-    return this.tooltip;
+    const own = this.annotations[code];
+    return own
+      ? {
+          value: own.value,
+          genes: own.genes,
+          label: own.label,
+          rolledUp: false,
+          contributors: 1,
+        }
+      : null;
   }
 
-  private showTooltip(title: string, rows: string[], event: MouseEvent): void {
-    const tooltip = this.ensureTooltip();
-    const body = rows
-      .map((row) => `<div>${escapeHtml(row)}</div>`)
-      .join("");
-    tooltip.innerHTML = `<div style="font-weight:600;margin-bottom:2px">${escapeHtml(
-      title,
-    )}</div>${body}`;
-    tooltip.style.display = "block";
-    this.positionTooltip(event);
-  }
-
-  private positionTooltip(event: MouseEvent): void {
-    if (!this.tooltip) {
+  /** Append annotation rows to the library's node tooltip when it appears. */
+  private augmentTooltip(): void {
+    const container = this.getTooltipContainer();
+    const inner = container?.querySelector(".oncotree-tooltip");
+    if (!inner || inner.querySelector(`.${TOOLTIP_ITEM_CLASS}`)) {
       return;
     }
-    const offset = 14;
-    const { innerWidth, innerHeight } = window;
-    const rect = this.tooltip.getBoundingClientRect();
-    let left = event.clientX + offset;
-    let top = event.clientY + offset;
-    if (left + rect.width > innerWidth) {
-      left = event.clientX - rect.width - offset;
+    const codeItem = Array.from(
+      inner.querySelectorAll(".oncotree-tooltip-item"),
+    )
+      .map((element) => element.textContent ?? "")
+      .find((text) => text.toLowerCase().startsWith("code:"));
+    if (!codeItem) {
+      return;
     }
-    if (top + rect.height > innerHeight) {
-      top = event.clientY - rect.height - offset;
+    const code = codeItem.slice(codeItem.indexOf(":") + 1).trim().toUpperCase();
+    const effective = this.effectiveByCode(code);
+    if (!effective) {
+      return;
     }
-    this.tooltip.style.left = `${Math.max(4, left)}px`;
-    this.tooltip.style.top = `${Math.max(4, top)}px`;
+    for (const row of annotationTooltipRows(effective)) {
+      const item = document.createElement("div");
+      item.className = `oncotree-tooltip-item ${TOOLTIP_ITEM_CLASS}`;
+      item.textContent = row;
+      inner.appendChild(item);
+    }
   }
-
-  private hideTooltip(): void {
-    if (this.tooltip) {
-      this.tooltip.style.display = "none";
-    }
-  }
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 }
