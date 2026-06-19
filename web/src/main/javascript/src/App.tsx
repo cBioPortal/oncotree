@@ -58,6 +58,11 @@ function App() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const version = searchParams.get("version") ?? DEFAULT_VERSION;
+  // `?embed` (or ?embed=1) hides the site chrome (header/footer) for embedding;
+  // the host then drives the view via postMessage.
+  const embedParam = searchParams.get("embed");
+  const embed =
+    embedParam !== null && embedParam !== "0" && embedParam !== "false";
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
@@ -179,14 +184,22 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header
-        oncoTree={oncoTree}
-        oncoTreeData={oncoTreeData}
-        onVersionChange={(version) => {
-          fetchData(version.api_identifier);
-        }}
-      />
-      <div className="app-content-container">
+      {!embed && (
+        <Header
+          oncoTree={oncoTree}
+          oncoTreeData={oncoTreeData}
+          onVersionChange={(version) => {
+            fetchData(version.api_identifier);
+          }}
+        />
+      )}
+      <div
+        className={
+          embed
+            ? "app-content-container app-content-container--embed"
+            : "app-content-container"
+        }
+      >
         <Routes>
           <Route
             path={PageRoutes.HOME}
@@ -205,7 +218,7 @@ function App() {
           <Route path={PageRoutes.ABOUT} element={<About />} />
         </Routes>
       </div>
-      <Footer />
+      {!embed && <Footer />}
       <ToastContainer
         position="top-right"
         autoClose={1800}

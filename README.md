@@ -37,9 +37,10 @@ Annotations can be supplied four ways:
 2. **URL parameter** — `?annotations=<json>` where the value is raw
    (URL-encoded) JSON or base64-encoded JSON (the panel's "Copy share link"
    button produces the base64 form).
-3. **Embed via `postMessage`** — when the app runs in an `<iframe>` it posts
-   `{ type: "oncotree-ready" }` to its parent; the parent then pushes
-   annotations:
+3. **Embed via `postMessage`** — add `?embed` to the URL to hide the site
+   header and footer (leaving just the tree), then drive it from the host.
+   When the app runs in an `<iframe>` it posts `{ type: "oncotree-ready" }` to
+   its parent; the parent then pushes annotations:
 
    ```js
    iframe.contentWindow.postMessage(

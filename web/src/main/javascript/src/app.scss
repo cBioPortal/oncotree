@@ -29,6 +29,10 @@ body,
   height: 100%;
 }
 
+.app-content-container.app-content-container--embed {
+  height: 100%;
+}
+
 .app-content-container {
   position: relative;
   height: $app-content-height;
