@@ -16,8 +16,30 @@ const ANNOTATED_RING = "#f59f00";
 const CATEGORICAL_BADGE = "#495057";
 const REAPPLY_DEBOUNCE_MS = 60;
 
+type DataNode = {
+  code?: string;
+  name?: string;
+  children?: Record<string, DataNode>;
+};
+
 type D3Datum = {
-  data?: { code?: string; name?: string };
+  data?: DataNode;
+  // Set by the tree library when a node is collapsed (its children are hidden).
+  _children?: unknown;
+};
+
+/**
+ * What a single rendered node shows. For a collapsed node this rolls up its own
+ * annotation with every hidden descendant's annotation.
+ */
+type EffectiveAnnotation = {
+  value?: number;
+  genes?: string[];
+  label?: string;
+  /** True when descendant annotations were folded in. */
+  rolledUp: boolean;
+  /** Number of annotated codes that contributed (own + descendants). */
+  contributors: number;
 };
 
 function getDatum(element: Element): D3Datum | undefined {
@@ -30,39 +52,84 @@ function createSvgElement<K extends keyof SVGElementTagNameMap>(
   return document.createElementNS(SVG_NS, tag);
 }
 
-function badgeText(annotation: AnnotationValue): string | null {
-  if (annotation.value !== undefined) {
-    return formatNumber(annotation.value);
+/** Codes of every descendant of a node (the full original subtree). */
+function collectDescendantCodes(node: DataNode): string[] {
+  const codes: string[] = [];
+  const stack: DataNode[] = Object.values(node.children ?? {});
+  while (stack.length > 0) {
+    const current = stack.pop() as DataNode;
+    if (current.code) {
+      codes.push(current.code.toUpperCase());
+    }
+    for (const child of Object.values(current.children ?? {})) {
+      stack.push(child);
+    }
   }
-  if (annotation.genes && annotation.genes.length > 0) {
-    return `${annotation.genes.length} gene${annotation.genes.length === 1 ? "" : "s"}`;
+  return codes;
+}
+
+/** Sum numeric values and union gene lists across annotations. */
+function aggregate(annotations: AnnotationValue[]): {
+  value?: number;
+  genes?: string[];
+} {
+  let value: number | undefined;
+  const geneSet = new Set<string>();
+  for (const annotation of annotations) {
+    if (typeof annotation.value === "number") {
+      value = (value ?? 0) + annotation.value;
+    }
+    annotation.genes?.forEach((gene) => geneSet.add(gene));
   }
-  if (annotation.label) {
-    return annotation.label.length > 16
-      ? `${annotation.label.slice(0, 15)}…`
-      : annotation.label;
+  return { value, genes: geneSet.size > 0 ? [...geneSet] : undefined };
+}
+
+function badgeText(effective: EffectiveAnnotation): string | null {
+  if (effective.value !== undefined) {
+    return `${effective.rolledUp ? "Σ " : ""}${formatNumber(effective.value)}`;
+  }
+  if (effective.genes && effective.genes.length > 0) {
+    return `${effective.genes.length} gene${effective.genes.length === 1 ? "" : "s"}`;
+  }
+  if (effective.label) {
+    return effective.label.length > 16
+      ? `${effective.label.slice(0, 15)}…`
+      : effective.label;
   }
   return null;
 }
 
 function tooltipLines(
   datum: D3Datum,
-  annotation: AnnotationValue,
+  effective: EffectiveAnnotation,
 ): { title: string; rows: string[] } {
   const name = datum.data?.name ?? "";
   const code = datum.data?.code ?? "";
   const title = name ? `${name} (${code})` : code;
   const rows: string[] = [];
-  if (annotation.value !== undefined) {
-    rows.push(`Value: ${formatNumber(annotation.value)}`);
+  if (effective.value !== undefined) {
+    rows.push(
+      `${effective.rolledUp ? "Sum" : "Value"}: ${formatNumber(effective.value)}`,
+    );
   }
-  if (annotation.label && annotation.label !== badgeText(annotation)) {
-    rows.push(annotation.label);
-  } else if (annotation.label && annotation.value === undefined) {
-    rows.push(annotation.label);
+  if (effective.genes && effective.genes.length > 0) {
+    rows.push(
+      `Genes${effective.rolledUp ? " (union)" : ""}: ${effective.genes.join(", ")}`,
+    );
   }
-  if (annotation.genes && annotation.genes.length > 0) {
-    rows.push(`Genes: ${annotation.genes.join(", ")}`);
+  if (
+    effective.label &&
+    !effective.rolledUp &&
+    effective.label !== badgeText(effective)
+  ) {
+    rows.push(effective.label);
+  }
+  if (effective.rolledUp) {
+    rows.push(
+      `Aggregated from ${effective.contributors} annotated ${
+        effective.contributors === 1 ? "node" : "nodes"
+      } — expand to see each`,
+    );
   }
   return { title, rows };
 }
@@ -152,19 +219,20 @@ export default class AnnotationOverlay {
   private decorateNode(node: SVGGElement): void {
     const datum = getDatum(node);
     const code = datum?.data?.code?.toUpperCase();
-    if (!datum || !code) {
+    if (!datum || !datum.data || !code) {
       return;
     }
-    const annotation = this.annotations[code];
-    if (!annotation) {
+
+    const effective = this.effectiveAnnotation(datum, code);
+    if (!effective) {
       return;
     }
 
     // The badge carries the data color (value magnitude); the halo stays a
     // neutral marker so the node's own OncoTree color remains readable.
     const badgeColor =
-      annotation.value !== undefined && this.colorScale.hasNumeric
-        ? this.colorScale.colorFor(annotation.value)
+      effective.value !== undefined && this.colorScale.hasNumeric
+        ? this.colorScale.colorFor(effective.value)
         : CATEGORICAL_BADGE;
 
     const halo = createSvgElement("circle");
@@ -178,7 +246,7 @@ export default class AnnotationOverlay {
     halo.style.cursor = "pointer";
     node.insertBefore(halo, node.firstChild);
 
-    const label = badgeText(annotation);
+    const label = badgeText(effective);
     const overlay = createSvgElement("g");
     overlay.setAttribute("class", OVERLAY_CLASS);
     overlay.style.pointerEvents = "all";
@@ -213,17 +281,52 @@ export default class AnnotationOverlay {
       overlay.appendChild(text);
     }
 
-    this.attachTooltip(halo, datum, annotation);
-    this.attachTooltip(overlay, datum, annotation);
+    this.attachTooltip(halo, datum, effective);
+    this.attachTooltip(overlay, datum, effective);
     node.appendChild(overlay);
+  }
+
+  /**
+   * The annotation a node should display. A collapsed node folds in its own
+   * annotation plus every hidden descendant's (sum values, union genes); an
+   * expanded node shows only its own, since its descendants render themselves.
+   */
+  private effectiveAnnotation(
+    datum: D3Datum,
+    code: string,
+  ): EffectiveAnnotation | null {
+    const own = this.annotations[code];
+    const isCollapsed = !!datum._children;
+
+    const descendantAnnotations = isCollapsed
+      ? collectDescendantCodes(datum.data as DataNode)
+          .map((descendantCode) => this.annotations[descendantCode])
+          .filter((annotation): annotation is AnnotationValue => !!annotation)
+      : [];
+
+    if (!own && descendantAnnotations.length === 0) {
+      return null;
+    }
+
+    const all = own ? [own, ...descendantAnnotations] : descendantAnnotations;
+    const merged = aggregate(all);
+    const rolledUp = descendantAnnotations.length > 0;
+
+    return {
+      value: merged.value,
+      genes: merged.genes,
+      label: rolledUp ? undefined : own?.label,
+      rolledUp,
+      contributors: (own ? 1 : 0) + descendantAnnotations.length,
+    };
   }
 
   private attachTooltip(
     element: Element,
     datum: D3Datum,
-    annotation: AnnotationValue,
+    effective: EffectiveAnnotation,
   ): void {
-    const { title, rows } = tooltipLines(datum, annotation);
+    const { title, rows } = tooltipLines(datum, effective);
     element.addEventListener("mouseenter", (event) => {
       this.showTooltip(title, rows, event as MouseEvent);
     });

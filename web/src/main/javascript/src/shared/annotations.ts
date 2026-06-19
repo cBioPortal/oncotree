@@ -286,7 +286,9 @@ export function buildColorScale(annotations: AnnotationMap): ColorScale {
     min,
     max,
     colorFor: (value: number) => {
-      const t = max === min ? 1 : (value - min) / (max - min);
+      const raw = max === min ? 1 : (value - min) / (max - min);
+      // Aggregated (summed) values can exceed the per-node max; clamp to scale.
+      const t = Math.max(0, Math.min(1, raw));
       return mix(SCALE_LOW, SCALE_HIGH, t);
     },
   };
