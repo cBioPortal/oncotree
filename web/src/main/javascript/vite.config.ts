@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: process.env.ONCOTREE_API_PROXY || 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       }

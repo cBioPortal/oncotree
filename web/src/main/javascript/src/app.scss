@@ -30,6 +30,7 @@ body,
 }
 
 .app-content-container {
+  position: relative;
   height: $app-content-height;
   overflow: hidden;
   background-size: 40px 40px;

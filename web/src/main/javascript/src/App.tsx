@@ -15,6 +15,11 @@ import {
 import Mapping from "./pages/Mapping/Mapping";
 import Footer from "./components/Footer/footer";
 import About from "./pages/About/About";
+import {
+  AnnotationMap,
+  ANNOTATIONS_URL_PARAM,
+  decodeAnnotations,
+} from "./shared/annotations";
 
 function App() {
   const location = useLocation();
@@ -23,6 +28,7 @@ function App() {
 
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
+  const [annotations, setAnnotations] = useState<AnnotationMap | null>(null);
 
   async function fetchData(apiIdentifier: string) {
     const response = await fetch(
@@ -46,6 +52,20 @@ function App() {
       setSearchParams(undefined);
     }
   }, [location.pathname, setSearchParams]);
+
+  useEffect(() => {
+    const encoded = searchParams.get(ANNOTATIONS_URL_PARAM);
+    if (encoded) {
+      const decoded = decodeAnnotations(encoded);
+      if (decoded) {
+        setAnnotations(decoded);
+      } else {
+        toast.error("Could not read annotations from the URL");
+      }
+    }
+    // Load shared annotations once on initial mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onOncoTreeInit = useCallback((oncoTree: OncoTree) => {
     setOncoTree(oncoTree);
@@ -73,6 +93,8 @@ function App() {
                 oncoTreeData={oncoTreeData}
                 oncoTree={oncoTree}
                 onOncoTreeInit={onOncoTreeInit}
+                annotations={annotations}
+                onAnnotationsChange={setAnnotations}
               />
             }
           />
