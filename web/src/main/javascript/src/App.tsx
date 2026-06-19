@@ -36,7 +36,7 @@ function App() {
 
   async function fetchData(apiIdentifier: string) {
     const response = await fetch(
-      `${ONCOTREE_TREE_URL}/?&version=${apiIdentifier}`,
+      `${ONCOTREE_TREE_URL}?version=${apiIdentifier}`,
     );
     const data: { [name: string]: OncoTreeNode } = await response.json();
     const formattedData = Object.values(data)[0];
