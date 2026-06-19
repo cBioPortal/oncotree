@@ -32,6 +32,11 @@ cp -r "$static_dir/." "$stage_dir/"
 cp "$stage_dir/index.html" "$stage_dir/404.html" # SPA fallback for client routing
 touch "$stage_dir/.nojekyll"
 
+# The demo build (subpath base, external API) overwrites the repo's committed
+# build artifacts; restore them so the working tree stays clean.
+git -C "$repo_root" checkout -- \
+  web/src/main/resources/static web/src/main/javascript/public 2>/dev/null || true
+
 remote_url="$(git -C "$repo_root" remote get-url "$DEPLOY_REMOTE")"
 echo "Publishing to $remote_url (gh-pages)..."
 cd "$stage_dir"
