@@ -2,7 +2,10 @@
 export default {
     testEnvironment: "jsdom",
     transform: {
-      "^.+.tsx?$": ["ts-jest", {}],
+      "^.+.tsx?$": [
+        "ts-jest",
+        { tsconfig: { target: "ES2020", lib: ["ES2020", "DOM"] } },
+      ],
     },
   };
   
