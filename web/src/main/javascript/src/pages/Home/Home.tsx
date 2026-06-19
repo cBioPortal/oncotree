@@ -13,6 +13,8 @@ export interface IHomeProps {
   onOncoTreeInit: (oncoTree: OncoTree) => void;
   annotations: AnnotationMap | null;
   onAnnotationsChange: (annotations: AnnotationMap | null) => void;
+  /** Hide the annotation input panel (host drives annotations via postMessage). */
+  hideAnnotationPanel?: boolean;
 }
 
 export default function Home({
@@ -21,6 +23,7 @@ export default function Home({
   onOncoTreeInit,
   annotations,
   onAnnotationsChange,
+  hideAnnotationPanel = false,
 }: IHomeProps) {
   const treeContainerRef = useRef<HTMLDivElement>(null);
   const dataRef = useRef<typeof oncoTreeData | undefined>();
@@ -77,12 +80,14 @@ export default function Home({
           </div>
         )}
       </div>
-      <AnnotationPanel
-        oncoTreeData={oncoTreeData}
-        annotations={annotations}
-        onApply={onAnnotationsChange}
-        onClear={() => onAnnotationsChange(null)}
-      />
+      {!hideAnnotationPanel && (
+        <AnnotationPanel
+          oncoTreeData={oncoTreeData}
+          annotations={annotations}
+          onApply={onAnnotationsChange}
+          onClear={() => onAnnotationsChange(null)}
+        />
+      )}
       <div
         ref={treeContainerRef}
         id={TREE_CONTAINER_ID}

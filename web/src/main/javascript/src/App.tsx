@@ -210,6 +210,7 @@ function App() {
                 onOncoTreeInit={onOncoTreeInit}
                 annotations={annotations}
                 onAnnotationsChange={setAnnotations}
+                hideAnnotationPanel={embed}
               />
             }
           />
