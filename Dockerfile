@@ -1,10 +1,11 @@
 FROM node:20.12.2-alpine AS frontend-builder
+RUN corepack enable
 WORKDIR /app/frontend
-COPY web/src/main/javascript/package*.json ./
-RUN npm config set fetch-timeout 600000
-RUN npm ci
+COPY web/src/main/javascript/package.json web/src/main/javascript/pnpm-lock.yaml ./
+RUN pnpm config set fetch-timeout 600000
+RUN pnpm install --frozen-lockfile
 COPY web/src/main/javascript/ ./
-RUN npm run build
+RUN pnpm run build
 
 FROM golang:1.24.5-alpine AS backend-builder
 RUN apk add --no-cache git openssh-client
