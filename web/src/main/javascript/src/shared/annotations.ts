@@ -104,6 +104,24 @@ function normalizeValue(raw: unknown): AnnotationValue | null {
   return null;
 }
 
+/** Upper-case codes and normalize each value into an AnnotationValue. */
+export function normalizeAnnotationMap(
+  raw: Record<string, unknown>,
+): AnnotationMap {
+  const map: AnnotationMap = {};
+  for (const [rawCode, rawValue] of Object.entries(raw)) {
+    const code = rawCode.trim().toUpperCase();
+    if (!code) {
+      continue;
+    }
+    const value = normalizeValue(rawValue);
+    if (value) {
+      map[code] = value;
+    }
+  }
+  return map;
+}
+
 function detectDelimiter(line: string): string {
   if (line.includes("\t")) {
     return "\t";
@@ -210,16 +228,8 @@ export function parseAnnotations(
 
   const validCodes = buildValidCodeSet(root);
 
-  for (const [rawCode, rawValue] of Object.entries(raw)) {
-    const code = rawCode.trim().toUpperCase();
-    if (!code) {
-      continue;
-    }
-    const value = normalizeValue(rawValue);
-    if (!value) {
-      continue;
-    }
-    result.annotations[code] = value;
+  result.annotations = normalizeAnnotationMap(raw);
+  for (const code of Object.keys(result.annotations)) {
     result.count++;
     if (validCodes.size > 0 && !validCodes.has(code)) {
       result.unknownCodes.push(code);
@@ -297,18 +307,38 @@ export function encodeAnnotations(annotations: AnnotationMap): string {
   return btoa(unescape(encodeURIComponent(json)));
 }
 
-/** Decode the `?annotations=` URL parameter back into an AnnotationMap. */
-export function decodeAnnotations(encoded: string): AnnotationMap | null {
+function parseAnnotationObject(text: string): Record<string, unknown> | null {
   try {
-    const json = decodeURIComponent(escape(atob(encoded)));
-    const parsed = JSON.parse(json);
+    const parsed = JSON.parse(text);
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
       return null;
     }
-    return parsed as AnnotationMap;
+    return parsed as Record<string, unknown>;
   } catch {
     return null;
   }
+}
+
+/**
+ * Decode the `?annotations=` URL parameter into an AnnotationMap. Accepts either
+ * raw (URL-encoded) JSON — e.g. `?annotations={"LUAD":1204}` — or a
+ * base64/base64url-encoded JSON object produced by {@link encodeAnnotations}.
+ */
+export function decodeAnnotations(encoded: string): AnnotationMap | null {
+  const trimmed = encoded.trim();
+
+  let raw = parseAnnotationObject(trimmed);
+
+  if (!raw) {
+    try {
+      const base64 = trimmed.replace(/-/g, "+").replace(/_/g, "/");
+      raw = parseAnnotationObject(decodeURIComponent(escape(atob(base64))));
+    } catch {
+      raw = null;
+    }
+  }
+
+  return raw ? normalizeAnnotationMap(raw) : null;
 }
 
 export const ANNOTATIONS_URL_PARAM = URL_PARAM;
