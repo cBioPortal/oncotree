@@ -13,6 +13,44 @@ Read about our latest developments on our [News page](/docs/News.md).
 
 Users may submit their OncoTree related questions to the [OncoTree Users Google Group](https://groups.google.com/forum/#!forum/oncotree-users).
 
+## Annotation overlay
+
+The tree can be overlaid with custom annotations that map OncoTree codes to
+values. Each annotation may be a number, a text label, a gene list, or an
+object combining them, e.g.:
+
+```json
+{
+  "LUAD": { "label": "1204 samples", "value": 1204 },
+  "GB": { "genes": ["EGFR", "PTEN", "TP53"] }
+}
+```
+
+Numeric values are shown as a color-scaled badge; gene lists and labels as a
+badge with the detail in the hover tooltip. Annotated nodes keep their own
+OncoTree color and gain a marker ring. Collapsing a node rolls up its hidden
+descendants (values summed, gene lists unioned).
+
+Annotations can be supplied four ways:
+
+1. **Paste or upload** JSON/CSV in the *Annotations* panel.
+2. **URL parameter** — `?annotations=<json>` where the value is raw
+   (URL-encoded) JSON or base64-encoded JSON (the panel's "Copy share link"
+   button produces the base64 form).
+3. **Embed via `postMessage`** — when the app runs in an `<iframe>` it posts
+   `{ type: "oncotree-ready" }` to its parent; the parent then pushes
+   annotations:
+
+   ```js
+   iframe.contentWindow.postMessage(
+     { type: "oncotree-annotations", annotations: { LUAD: 1204 } },
+     "*",
+   );
+   ```
+
+   The `annotations` payload may be an object, a JSON string, or `null` to
+   clear.
+
 ## Frontend Development
 
 All of the frontend code can be found at [/web/src/main/javascript](/web/src/main/javascript). The only configuration needed is to set `ONCOTREE_BASE_URL` 
