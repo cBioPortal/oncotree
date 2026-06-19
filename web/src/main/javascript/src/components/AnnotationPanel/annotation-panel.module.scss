@@ -194,11 +194,27 @@
   margin-top: 8px;
 }
 
+.legendCaption {
+  margin-top: 3px;
+  color: #6c757d;
+  font-size: 11px;
+}
+
 .swatch {
   width: 12px;
   height: 12px;
+  border-radius: 3px;
+  background: #495057;
+  flex-shrink: 0;
+}
+
+.ringSwatch {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #6a3d9a;
+  background: rgba(245, 159, 0, 0.12);
+  border: 2px solid #f59f00;
+  box-sizing: border-box;
   flex-shrink: 0;
 }
 

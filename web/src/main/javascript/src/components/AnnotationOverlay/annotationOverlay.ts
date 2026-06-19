@@ -9,7 +9,11 @@ import {
 const SVG_NS = "http://www.w3.org/2000/svg";
 const OVERLAY_CLASS = "annotation-overlay";
 const HALO_CLASS = "annotation-halo";
-const ACCENT_COLOR = "#6a3d9a";
+// Neutral marker so an annotated node keeps its own OncoTree color; the ring
+// only signals "this node is annotated".
+const ANNOTATED_RING = "#f59f00";
+// Badge color for non-numeric (gene list / text label) annotations.
+const CATEGORICAL_BADGE = "#495057";
 const REAPPLY_DEBOUNCE_MS = 60;
 
 type D3Datum = {
@@ -156,18 +160,20 @@ export default class AnnotationOverlay {
       return;
     }
 
-    const color =
+    // The badge carries the data color (value magnitude); the halo stays a
+    // neutral marker so the node's own OncoTree color remains readable.
+    const badgeColor =
       annotation.value !== undefined && this.colorScale.hasNumeric
         ? this.colorScale.colorFor(annotation.value)
-        : ACCENT_COLOR;
+        : CATEGORICAL_BADGE;
 
     const halo = createSvgElement("circle");
     halo.setAttribute("class", HALO_CLASS);
-    halo.setAttribute("r", "8");
-    halo.setAttribute("fill", color);
-    halo.setAttribute("fill-opacity", "0.3");
-    halo.setAttribute("stroke", color);
-    halo.setAttribute("stroke-width", "2");
+    halo.setAttribute("r", "9");
+    halo.setAttribute("fill", ANNOTATED_RING);
+    halo.setAttribute("fill-opacity", "0.12");
+    halo.setAttribute("stroke", ANNOTATED_RING);
+    halo.setAttribute("stroke-width", "2.5");
     halo.style.pointerEvents = "all";
     halo.style.cursor = "pointer";
     node.insertBefore(halo, node.firstChild);
@@ -192,7 +198,7 @@ export default class AnnotationOverlay {
       rect.setAttribute("height", `${height}`);
       rect.setAttribute("rx", "7");
       rect.setAttribute("ry", "7");
-      rect.setAttribute("fill", color);
+      rect.setAttribute("fill", badgeColor);
       overlay.appendChild(rect);
 
       const text = createSvgElement("text");

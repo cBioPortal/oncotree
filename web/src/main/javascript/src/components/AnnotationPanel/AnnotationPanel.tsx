@@ -206,6 +206,10 @@ export default function AnnotationPanel({
           {annotationCount > 0 && (
             <div className={styles.legend}>
               <div className={styles.legendTitle}>Legend</div>
+              <div className={styles.legendRow}>
+                <span className={styles.ringSwatch} />
+                <span>Annotated (node keeps its OncoTree color)</span>
+              </div>
               {colorScale.hasNumeric && (
                 <>
                   <div className={styles.gradient} />
@@ -213,11 +217,12 @@ export default function AnnotationPanel({
                     <span>{formatNumber(colorScale.min)}</span>
                     <span>{formatNumber(colorScale.max)}</span>
                   </div>
+                  <div className={styles.legendCaption}>value badge color</div>
                 </>
               )}
               <div className={styles.legendRow}>
                 <span className={styles.swatch} />
-                <span>Gene lists / text labels</span>
+                <span>Gene list / text label badge</span>
               </div>
             </div>
           )}
