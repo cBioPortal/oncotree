@@ -86,7 +86,7 @@ function aggregate(annotations: AnnotationValue[]): {
 
 function badgeText(effective: EffectiveAnnotation): string | null {
   if (effective.value !== undefined) {
-    return `${effective.rolledUp ? "Σ " : ""}${formatNumber(effective.value)}`;
+    return formatNumber(effective.value);
   }
   if (effective.genes && effective.genes.length > 0) {
     return `${effective.genes.length} gene${effective.genes.length === 1 ? "" : "s"}`;
