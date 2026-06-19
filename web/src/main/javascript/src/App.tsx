@@ -2,8 +2,8 @@ import { Route, Routes, useLocation, useSearchParams } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Header from "./components/Header/Header";
 import "./app.scss";
-import OncoTree, { OncoTreeNode } from "@oncokb/oncotree";
-import { useCallback, useEffect, useState } from "react";
+import OncoTree, { D3OncoTreeNode, OncoTreeNode } from "@oncokb/oncotree";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import News from "./pages/News/News";
@@ -23,7 +23,36 @@ import {
 } from "./shared/annotations";
 
 const ANNOTATIONS_MESSAGE_TYPE = "oncotree-annotations";
+const SEARCH_MESSAGE_TYPE = "oncotree-search";
 const READY_MESSAGE_TYPE = "oncotree-ready";
+const SEARCH_RESULT_MESSAGE_TYPE = "oncotree-search-result";
+
+/** Match a tree node by code, name, or its annotation (gene/label/value). */
+function nodeMatchesQuery(
+  node: D3OncoTreeNode,
+  lower: string,
+  raw: string,
+  annotations: AnnotationMap | null,
+): boolean {
+  const code = node.data.code?.toLowerCase() ?? "";
+  const name = node.data.name?.toLowerCase() ?? "";
+  if (code.includes(lower) || name.includes(lower)) {
+    return true;
+  }
+  const annotation = annotations?.[node.data.code?.toUpperCase() ?? ""];
+  if (annotation) {
+    if (annotation.label?.toLowerCase().includes(lower)) {
+      return true;
+    }
+    if (annotation.genes?.some((gene) => gene.toLowerCase().includes(lower))) {
+      return true;
+    }
+    if (annotation.value !== undefined && String(annotation.value) === raw) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function App() {
   const location = useLocation();
@@ -33,6 +62,12 @@ function App() {
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
   const [annotations, setAnnotations] = useState<AnnotationMap | null>(null);
+
+  // Refs so the (mount-once) postMessage listener always sees current values.
+  const oncoTreeRef = useRef(oncoTree);
+  oncoTreeRef.current = oncoTree;
+  const annotationsRef = useRef(annotations);
+  annotationsRef.current = annotations;
 
   async function fetchData(apiIdentifier: string) {
     const response = await fetch(
@@ -77,23 +112,52 @@ function App() {
   useEffect(() => {
     function onMessage(event: MessageEvent) {
       const data = event.data;
-      if (!data || data.type !== ANNOTATIONS_MESSAGE_TYPE) {
+      if (!data) {
         return;
       }
-      const payload = data.annotations;
-      if (payload === null || payload === undefined) {
-        setAnnotations(null);
-        return;
-      }
-      if (typeof payload === "string") {
-        const decoded = decodeAnnotations(payload);
-        if (decoded) {
-          setAnnotations(decoded);
+
+      if (data.type === ANNOTATIONS_MESSAGE_TYPE) {
+        const payload = data.annotations;
+        if (payload === null || payload === undefined) {
+          setAnnotations(null);
+        } else if (typeof payload === "string") {
+          const decoded = decodeAnnotations(payload);
+          if (decoded) {
+            setAnnotations(decoded);
+          }
+        } else if (typeof payload === "object" && !Array.isArray(payload)) {
+          setAnnotations(
+            normalizeAnnotationMap(payload as Record<string, unknown>),
+          );
         }
         return;
       }
-      if (typeof payload === "object" && !Array.isArray(payload)) {
-        setAnnotations(normalizeAnnotationMap(payload as Record<string, unknown>));
+
+      if (data.type === SEARCH_MESSAGE_TYPE) {
+        const tree = oncoTreeRef.current;
+        if (!tree) {
+          return;
+        }
+        const query = typeof data.query === "string" ? data.query.trim() : "";
+        if (!query || data.clear) {
+          // Reset highlight and collapse back to the top level.
+          tree.search(() => false);
+          return;
+        }
+        const lower = query.toLowerCase();
+        const results = tree.search((node) =>
+          nodeMatchesQuery(node, lower, query, annotationsRef.current),
+        );
+        if (results.length > 0) {
+          tree.focus(results[0]);
+        }
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            { type: SEARCH_RESULT_MESSAGE_TYPE, query, count: results.length },
+            "*",
+          );
+        }
+        return;
       }
     }
 

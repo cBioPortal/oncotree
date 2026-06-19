@@ -51,6 +51,20 @@ Annotations can be supplied four ways:
    The `annotations` payload may be an object, a JSON string, or `null` to
    clear.
 
+   The parent can also drive the search, filtering the tree to the matching
+   node(s) (by code, name, or annotation content — gene/label/value):
+
+   ```js
+   iframe.contentWindow.postMessage(
+     { type: "oncotree-search", query: "EGFR" },
+     "*",
+   );
+   ```
+
+   Send an empty `query` (or `{ clear: true }`) to reset. The app posts back
+   `{ type: "oncotree-search-result", query, count }` with the number of
+   matches.
+
 ## Frontend Development
 
 All of the frontend code can be found at [/web/src/main/javascript](/web/src/main/javascript). The only configuration needed is to set `ONCOTREE_BASE_URL` 
