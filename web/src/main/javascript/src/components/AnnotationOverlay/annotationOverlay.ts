@@ -112,31 +112,6 @@ function badgeText(effective: EffectiveAnnotation): string | null {
   return null;
 }
 
-/** Detail rows appended to the node's tooltip. */
-function annotationTooltipRows(effective: EffectiveAnnotation): string[] {
-  const rows: string[] = [];
-  if (effective.value !== undefined) {
-    rows.push(
-      `${effective.rolledUp ? "Sum" : "Value"}: ${formatNumber(effective.value)}`,
-    );
-  } else if (effective.label) {
-    rows.push(`Annotation: ${effective.label}`);
-  }
-  if (effective.genes && effective.genes.length > 0) {
-    rows.push(
-      `Genes${effective.rolledUp ? " (union)" : ""} (${effective.genes.length}): ${effective.genes.join(", ")}`,
-    );
-  }
-  if (effective.rolledUp) {
-    rows.push(
-      `Aggregated from ${effective.contributors} node${
-        effective.contributors === 1 ? "" : "s"
-      } — expand to see each`,
-    );
-  }
-  return rows;
-}
-
 /**
  * Decorates the OncoTree SVG with annotation badges and folds the annotation
  * detail into the tree library's own node tooltip. The library re-renders nodes
@@ -333,24 +308,70 @@ export default class AnnotationOverlay {
     };
   }
 
-  private effectiveByCode(code: string): EffectiveAnnotation | null {
+  /**
+   * Tooltip rows for a code. An expanded node shows its own value (and, if it
+   * has annotated descendants, a "subtree total" line clarifying that the badge
+   * is this node only and collapsing rolls the descendants up). A collapsed node
+   * shows the rolled-up sum/union.
+   */
+  private buildTooltipRows(code: string): string[] {
     const node = Array.from(
       this.container.querySelectorAll<SVGGElement>("g.node"),
     ).find((element) => getDatum(element)?.data?.code?.toUpperCase() === code);
     const datum = node ? getDatum(node) : undefined;
-    if (datum?.data) {
-      return this.effectiveAnnotation(datum, code);
-    }
     const own = this.annotations[code];
-    return own
-      ? {
-          value: own.value,
-          genes: own.genes,
-          label: own.label,
-          rolledUp: false,
-          contributors: 1,
-        }
-      : null;
+
+    const descendantAnnotations = datum?.data
+      ? collectDescendantCodes(datum.data)
+          .map((descendantCode) => this.annotations[descendantCode])
+          .filter((annotation): annotation is AnnotationValue => !!annotation)
+      : [];
+
+    if (!own && descendantAnnotations.length === 0) {
+      return [];
+    }
+
+    const collapsed = !!datum?._children && descendantAnnotations.length > 0;
+    const subtree = aggregate(
+      own ? [own, ...descendantAnnotations] : descendantAnnotations,
+    );
+    const totalNodes = (own ? 1 : 0) + descendantAnnotations.length;
+    const rows: string[] = [];
+
+    if (collapsed) {
+      if (subtree.value !== undefined) {
+        rows.push(`Sum: ${formatNumber(subtree.value)}`);
+      }
+      if (subtree.genes?.length) {
+        rows.push(
+          `Genes (union) (${subtree.genes.length}): ${subtree.genes.join(", ")}`,
+        );
+      }
+      rows.push(
+        `Aggregated from ${totalNodes} node${totalNodes === 1 ? "" : "s"} — expand to see each`,
+      );
+      return rows;
+    }
+
+    // Expanded (or leaf): show this node's own annotation.
+    if (own?.value !== undefined) {
+      rows.push(`Value: ${formatNumber(own.value)}`);
+    } else if (own?.label) {
+      rows.push(`Annotation: ${own.label}`);
+    }
+    if (own?.genes?.length) {
+      rows.push(`Genes (${own.genes.length}): ${own.genes.join(", ")}`);
+    }
+    if (descendantAnnotations.length > 0) {
+      const total =
+        subtree.value !== undefined ? `: ${formatNumber(subtree.value)}` : "";
+      rows.push(
+        `Subtree total${total} across ${totalNodes} annotated node${
+          totalNodes === 1 ? "" : "s"
+        } (collapse to combine)`,
+      );
+    }
+    return rows;
   }
 
   /** Append annotation rows to the library's node tooltip when it appears. */
@@ -369,11 +390,7 @@ export default class AnnotationOverlay {
       return;
     }
     const code = codeItem.slice(codeItem.indexOf(":") + 1).trim().toUpperCase();
-    const effective = this.effectiveByCode(code);
-    if (!effective) {
-      return;
-    }
-    for (const row of annotationTooltipRows(effective)) {
+    for (const row of this.buildTooltipRows(code)) {
       const item = document.createElement("div");
       item.className = `oncotree-tooltip-item ${TOOLTIP_ITEM_CLASS}`;
       item.textContent = row;
