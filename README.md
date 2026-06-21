@@ -38,7 +38,14 @@ Annotations can be supplied four ways:
    (URL-encoded) JSON or base64-encoded JSON (the panel's "Copy share link"
    button produces the base64 form).
 3. **Embed via `postMessage`** — add `?embed` to the URL to hide the site
-   header and footer (leaving just the tree), then drive it from the host.
+   header and footer (leaving just the tree), then drive it from the host. Add
+   `allow="fullscreen"` to the `<iframe>` if you want the full-screen button to
+   work (browsers block fullscreen from an iframe otherwise):
+
+   ```html
+   <iframe src="https://…/?embed=1" allow="fullscreen"></iframe>
+   ```
+
    When the app runs in an `<iframe>` it posts `{ type: "oncotree-ready" }` to
    its parent; the parent then pushes annotations:
 

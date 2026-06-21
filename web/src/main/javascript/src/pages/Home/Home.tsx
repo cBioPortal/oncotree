@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import OncoTree, { OncoTreeNode } from "@oncokb/oncotree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 import AnnotationPanel from "../../components/AnnotationPanel/AnnotationPanel";
 import AnnotationOverlay from "../../components/AnnotationOverlay/annotationOverlay";
 import { AnnotationMap } from "../../shared/annotations";
@@ -70,7 +71,13 @@ export default function Home({
     if (document.fullscreenElement) {
       document.exitFullscreen();
     } else {
-      target?.requestFullscreen?.();
+      // Rejects when embedded in an iframe without allow="fullscreen"; the host
+      // must opt in, so just surface a hint instead of throwing.
+      target?.requestFullscreen?.().catch(() => {
+        toast.info(
+          'Full screen is blocked. If embedded, add allow="fullscreen" to the iframe.',
+        );
+      });
     }
   }
 
