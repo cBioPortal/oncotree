@@ -119,6 +119,25 @@ export default function Home({
     overlayRef.current?.setAnnotations(annotations);
   }, [annotations]);
 
+  // Make clicking a node's label toggle it (the library only wires the circle).
+  useEffect(() => {
+    const container = treeContainerRef.current;
+    if (!container || !oncoTree) {
+      return;
+    }
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (target?.classList?.contains("nodeText")) {
+        target
+          .closest("g.node")
+          ?.querySelector("circle.nodeCircle")
+          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      }
+    };
+    container.addEventListener("click", onClick);
+    return () => container.removeEventListener("click", onClick);
+  }, [oncoTree]);
+
   return (
     <>
       <div className={styles.toolbar}>

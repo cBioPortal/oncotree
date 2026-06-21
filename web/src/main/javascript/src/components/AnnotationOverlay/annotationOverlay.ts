@@ -12,6 +12,7 @@ const TOOLTIP_ITEM_CLASS = "annotation-tooltip-item";
 // Readable badge: white pill, neutral border, dark bold number.
 const BADGE_BG = "#ffffff";
 const BADGE_BORDER = "#adb5bd";
+const BADGE_BORDER_HOVER = "#495057";
 const BADGE_TEXT = "#212529";
 const REAPPLY_DEBOUNCE_MS = 60;
 
@@ -232,8 +233,8 @@ export default class AnnotationOverlay {
 
     const overlay = createSvgElement("g");
     overlay.setAttribute("class", OVERLAY_CLASS);
-    // Don't intercept clicks/hovers meant for the node (expand, tooltip).
-    overlay.style.pointerEvents = "none";
+    overlay.style.pointerEvents = "all";
+    overlay.style.cursor = "pointer";
 
     const paddingX = 6;
     const charWidth = 6.6;
@@ -269,6 +270,36 @@ export default class AnnotationOverlay {
     text.setAttribute("font-weight", "700");
     text.textContent = label;
     overlay.appendChild(text);
+
+    // The badge is part of the node: hovering it shows the node tooltip (the
+    // library only wires this to the label), and clicking it toggles the node.
+    const nodeText =
+      node.querySelector<SVGTextElement>("text.nodeText") ??
+      node.querySelector<SVGTextElement>("text");
+    const nodeCircle = node.querySelector<SVGCircleElement>("circle.nodeCircle");
+    overlay.addEventListener("mouseenter", (event) => {
+      rect.setAttribute("stroke", BADGE_BORDER_HOVER);
+      nodeText?.dispatchEvent(
+        new MouseEvent("mouseover", {
+          bubbles: true,
+          clientX: event.clientX,
+          clientY: event.clientY,
+        }),
+      );
+    });
+    overlay.addEventListener("mouseleave", (event) => {
+      rect.setAttribute("stroke", BADGE_BORDER);
+      nodeText?.dispatchEvent(
+        new MouseEvent("mouseout", {
+          bubbles: true,
+          clientX: event.clientX,
+          clientY: event.clientY,
+        }),
+      );
+    });
+    overlay.addEventListener("click", () => {
+      nodeCircle?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
 
     node.appendChild(overlay);
   }

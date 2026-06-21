@@ -33,6 +33,16 @@ body,
   height: 100%;
 }
 
+// Nodes are clickable (toggle expand/collapse) — show it, with a hover state.
+#oncotree-container g.node text.nodeText,
+#oncotree-container g.node circle.nodeCircle {
+  cursor: pointer !important;
+}
+
+#oncotree-container g.node text.nodeText:hover {
+  text-decoration: underline;
+}
+
 .app-content-container {
   position: relative;
   height: $app-content-height;
