@@ -1,18 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import OncoTree, { OncoTreeNode } from "@oncokb/oncotree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faExpand,
-  faCompress,
-  faAnglesDown,
-  faAnglesUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
 import AnnotationPanel from "../../components/AnnotationPanel/AnnotationPanel";
 import AnnotationOverlay from "../../components/AnnotationOverlay/annotationOverlay";
 import { AnnotationMap } from "../../shared/annotations";
 import styles from "./home.module.scss";
 
 const TREE_CONTAINER_ID = "oncotree-container";
+
+/** A parent node forking into two children — "expand". */
+function ExpandTreeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
+      <line x1="6" y1="12" x2="17" y2="6" stroke="currentColor" strokeWidth="1.6" />
+      <line x1="6" y1="12" x2="17" y2="18" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="5" cy="12" r="3.2" fill="currentColor" />
+      <circle cx="18.5" cy="6" r="2.6" fill="currentColor" />
+      <circle cx="18.5" cy="18" r="2.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** A single node with its subtree tucked away — "collapse". */
+function CollapseTreeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
+      <line x1="6" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="5" cy="12" r="3.2" fill="currentColor" />
+      <circle cx="18.5" cy="12" r="2.6" fill="currentColor" />
+    </svg>
+  );
+}
 
 export interface IHomeProps {
   oncoTreeData: OncoTreeNode;
@@ -112,7 +131,7 @@ export default function Home({
               aria-label="Expand all"
               onClick={() => oncoTree.expand()}
             >
-              <FontAwesomeIcon icon={faAnglesDown} />
+              <ExpandTreeIcon />
             </button>
             <button
               className={styles.toolButton}
@@ -120,7 +139,7 @@ export default function Home({
               aria-label="Collapse all"
               onClick={() => oncoTree.collapse()}
             >
-              <FontAwesomeIcon icon={faAnglesUp} />
+              <CollapseTreeIcon />
             </button>
           </>
         )}

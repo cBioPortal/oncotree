@@ -37,6 +37,9 @@ body,
   position: relative;
   height: $app-content-height;
   overflow: hidden;
+  // Own background so the grid stays light in fullscreen (otherwise the
+  // browser paints the fullscreen backdrop black behind the transparent grid).
+  background-color: $secondary;
   background-size: 40px 40px;
   background-image:
     linear-gradient(to right, #F0F0F0 1px, transparent 1px),
