@@ -43,6 +43,13 @@ body,
   text-decoration: underline;
 }
 
+// The library's tooltip caret is positioned at a width-relative offset (and via
+// a stray-space selector applied to every child), so it rarely points at the
+// node. Hide it — the tooltip already sits next to the cursor.
+#oncotree-container .oncotree-tooltip *::after {
+  display: none !important;
+}
+
 .app-content-container {
   position: relative;
   height: $app-content-height;
