@@ -10,6 +10,37 @@ import styles from "./home.module.scss";
 
 const TREE_CONTAINER_ID = "oncotree-container";
 
+type TreeDataNode = {
+  code?: string;
+  name?: string;
+  children?: Record<string, TreeDataNode>;
+};
+
+/** All annotated codes in a node's subtree (its own + descendants). */
+function annotatedSubtreeCodes(
+  node: TreeDataNode | undefined,
+  annotations: AnnotationMap | null,
+): string[] {
+  if (!node || !annotations) {
+    return [];
+  }
+  const result: string[] = [];
+  const seen = new Set<string>();
+  const stack: TreeDataNode[] = [node];
+  while (stack.length > 0) {
+    const current = stack.pop() as TreeDataNode;
+    const up = current.code?.toUpperCase();
+    if (up && !seen.has(up) && annotations[up] !== undefined) {
+      seen.add(up);
+      result.push(up);
+    }
+    for (const child of Object.values(current.children ?? {})) {
+      stack.push(child);
+    }
+  }
+  return result;
+}
+
 /** A parent node forking into two children — "expand". */
 function ExpandTreeIcon() {
   return (
@@ -129,56 +160,47 @@ export default function Home({
     overlayRef.current?.setSelectedCodes(selectedCodes ?? []);
   }, [selectedCodes]);
 
-  // A single click delegation for the tree: clicking anywhere on a node (label,
-  // badge, or circle) toggles it once and emits an `oncotree-node-click` message
-  // to an embedding parent. The `forwarding` guard prevents the synthetic circle
-  // click from re-entering and double-toggling.
+  // Click model: the badge selects (handled in the overlay); the node name/dot
+  // expand/collapse via the library. Additionally, expanding a collapsed parent
+  // selects every annotated cancer type in its subtree. Runs in the capture
+  // phase so the node's collapsed state is read before the library toggles it.
   useEffect(() => {
     const container = treeContainerRef.current;
     if (!container || !oncoTree) {
       return;
     }
-    let forwarding = false;
     const onClick = (event: MouseEvent) => {
-      const node = (event.target as Element)?.closest?.(
-        "g.node",
-      ) as SVGGElement | null;
-      if (!node || forwarding) {
+      if (window.parent === window) {
         return;
       }
-      const data = (
+      const target = event.target as Element;
+      // Badge clicks are select-only and handled by the overlay.
+      if (target?.closest?.(".annotation-overlay")) {
+        return;
+      }
+      const node = target?.closest?.("g.node") as SVGGElement | null;
+      if (!node) {
+        return;
+      }
+      const datum = (
         node as unknown as {
-          __data__?: {
-            data?: { code?: string; name?: string; mainType?: string | null };
-          };
+          __data__?: { _children?: unknown; data?: TreeDataNode };
         }
-      ).__data__?.data;
-      if (data?.code && window.parent !== window) {
+      ).__data__;
+      // `_children` set => currently collapsed => this click expands it.
+      if (!datum?._children) {
+        return;
+      }
+      const codes = annotatedSubtreeCodes(datum.data, annotationsRef.current);
+      if (codes.length > 0) {
         window.parent.postMessage(
-          {
-            type: "oncotree-node-click",
-            code: data.code,
-            name: data.name,
-            mainType: data.mainType ?? null,
-          },
+          { type: "oncotree-node-click", codes, mode: "add" },
           "*",
         );
       }
-      // The library already toggles on the circle (click) and the label (mouseup),
-      // so only forward clicks that originate on our badge — otherwise the node
-      // would toggle twice (expand then collapse).
-      const onBadge = (event.target as Element)?.closest?.(
-        ".annotation-overlay",
-      );
-      const circle = node.querySelector("circle.nodeCircle");
-      if (circle && onBadge) {
-        forwarding = true;
-        circle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-        forwarding = false;
-      }
     };
-    container.addEventListener("click", onClick);
-    return () => container.removeEventListener("click", onClick);
+    container.addEventListener("click", onClick, true);
+    return () => container.removeEventListener("click", onClick, true);
   }, [oncoTree]);
 
   return (

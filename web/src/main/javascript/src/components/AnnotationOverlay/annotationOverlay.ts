@@ -15,7 +15,9 @@ const BADGE_BORDER = "#adb5bd";
 const BADGE_BORDER_HOVER = "#495057";
 const BADGE_TEXT = "#212529";
 // Selected badge (host has this code in its selection): blue pill + checkmark.
+// "partial" = a collapsed parent whose subtree is only partly selected.
 const BADGE_BG_SELECTED = "#cfe2ff";
+const BADGE_BG_PARTIAL = "#e9f2ff";
 const BADGE_BORDER_SELECTED = "#0d6efd";
 const REAPPLY_DEBOUNCE_MS = 60;
 
@@ -225,6 +227,28 @@ export default class AnnotationOverlay {
     }
   }
 
+  /**
+   * Codes a node's badge stands for: its own code plus, when collapsed, every
+   * annotated descendant. Drives the badge's selection state and click action.
+   */
+  private representedCodes(datum: D3Datum, code: string): string[] {
+    const isCollapsed = !!datum._children;
+    const candidates =
+      isCollapsed && datum.data
+        ? [code, ...collectDescendantCodes(datum.data)]
+        : [code];
+    const seen = new Set<string>();
+    const result: string[] = [];
+    for (const candidate of candidates) {
+      const up = candidate.toUpperCase();
+      if (!seen.has(up) && this.annotations[up] !== undefined) {
+        seen.add(up);
+        result.push(up);
+      }
+    }
+    return result;
+  }
+
   private decorateNode(node: SVGGElement): void {
     const datum = getDatum(node);
     const code = datum?.data?.code?.toUpperCase();
@@ -240,8 +264,27 @@ export default class AnnotationOverlay {
     if (!label) {
       return;
     }
-    const selected = this.selectedCodes.has(code);
-    const displayLabel = selected ? `✓ ${label}` : label;
+    const represented = this.representedCodes(datum, code);
+    const selectedCount = represented.filter((c) =>
+      this.selectedCodes.has(c),
+    ).length;
+    const selState: "none" | "partial" | "all" =
+      represented.length === 0 || selectedCount === 0
+        ? "none"
+        : selectedCount === represented.length
+          ? "all"
+          : "partial";
+    const prefix =
+      selState === "all" ? "✓ " : selState === "partial" ? "– " : "";
+    const displayLabel = `${prefix}${label}`;
+    const badgeFill =
+      selState === "all"
+        ? BADGE_BG_SELECTED
+        : selState === "partial"
+          ? BADGE_BG_PARTIAL
+          : BADGE_BG;
+    const badgeBorder =
+      selState === "none" ? BADGE_BORDER : BADGE_BORDER_SELECTED;
 
     const overlay = createSvgElement("g");
     overlay.setAttribute("class", OVERLAY_CLASS);
@@ -267,11 +310,8 @@ export default class AnnotationOverlay {
     rect.setAttribute("height", `${height}`);
     rect.setAttribute("rx", "8");
     rect.setAttribute("ry", "8");
-    rect.setAttribute("fill", selected ? BADGE_BG_SELECTED : BADGE_BG);
-    rect.setAttribute(
-      "stroke",
-      selected ? BADGE_BORDER_SELECTED : BADGE_BORDER,
-    );
+    rect.setAttribute("fill", badgeFill);
+    rect.setAttribute("stroke", badgeBorder);
     rect.setAttribute("stroke-width", "1");
     overlay.appendChild(rect);
 
@@ -287,10 +327,25 @@ export default class AnnotationOverlay {
     overlay.appendChild(text);
 
     // The badge is part of the node: hovering it shows the node tooltip (the
-    // library only wires this to the label), and clicking it toggles the node.
+    // library only wires this to the label), and clicking it selects the cancer
+    // type(s) it represents — never expand/collapse (that's the name/dot).
     const nodeText =
       node.querySelector<SVGTextElement>("text.nodeText") ??
       node.querySelector<SVGTextElement>("text");
+    overlay.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (window.parent === window || represented.length === 0) {
+        return;
+      }
+      window.parent.postMessage(
+        {
+          type: "oncotree-node-click",
+          codes: represented,
+          label: datum.data?.name,
+        },
+        "*",
+      );
+    });
     overlay.addEventListener("mouseenter", (event) => {
       rect.setAttribute("stroke", BADGE_BORDER_HOVER);
       nodeText?.dispatchEvent(
@@ -302,10 +357,7 @@ export default class AnnotationOverlay {
       );
     });
     overlay.addEventListener("mouseleave", (event) => {
-      rect.setAttribute(
-        "stroke",
-        selected ? BADGE_BORDER_SELECTED : BADGE_BORDER,
-      );
+      rect.setAttribute("stroke", badgeBorder);
       nodeText?.dispatchEvent(
         new MouseEvent("mouseout", {
           bubbles: true,
