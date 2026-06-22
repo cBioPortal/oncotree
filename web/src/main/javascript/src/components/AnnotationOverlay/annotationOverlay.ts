@@ -228,15 +228,14 @@ export default class AnnotationOverlay {
   }
 
   /**
-   * Codes a node's badge stands for: its own code plus, when collapsed, every
-   * annotated descendant. Drives the badge's selection state and click action.
+   * Codes a node's badge stands for: its own code plus every annotated
+   * descendant (whether expanded or collapsed), so clicking a parent badge
+   * selects/deselects its whole branch without changing the expand state.
    */
   private representedCodes(datum: D3Datum, code: string): string[] {
-    const isCollapsed = !!datum._children;
-    const candidates =
-      isCollapsed && datum.data
-        ? [code, ...collectDescendantCodes(datum.data)]
-        : [code];
+    const candidates = datum.data
+      ? [code, ...collectDescendantCodes(datum.data)]
+      : [code];
     const seen = new Set<string>();
     const result: string[] = [];
     for (const candidate of candidates) {
