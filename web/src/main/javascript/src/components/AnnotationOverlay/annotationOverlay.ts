@@ -298,7 +298,20 @@ export default class AnnotationOverlay {
       );
     });
     overlay.addEventListener("click", () => {
-      nodeCircle?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      if (hasChildren) {
+        // Parent badge: toggle expand/collapse like the node itself.
+        nodeCircle?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      } else if (window.parent !== window) {
+        // Leaf badge: let an embedding host react (e.g. filter to this code).
+        window.parent.postMessage(
+          {
+            type: "oncotree-node-click",
+            code,
+            label: datum.data?.name,
+          },
+          "*",
+        );
+      }
     });
 
     node.appendChild(overlay);
