@@ -14,6 +14,9 @@ const BADGE_BG = "#ffffff";
 const BADGE_BORDER = "#adb5bd";
 const BADGE_BORDER_HOVER = "#495057";
 const BADGE_TEXT = "#212529";
+// Selected badge (host has this code in its selection): blue pill + checkmark.
+const BADGE_BG_SELECTED = "#cfe2ff";
+const BADGE_BORDER_SELECTED = "#0d6efd";
 const REAPPLY_DEBOUNCE_MS = 60;
 
 type DataNode = {
@@ -123,6 +126,8 @@ function badgeText(effective: EffectiveAnnotation): string | null {
 export default class AnnotationOverlay {
   private container: HTMLElement;
   private annotations: AnnotationMap = {};
+  // Codes the embedding host has selected (rendered with a checkmark).
+  private selectedCodes: Set<string> = new Set();
   private observer: MutationObserver;
   private tooltipObserver: MutationObserver;
   private reapplyTimer: number | undefined;
@@ -131,6 +136,11 @@ export default class AnnotationOverlay {
     this.container = container;
     this.observer = new MutationObserver(() => this.scheduleReapply());
     this.tooltipObserver = new MutationObserver(() => this.augmentTooltip());
+  }
+
+  setSelectedCodes(codes: string[] | null): void {
+    this.selectedCodes = new Set((codes ?? []).map((c) => c.toUpperCase()));
+    this.apply();
   }
 
   setAnnotations(annotations: AnnotationMap | null): void {
@@ -230,6 +240,8 @@ export default class AnnotationOverlay {
     if (!label) {
       return;
     }
+    const selected = this.selectedCodes.has(code);
+    const displayLabel = selected ? `✓ ${label}` : label;
 
     const overlay = createSvgElement("g");
     overlay.setAttribute("class", OVERLAY_CLASS);
@@ -239,7 +251,7 @@ export default class AnnotationOverlay {
     const paddingX = 6;
     const charWidth = 6.6;
     const height = 16;
-    const width = Math.max(18, label.length * charWidth + paddingX * 2);
+    const width = Math.max(18, displayLabel.length * charWidth + paddingX * 2);
 
     // Sit on the node's own row (vertically centered) to the right of its label,
     // so badges never overlap neighbouring rows. Leaf labels render to the right
@@ -255,8 +267,11 @@ export default class AnnotationOverlay {
     rect.setAttribute("height", `${height}`);
     rect.setAttribute("rx", "8");
     rect.setAttribute("ry", "8");
-    rect.setAttribute("fill", BADGE_BG);
-    rect.setAttribute("stroke", BADGE_BORDER);
+    rect.setAttribute("fill", selected ? BADGE_BG_SELECTED : BADGE_BG);
+    rect.setAttribute(
+      "stroke",
+      selected ? BADGE_BORDER_SELECTED : BADGE_BORDER,
+    );
     rect.setAttribute("stroke-width", "1");
     overlay.appendChild(rect);
 
@@ -268,7 +283,7 @@ export default class AnnotationOverlay {
     text.setAttribute("fill", BADGE_TEXT);
     text.setAttribute("font-size", "11");
     text.setAttribute("font-weight", "700");
-    text.textContent = label;
+    text.textContent = displayLabel;
     overlay.appendChild(text);
 
     // The badge is part of the node: hovering it shows the node tooltip (the
@@ -276,7 +291,6 @@ export default class AnnotationOverlay {
     const nodeText =
       node.querySelector<SVGTextElement>("text.nodeText") ??
       node.querySelector<SVGTextElement>("text");
-    const nodeCircle = node.querySelector<SVGCircleElement>("circle.nodeCircle");
     overlay.addEventListener("mouseenter", (event) => {
       rect.setAttribute("stroke", BADGE_BORDER_HOVER);
       nodeText?.dispatchEvent(
@@ -288,7 +302,10 @@ export default class AnnotationOverlay {
       );
     });
     overlay.addEventListener("mouseleave", (event) => {
-      rect.setAttribute("stroke", BADGE_BORDER);
+      rect.setAttribute(
+        "stroke",
+        selected ? BADGE_BORDER_SELECTED : BADGE_BORDER,
+      );
       nodeText?.dispatchEvent(
         new MouseEvent("mouseout", {
           bubbles: true,
@@ -297,23 +314,6 @@ export default class AnnotationOverlay {
         }),
       );
     });
-    overlay.addEventListener("click", () => {
-      if (hasChildren) {
-        // Parent badge: toggle expand/collapse like the node itself.
-        nodeCircle?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-      } else if (window.parent !== window) {
-        // Leaf badge: let an embedding host react (e.g. filter to this code).
-        window.parent.postMessage(
-          {
-            type: "oncotree-node-click",
-            code,
-            label: datum.data?.name,
-          },
-          "*",
-        );
-      }
-    });
-
     node.appendChild(overlay);
   }
 

@@ -40,6 +40,8 @@ export interface IHomeProps {
   onOncoTreeInit: (oncoTree: OncoTree) => void;
   annotations: AnnotationMap | null;
   onAnnotationsChange: (annotations: AnnotationMap | null) => void;
+  /** Codes the host has selected, rendered with a checkmark on the tree. */
+  selectedCodes?: string[];
   /** Hide the annotation input panel (host drives annotations via postMessage). */
   hideAnnotationPanel?: boolean;
 }
@@ -50,6 +52,7 @@ export default function Home({
   onOncoTreeInit,
   annotations,
   onAnnotationsChange,
+  selectedCodes,
   hideAnnotationPanel = false,
 }: IHomeProps) {
   const treeContainerRef = useRef<HTMLDivElement>(null);
@@ -57,6 +60,8 @@ export default function Home({
   const overlayRef = useRef<AnnotationOverlay | null>(null);
   const annotationsRef = useRef(annotations);
   annotationsRef.current = annotations;
+  const selectedCodesRef = useRef(selectedCodes);
+  selectedCodesRef.current = selectedCodes;
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
@@ -102,6 +107,7 @@ export default function Home({
     }
     const overlay = new AnnotationOverlay(treeContainerRef.current);
     overlayRef.current = overlay;
+    overlay.setSelectedCodes(selectedCodesRef.current ?? []);
     overlay.setAnnotations(annotationsRef.current);
     // The tree renders with transitions; re-apply once nodes have settled.
     const raf = requestAnimationFrame(() =>
@@ -119,19 +125,56 @@ export default function Home({
     overlayRef.current?.setAnnotations(annotations);
   }, [annotations]);
 
-  // Make clicking a node's label toggle it (the library only wires the circle).
+  useEffect(() => {
+    overlayRef.current?.setSelectedCodes(selectedCodes ?? []);
+  }, [selectedCodes]);
+
+  // A single click delegation for the tree: clicking anywhere on a node (label,
+  // badge, or circle) toggles it once and emits an `oncotree-node-click` message
+  // to an embedding parent. The `forwarding` guard prevents the synthetic circle
+  // click from re-entering and double-toggling.
   useEffect(() => {
     const container = treeContainerRef.current;
     if (!container || !oncoTree) {
       return;
     }
+    let forwarding = false;
     const onClick = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (target?.classList?.contains("nodeText")) {
-        target
-          .closest("g.node")
-          ?.querySelector("circle.nodeCircle")
-          ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      const node = (event.target as Element)?.closest?.(
+        "g.node",
+      ) as SVGGElement | null;
+      if (!node || forwarding) {
+        return;
+      }
+      const data = (
+        node as unknown as {
+          __data__?: {
+            data?: { code?: string; name?: string; mainType?: string | null };
+          };
+        }
+      ).__data__?.data;
+      if (data?.code && window.parent !== window) {
+        window.parent.postMessage(
+          {
+            type: "oncotree-node-click",
+            code: data.code,
+            name: data.name,
+            mainType: data.mainType ?? null,
+          },
+          "*",
+        );
+      }
+      // The library already toggles on the circle (click) and the label (mouseup),
+      // so only forward clicks that originate on our badge — otherwise the node
+      // would toggle twice (expand then collapse).
+      const onBadge = (event.target as Element)?.closest?.(
+        ".annotation-overlay",
+      );
+      const circle = node.querySelector("circle.nodeCircle");
+      if (circle && onBadge) {
+        forwarding = true;
+        circle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        forwarding = false;
       }
     };
     container.addEventListener("click", onClick);

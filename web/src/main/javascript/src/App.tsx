@@ -24,6 +24,7 @@ import {
 
 const ANNOTATIONS_MESSAGE_TYPE = "oncotree-annotations";
 const SEARCH_MESSAGE_TYPE = "oncotree-search";
+const SELECTION_MESSAGE_TYPE = "oncotree-selection";
 const READY_MESSAGE_TYPE = "oncotree-ready";
 const SEARCH_RESULT_MESSAGE_TYPE = "oncotree-search-result";
 
@@ -67,6 +68,7 @@ function App() {
   const [oncoTreeData, setOncoTreeData] = useState<OncoTreeNode>();
   const [oncoTree, setOncoTree] = useState<OncoTree>();
   const [annotations, setAnnotations] = useState<AnnotationMap | null>(null);
+  const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
 
   // Refs so the (mount-once) postMessage listener always sees current values.
   const oncoTreeRef = useRef(oncoTree);
@@ -135,6 +137,14 @@ function App() {
             normalizeAnnotationMap(payload as Record<string, unknown>),
           );
         }
+        return;
+      }
+
+      if (data.type === SELECTION_MESSAGE_TYPE) {
+        const codes = Array.isArray(data.codes)
+          ? data.codes.map((c: unknown) => String(c))
+          : [];
+        setSelectedCodes(codes);
         return;
       }
 
@@ -210,6 +220,7 @@ function App() {
                 onOncoTreeInit={onOncoTreeInit}
                 annotations={annotations}
                 onAnnotationsChange={setAnnotations}
+                selectedCodes={selectedCodes}
                 hideAnnotationPanel={embed}
               />
             }
