@@ -38,7 +38,7 @@ func main() {
 
 		treeBytes, err := json.Marshal(tree)
 		if err != nil {
-			log.Fatalf("Error marshalling tree created from %v: %v\n", file, err)
+			fmt.Fprintf(os.Stderr, "Error marshalling tree created from %v: %v\n", file, err)
 			os.Exit(1)
 		}
 
@@ -67,7 +67,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
-	mostRecentTree := sortedTreeFiles[len(sortedTreeFiles)-2] // most recent will be the one just uploaded
+	mostRecentTree := sortedTreeFiles[len(sortedTreeFiles)-2] // sortedTreeFiles[len(sortedTreeFiles-1) would be the tree that was just uploaded, want one before that]
 
 	if newTreeDate.Before(mostRecentTree.Date) {
 		fmt.Fprintf(os.Stderr, "Error: New tree date %v must be newer than the most recent tree date %v\n", newTreeDate, mostRecentTree.Date)
