@@ -1,0 +1,186 @@
+@import "../../variables.module.scss";
+
+.container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: $primary;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  box-shadow: $shadow;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.toggle:hover {
+  background: darken($primary, 6%);
+}
+
+.count {
+  background: #fff;
+  color: $primary;
+  border-radius: 10px;
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.panel {
+  margin-top: 8px;
+  width: 320px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: $shadow;
+  padding: 14px;
+  color: #212529;
+}
+
+.heading {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: $primary;
+}
+
+.hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.hint code {
+  background: #f1f3f5;
+  border-radius: 3px;
+  padding: 0 3px;
+  font-size: 11px;
+}
+
+.textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 120px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: $primary;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #ced4da;
+  background: #fff;
+  color: #212529;
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #f1f3f5;
+}
+
+.primary {
+  background: $primary;
+  border-color: $primary;
+  color: #fff;
+}
+
+.primary:hover {
+  background: darken($primary, 6%);
+}
+
+.secondaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.link {
+  background: none;
+  border: none;
+  color: $primary;
+  cursor: pointer;
+  padding: 0;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  border-radius: 5px;
+  padding: 7px 9px;
+}
+
+.error {
+  background: #fff0f0;
+  color: #c92a2a;
+}
+
+.warning {
+  background: #fff8e1;
+  color: #b07b00;
+}
+
+.success {
+  background: #ebfbee;
+  color: #2b8a3e;
+}
+
+.legend {
+  margin-top: 12px;
+  border-top: 1px solid #f1f3f5;
+  padding-top: 10px;
+  font-size: 12px;
+  color: #495057;
+}
+
+.legendTitle {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.legendCaption {
+  margin-top: 3px;
+  color: #6c757d;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.hiddenInput {
+  display: none;
+}

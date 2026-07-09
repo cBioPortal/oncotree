@@ -1,6 +1,7 @@
 import { OncoTreeNode } from "@oncokb/oncotree";
 
-export const ONCOTREE_BASE_URL = window.location.origin
+export const ONCOTREE_BASE_URL =
+  import.meta.env.VITE_ONCOTREE_BASE_URL || window.location.origin;
 export const ONCOTREE_TREE_URL = `${ONCOTREE_BASE_URL}/api/tumorTypes/tree`;
 export const ONCOTREE_VERSIONS_URL = `${ONCOTREE_BASE_URL}/api/versions`;
 export const ONCOTREE_SWAGGER_URL = `${ONCOTREE_BASE_URL}/swagger/index.html`;
