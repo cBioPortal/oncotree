@@ -933,7 +933,7 @@ MPALBTM	LightSalmon	Mixed-Phenotype Acute Leukemia, B/T/Myeloid	Leukemia			Hemat
 MPALTMK	LightSalmon	Mixed-Phenotype Acute Leukemia, T/Megakaryocytic	Leukemia			Hematopoietic	MPALR
 ALALNOS	LightSalmon	Acute Leukemia of Ambiguous Lineage, NOS	Leukemia			Hematopoietic	ALALDI
 TLTP	LimeGreen	Tumor-Like Lesions with T-Cell Predominance	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TNLPL
-KFD	LimeGreen	Kikuchi‚ÄìFujimoto Disease	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
+KFD	LimeGreen	Kikuchi-Fujimoto Disease	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
 ALPS	LimeGreen	Autoimmune Lymphoproliferative Syndrome	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
 ALPSGFAS	LimeGreen	ALPS with Germline Homozygous or Heterozygous FAS Mutation	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	ALPS
 ALPSSFAS	LimeGreen	ALPS with Somatic FAS Mutation	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	ALPS
@@ -1059,7 +1059,7 @@ CPH	Gray	Capillary Haemangioma	Mesenchymal, Non-Meningothelial Tumors			CNS/Brai
 AVM	Gray	Arteriovenous Malformation	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	VT
 HB	Gray	Haemangioblastoma	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	VT
 TUD	Gray	Tumors of Uncertain Differentiation	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	MNMT
-IMTFET-CREB	Gray	Intracranial Mesenchymal Tumor, FET-CREB Fusion‚ÄìPositive	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
+IMTFET-CREB	Gray	Intracranial Mesenchymal Tumor, FET-CREB Fusion-Positive	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
 PIS	Gray	Primary Intracranial Sarcoma, DICER1-Mutant	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
 ASTR2	Gray	Astrocytoma, IDH-Mutant, Grade 2	Gliomas, Glioneuronal Tumors, and Neuronal Tumors			CNS/Brain	ASTR
 ASTR3	Gray	Astrocytoma, IDH-Mutant, Grade 3	Gliomas, Glioneuronal Tumors, and Neuronal Tumors			CNS/Brain	ASTR
