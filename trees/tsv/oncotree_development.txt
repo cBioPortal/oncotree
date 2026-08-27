@@ -613,7 +613,7 @@ LGFMS	LightYellow	Low-Grade Fibromyxoid Sarcoma	Soft Tissue Sarcoma	C1275282	C45
 ISM	LightSalmon	Indolent Systemic Mastocytosis	Mastocytosis	C0272203	C9286	Hematopoietic	SM
 LUPC	Gainsboro	Pleomorphic Carcinoma of the Lung	Non-Small Cell Lung Cancer	C1711397	C45542	Lung	NSCLC
 PADA	DarkRed	Pleomorphic Adenoma	Salivary Gland Cancer			Head and Neck	SACA
-DCIS	HotPink	Breast Ductal Carcinoma In Situ	Breast Cancer	C0007124	C2924	Breast	BREAST
+DCIS	HotPink	Breast Ductal Carcinoma In Situ	Breast Cancer	C0007124	C2924	Breast	BRPRE
 PAC	DarkRed	Polymorphous Adenocarcinoma	Salivary Gland Cancer			Head and Neck	SACA
 MF	LightYellow	Myofibroma	Soft Tissue Sarcoma	C1266121	C7052	Soft Tissue	SOFT_TISSUE
 SCCNOS	Black	Squamous Cell Carcinoma, NOS	Cancer of Unknown Primary			Other	CUP
@@ -836,7 +836,7 @@ LUNE	Gainsboro	Large Cell Neuroendocrine Carcinoma	Non-Small Cell Lung Cancer	C1
 PLSMESO	Blue	Pleural Mesothelioma, Sarcomatoid Type	Mesothelioma			Pleura	 PLMESO
 HGGNOS	Gray	High-Grade Glioma, NOS	Glioma			CNS/Brain	DIFG
 MCC	Black	Merkel Cell Carcinoma	Skin Cancer, Non-Melanoma	C0007129	C9231	Skin	SKIN
-PREBE	lavender	Barrett's Esophagus: Pre-Malignant	Pre-malignant Cancer			Esophagus/Stomach	STOMACH
+PREBE	lavender	Barrett's Esophagus	Pre-malignant Cancer			Esophagus/Stomach	EPRE
 PREHGD	lavender	High-Grade Dysplasia of the Esophagus/Stomach	Pre-malignant Cancer			Esophagus/Stomach	STOMACH
 MLNJAK2	LightSalmon	Myeloid/Lymphoid Neoplasms with JAK2 Rearrangement	Leukemia			Hematopoietic	MLNER
 ARCH	Black	Adenocarcinoma in Retrorectal Cystic Hamartoma	Adenocarcinoma in Retrorectal Cystic Hamartoma			Other	OTHER
@@ -933,7 +933,7 @@ MPALBTM	LightSalmon	Mixed-Phenotype Acute Leukemia, B/T/Myeloid	Leukemia			Hemat
 MPALTMK	LightSalmon	Mixed-Phenotype Acute Leukemia, T/Megakaryocytic	Leukemia			Hematopoietic	MPALR
 ALALNOS	LightSalmon	Acute Leukemia of Ambiguous Lineage, NOS	Leukemia			Hematopoietic	ALALDI
 TLTP	LimeGreen	Tumor-Like Lesions with T-Cell Predominance	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TNLPL
-KFD	LimeGreen	Kikuchi–Fujimoto Disease	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
+KFD	LimeGreen	Kikuchi‚ÄìFujimoto Disease	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
 ALPS	LimeGreen	Autoimmune Lymphoproliferative Syndrome	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	TLTP
 ALPSGFAS	LimeGreen	ALPS with Germline Homozygous or Heterozygous FAS Mutation	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	ALPS
 ALPSSFAS	LimeGreen	ALPS with Somatic FAS Mutation	T-cell and NK-cell lymphoid proliferations and lymphomas			Hematopoietic	ALPS
@@ -1059,7 +1059,7 @@ CPH	Gray	Capillary Haemangioma	Mesenchymal, Non-Meningothelial Tumors			CNS/Brai
 AVM	Gray	Arteriovenous Malformation	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	VT
 HB	Gray	Haemangioblastoma	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	VT
 TUD	Gray	Tumors of Uncertain Differentiation	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	MNMT
-IMTFET-CREB	Gray	Intracranial Mesenchymal Tumor, FET-CREB Fusion–Positive	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
+IMTFET-CREB	Gray	Intracranial Mesenchymal Tumor, FET-CREB Fusion‚ÄìPositive	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
 PIS	Gray	Primary Intracranial Sarcoma, DICER1-Mutant	Mesenchymal, Non-Meningothelial Tumors			CNS/Brain	TUD
 ASTR2	Gray	Astrocytoma, IDH-Mutant, Grade 2	Gliomas, Glioneuronal Tumors, and Neuronal Tumors			CNS/Brain	ASTR
 ASTR3	Gray	Astrocytoma, IDH-Mutant, Grade 3	Gliomas, Glioneuronal Tumors, and Neuronal Tumors			CNS/Brain	ASTR
@@ -1107,49 +1107,61 @@ CMPN	LightSalmon	Non-CML Type Classical MPN	Myeloproliferative Neoplasms			Hemat
 CFL	LimeGreen	Classic Follicular Lymphoma	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
 FLPDP	LimeGreen	Follicular Lymphoma with Predominantly Diffuse Growth Pattern	B-Cell Lymphoid Proliferations and Lymphomas			Hematopoietic	FL
 MLUAD	Gainsboro	Lung Adenocarcinoma with a Micropapillary Pattern	Non-Small Cell Lung Cancer			Lung	LUAD
-APHGD	SaddleBrown	Adenomatous Polyp, High-Grade Dysplasia	Benign Epithelial Tumors and Precursors			Bowel	BOWEL
+APHGD	SaddleBrown	Adenomatous Polyp, High-Grade Dysplasia	Benign Epithelial Tumors and Precursors			Bowel	BPRE
 ADH	HotPink	Atypical Ductal Hyperplasia	Benign Epithelial Proliferations and Precursors			Breast	BEPP
 ALH	HotPink	Atypical Lobular Hyperplasia	Non-Invasive Lobular Neoplasia			Breast	BEPP
 CCLFEA	HotPink	Columnar Cell Lesions, Including Flat Epithelial Atypia	Benign Epithelial Proliferations and Precursors			Breast	BEPP
-BEPP	HotPink	Benign Epithelial Proliferations and Precursors	Benign Epithelial Proliferations and Precursors			Breast	BREAST
-PANIN	Purple	Pancreatic Intraepithelial Neoplasia 	Benign Epithelial Tumors and Precursors			Pancreas	PANCREAS
-HGPIN	Cyan	Prostatic Intraepithelial Neoplasia 	Glandular Neoplasm of the Prostate			Prostate	PROSTATE
-CSET	Teal	Squamous Epithelial Tumors	Squamous Epithelial Tumors			Cervix	CERVIX
+BEPP	HotPink	Benign Epithelial Proliferations and Precursors	Benign Epithelial Proliferations and Precursors			Breast	BRPRE
+PANIN	Purple	Pancreatic Intraepithelial Neoplasia 	Benign Epithelial Tumors and Precursors			Pancreas	PPRE
+HGPIN	Cyan	Prostatic Intraepithelial Neoplasia 	Glandular Neoplasm of the Prostate			Prostate	PRPRE
+CSET	Teal	Squamous Epithelial Tumors	Squamous Epithelial Tumors			Cervix	CPRE
 LSIL	Teal	Low-Grade Squamous Intraepithelial Lesion	Squamous Epithelial Tumors			Cervix	CSET
 CIN1	Teal	Cervical Intraepithelial Neoplasia, Grade 1	Squamous Epithelial Tumors			Cervix	LSIL
 HSIL	Teal	High-Grade Squamous Intraepithelial Lesion	Squamous Epithelial Tumors			Cervix	CSET
 CIN2	Teal	Cervical Intraepithelial Neoplasia, Grade 2	Squamous Epithelial Tumors			Cervix	HSIL
 CIN3	Teal	Cervical Intraepithelial Neoplasia, Grade 3	Squamous Epithelial Tumors			Cervix	HSIL
-HGGD	LightSkyBlue	High-Grade Gastric Dysplasia	Benign Epithelial Tumors and Precursors			Esophagus/Stomach	STOMACH
-BD	Black	Bowen Disease	Premalignant Keratoses and Precursors			Skin	SKIN
-AK	Black	Actinic Keratoses	Premalignant Keratoses and Precursors			Skin	SKIN
-DN	Black	Dysplastic Nevus	Melanocytic Neoplasms			Skin	SKIN
-SCIS	Gainsboro	Squamous Dysplasia and Squamous Carcinoma In Situ	Squamous Precursor Lesions			Lung	LUNG
-OED	DarkRed	Oral Epithelial Dysplasia	Oral Epithelial Dysplasia			Head and Neck	HEAD_NECK
-ASIN	SaddleBrown	Benign Epithelial Tumors and Precursors	Anal Squamous Intraepithelial Neoplasia			Bowel	BOWEL
-STIC	LightBlue	Ovarian Serous Tubular Intraepithelial Carcinoma	Epithelial precursor lesions			Ovary/Fallopian Tube	OVARY
-AAH	Gainsboro	Atypical Adenomatous Hyperplasia	Precursor Glandular Lesions			Lung	LUNG
-UC	SaddleBrown	Ulcerative Colitis	Premalignant Conditions			Bowel	BOWEL
-CD	SaddleBrown	Crohn’s Disease	Premalignant Conditions			Bowel	BOWEL
+HGGD	LightSkyBlue	High-Grade Gastric Dysplasia	Benign Epithelial Tumors and Precursors			Esophagus/Stomach	EPRE
+BD	Black	Bowen Disease	Premalignant Keratoses and Precursors			Skin	SPRE
+AK	Black	Actinic Keratoses	Premalignant Keratoses and Precursors			Skin	SPRE
+DN	Black	Dysplastic Nevus	Melanocytic Neoplasms			Skin	SPRE
+SCIS	Gainsboro	Squamous Dysplasia and Squamous Carcinoma In Situ	Squamous Precursor Lesions			Lung	LPRE
+OED	DarkRed	Oral Epithelial Dysplasia	Oral Epithelial Dysplasia			Head and Neck	OPRE
+ASIN	SaddleBrown	Anal Squamous Intraepithelial Neoplasia	Benign Epithelial Tumors and Precursors			Bowel	BPRE
+STIC	LightBlue	Ovarian Serous Tubular Intraepithelial Carcinoma	Epithelial precursor lesions			Ovary/Fallopian Tube	OVPRE
+AAH	Gainsboro	Atypical Adenomatous Hyperplasia	Precursor Glandular Lesions			Lung	LPRE
+UC	SaddleBrown	Ulcerative Colitis	Premalignant Conditions			Bowel	BPRE
+CD	SaddleBrown	Crohn's Disease	Premalignant Conditions			Bowel	BPRE
 HELU	HotPink	Proliferative Disease (Hyperplastic Enlarged Lobular Units)	Benign Epithelial Proliferations and Precursors			Breast	BEPP
-PIA	Cyan	Prostatic Proliferative Inflammatory Atrophy	Benign Epithelial Proliferations and Precursors			Prostate	PROSTATE
-ASC	Teal	Cervical Atypical Squamous Cells	Squamous Precursor Lesions			Cervix	CERVIX
-IMB	Yellow	Intestinal Metaplasia of The Bladder	Epithelial Precursor Lesions			Bladder/Urinary Tract	BLADDER
-PUH	Yellow	Papillary Urothelial Hyperplasia	Benign Epithelial Tumors and Precursors			Bladder/Urinary Tract	BLADDER
-BCIS	Yellow	Bladder Carcinoma In Situ	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
-NIPC	Yellow	Non-Invasive Papillary Carcinoma	Squamous Epithelial Tumors			Bladder/Urinary Tract	BLADDER
-IMETS	LightSkyBlue	Intestinal Metaplasia of The Stomach	Precursor Glandular Lesions			Esophagus/Stomach	STOMACH
-XP	Black	Xeroderma Pigmentosum	Premalignant Keratoses and Precursors			Skin	SKIN
-PKM	Black	Porokeratosis Melanocytic	Premalignant Keratoses and Precursors			Skin	SKIN
-SML	Gainsboro	Squamous Metaplasia of The Lung	Benign Epithelial Tumors and Precursors			Lung	LUNG
-OCIS	DarkRed	Oral Carcinoma In Situ	Squamous Epithelial Tumors			Head and Neck	HEAD_NECK
-OPL	DarkRed	Oral Premalignant Lesions	Squamous Precursor Lesions			Head and Neck	HEAD_NECK
+PIA	Cyan	Prostatic Proliferative Inflammatory Atrophy	Benign Epithelial Proliferations and Precursors			Prostate	PRPRE
+ASC	Teal	Cervical Atypical Squamous Cells	Squamous Precursor Lesions			Cervix	CPRE
+IMB	Yellow	Intestinal Metaplasia of The Bladder	Epithelial Precursor Lesions			Bladder/Urinary Tract	BUPRE
+PUH	Yellow	Papillary Urothelial Hyperplasia	Benign Epithelial Tumors and Precursors			Bladder/Urinary Tract	BUPRE
+BCIS	Yellow	Bladder Carcinoma In Situ	Squamous Epithelial Tumors			Bladder/Urinary Tract	BUPRE
+NIPC	Yellow	Non-Invasive Papillary Carcinoma	Squamous Epithelial Tumors			Bladder/Urinary Tract	BUPRE
+IMETS	LightSkyBlue	Intestinal Metaplasia of The Stomach	Precursor Glandular Lesions			Esophagus/Stomach	EPRE
+XP	Black	Xeroderma Pigmentosum	Premalignant Keratoses and Precursors			Skin	SPRE
+PKM	Black	Porokeratosis Melanocytic	Premalignant Keratoses and Precursors			Skin	SPRE
+SML	Gainsboro	Squamous Metaplasia of The Lung	Benign Epithelial Tumors and Precursors			Lung	LPRE
+OCIS	DarkRed	Oral Carcinoma In Situ	Squamous Epithelial Tumors			Head and Neck	OPRE
+OPL	DarkRed	Oral Premalignant Lesions	Squamous Precursor Lesions			Head and Neck	OPRE
 LEP	DarkRed	Leukoplakia	Squamous Precursor Lesions			Head and Neck	OPL
 ERP	DarkRed	Erythroplakia	Squamous Precursor Lesions			Head and Neck	OPL
 LP	DarkRed	Lichen Planus	Squamous Precursor Lesions			Head and Neck	OPL
-AIL	SaddleBrown	Anal Intraepithelial Lesions	Squamous Precursor Lesions			Bowel	BOWEL
-ASCUS	SaddleBrown	Atypical Squamous Cells of Undetermined Significance	Squamous Precursor Lesions			Bowel	BOWEL
-HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			Bowel	BOWEL
-RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	KIDNEY
-VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	KIDNEY
-SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVARY
+AIL	SaddleBrown	Anal Intraepithelial Lesions	Squamous Precursor Lesions			Bowel	BPRE
+ASCUS	SaddleBrown	Atypical Squamous Cells of Undetermined Significance	Squamous Precursor Lesions			Bowel	BPRE
+HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			Bowel	BPRE
+RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	RPRE
+VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	RPRE
+SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVPRE
+BUPRE	Yellow	Precursor Lesions	Precursor Lesions			Bladder/Urinary Tract	BLADDER
+BPRE	SaddleBrown	Precursor Lesions	Precursor Lesions			Bowel	BOWEL
+BRPRE	HotPink	Precursor Lesions	Precursor Lesions			Breast	BREAST
+CPRE	Teal	Precursor Lesions	Precursor Lesions			Cervix	CERVIX
+EPRE	LightSkyBlue	Precursor Lesions	Precursor Lesions			Esophagus/Stomach	STOMACH
+OPRE	DarkRed	Precursor Lesions	Precursor Lesions			Head and Neck	HEAD_NECK
+RPRE	Orange	Precursor Lesions	Precursor Lesions			Kidney	KIDNEY
+LPRE	Gainsboro	Precursor Lesions	Precursor Lesions			Lung	LUNG
+OVPRE	LightBlue	Precursor Lesions	Precursor Lesions			Ovary/Fallopian Tube	OVARY
+PPRE	Purple	Precursor Lesions	Precursor Lesions			Pancreas	PANCREAS
+PRPRE	Cyan	Precursor Lesions	Precursor Lesions			Prostate	PROSTATE
+SPRE	Black	Precursor Lesions	Precursor Lesions			Skin	SKIN
