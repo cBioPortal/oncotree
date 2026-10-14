@@ -1153,15 +1153,15 @@ HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			
 RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	RPRE
 VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	RPRE
 SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVPRE
-BUPRE	Yellow	Precursor Lesions	Precursor Lesions			Bladder/Urinary Tract	BLADDER
-BPRE	SaddleBrown	Precursor Lesions	Precursor Lesions			Bowel	BOWEL
-BRPRE	HotPink	Precursor Lesions	Precursor Lesions			Breast	BREAST
-CPRE	Teal	Precursor Lesions	Precursor Lesions			Cervix	CERVIX
-EPRE	LightSkyBlue	Precursor Lesions	Precursor Lesions			Esophagus/Stomach	STOMACH
-OPRE	DarkRed	Precursor Lesions	Precursor Lesions			Head and Neck	HEAD_NECK
-RPRE	Orange	Precursor Lesions	Precursor Lesions			Kidney	KIDNEY
-LPRE	Gainsboro	Precursor Lesions	Precursor Lesions			Lung	LUNG
-OVPRE	LightBlue	Precursor Lesions	Precursor Lesions			Ovary/Fallopian Tube	OVARY
-PPRE	Purple	Precursor Lesions	Precursor Lesions			Pancreas	PANCREAS
-PRPRE	Cyan	Precursor Lesions	Precursor Lesions			Prostate	PROSTATE
-SPRE	Black	Precursor Lesions	Precursor Lesions			Skin	SKIN
+BUPRE	Yellow	Precursor Lesions	Bladder and Urinary Tract Precursor Lesions			Bladder/Urinary Tract	BLADDER
+BPRE	SaddleBrown	Precursor Lesions	Bowel Precursor Lesions			Bowel	BOWEL
+BRPRE	HotPink	Precursor Lesions	Breast Precursor Lesions			Breast	BREAST
+CPRE	Teal	Precursor Lesions	Cervical Precursor Lesions			Cervix	CERVIX
+EPRE	LightSkyBlue	Precursor Lesions	Stomach Precursor Lesions			Esophagus/Stomach	STOMACH
+OPRE	DarkRed	Precursor Lesions	Head and Neck Precursor Lesions			Head and Neck	HEAD_NECK
+RPRE	Orange	Precursor Lesions	Kidney Precursor Lesions			Kidney	KIDNEY
+LPRE	Gainsboro	Precursor Lesions	Lung Precursor Lesions			Lung	LUNG
+OVPRE	LightBlue	Precursor Lesions	Ovarian Precursor Lesions			Ovary/Fallopian Tube	OVARY
+PPRE	Purple	Precursor Lesions	Pancreatic Precursor Lesions			Pancreas	PANCREAS
+PRPRE	Cyan	Precursor Lesions	Prostate Precursor Lesions			Prostate	PROSTATE
+SPRE	Black	Precursor Lesions	Skin Precursor Lesions			Skin	SKIN
