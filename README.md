@@ -13,18 +13,78 @@ Read about our latest developments on our [News page](/docs/News.md).
 
 Users may submit their OncoTree related questions to the [OncoTree Users Google Group](https://groups.google.com/forum/#!forum/oncotree-users).
 
+## Annotation overlay
+
+The tree can be overlaid with custom annotations that map OncoTree codes to
+values. Each annotation may be a number, a text label, a gene list, or an
+object combining them, e.g.:
+
+```json
+{
+  "LUAD": { "label": "1204 samples", "value": 1204 },
+  "GB": { "genes": ["EGFR", "PTEN", "TP53"] }
+}
+```
+
+Each annotated node gets a small badge showing its value or gene count;
+hovering the node adds the full detail (value, gene list) to the node's
+tooltip. Collapsing a node rolls up its hidden descendants — values are summed
+and gene lists unioned.
+
+Annotations can be supplied four ways:
+
+1. **Paste or upload** JSON/CSV in the *Annotations* panel.
+2. **URL parameter** — `?annotations=<json>` where the value is raw
+   (URL-encoded) JSON or base64-encoded JSON (the panel's "Copy share link"
+   button produces the base64 form).
+3. **Embed via `postMessage`** — add `?embed` to the URL to hide the site
+   header and footer (leaving just the tree), then drive it from the host. Add
+   `allow="fullscreen"` to the `<iframe>` if you want the full-screen button to
+   work (browsers block fullscreen from an iframe otherwise):
+
+   ```html
+   <iframe src="https://…/?embed=1" allow="fullscreen"></iframe>
+   ```
+
+   When the app runs in an `<iframe>` it posts `{ type: "oncotree-ready" }` to
+   its parent; the parent then pushes annotations:
+
+   ```js
+   iframe.contentWindow.postMessage(
+     { type: "oncotree-annotations", annotations: { LUAD: 1204 } },
+     "*",
+   );
+   ```
+
+   The `annotations` payload may be an object, a JSON string, or `null` to
+   clear.
+
+   The parent can also drive the search, filtering the tree to the matching
+   node(s) (by code, name, or annotation content — gene/label/value):
+
+   ```js
+   iframe.contentWindow.postMessage(
+     { type: "oncotree-search", query: "EGFR" },
+     "*",
+   );
+   ```
+
+   Send an empty `query` (or `{ clear: true }`) to reset. The app posts back
+   `{ type: "oncotree-search-result", query, count }` with the number of
+   matches.
+
 ## Frontend Development
 
 All of the frontend code can be found at [/web/src/main/javascript](/web/src/main/javascript). The only configuration needed is to set `ONCOTREE_BASE_URL` 
 in [constants.ts](/web/src/main/javascript/src/shared/constants.ts). During development, it may be easiest to simply point to the public instance of 
 [OncoTree](https://oncotree.mskcc.org).
 
-Make sure you are using node version >=20.12.2.
+Make sure you are using node version >=20.12.2. The frontend uses [pnpm](https://pnpm.io/) as its package manager (enable it with `corepack enable`).
 
 To begin development run:
 ```
 cd ./web/src/main/javascript
-npm install && npm run dev
+pnpm install && pnpm run dev
 ```
 
 ## Building the Frontend
@@ -36,7 +96,7 @@ The frontend must be transpiled to static assets before bundling into a jar. To 
 
     ```
     cd ./web/src/main/javascript
-    npm install && npm run build
+    pnpm install && pnpm run build
     ```
 3. The frontend assets are now up to date, and you are ready to bundle the jar.
 

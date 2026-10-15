@@ -29,9 +29,34 @@ body,
   height: 100%;
 }
 
+.app-content-container.app-content-container--embed {
+  height: 100%;
+}
+
+// Nodes are clickable (toggle expand/collapse) — show it, with a hover state.
+#oncotree-container g.node text.nodeText,
+#oncotree-container g.node circle.nodeCircle {
+  cursor: pointer !important;
+}
+
+#oncotree-container g.node text.nodeText:hover {
+  text-decoration: underline;
+}
+
+// The library's tooltip caret is positioned at a width-relative offset (and via
+// a stray-space selector applied to every child), so it rarely points at the
+// node. Hide it — the tooltip already sits next to the cursor.
+#oncotree-container .oncotree-tooltip *::after {
+  display: none !important;
+}
+
 .app-content-container {
+  position: relative;
   height: $app-content-height;
   overflow: hidden;
+  // Own background so the grid stays light in fullscreen (otherwise the
+  // browser paints the fullscreen backdrop black behind the transparent grid).
+  background-color: $secondary;
   background-size: 40px 40px;
   background-image:
     linear-gradient(to right, #F0F0F0 1px, transparent 1px),
