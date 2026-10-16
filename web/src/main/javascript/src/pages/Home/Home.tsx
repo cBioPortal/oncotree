@@ -26,7 +26,17 @@ export default function Home({
         treeContainerRef.current.innerHTML = "";
       }
 
-      const oncoTree = new OncoTree(TREE_CONTAINER_ID, oncoTreeData);
+      const oncoTree = new OncoTree(TREE_CONTAINER_ID, oncoTreeData, (a, b) => {
+        const aName = a.data.name.toLowerCase();
+        const bName = b.data.name.toLowerCase();
+        if (aName === "precursor lesions") {
+          return false;
+        }
+        if (bName === "precursor lesions") {
+          return true;
+        }
+        return a.data.name.toLowerCase().localeCompare(b.data.name.toLowerCase());
+      });
       onOncoTreeInit(oncoTree);
     }
 
