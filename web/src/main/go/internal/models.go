@@ -1,7 +1,10 @@
 package internal
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"sort"
 )
 
 type Tree map[string]*TreeNode
@@ -24,6 +27,47 @@ type TreeNode struct {
 type ExternalReferences struct {
 	UMLS []string `json:"UMLS,omitempty"`
 	NCI  []string `json:"NCI,omitempty"`
+}
+
+func (tree Tree) MarshalJSON() ([]byte, error) {
+	codes := make([]string, 0, len(tree))
+	for code := range tree {
+		codes = append(codes, code)
+	}
+
+	sort.Slice(codes, func(i, j int) bool {
+		if tree[codes[i]].Name == "Precursor Lesions" {
+			return false
+		}
+		if tree[codes[j]].Name == "Precursor Lesions" {
+			return true
+		}
+		return codes[i] < codes[j]
+	})
+
+	var b bytes.Buffer
+	b.WriteByte('{')
+	for i, code := range codes {
+		if i > 0 {
+			b.WriteByte(',')
+		}
+
+		key, err := json.Marshal(code)
+		if err != nil {
+			return nil, err
+		}
+		b.Write(key)
+		b.WriteByte(':')
+
+		node, err := json.Marshal(tree[code])
+		if err != nil {
+			return nil, err
+		}
+		b.Write(node)
+	}
+	b.WriteByte('}')
+
+	return b.Bytes(), nil
 }
 
 func (tree Tree) BFS(onNodeVisited func(node *TreeNode, depth uint)) error {
