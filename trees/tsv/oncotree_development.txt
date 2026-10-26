@@ -1153,15 +1153,23 @@ HPV	SaddleBrown	HPV Infection	Benign Epithelial Proliferations and Precursors			
 RIL	Orange	Renal Intraepithelial Lesions	Epithelial Precursor Lesions			Kidney	RPRE
 VHL	Orange	Von Hippel-Lindau Syndrome	Premalignant Keratoses and Precursors			Kidney	RPRE
 SCOUT	LightBlue	Ovarian Secretory Cell Outgrowths	Epithelial Precursor Lesions			Ovary/Fallopian Tube	OVPRE
-BUPRE	Yellow	Precursor Lesions	Bladder and Urinary Tract Precursor Lesions			Bladder/Urinary Tract	BLADDER
-BPRE	SaddleBrown	Precursor Lesions	Bowel Precursor Lesions			Bowel	BOWEL
-BRPRE	HotPink	Precursor Lesions	Breast Precursor Lesions			Breast	BREAST
-CPRE	Teal	Precursor Lesions	Cervical Precursor Lesions			Cervix	CERVIX
-EPRE	LightSkyBlue	Precursor Lesions	Stomach Precursor Lesions			Esophagus/Stomach	STOMACH
-OPRE	DarkRed	Precursor Lesions	Head and Neck Precursor Lesions			Head and Neck	HEAD_NECK
-RPRE	Orange	Precursor Lesions	Kidney Precursor Lesions			Kidney	KIDNEY
-LPRE	Gainsboro	Precursor Lesions	Lung Precursor Lesions			Lung	LUNG
-OVPRE	LightBlue	Precursor Lesions	Ovarian Precursor Lesions			Ovary/Fallopian Tube	OVARY
-PPRE	Purple	Precursor Lesions	Pancreatic Precursor Lesions			Pancreas	PANCREAS
-PRPRE	Cyan	Precursor Lesions	Prostate Precursor Lesions			Prostate	PROSTATE
-SPRE	Black	Precursor Lesions	Skin Precursor Lesions			Skin	SKIN
+BUPRE	Yellow	Bladder and Urinary Tract Precursor Lesions	Precursor Lesions			Bladder/Urinary Tract	BLADDER
+BPRE	SaddleBrown	Bowel Precursor Lesions	Precursor Lesions			Bowel	BOWEL
+BRPRE	HotPink	Breast Precursor Lesions	Precursor Lesions			Breast	BREAST
+CPRE	Teal	Cervical Precursor Lesions	Precursor Lesions			Cervix	CERVIX
+EPRE	LightSkyBlue	Stomach Precursor Lesions	Precursor Lesions			Esophagus/Stomach	STOMACH
+OPRE	DarkRed	Head and Neck Precursor Lesions	Precursor Lesions			Head and Neck	HEAD_NECK
+RPRE	Orange	Kidney Precursor Lesions	Precursor Lesions			Kidney	KIDNEY
+LPRE	Gainsboro	Lung Precursor Lesions	Precursor Lesions			Lung	LUNG
+OVPRE	LightBlue	Ovarian Precursor Lesions	Precursor Lesions			Ovary/Fallopian Tube	OVARY
+PPRE	Purple	Pancreatic Precursor Lesions	Precursor Lesions			Pancreas	PANCREAS
+PRPRE	Cyan	Prostate Precursor Lesions	Precursor Lesions			Prostate	PROSTATE
+SPRE	Black	Skin Precursor Lesions	Precursor Lesions			Skin	SKIN
+GCTST	LightYellow	Giant Cell Tumor of Soft Parts	Soft Tissue Sarcoma			Soft Tissue	SOFT_TISSUE
+SSCNNOS	LightYellow	Spindle Cell Neoplasm, NOS	Soft Tissue Sarcoma			Soft Tissue	SOFT_TISSUE
+BSCNNOS	White	Spindle Cell Neoplasm, NOS	Bone Cancer			Bone	BONE
+OSCNNOS	Black	Spindle Cell Neoplasm, NOS	Cancer of Unknown Primary			Other	CUP
+UCMONOS	PeachPuff	Carcinoma of Mullerian origin, NOS	Mullerian Carcinoma			Uterus	UTERUS
+CCMONOS	Teal	Carcinoma of Mullerian origin, NOS	Mullerian Carcinoma			Cervix	CERVIX
+OCMONOS	LightBlue	Carcinoma of Mullerian origin, NOS	Mullerian Carcinoma			Ovary/Fallopian Tube	OVARY
+CMTCT	Black	Cutaneous Melanocytic Tumor With CRTC1-TRIM11 Fusion	Skin Cancer, Non-Melanoma			Skin	SKIN
