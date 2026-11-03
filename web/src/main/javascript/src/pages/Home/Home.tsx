@@ -29,13 +29,14 @@ export default function Home({
       const oncoTree = new OncoTree(TREE_CONTAINER_ID, oncoTreeData, (a, b) => {
         const aName = a.data.name.toLowerCase();
         const bName = b.data.name.toLowerCase();
-        if (aName === "precursor lesions") {
-          return false;
+        if (aName.includes("precursor lesions") && !bName.includes("precursor lesions")) {
+          return 1;
         }
-        if (bName === "precursor lesions") {
-          return true;
+        if (!aName.includes("precursor lesions") && bName.includes("precursor lesions")) {
+          return -1;
         }
-        return a.data.name.toLowerCase().localeCompare(b.data.name.toLowerCase());
+
+        return aName.localeCompare(bName);
       });
       onOncoTreeInit(oncoTree);
     }
