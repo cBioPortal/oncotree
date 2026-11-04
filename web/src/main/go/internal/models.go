@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 type Tree map[string]*TreeNode
@@ -36,10 +37,10 @@ func (tree Tree) MarshalJSON() ([]byte, error) {
 	}
 
 	sort.Slice(codes, func(i, j int) bool {
-		if tree[codes[i]].Name == "Precursor Lesions" {
+		if strings.Contains(strings.ToLower(tree[codes[i]].Name), "precursor lesions") {
 			return false
 		}
-		if tree[codes[j]].Name == "Precursor Lesions" {
+		if strings.Contains(strings.ToLower(tree[codes[j]].Name), "precursor lesions") {
 			return true
 		}
 		return codes[i] < codes[j]
