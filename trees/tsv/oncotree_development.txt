@@ -1165,4 +1165,4 @@ ASINH	SaddleBrown	Anal Squamous Intraepithelial Neoplasia, High-Grade	Precursor 
 CGINL	SaddleBrown	Colorectal Glandular Intraepithelial Neoplasia, Low Grade	Precursor Lesions			Bowel	BPRE
 CGINH	SaddleBrown	Colorectal Glandular Intraepithelial Neoplasia, High Grade	Precursor Lesions			Bowel	BPRE
 NIPCH	Yellow	Non-Invasive Papillary Urothelial Carcinoma, High-Grade	Precursor Lesions			Bladder/Urinary Tract	BUPRE
-GIDH	Gray	Glioma, IDH-Mutant	Glioma			CNS/Brain	ADIFG
+GIDH	Gray	IDH-Mutant Glioma, NOS	Glioma			CNS/Brain	ADIFG
