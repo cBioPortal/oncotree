@@ -897,4 +897,4 @@ HGNES	LightSkyBlue	High-Grade Neuroendocrine Carcinoma of the Stomach	Gastrointe
 HGNEE	LightSkyBlue	High-Grade Neuroendocrine Carcinoma of the Esophagus	Gastrointestinal Neuroendocrine Tumors of the Esophagus/Stomach			Esophagus/Stomach	GINETES
 ESCC	LightSkyBlue	Esophageal Squamous Cell Carcinoma	Esophagogastric Cancer	C0279626	C4024	Esophagus/Stomach	STOMACH
 ESMM	LightSkyBlue	Mucosal Melanoma of the Esophagus	Melanoma	C1333460	C5707	Esophagus/Stomach	STOMACH
-GIDH	Gray	Glioblastoma, IDH-Mutant	Glioma	C0017636	C3058	CNS/Brain	ADIFG
+GIDH	Gray	IDH-Mutant Glioma, NOS	Glioma	C0017636	C3058	CNS/Brain	ADIFG
