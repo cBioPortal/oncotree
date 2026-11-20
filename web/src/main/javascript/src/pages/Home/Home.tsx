@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import OncoTree, { OncoTreeNode, ToolbarAction } from "@oncokb/oncotree";
 import ToolbarItem from "../../components/Toolbar/ToolbarItem";
 
@@ -17,11 +17,11 @@ export default function Home({
 }: IHomeProps) {
   const treeContainerRef = useRef<HTMLDivElement>(null);
   const dataRef = useRef<typeof oncoTreeData | undefined>();
-
+  const [isInitialized, setIsInitialized] = useState(false);
   useEffect(() => {
     const versionChanged = dataRef.current !== oncoTreeData;
 
-    if (treeContainerRef.current && versionChanged) {
+    if (treeContainerRef.current && versionChanged && !isInitialized) {
       if (treeContainerRef.current.children.length > 0) {
         treeContainerRef.current.innerHTML = "";
       }
@@ -39,10 +39,11 @@ export default function Home({
         return aName.localeCompare(bName);
       });
       onOncoTreeInit(oncoTree);
+      setIsInitialized(true);
     }
 
     dataRef.current = oncoTreeData;
-  }, [oncoTreeData, onOncoTreeInit]);
+  }, [oncoTreeData, onOncoTreeInit, isInitialized]);
 
   return (
     <>
